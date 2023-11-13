@@ -1,0 +1,225 @@
+DROP TABLE CORSYS_MAA.CALEG CASCADE CONSTRAINTS;
+
+CREATE TABLE CORSYS_MAA.CALEG
+(
+  ID             RAW(16)                        NOT NULL,
+  NAMA           VARCHAR2(255 CHAR),
+  NOMOR_URUT     NUMBER(10),
+  JENIS_KELAMIN  NUMBER(3),
+  DAPIL_ID       RAW(16),
+  PARTAI_ID      RAW(16)
+)
+TABLESPACE CRDATA
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE;
+
+
+CREATE UNIQUE INDEX CORSYS_MAA.UK_CU3KE0OMP3SHUPT0WVGLN1J64 ON CORSYS_MAA.CALEG
+(DAPIL_ID)
+LOGGING
+TABLESPACE CRDATA
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           );
+CREATE UNIQUE INDEX CORSYS_MAA.UK_N39AN5W70RI9JKIXHEV6O6800 ON CORSYS_MAA.CALEG
+(PARTAI_ID)
+LOGGING
+TABLESPACE CRDATA
+PCTFREE    10
+INITRANS   2
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           );
+
+ALTER TABLE CORSYS_MAA.CALEG ADD (
+  CHECK (jenis_kelamin between 0 and 1)
+  ENABLE VALIDATE
+,  PRIMARY KEY
+  (ID)
+  USING INDEX
+    TABLESPACE CRDATA
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                FREELISTS        1
+                FREELIST GROUPS  1
+                BUFFER_POOL      DEFAULT
+               )
+  ENABLE VALIDATE
+,  CONSTRAINT UK_CU3KE0OMP3SHUPT0WVGLN1J64
+  UNIQUE (DAPIL_ID)
+  USING INDEX CORSYS_MAA.UK_CU3KE0OMP3SHUPT0WVGLN1J64
+  ENABLE VALIDATE
+,  CONSTRAINT UK_N39AN5W70RI9JKIXHEV6O6800
+  UNIQUE (PARTAI_ID)
+  USING INDEX CORSYS_MAA.UK_N39AN5W70RI9JKIXHEV6O6800
+  ENABLE VALIDATE);
+
+
+--  There is no statement for index CORSYS_MAA.SYS_C001151812.
+--  The object is created when the parent object is created.
+
+ALTER TABLE CORSYS_MAA.CALEG ADD (
+  CONSTRAINT FKJM3UTXJUCQOU32AWTDDBGMYXQ 
+  FOREIGN KEY (DAPIL_ID) 
+  REFERENCES CORSYS_MAA.DAPIL (ID)
+  ENABLE VALIDATE
+,  CONSTRAINT FKOH8T8IDINTW81FO165Q461TAQ 
+  FOREIGN KEY (PARTAI_ID) 
+  REFERENCES CORSYS_MAA.PARTAI (ID)
+  ENABLE VALIDATE);
+
+
+DROP TABLE CORSYS_MAA.DAPIL CASCADE CONSTRAINTS;
+
+CREATE TABLE CORSYS_MAA.DAPIL
+(
+  ID                  RAW(16)                   NOT NULL,
+  JUMLAH_KURSI        NUMBER(10)                NOT NULL,
+  NAMA_DAPIL          VARCHAR2(255 CHAR),
+  PROVINSI            VARCHAR2(255 CHAR),
+  WILAYAH_DAPIL_LIST  SYS.XMLTYPE
+)
+XMLTYPE WILAYAH_DAPIL_LIST STORE AS CLOB (
+  TABLESPACE  CRDATA
+  ENABLE      STORAGE IN ROW
+  CHUNK       8192
+  PCTVERSION  10
+  NOCACHE
+  LOGGING
+  STORAGE    (
+              INITIAL          64K
+              MINEXTENTS       1
+              MAXEXTENTS       UNLIMITED
+              PCTINCREASE      0
+              FREELISTS        1
+              FREELIST GROUPS  1
+              BUFFER_POOL      DEFAULT
+             ))
+TABLESPACE CRDATA
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE;
+
+
+ALTER TABLE CORSYS_MAA.DAPIL ADD (
+  PRIMARY KEY
+  (ID)
+  USING INDEX
+    TABLESPACE CRDATA
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                FREELISTS        1
+                FREELIST GROUPS  1
+                BUFFER_POOL      DEFAULT
+               )
+  ENABLE VALIDATE);
+
+
+--  There is no statement for index CORSYS_MAA.SYS_C001151816.
+--  The object is created when the parent object is created.
+
+
+DROP TABLE CORSYS_MAA.PARTAI CASCADE CONSTRAINTS;
+
+CREATE TABLE CORSYS_MAA.PARTAI
+(
+  ID           RAW(16)                          NOT NULL,
+  NAMA_PARTAI  VARCHAR2(255 CHAR),
+  NOMOR_URUT   NUMBER(10)
+)
+TABLESPACE CRDATA
+PCTUSED    40
+PCTFREE    10
+INITRANS   1
+MAXTRANS   255
+STORAGE    (
+            INITIAL          64K
+            MINEXTENTS       1
+            MAXEXTENTS       UNLIMITED
+            PCTINCREASE      0
+            FREELISTS        1
+            FREELIST GROUPS  1
+            BUFFER_POOL      DEFAULT
+           )
+LOGGING 
+NOCOMPRESS 
+NOCACHE;
+
+
+ALTER TABLE CORSYS_MAA.PARTAI ADD (
+  PRIMARY KEY
+  (ID)
+  USING INDEX
+    TABLESPACE CRDATA
+    PCTFREE    10
+    INITRANS   2
+    MAXTRANS   255
+    STORAGE    (
+                INITIAL          64K
+                MINEXTENTS       1
+                MAXEXTENTS       UNLIMITED
+                PCTINCREASE      0
+                FREELISTS        1
+                FREELIST GROUPS  1
+                BUFFER_POOL      DEFAULT
+               )
+  ENABLE VALIDATE);
+
+
+--  There is no statement for index CORSYS_MAA.SYS_C001151818.
+--  The object is created when the parent object is created.
