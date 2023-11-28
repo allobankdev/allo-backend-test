@@ -1,0 +1,637 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Pemilu",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://{{api}}"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Partai"
+    },
+    {
+      "name": "Dapil"
+    },
+    {
+      "name": "Caleg"
+    }
+  ],
+  "paths": {
+    "/partai/create": {
+      "post": {
+        "tags": [
+          "Partai"
+        ],
+        "summary": "Create",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\r\\n    \\\"nama_partai\\\": \\\"Nasdem 18\\\",\\r\\n    \\\"nomor_urut\\\": 1\\r\\n}\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/partai/update/88588ed9-f95b-4104-be97-dbc1d562a729": {
+      "put": {
+        "tags": [
+          "Partai"
+        ],
+        "summary": "Update",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\r\\n    \\\"nama_partai\\\": \\\"PDI\\\",\\r\\n    \\\"nomor_urut\\\": 89\\r\\n}\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/partai/list": {
+      "get": {
+        "tags": [
+          "Partai"
+        ],
+        "summary": "Get List",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/partai/detail/88588ed9-f95b-4104-be97-dbc1d562a729": {
+      "get": {
+        "tags": [
+          "Partai"
+        ],
+        "summary": "Get Detail",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/partai/activate/88588ed9-f95b-4104-be97-dbc1d562a729": {
+      "patch": {
+        "tags": [
+          "Partai"
+        ],
+        "summary": "Activate",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/partai/deactivate/88588ed9-f95b-4104-be97-dbc1d562a729": {
+      "patch": {
+        "tags": [
+          "Partai"
+        ],
+        "summary": "Deactivate",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/dapil/create": {
+      "post": {
+        "tags": [
+          "Dapil"
+        ],
+        "summary": "Create",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\r\\n    \\\"nama_dapil\\\": \\\"Lalala\\\",\\r\\n    \\\"provinsi\\\": \\\"JT\\\",\\r\\n    \\\"wilayah_dapil_list\\\": [\\\"Kediri\\\", \\\"Malang\\\"],\\r\\n    \\\"jumlah_kursi\\\": 10\\r\\n}\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/dapil/update/81e41afd-00e7-4cdd-87e6-dc99bca8e0a2": {
+      "put": {
+        "tags": [
+          "Dapil"
+        ],
+        "summary": "Update",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\r\\n    \\\"nama_dapil\\\": \\\"Nanana\\\",\\r\\n    \\\"provinsi\\\": \\\"JT\\\",\\r\\n    \\\"wilayah_dapil_list\\\": [\\\"Kediri\\\", \\\"Malang\\\"],\\r\\n    \\\"jumlah_kursi\\\": 10\\r\\n}\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/dapil/list": {
+      "get": {
+        "tags": [
+          "Dapil"
+        ],
+        "summary": "Get List",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/dapil/detail/81e41afd-00e7-4cdd-87e6-dc99bca8e0a2": {
+      "get": {
+        "tags": [
+          "Dapil"
+        ],
+        "summary": "Get Detail",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/dapil/activate/81e41afd-00e7-4cdd-87e6-dc99bca8e0a2": {
+      "patch": {
+        "tags": [
+          "Dapil"
+        ],
+        "summary": "Activate",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/dapil/deactivate/81e41afd-00e7-4cdd-87e6-dc99bca8e0a2": {
+      "patch": {
+        "tags": [
+          "Dapil"
+        ],
+        "summary": "Deactivate",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/caleg/create": {
+      "post": {
+        "tags": [
+          "Caleg"
+        ],
+        "summary": "Create",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\r\\n    \\\"nama\\\": \\\"Shauri\\\",\\r\\n    \\\"nomor_urut\\\": 1,\\r\\n    \\\"dapil_id\\\": \\\"81e41afd-00e7-4cdd-87e6-dc99bca8e0a2\\\",\\r\\n    \\\"partai_id\\\": \\\"2e936db0-467f-47cf-abad-58c4ec81f667\\\",\\r\\n    \\\"jenis_kelamin\\\": \\\"LAKILAKI\\\"\\r\\n}\\r\\n\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/caleg/update/537f9c7c-9dc5-4caf-974f-d1287379e05a": {
+      "put": {
+        "tags": [
+          "Caleg"
+        ],
+        "summary": "Update",
+        "requestBody": {
+          "content": {
+            "*/*": {
+              "schema": {
+                "type": "string",
+                "example": "\"{\\r\\n    \\\"nama\\\": \\\"Shauri\\\",\\r\\n    \\\"nomor_urut\\\": 99,\\r\\n    \\\"dapil_id\\\": \\\"81e41afd-00e7-4cdd-87e6-dc99bca8e0a2\\\",\\r\\n    \\\"partai_id\\\": \\\"2e936db0-467f-47cf-abad-58c4ec81f667\\\",\\r\\n    \\\"jenis_kelamin\\\": \\\"LAKILAKI\\\"\\r\\n}\\r\\n\""
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/caleg/list": {
+      "get": {
+        "tags": [
+          "Caleg"
+        ],
+        "summary": "Get List",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer"
+            },
+            "example": "1"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/caleg/detail/537f9c7c-9dc5-4caf-974f-d1287379e05a": {
+      "get": {
+        "tags": [
+          "Caleg"
+        ],
+        "summary": "Get Detail",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/caleg/activate/537f9c7c-9dc5-4caf-974f-d1287379e05a": {
+      "patch": {
+        "tags": [
+          "Caleg"
+        ],
+        "summary": "Activate",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/caleg/deactivate/537f9c7c-9dc5-4caf-974f-d1287379e05a": {
+      "patch": {
+        "tags": [
+          "Caleg"
+        ],
+        "summary": "Deactivate",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "Accept",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          },
+          {
+            "name": "Content-Type",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "application/json"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,562 @@
+{
+	"info": {
+		"_postman_id": "e7283b87-78bb-4bf7-94d0-8c6060ba8e66",
+		"name": "Pemilu",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28954658"
+	},
+	"item": [
+		{
+			"name": "Partai",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nama_partai\": \"Nasdem 18\",\r\n    \"nomor_urut\": 1\r\n}"
+						},
+						"url": {
+							"raw": "{{api}}/partai/create",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"partai",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nama_partai\": \"PDI\",\r\n    \"nomor_urut\": 89\r\n}"
+						},
+						"url": {
+							"raw": "{{api}}/partai/update/88588ed9-f95b-4104-be97-dbc1d562a729",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"partai",
+								"update",
+								"88588ed9-f95b-4104-be97-dbc1d562a729"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/partai/list?page=1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"partai",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/partai/detail/88588ed9-f95b-4104-be97-dbc1d562a729",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"partai",
+								"detail",
+								"88588ed9-f95b-4104-be97-dbc1d562a729"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/partai/activate/88588ed9-f95b-4104-be97-dbc1d562a729",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"partai",
+								"activate",
+								"88588ed9-f95b-4104-be97-dbc1d562a729"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/partai/deactivate/88588ed9-f95b-4104-be97-dbc1d562a729",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"partai",
+								"deactivate",
+								"88588ed9-f95b-4104-be97-dbc1d562a729"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dapil",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nama_dapil\": \"Lalala\",\r\n    \"provinsi\": \"JT\",\r\n    \"wilayah_dapil_list\": [\"Kediri\", \"Malang\"],\r\n    \"jumlah_kursi\": 10\r\n}"
+						},
+						"url": {
+							"raw": "{{api}}/dapil/create",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dapil",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nama_dapil\": \"Nanana\",\r\n    \"provinsi\": \"JT\",\r\n    \"wilayah_dapil_list\": [\"Kediri\", \"Malang\"],\r\n    \"jumlah_kursi\": 10\r\n}"
+						},
+						"url": {
+							"raw": "{{api}}/dapil/update/81e41afd-00e7-4cdd-87e6-dc99bca8e0a2",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dapil",
+								"update",
+								"81e41afd-00e7-4cdd-87e6-dc99bca8e0a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/dapil/list?page=1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dapil",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/dapil/detail/81e41afd-00e7-4cdd-87e6-dc99bca8e0a2",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dapil",
+								"detail",
+								"81e41afd-00e7-4cdd-87e6-dc99bca8e0a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/dapil/activate/81e41afd-00e7-4cdd-87e6-dc99bca8e0a2",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dapil",
+								"activate",
+								"81e41afd-00e7-4cdd-87e6-dc99bca8e0a2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/dapil/deactivate/81e41afd-00e7-4cdd-87e6-dc99bca8e0a2",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"dapil",
+								"deactivate",
+								"81e41afd-00e7-4cdd-87e6-dc99bca8e0a2"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Caleg",
+			"item": [
+				{
+					"name": "Create",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nama\": \"Shauri\",\r\n    \"nomor_urut\": 1,\r\n    \"dapil_id\": \"81e41afd-00e7-4cdd-87e6-dc99bca8e0a2\",\r\n    \"partai_id\": \"2e936db0-467f-47cf-abad-58c4ec81f667\",\r\n    \"jenis_kelamin\": \"LAKILAKI\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{api}}/caleg/create",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"caleg",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nama\": \"Shauri\",\r\n    \"nomor_urut\": 99,\r\n    \"dapil_id\": \"81e41afd-00e7-4cdd-87e6-dc99bca8e0a2\",\r\n    \"partai_id\": \"2e936db0-467f-47cf-abad-58c4ec81f667\",\r\n    \"jenis_kelamin\": \"LAKILAKI\"\r\n}\r\n"
+						},
+						"url": {
+							"raw": "{{api}}/caleg/update/537f9c7c-9dc5-4caf-974f-d1287379e05a",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"caleg",
+								"update",
+								"537f9c7c-9dc5-4caf-974f-d1287379e05a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get List",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/caleg/list?page=1",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"caleg",
+								"list"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Detail",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{api}}/caleg/detail/537f9c7c-9dc5-4caf-974f-d1287379e05a",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"caleg",
+								"detail",
+								"537f9c7c-9dc5-4caf-974f-d1287379e05a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Activate",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/caleg/activate/537f9c7c-9dc5-4caf-974f-d1287379e05a",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"caleg",
+								"activate",
+								"537f9c7c-9dc5-4caf-974f-d1287379e05a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate",
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{api}}/caleg/deactivate/537f9c7c-9dc5-4caf-974f-d1287379e05a",
+							"host": [
+								"{{api}}"
+							],
+							"path": [
+								"caleg",
+								"deactivate",
+								"537f9c7c-9dc5-4caf-974f-d1287379e05a"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "api",
+			"value": "http://localhost:8080",
+			"type": "string"
+		}
+	]
+}
