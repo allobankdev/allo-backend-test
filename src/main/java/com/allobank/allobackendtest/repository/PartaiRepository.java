@@ -1,6 +1,7 @@
 package com.allobank.allobackendtest.repository;
 
 import com.allobank.allobackendtest.dto.PartaiFilterDTO;
+import com.allobank.allobackendtest.model.Dapil;
 import com.allobank.allobackendtest.model.Partai;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,9 +14,55 @@ import java.util.UUID;
 
 @Repository
 public interface PartaiRepository extends JpaRepository<Partai, UUID> {
-  @Query(value = "SELECT * FROM partai p WHERE (LOWER(p.nama) LIKE LOWER(CONCAT('%', :nama,'%')) OR p.nomor_urut = :nomorUrut) AND p.deleted_at IS NULL", nativeQuery = true)
-  Page<Partai> findByFilter(@Param("nama") String nama, @Param("nomorUrut") Integer nomorUrut, Pageable pagin);
+  @Query(value = """
+        SELECT
+          id,
+          nama,
+          nomor_urut,
+          created_at,
+          updated_at,
+          deleted_at
+        FROM
+          partai
+        WHERE
+          deleted_at IS NULL
+        AND (
+            :nama IS NULL
+          OR
+            LOWER(nama) LIKE LOWER(CONCAT('%', :nama,'%'))
+        )
+        AND (
+            :nomorUrut IS NULL
+          OR
+            nomor_urut = :nomorUrut
+        )
+        """, nativeQuery = true)
+  Page<Partai> findByFilter(
+          String nama,
+          Integer nomorUrut,
+          Pageable pagin
+  );
 
-  @Query(value = "SELECT count(*) FROM partai p WHERE (LOWER(p.nama) LIKE LOWER(CONCAT('%', :nama,'%')) OR p.nomor_urut = :nomorUrut) AND p.deleted_at IS NULL", nativeQuery = true)
-  Integer countByFilter(@Param("nama") String nama, @Param("nomorUrut") Integer nomorUrut);
+  @Query(value = """
+        SELECT
+          COUNT(id)
+        FROM
+          partai
+        WHERE
+          deleted_at IS NULL
+        AND (
+            :nama IS NULL
+          OR
+            LOWER(nama) LIKE LOWER(CONCAT('%', :nama,'%'))
+        )
+        AND (
+            :nomorUrut IS NULL
+          OR
+            nomor_urut = :nomorUrut
+        )
+        """, nativeQuery = true)
+  Integer countByFilter(
+          String nama,
+          Integer nomorUrut
+  );
 }

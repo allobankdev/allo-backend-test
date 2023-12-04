@@ -41,8 +41,8 @@ public class PartaiController {
           path = "/list",
           produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseData<List<PartaiResponseDTO>>> getListPartai(
-      @RequestParam(name = "namaPartai", required = false, defaultValue = "") String namaPartai,
-      @RequestParam(name = "nomorUrut", required = false, defaultValue = "0") Integer nomorUrut,
+      @RequestParam(name = "namaPartai", required = false) String namaPartai,
+      @RequestParam(name = "nomorUrut", required = false) Integer nomorUrut,
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(name = "per_page", required = false, defaultValue = "10") Integer limit,
       @RequestParam(name = "sort_by", required = false, defaultValue = "created_at") String sortBy,
@@ -50,8 +50,8 @@ public class PartaiController {
   ) {
 
     var dto = PartaiFilterDTO.builder()
-            .namaPartai(namaPartai== null ? "": namaPartai)
-            .nomorUrut(nomorUrut == null ? 0: nomorUrut)
+            .namaPartai(namaPartai)
+            .nomorUrut(nomorUrut)
             .build();
 
     var pagination = PaginationDTO.builder()

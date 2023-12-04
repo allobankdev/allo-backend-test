@@ -27,7 +27,6 @@ import java.util.stream.StreamSupport;
 @Service
 @AllArgsConstructor
 public class PartaiImpl implements PartaiService {
-  @Autowired
   private ValidatorService validatorService;
 
   private final PartaiRepository partaiRepository;
