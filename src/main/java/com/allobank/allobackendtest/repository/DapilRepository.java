@@ -14,32 +14,68 @@ import java.util.UUID;
 @Repository
 public interface DapilRepository extends JpaRepository<Dapil, UUID> {
   @Query(value = """
-          SELECT 
-            * 
-          FROM 
-            dapil d 
-          WHERE (
-            LOWER(d.nama) LIKE LOWER(CONCAT('%', :nama,'%')) 
-            OR LOWER(d.provinsi) LIKE LOWER(CONCAT('%', :provinsi,'%')) 
-            OR d.jumlah_kursi = :jumlahKursi
-          ) 
-          AND 
-          d.deleted_at IS NULL
-  """, nativeQuery = true)
-  Page<Dapil> findByFilter(@Param("nama") String nama, @Param("provinsi") String provinsi, @Param("jumlahKursi") Integer jumlahKursi, Pageable pagin);
+        SELECT
+          id,
+          nama,
+          provinsi,
+          jumlah_kursi,
+          wilayah_dapil,
+          created_at,
+          updated_at,
+          deleted_at
+        FROM
+          dapil
+        WHERE
+          deleted_at IS NULL
+        AND (
+            :nama IS NULL
+          OR
+            LOWER(nama) LIKE LOWER(CONCAT('%', :nama,'%'))
+        )
+        AND (
+            :provinsi IS NULL
+          OR
+            LOWER(provinsi) LIKE LOWER(CONCAT('%', :provinsi,'%'))
+        )
+        AND (
+            :jumlahKursi IS NULL
+          OR
+            jumlah_kursi = :jumlahKursi
+        )
+        """, nativeQuery = true)
+  Page<Dapil> findByFilter(
+          String nama,
+          String provinsi,
+          Integer jumlahKursi,
+          Pageable pagin
+  );
 
   @Query(value = """
-          SELECT 
-            count(*) 
-          FROM 
-            dapil d 
-          WHERE (
-            LOWER(d.nama) LIKE LOWER(CONCAT('%', :nama,'%')) 
-            OR LOWER(d.provinsi) LIKE LOWER(CONCAT('%', :provinsi,'%')) 
-            OR d.jumlah_kursi = :jumlahKursi
-          ) 
-          AND 
-          d.deleted_at IS NULL
-  """, nativeQuery = true)
-  Integer countByFilter(@Param("nama") String nama, @Param("provinsi") String provinsi, @Param("jumlahKursi") Integer jumlahKursi);
+        SELECT
+          COUNT(id)
+        FROM
+          dapil
+        WHERE
+          deleted_at IS NULL
+        AND (
+            :nama IS NULL
+          OR
+            LOWER(nama) LIKE LOWER(CONCAT('%', :nama,'%'))
+        )
+        AND (
+            :provinsi IS NULL
+          OR
+            LOWER(provinsi) LIKE LOWER(CONCAT('%', :provinsi,'%'))
+        )
+        AND (
+            :jumlahKursi IS NULL
+          OR
+            jumlah_kursi = :jumlahKursi
+        )
+        """, nativeQuery = true)
+  Integer countByFilter(
+          String nama,
+          String provinsi,
+          Integer jumlahKursi
+  );
 }

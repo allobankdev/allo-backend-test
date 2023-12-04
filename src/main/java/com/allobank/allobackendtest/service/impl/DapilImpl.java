@@ -27,7 +27,6 @@ import java.util.stream.StreamSupport;
 @Service
 @AllArgsConstructor
 public class DapilImpl implements DapilService {
-  @Autowired
   private ValidatorService validatorService;
 
   private final DapilRepository dapilRepository;

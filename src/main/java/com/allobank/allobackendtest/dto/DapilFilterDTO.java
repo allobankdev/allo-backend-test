@@ -12,6 +12,5 @@ import java.util.UUID;
 public class DapilFilterDTO {
   private String namaDapil;
   private String provinsi;
-  private List<String> wilayahDapilList;
   private Integer jumlahKursi;
 }

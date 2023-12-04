@@ -41,7 +41,9 @@ public class DapilController {
           path = "/list",
           produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseData<List<DapilResponseDTO>>> getListDapil(
-      @RequestParam(name = "namaDapil", required = false, defaultValue = "") String namaDapil,
+      @RequestParam(name = "namaDapil", required = false) String namaDapil,
+      @RequestParam(name = "provinsi", required = false) String provinsi,
+      @RequestParam(name = "jumlahKursi", required = false) Integer jumlahKursi,
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(name = "per_page", required = false, defaultValue = "10") Integer limit,
       @RequestParam(name = "sort_by", required = false, defaultValue = "created_at") String sortBy,
@@ -49,7 +51,9 @@ public class DapilController {
   ) {
 
     var dto = DapilFilterDTO.builder()
-            .namaDapil(namaDapil== null ? "": namaDapil)
+            .namaDapil(namaDapil)
+            .provinsi(provinsi)
+            .jumlahKursi(jumlahKursi)
             .build();
 
     var pagination = PaginationDTO.builder()
