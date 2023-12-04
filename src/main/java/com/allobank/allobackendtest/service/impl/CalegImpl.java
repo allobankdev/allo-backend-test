@@ -29,7 +29,7 @@ import java.util.stream.StreamSupport;
 @Service
 @AllArgsConstructor
 public class CalegImpl implements CalegService {
-  @Autowired
+
   private ValidatorService validatorService;
 
   private final CalegRepository calegRepository;
@@ -59,14 +59,11 @@ public class CalegImpl implements CalegService {
             paginDTO.getSortOrder()
     );
 
-    var dapilId = dto.getDapilId() == null ? "" : dto.getDapilId().toString();
-    var partaiId = dto.getPartaiId() == null ? "" : dto.getPartaiId().toString();
-
     var data = calegRepository.findByFilter(
             dto.getNama(),
             dto.getNomorUrut(),
-            dapilId,
-            partaiId,
+            dto.getDapilId(),
+            dto.getPartaiId(),
             pagin
     );
 
@@ -77,14 +74,11 @@ public class CalegImpl implements CalegService {
 
   @Override
   public Integer getTotalCaleg(CalegFilterDTO dto) {
-    var dapilId = dto.getDapilId() == null ? "" : dto.getDapilId().toString();
-    var partaiId = dto.getPartaiId() == null ? "" : dto.getPartaiId().toString();
-
     return calegRepository.countByFilter(
             dto.getNama(),
             dto.getNomorUrut(),
-            dapilId,
-            partaiId
+            dto.getDapilId(),
+            dto.getPartaiId()
     );
   }
 

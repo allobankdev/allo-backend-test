@@ -15,50 +15,82 @@ import java.util.UUID;
 public interface CalegRepository extends JpaRepository<Caleg, UUID> {
 
   @Query(value = """
-              SELECT 
-                c.*
-              FROM 
-                caleg c 
-              WHERE (
-                    LOWER(c.nama) LIKE LOWER(CONCAT('%', :nama,'%')) 
-                  OR
-                    c.nomor_urut = :nomorUrut
-                  OR
-                    CAST(c.dapil_id as varchar(36)) = :dapil
-                  OR
-                    CAST(c.partai_id as varchar(36)) = :partai
-              ) AND 
-                c.deleted_at IS NULL
-""", nativeQuery = true)
+        SELECT
+          id,
+          dapil_id,
+          partai_id,
+          nomor_urut,
+          nama,
+          jenis_kelamin,
+          created_at,
+          updated_at,
+          deleted_at
+        FROM
+          caleg
+        WHERE
+          deleted_at IS NULL
+        AND (
+            :nama IS NULL
+          OR
+            LOWER(nama) LIKE LOWER(CONCAT('%', :nama, '%'))
+        )
+        AND (
+            :nomorUrut IS NULL
+          OR
+            nomor_urut = :nomorUrut
+        )
+        AND (
+            :dapilId IS NULL
+          OR
+            CAST(dapil_id AS VARCHAR(36)) = :dapilId
+        )
+        AND (
+            :partaiId IS NULL
+          OR
+            CAST(partai_id AS VARCHAR(36)) = :partaiId
+        )
+       """, nativeQuery = true)
   Page<Caleg> findByFilter(
-          @Param("nama") String nama,
-          @Param("nomorUrut") Integer nomorUrut,
-          @Param("dapil") String dapilId,
-          @Param("partai") String partaiId,
+          String nama,
+          Integer nomorUrut,
+          String dapilId,
+          String partaiId,
           Pageable pagin
   );
 
   @Query(value = """
-              SELECT 
-                count(*)
-              FROM 
-                caleg c 
-              WHERE (
-                    LOWER(c.nama) LIKE LOWER(CONCAT('%', :nama,'%')) 
-                  OR
-                    c.nomor_urut = :nomorUrut
-                  OR
-                    CAST(c.dapil_id as varchar(36)) = :dapil
-                  OR
-                    CAST(c.partai_id as varchar(36)) = :partai
-              ) AND 
-                c.deleted_at IS NULL
-""", nativeQuery = true)
+        SELECT
+          COUNT(id)
+        FROM
+          caleg
+        WHERE
+          deleted_at IS NULL
+        AND (
+            :nama IS NULL
+          OR
+            LOWER(nama) LIKE LOWER(CONCAT('%', :nama, '%'))
+        )
+        AND (
+            :nomorUrut IS NULL
+          OR
+            nomor_urut = :nomorUrut
+        )
+        AND (
+            :dapilId IS NULL
+          OR
+            CAST(dapil_id AS VARCHAR(36)) = :dapilId
+        )
+        AND (
+            :partaiId IS NULL
+          OR
+            CAST(partai_id AS VARCHAR(36)) = :partaiId
+        )
+        """, nativeQuery = true)
   Integer countByFilter(
-          @Param("nama") String nama,
-          @Param("nomorUrut") Integer nomorUrut,
-          @Param("dapil") String dapilId,
-          @Param("partai") String partaiId
+          String nama,
+          Integer nomorUrut,
+          String dapilId,
+          String partaiId
   );
 }
 

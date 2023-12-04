@@ -41,8 +41,10 @@ public class CalegController {
           path = "/list",
           produces = MediaType.APPLICATION_JSON_VALUE)
   public ResponseEntity<ResponseData<List<CalegResponseDTO>>> getListCaleg(
-      @RequestParam(name = "namaCaleg", required = false, defaultValue = "") String namaCaleg,
-      @RequestParam(name = "nomorUrut", required = false, defaultValue = "0") Integer nomorUrut,
+      @RequestParam(name = "namaCaleg", required = false) String namaCaleg,
+      @RequestParam(name = "nomorUrut", required = false) Integer nomorUrut,
+      @RequestParam(name = "dapiId", required = false) String dapiId,
+      @RequestParam(name = "partaiId", required = false) String partaiId,
       @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
       @RequestParam(name = "per_page", required = false, defaultValue = "10") Integer limit,
       @RequestParam(name = "sort_by", required = false, defaultValue = "nomor_urut") String sortBy,
@@ -50,8 +52,10 @@ public class CalegController {
   ) {
 
     var dto = CalegFilterDTO.builder()
-            .nama(namaCaleg== null ? "": namaCaleg)
-            .nomorUrut(nomorUrut == null ? 0: nomorUrut)
+            .nama(namaCaleg)
+            .nomorUrut(nomorUrut)
+            .dapilId(dapiId)
+            .partaiId(partaiId)
             .build();
 
     var pagination = PaginationDTO.builder()

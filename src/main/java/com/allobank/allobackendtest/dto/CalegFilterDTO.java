@@ -9,8 +9,8 @@ import java.util.UUID;
 @Data
 @Builder
 public class CalegFilterDTO {
-  private UUID dapilId;
-  private UUID partaiId;
+  private String dapilId;
+  private String partaiId;
   private String namaDapil;
   private String namaPartai;
   private Integer nomorUrut;
