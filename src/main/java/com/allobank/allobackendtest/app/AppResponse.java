@@ -1,5 +1,8 @@
 package com.allobank.allobackendtest.app;
 
+import java.util.List;
+
+import com.allobank.allobackendtest.core.local.caleg.model.Caleg;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class AppResponse<T> {
@@ -14,7 +17,7 @@ public class AppResponse<T> {
     private String error;
 
     @JsonProperty("data")
-    private T data;
+    private List<Caleg> data;
 
     public Number getResponseCode() {
         return responseCode;
@@ -24,7 +27,7 @@ public class AppResponse<T> {
         return message;
     }
 
-    public T getData() {
+    public List<Caleg> getData() {
         return data;
     }
 
@@ -40,8 +43,8 @@ public class AppResponse<T> {
         this.message = message;
     }
 
-    public void setData(T data) {
-        this.data = data;
+    public void setData(List<Caleg> dataList) {
+        this.data = dataList;
     }
 
     public void setErrorMessage(String error) {

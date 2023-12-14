@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS caleg (
     partai_id VARCHAR(36),
     nomor_urut INTEGER,
     nama VARCHAR(101),
-    jenis_kelamin VARCHAR(20),
+    jenis_kelamin INTEGER(20),
     FOREIGN KEY (dapil_id) REFERENCES dapil(id),
     FOREIGN KEY (partai_id) REFERENCES partai(id)
 );

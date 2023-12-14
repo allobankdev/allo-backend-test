@@ -1,9 +1,6 @@
 package com.allobank.allobackendtest.seeders;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
-import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.event.ContextRefreshedEvent;

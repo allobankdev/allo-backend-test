@@ -1,5 +1,6 @@
 package com.allobank.allobackendtest.core.domain.local.caleg.response;
 
+import java.util.Arrays;
 import java.util.List;
 
 import com.allobank.allobackendtest.core.local.caleg.model.Caleg;
@@ -20,7 +21,7 @@ public class CalegResponse {
     }
 
     @JsonProperty("data")
-    private List<Caleg> dataList;
+    public List<Caleg> dataList;
 
     public void setListData(List<Caleg> calegs) {
         this.dataList = calegs;
@@ -28,7 +29,7 @@ public class CalegResponse {
 
     public CalegResponse mapToObject(List<Caleg> calegModel) {
         final CalegResponse response = new CalegResponse();
-        response.setListData(dataList);
+        response.setListData(calegModel);
         return response;
     }
 }

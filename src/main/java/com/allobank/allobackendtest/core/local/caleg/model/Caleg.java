@@ -39,7 +39,31 @@ public class Caleg {
         this.jenisKelamin = jenisKelamin;
     }
 
+    public String getId() {
+        return id;
+    }
+
     public String getNama() {
         return nama;
+    }
+
+    public String getDapilId() {
+        return dapil_id;
+    }
+
+    public String getPartaiId() {
+        return partai_id;
+    }
+
+    public int getNomorUrut() {
+        return nomorUrut;
+    }
+
+    public String getJenisKelamin() {
+        if (jenisKelamin == JenisKelamin.LAKILAKI) {
+            return "Laki Laki";
+        } else {
+            return "Perempuan";
+        }
     }
 }

@@ -28,7 +28,7 @@ public class CalegViewModel {
                     @Override
                     public void onNext(@NonNull CalegResponse calegResponse) {
                         response.setCode(200);
-                        response.setData(calegResponse);
+                        response.setData(calegResponse.dataList);
                         response.setMessage("Success");
                         response.setErrorMessage("");
                         result.setResult(ResponseEntity.ok().body(response));
@@ -36,7 +36,7 @@ public class CalegViewModel {
 
                     @Override
                     public void onError(@NonNull Throwable e) {
-                        response.setCode(e.hashCode());
+                        response.setCode(500);
                         response.setErrorMessage(e.getMessage());
                         response.setMessage("Failed get list caleg.");
                         result.setErrorResult(ResponseEntity.internalServerError().body(response));
@@ -49,4 +49,5 @@ public class CalegViewModel {
                 });
         return result;
     }
+
 }
