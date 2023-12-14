@@ -1,9 +1,4 @@
-package com.allobank.allobackendtest.core.local.dapil.model;
-
-import java.util.List;
-import java.util.UUID;
-
-import jakarta.persistence.Column;
+package com.allobank.allobackendtest.core.local.dapil.model;import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,7 +10,15 @@ import jakarta.persistence.Table;
 public class Dapil {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
+
+    public Dapil() {}
+
+    public Dapil(String namaDapil, String provinsi, int jumlahKursi) {
+        this.namaDapil = namaDapil;
+        this.provinsi = provinsi;
+        this.jumlahKursi = jumlahKursi;
+    }
 
     @Column(name = "nama_dapil")
     private String namaDapil;
@@ -23,9 +26,10 @@ public class Dapil {
     @Column(name = "provinsi")
     private String provinsi;
 
-    @Column(name = "wilayahDapilList")
-    private List<String> wilayahDapilList;
-
     @Column(name = "jumlah_kursi")
     private int jumlahKursi;
+
+    public String getId() {
+        return this.id;
+    }
 }

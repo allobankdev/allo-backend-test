@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
+import com.allobank.allobackendtest.app.AppResponse;
 import com.allobank.allobackendtest.constant.HttpRoute;
+import com.allobank.allobackendtest.core.domain.local.caleg.response.CalegResponse;
 
 @RestController
 @RequestMapping(HttpRoute.CALEG)
@@ -16,7 +18,7 @@ public class CalegController {
     private CalegViewModel calegViewModel;
 
     @GetMapping()
-    public DeferredResult<ResponseEntity<String>> listCaleg() {
+    public DeferredResult<ResponseEntity<AppResponse<CalegResponse>>> listCaleg() {
         return calegViewModel.listCaleg();
     }
 

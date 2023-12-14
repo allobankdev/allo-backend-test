@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.allobank.allobackendtest.core.domain.local.caleg.response.CalegResponse;
 import com.allobank.allobackendtest.core.local.caleg.CalegService;
 import com.allobank.allobackendtest.core.local.caleg.model.Caleg;
 
@@ -20,7 +21,7 @@ public class CalegInteractor implements CalegUsecase {
     private CalegService calegService;
 
     @Override
-    public Observable<String> listCaleg() {
+    public Observable<CalegResponse> listCaleg() {
         return Observable.create(observer -> {
             calegService.listCaleg()
                     .subscribeOn(Schedulers.io())
@@ -28,7 +29,7 @@ public class CalegInteractor implements CalegUsecase {
 
                         @Override
                         public void onNext(@NonNull List<Caleg> t) {
-                            observer.onNext(t.get(0).getNama());
+                            observer.onNext(CalegResponse.getInstance().mapToObject(t));
                         }
 
                         @Override

@@ -1,9 +1,5 @@
 package com.allobank.allobackendtest.core.local.caleg.model;
 
-import java.util.UUID;
-
-import com.allobank.allobackendtest.model.JenisKelamin;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -16,13 +12,13 @@ import jakarta.persistence.Table;
 public class Caleg {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
-    private UUID id;
+    private String id;
 
     @Column(name = "dapil_id")
-    private UUID dapil_id;
+    private String dapil_id;
 
     @Column(name = "partai_id")
-    private UUID partai_id;
+    private String partai_id;
 
     @Column(name = "nomor_urut")
     private Integer nomorUrut;
@@ -32,6 +28,16 @@ public class Caleg {
 
     @Column(name = "jenis_kelamin")
     private JenisKelamin jenisKelamin;
+
+    public Caleg() {}
+
+    public Caleg(String dapil_id, String partai_id, Integer nomorUrut, String nama, JenisKelamin jenisKelamin) {
+        this.dapil_id = dapil_id;
+        this.partai_id = partai_id;
+        this.nomorUrut = nomorUrut;
+        this.nama = nama;
+        this.jenisKelamin = jenisKelamin;
+    }
 
     public String getNama() {
         return nama;
