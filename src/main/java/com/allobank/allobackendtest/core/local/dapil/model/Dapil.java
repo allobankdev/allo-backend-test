@@ -32,4 +32,12 @@ public class Dapil {
     public String getId() {
         return this.id;
     }
+
+    public String getNamaDapil() {
+        return this.namaDapil;
+    }
+
+    public int getJumlahKursi() {
+        return this.jumlahKursi;
+    }
 }

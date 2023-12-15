@@ -1,6 +1,5 @@
 package com.allobank.allobackendtest.core.domain.local.caleg.response;
 
-import java.util.Arrays;
 import java.util.List;
 
 import com.allobank.allobackendtest.core.local.caleg.model.Caleg;

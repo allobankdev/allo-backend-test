@@ -81,15 +81,26 @@ public class DataSeeder {
         List<Caleg> rsCaleg = jdbcTemplate.query(sql, (resultSet, rowNum) -> null);
         if (rsCaleg == null || rsCaleg.size() <= 0) {
             Dapil dapil = dapilRepository.findOneByNamaDapil("Jawa Tengah");
-            Partai pdi = partaiRepository.findOneByNamaPartai("PDI");
-            Partai grindra = partaiRepository.findOneByNamaPartai("GERINDRA");
-            Partai nasdem = partaiRepository.findOneByNamaPartai("NASDEM");
-            Caleg calegPdi = new Caleg(dapil.getId(), pdi.getId(), 01, "Ganjar Pranowo", JenisKelamin.LAKILAKI);
-            calegRepository.save(calegPdi);
-            Caleg calegNasdem = new Caleg(dapil.getId(), nasdem.getId(), 03, "Anies Baswedan", JenisKelamin.LAKILAKI);
-            calegRepository.save(calegNasdem);
-            Caleg calegGrindra = new Caleg(dapil.getId(), grindra.getId(), 02, "Prabowo Subianto", JenisKelamin.LAKILAKI);
-            calegRepository.save(calegGrindra);
+            List<Partai> partais = partaiRepository.findAll();
+            for (Partai partai : partais) {
+                if (partai.getNamaPartai().equals("PDI")) {
+                    Caleg calegPdi = new Caleg(dapil, partai, 01, "Ganjar Pranowo", JenisKelamin.LAKILAKI);
+                    calegRepository.save(calegPdi);
+                }
+
+                if (partai.getNamaPartai().equals("GERINDRA")) {
+                    Caleg calegGrindra = new Caleg(dapil, partai, 02, "Prabowo Subianto",
+                            JenisKelamin.LAKILAKI);
+                    calegRepository.save(calegGrindra);
+                }
+
+                if (partai.getNamaPartai().equals("NASDEM")) {
+                    Caleg calegNasdem = new Caleg(dapil, partai, 03, "Anies Baswedan",
+                            JenisKelamin.LAKILAKI);
+                    calegRepository.save(calegNasdem);
+                }
+            }
+
             System.out.println("seeder caleg berhasil.");
         } else {
             System.out.println("data caleg ini sudah ada.");

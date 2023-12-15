@@ -21,9 +21,9 @@ public class CalegInteractor implements CalegUsecase {
     private CalegService calegService;
 
     @Override
-    public Observable<CalegResponse> listCaleg() {
+    public Observable<CalegResponse> listCaleg(String sort, String dapil, String partai) {
         return Observable.create(observer -> {
-            calegService.listCaleg()
+            calegService.listCaleg(sort, dapil, partai)
                     .subscribeOn(Schedulers.io())
                     .subscribeWith(new DisposableObserver<List<Caleg>>() {
 

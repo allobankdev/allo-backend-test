@@ -1,10 +1,15 @@
 package com.allobank.allobackendtest.core.local.caleg.model;
 
+import com.allobank.allobackendtest.core.local.dapil.model.Dapil;
+import com.allobank.allobackendtest.core.local.partai.model.Partai;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
@@ -14,11 +19,13 @@ public class Caleg {
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
 
-    @Column(name = "dapil_id")
-    private String dapil_id;
+    @ManyToOne
+    @JoinColumn(name = "dapil_id", nullable = false)
+    private Dapil dapil;
 
-    @Column(name = "partai_id")
-    private String partai_id;
+    @ManyToOne
+    @JoinColumn(name = "partai_id", nullable = false)
+    private Partai partai;
 
     @Column(name = "nomor_urut")
     private Integer nomorUrut;
@@ -29,11 +36,12 @@ public class Caleg {
     @Column(name = "jenis_kelamin")
     private JenisKelamin jenisKelamin;
 
-    public Caleg() {}
+    public Caleg() {
+    }
 
-    public Caleg(String dapil_id, String partai_id, Integer nomorUrut, String nama, JenisKelamin jenisKelamin) {
-        this.dapil_id = dapil_id;
-        this.partai_id = partai_id;
+    public Caleg(Dapil dapil_id, Partai partai_id, Integer nomorUrut, String nama, JenisKelamin jenisKelamin) {
+        this.dapil = dapil_id;
+        this.partai = partai_id;
         this.nomorUrut = nomorUrut;
         this.nama = nama;
         this.jenisKelamin = jenisKelamin;
@@ -47,12 +55,12 @@ public class Caleg {
         return nama;
     }
 
-    public String getDapilId() {
-        return dapil_id;
+    public Dapil getDapilId() {
+        return dapil;
     }
 
-    public String getPartaiId() {
-        return partai_id;
+    public Partai getPartaiId() {
+        return partai;
     }
 
     public int getNomorUrut() {

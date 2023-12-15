@@ -18,10 +18,12 @@ public class CalegViewModel {
     @Autowired
     private CalegUsecase calegUsecase;
 
-    public DeferredResult<ResponseEntity<AppResponse<CalegResponse>>> listCaleg() {
+    public DeferredResult<ResponseEntity<AppResponse<CalegResponse>>> listCaleg(String sort,
+            String dapil,
+            String partai) {
         final AppResponse<CalegResponse> response = new AppResponse<>();
         final DeferredResult<ResponseEntity<AppResponse<CalegResponse>>> result = new DeferredResult<>();
-        calegUsecase.listCaleg()
+        calegUsecase.listCaleg(sort, dapil, partai)
                 .subscribeOn(Schedulers.io())
                 .subscribeWith(new DisposableObserver<CalegResponse>() {
 

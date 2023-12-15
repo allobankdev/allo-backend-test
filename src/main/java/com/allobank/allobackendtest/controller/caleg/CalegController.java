@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.async.DeferredResult;
 
@@ -18,8 +19,11 @@ public class CalegController {
     private CalegViewModel calegViewModel;
 
     @GetMapping()
-    public DeferredResult<ResponseEntity<AppResponse<CalegResponse>>> listCaleg() {
-        return calegViewModel.listCaleg();
+    public DeferredResult<ResponseEntity<AppResponse<CalegResponse>>> listCaleg(
+            @RequestParam(required = false, name = "sort") String sortQueryString,
+            @RequestParam(required = false, name = "dapil") String dapil,
+            @RequestParam(required = false, name = "partai") String partai) {
+        return calegViewModel.listCaleg(sortQueryString, dapil, partai);
     }
 
 }

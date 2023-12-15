@@ -6,6 +6,6 @@ import io.reactivex.rxjava3.core.Observable;
 
 public interface CalegUsecase {
 
-    public Observable<CalegResponse> listCaleg();
+    public Observable<CalegResponse> listCaleg(String sort, String dapil, String partai);
 
 }
