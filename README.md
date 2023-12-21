@@ -21,3 +21,35 @@ Model/Entity yang sudah disiapkan:
 - Kode yang rapi dan mudah dimengerti
 - Nilai tambah jika ditambahkan unit test
 
+
+
+## DOKUMENTASI - HADIN DAVIDI SIANTURI 
+
+STEP : 
+
+-SETUP DATABASE POSTGRESQL on file resources/application.properties
+
+-RUN SCHEMA resources/db/schema.sql
+
+-RUN TEST
+
+-RUN APP
+
+### GET ALL CALEG
+END POINT : GET /api/caleg
+
+### GET CALEG BY DAPIL
+END POINT : GET /api/caleg?dapil=Dapil 1
+
+### GET CALEG BY PARTAI
+END POINT : GET /api/caleg?partai=Partai A
+
+### GET CALEG BY DAPIL & PARTAI
+END POINT : GET /api/caleg?partai=Partai A&dapil=Dapil 1
+
+
+## RESPONSE FORMAT : 
+SUCCESS -> {data : [...], errors : null}
+FAILED (Invalid dapil, Invalid partai, Caleg Not Found) -> ResponseStatusException
+
+
