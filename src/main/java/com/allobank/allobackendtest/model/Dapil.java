@@ -1,15 +1,32 @@
 package com.allobank.allobackendtest.model;
 
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
 
-import java.util.List;
-import java.util.UUID;
 
-@Data
+@Entity
+@Table(name = "dapil")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Dapil {
-    private UUID id;
+    @Id
+    @Column(name = "id")
+    @GeneratedValue(generator = "system-uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String id;
+
+    @Column(nullable = false)
+
     private String namaDapil;
     private String provinsi;
-    private List<String> wilayahDapilList;
+
+    private String wilayahDapilList;
+
     private int jumlahKursi;
 }
