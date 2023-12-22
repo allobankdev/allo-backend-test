@@ -1,9 +1,13 @@
 package com.allobank.allobackendtest.service;
 
+import com.allobank.allobackendtest.dao.calegr;
+import com.allobank.allobackendtest.dao.dapilr;
+import com.allobank.allobackendtest.dao.partair;
+import com.allobank.allobackendtest.entity.calege;
 import com.allobank.allobackendtest.model.Caleg;
 import com.allobank.allobackendtest.model.Dapil;
-import com.allobank.allobackendtest.model.partai;
-
+import com.allobank.allobackendtest.model.Partai;
+import com.allobank.allobackendtest.setvalue.CalegSet;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +21,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 
-@Service
-@Slf4j
-public class ExecuteService{
-    private
+
+@CalegService
+public class CalegService{
+    @Autowired
+    private calege CalegE;
+
+    public List<Caleg> getCalegs(){
+        return calege.findall();
+    }
 }

@@ -1,4 +1,6 @@
 --CREATE TABLE
+CREATE DATABASE test_backend_allo_bank
+
 CREATE TABLE IF NOT EXISTS dapil(
     id VARCHAR2(300) AS UUID,
     nama_dapil VARCHAR2(300),
@@ -17,12 +19,12 @@ CREATE TABLE IF NOT EXISTS partai(
 
 CREATE TABLE IF NOT EXISTS caleg(
     id  VARCHAR2(300) AS UUID,
-    dapil_ID UUID REFERENCES dapil(id),
-    partai_ID UUID REFERENCES partai(id),
     nomor_urut Integer,
     nama VARCHAR2(300),
     jenis_kelamin VARCHAR2(300),
-    PRIMARY KEY(id)
+    PRIMARY KEY(id),
+    FOREIGN KEY (dapil_ID) REFERENCES dapil(id),
+    FOREIGN KEY (partai_ID) REFERENCES partai(id),
 );
 
 -- INSERT VALUE DATA
