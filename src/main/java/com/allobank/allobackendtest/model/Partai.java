@@ -1,12 +1,29 @@
 package com.allobank.allobackendtest.model;
 
-import lombok.Data;
-
-import java.util.UUID;
-
-@Data
 public class Partai {
-    private UUID id;
-    private String namaPartai;
-    private Integer nomorUrut;
+    private Long id;
+    private String nama;
+
+    // Constructor dengan parameter
+    public Partai(Long id, String nama) {
+        this.id = id;
+        this.nama = nama;
+    }
+
+    // Getter dan Setter
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
 }

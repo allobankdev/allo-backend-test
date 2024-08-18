@@ -1,15 +1,29 @@
 package com.allobank.allobackendtest.model;
 
-import lombok.Data;
-
-import java.util.List;
-import java.util.UUID;
-
-@Data
 public class Dapil {
-    private UUID id;
-    private String namaDapil;
-    private String provinsi;
-    private List<String> wilayahDapilList;
-    private int jumlahKursi;
+    private Long id;
+    private String nama;
+
+    // Constructor dengan parameter
+    public Dapil(Long id, String nama) {
+        this.id = id;
+        this.nama = nama;
+    }
+
+    // Getter dan Setter
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNama() {
+        return nama;
+    }
+
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
 }
