@@ -2,11 +2,17 @@ package com.allobank.allobackendtest.model;
 
 import lombok.Data;
 
-import java.util.UUID;
+import jakarta.persistence.*;
 
 @Data
+@Entity
+@Table(name = "partai")
 public class Partai {
-    private UUID id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private String id;
+
     private String namaPartai;
     private Integer nomorUrut;
 }
