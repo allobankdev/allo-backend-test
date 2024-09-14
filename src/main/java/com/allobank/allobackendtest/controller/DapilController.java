@@ -1,5 +1,6 @@
 package com.allobank.allobackendtest.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,8 @@ public class DapilController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createDapil(@RequestBody Dapil dapil) {
-        dapilService.createDapil(dapil);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Dapil> createDapil(@RequestBody Dapil dapil) {
+        var createdDapil = dapilService.createDapil(dapil);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdDapil);
     }
 }

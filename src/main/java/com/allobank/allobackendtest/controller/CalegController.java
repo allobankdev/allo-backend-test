@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -38,14 +39,14 @@ public class CalegController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createCaleg(@RequestBody Caleg caleg) {
-        calegService.createCaleg(caleg);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Caleg> createCaleg(@RequestBody Caleg caleg) {
+        var createdCaleg = calegService.createCaleg(caleg);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdCaleg);
     }
 
     @GetMapping("/{id}")
-    public Caleg getCaleg(@PathVariable UUID id) {
-        return calegService.getCalegById(id);
+    public ResponseEntity<Caleg> getCaleg(@PathVariable UUID id) {
+        return ResponseEntity.ok(calegService.getCalegById(id));
     }
     
 }

@@ -1,5 +1,8 @@
 package com.allobank.allobackendtest.controller;
 
+import java.util.List;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,13 +24,13 @@ public class PartaiController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPartai(@RequestBody Partai partai) {
-        partaiService.createPartai(partai);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<Partai> createPartai(@RequestBody Partai partai) {
+        var createdPartai = partaiService.createPartai(partai);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdPartai);
     }
 
     @GetMapping
-    public ResponseEntity<?> getAllPartai() {
+    public ResponseEntity<List<Partai>> getAllPartai() {
         return ResponseEntity.ok(partaiService.getAllPartai());
     }
 }
