@@ -13,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n  \"namaPartai\": \"Partai Kebangkitan Bangsat\",\r\n  \"nomorUrut\": 6\r\n}",
+					"raw": "{\r\n  \"namaPartai\": \"Partai Kebangkitan Bangsa\",\r\n  \"nomorUrut\": 6\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
