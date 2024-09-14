@@ -1,5 +1,6 @@
 package com.allobank.allobackendtest.service.serviceimpl;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.stereotype.Service;
@@ -33,5 +34,19 @@ public class DapilServiceImpl implements DapilService {
             log.error("Failed to create dapil", e);
             throw new RuntimeException("Failed to create dapil");
         }
+    }
+
+    @Override
+    public List<Dapil> getAllDapil() {
+        if (dapilRepository.findAll().isEmpty()) {
+            log.error("Dapil not found");
+            throw new RuntimeException("Dapil not found");
+        }
+        return dapilRepository.findAll();
+    }
+
+    @Override
+    public Dapil getDapilById(UUID id) {
+        return dapilRepository.findById(id).orElseThrow(() -> new RuntimeException("Dapil not found"));
     }
 }

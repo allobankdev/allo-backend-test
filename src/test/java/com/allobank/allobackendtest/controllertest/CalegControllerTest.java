@@ -17,11 +17,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.allobank.allobackendtest.controller.CalegController;
 import com.allobank.allobackendtest.model.Caleg;
 import com.allobank.allobackendtest.model.JenisKelamin;
 import com.allobank.allobackendtest.service.CalegService;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.is;
 
 @WebMvcTest(CalegController.class)
 public class CalegControllerTest {
@@ -31,6 +33,9 @@ public class CalegControllerTest {
 
     @MockBean
     private CalegService calegService; 
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @BeforeEach
     void setUp() {
@@ -69,5 +74,41 @@ public class CalegControllerTest {
                 .andExpect(jsonPath("$[0].nomorUrut").value(1))
                 .andExpect(jsonPath("$[0].nama").value("Budi Santoso"))
                 .andExpect(jsonPath("$[0].jenisKelamin").value("LAKILAKI"));
+    }
+
+    @Test
+    public void testCreateCaleg() throws Exception {
+        
+        UUID dapilId = UUID.fromString("530fb181-b0a4-46f5-b61d-ac418999550f");
+        UUID partaiId = UUID.fromString("8d2e577a-0eb2-489a-8da9-85561f408614");
+        UUID calegId = UUID.randomUUID();
+        
+        Caleg inputCaleg = new Caleg();
+        inputCaleg.setDapilId(dapilId);
+        inputCaleg.setPartaiId(partaiId);
+        inputCaleg.setNomorUrut(1);
+        inputCaleg.setNama("Eko Santoso");
+        inputCaleg.setJenisKelamin(JenisKelamin.LAKILAKI);
+
+        Caleg createdCaleg = new Caleg();
+        createdCaleg.setId(calegId);  
+        createdCaleg.setDapilId(dapilId);
+        createdCaleg.setPartaiId(partaiId);
+        createdCaleg.setNomorUrut(1);
+        createdCaleg.setNama("Eko Santoso");
+        createdCaleg.setJenisKelamin(JenisKelamin.LAKILAKI);
+
+        when(calegService.createCaleg(inputCaleg)).thenReturn(createdCaleg);
+        
+        mockMvc.perform(post("/api/v1/caleg")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(inputCaleg)))  
+                .andExpect(status().isCreated())  
+                .andExpect(jsonPath("$.id", is(calegId.toString())))
+                .andExpect(jsonPath("$.dapilId", is(dapilId.toString())))
+                .andExpect(jsonPath("$.partaiId", is(partaiId.toString())))
+                .andExpect(jsonPath("$.nomorUrut", is(1)))
+                .andExpect(jsonPath("$.nama", is("Eko Santoso")))
+                .andExpect(jsonPath("$.jenisKelamin", is("LAKILAKI")));
     }
 }

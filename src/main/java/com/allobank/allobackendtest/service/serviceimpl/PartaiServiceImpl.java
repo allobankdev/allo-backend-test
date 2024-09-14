@@ -51,4 +51,9 @@ public class PartaiServiceImpl implements PartaiService {
         }
         return partaiRepository.findAll();
     }
+
+    @Override
+    public Partai getPartaiById(UUID id) {
+        return partaiRepository.findById(id).orElseThrow(() -> new RuntimeException("Partai not found"));
+    }
 }
