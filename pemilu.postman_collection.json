@@ -1,0 +1,176 @@
+{
+	"info": {
+		"_postman_id": "8c4f2745-acd2-4d05-9698-58701810a021",
+		"name": "pemilu",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1547972"
+	},
+	"item": [
+		{
+			"name": "create partai",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"namaPartai\": \"Partai Kebangkitan Bangsat\",\r\n  \"nomorUrut\": 6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/partai",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"partai"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get caleg",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": []
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/caleg?partaiId=8d2e577a-0eb2-489a-8da9-85561f408614",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"caleg"
+					],
+					"query": [
+						{
+							"key": "partaiId",
+							"value": "8d2e577a-0eb2-489a-8da9-85561f408614"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create caleg",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"dapilId\": \"530fb181-b0a4-46f5-b61d-ac418999550f\",\r\n    \"partaiId\": \"8d2e577a-0eb2-489a-8da9-85561f408614\",\r\n    \"nomorUrut\": 1,\r\n    \"nama\": \"Eko Santoso\",\r\n    \"jenisKelamin\": \"LAKILAKI\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/caleg",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"caleg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create dapil",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"namaDapil\": \"dapil 10\",\r\n  \"provinsi\": \"jawa barat\",\r\n  \"wilayahDapilList\": [\"depok\",\"bogor\"],\r\n  \"jumlahKursi\": 14\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/dapil",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"dapil"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get partai",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/partai",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"partai"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get dapil",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/dapil",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"dapil"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
