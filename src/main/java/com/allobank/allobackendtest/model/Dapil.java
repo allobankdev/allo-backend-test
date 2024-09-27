@@ -1,32 +1,15 @@
 package com.allobank.allobackendtest.model;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
-@Setter
-@Getter
-@Entity
-@Table(name = "dapil")
+@Data
 public class Dapil {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-
-    @Column(name = "nama_dapil", nullable = false)
+    private UUID id;
     private String namaDapil;
-
-    @Column(name = "wilayah", nullable = true)
-    private String wilayah;
-
-    @Column(name = "alokasi_kursi", nullable = false)
-    private int alokasiKursi;
-
-
-    @Column(name = "created_at", nullable = false)
-    private Date createdAt;
-
+    private String provinsi;
+    private List<String> wilayahDapilList;
+    private int jumlahKursi;
 }
