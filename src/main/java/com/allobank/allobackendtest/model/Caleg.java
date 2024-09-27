@@ -1,15 +1,37 @@
 package com.allobank.allobackendtest.model;
 
-import lombok.Data;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.UUID;
+import java.util.Date;
 
-@Data
+
+@Setter
+@Getter
+@Entity
+@Table(name = "caleg")
 public class Caleg {
-    private UUID id;
-    private Dapil dapil;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+
+    @Column(name = "nama_caleg", nullable = false)
+    private String namaCaleg;
+
+    @Column(name = "nomor_urut", nullable = false)
+    private int nomorUrut;
+
+    @Column(name = "created_at", nullable = false)
+    private Date createdAt;
+
+    @ManyToOne
+    @JoinColumn(name = "partai_id", nullable = false)
     private Partai partai;
-    private Integer nomorUrut;
-    private String nama;
-    private JenisKelamin jenisKelamin;
+
+    @ManyToOne
+    @JoinColumn(name = "dapil_id", nullable = false)
+    private Dapil dapil;
+
 }
