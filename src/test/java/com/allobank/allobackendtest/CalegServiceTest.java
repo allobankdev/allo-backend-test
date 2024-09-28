@@ -1,49 +1,36 @@
-//package com.allobank.allobackendtest;
-//
-//import com.allobank.allobackendtest.model.Caleg;
-//import com.allobank.allobackendtest.repository.CalegRepository;
-//import com.allobank.allobackendtest.service.CalegService;
-//import org.junit.jupiter.api.BeforeEach;
-//import org.junit.jupiter.api.Test;
-//import org.mockito.InjectMocks;
-//import org.mockito.Mock;
-//import org.mockito.MockitoAnnotations;
-//import static org.mockito.ArgumentMatchers.any;
-//import static org.mockito.Mockito.verify;
-//import static org.mockito.Mockito.when;
-//import java.util.Collections;
-//import java.util.List;
-//import java.util.UUID;
-//
-//import static org.junit.jupiter.api.Assertions.assertEquals;
-//import static org.mockito.Mockito.times;
-//
-//public class CalegServiceTest {
-//
-//    @InjectMocks
-//    private CalegService calegService;
-//
-//    @Mock
-//    private CalegRepository calegRepository;
-//
-//    private Caleg caleg;
-//
-//    @BeforeEach
-//    void setUp() {
-//        MockitoAnnotations.openMocks(this);
-//        caleg = new Caleg();
-//        caleg.setId(UUID.randomUUID());
-//        caleg.setNama("Caleg 1");
-//    }
-//
-//    @Test
-//    void testGetAllCaleg_NoFilters() {
-//        when(calegRepository.findAll(any(), any())).thenReturn(Collections.singletonList(caleg));
-//
-//        List<Caleg> result = calegService.getAllCaleg(null, null, "nomorUrut");
-//
-//        assertEquals(1, result.size());
-//        assertEquals("Caleg 1", result.get(0).getNama());
-//        verify(calegRepository, times(1)).findAll(any(), any());
-//    }
-//}
+package com.allobank.allobackendtest;
+
+import com.allobank.allobackendtest.model.Caleg;
+import com.allobank.allobackendtest.service.CalegService;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest
+public class CalegServiceTest {
+
+    @Autowired
+    CalegService calegService;
+
+    @Test
+    void getAllCalegSuccessTest(){
+
+        Page<Caleg> allCaleg = calegService.getAllCaleg("Dapil 1", "Partai A", "nomorUrut", 0, 10);
+
+        assertNotNull(allCaleg.getContent());
+        assertEquals(allCaleg.getContent().get(0).getDapil().getNamaDapil(), "Dapil 1");
+        assertTrue(allCaleg.getContent().get(0).getNomorUrut()>allCaleg.getContent().get(allCaleg.getSize()-1).getNomorUrut());
+    }
+
+    @Test
+    void getAllCalegFailedTest(){
+
+        Page<Caleg> allCaleg = calegService.getAllCaleg("Dapil 1", "Partai A", "nomorUrut", 0, 10);
+
+        assertNotEquals(allCaleg.getContent().get(0).getDapil().getNamaDapil(), "Dapil 2");
+        assertFalse(allCaleg.getContent().get(0).getNomorUrut()<allCaleg.getContent().get(allCaleg.getSize()-1).getNomorUrut());
+    }
+}

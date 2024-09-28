@@ -1,0 +1,173 @@
+2024-09-28 07:48:16.840 [] [main] INFO  c.a.a.AlloBackendTestApplication - Starting AlloBackendTestApplication using Java 17.0.11 with PID 7572 (C:\Users\mohfa\OneDrive\Documents\allo-backend-test\target\classes started by ASUS in C:\Users\mohfa\OneDrive\Documents\allo-backend-test)
+2024-09-28 07:48:16.845 [] [main] INFO  c.a.a.AlloBackendTestApplication - The following 1 profile is active: "dev"
+2024-09-28 07:48:18.262 [] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-28 07:48:18.395 [] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 118 ms. Found 1 JPA repository interfaces.
+2024-09-28 07:48:19.505 [] [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-09-28 07:48:19.527 [] [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-28 07:48:19.528 [] [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-09-28 07:48:19.763 [] [main] INFO  o.a.c.c.C.[.[localhost].[/pemilu] - Initializing Spring embedded WebApplicationContext
+2024-09-28 07:48:19.764 [] [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2813 ms
+2024-09-28 07:48:20.143 [] [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-28 07:48:20.294 [] [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2024-09-28 07:48:20.299 [] [main] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-09-28 07:48:21.020 [] [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-28 07:48:21.081 [] [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-09-28 07:48:21.922 [] [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@6e5f5478
+2024-09-28 07:48:21.927 [] [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-09-28 07:48:22.044 [] [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL57Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-09-28 07:48:22.048 [] [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL57Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-09-28 07:48:24.083 [] [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-28 07:48:24.353 [] [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-28 07:48:24.812 [] [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-28 07:48:24.985 [] [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2024-09-28 07:48:25.138 [] [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 3 mappings in 'requestMappingHandlerMapping'
+2024-09-28 07:48:25.181 [] [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2024-09-28 07:48:25.194 [] [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2024-09-28 07:48:25.440 [] [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path '/pemilu'
+2024-09-28 07:48:25.472 [] [main] INFO  c.a.a.AlloBackendTestApplication - Started AlloBackendTestApplication in 9.565 seconds (process running for 11.87)
+2024-09-28 07:48:55.286 [] [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/pemilu] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-28 07:48:55.288 [] [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-28 07:48:55.288 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2024-09-28 07:48:55.289 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2024-09-28 07:48:55.289 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2024-09-28 07:48:55.290 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@16f62062
+2024-09-28 07:48:55.291 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@781bd9dd
+2024-09-28 07:48:55.292 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2024-09-28 07:48:55.293 [] [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 4 ms
+2024-09-28 07:48:55.341 [20240928074855305] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/pemilu/api/caleg", parameters={}
+2024-09-28 07:48:55.390 [20240928074855305] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.allobank.allobackendtest.controller.CalegController#getCaleg(String, String, String, String, String)
+2024-09-28 07:48:55.443 [20240928074855305] [http-nio-8080-exec-1] INFO  c.a.a.controller.CalegController - incoming request get data caleg
+2024-09-28 07:48:55.443 [20240928074855305] [http-nio-8080-exec-1] INFO  c.a.a.service.CalegService - start get all data caleg
+2024-09-28 07:48:55.446 [20240928074855305] [http-nio-8080-exec-1] INFO  c.a.a.service.CalegService - and get all data caleg
+2024-09-28 07:48:56.353 [20240928074855305] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-09-28 07:48:56.356 [20240928074855305] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [Page 1 of 2 containing com.allobank.allobackendtest.model.Caleg instances]
+2024-09-28 07:48:56.492 [20240928074855305] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2024-09-28 07:52:54.223 [20240928075254140] [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - GET "/pemilu/api/caleg?pageNumber=1&limit=5", parameters={masked}
+2024-09-28 07:52:54.282 [20240928075254140] [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.allobank.allobackendtest.controller.CalegController#getCaleg(String, String, String, String, String)
+2024-09-28 07:52:54.359 [20240928075254140] [http-nio-8080-exec-4] INFO  c.a.a.controller.CalegController - incoming request get data caleg
+2024-09-28 07:52:54.360 [20240928075254140] [http-nio-8080-exec-4] INFO  c.a.a.service.CalegService - start get all data caleg
+2024-09-28 07:52:54.368 [20240928075254140] [http-nio-8080-exec-4] INFO  c.a.a.service.CalegService - and get all data caleg
+2024-09-28 07:52:54.786 [20240928075254140] [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-09-28 07:52:54.790 [20240928075254140] [http-nio-8080-exec-4] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [Page 2 of 4 containing com.allobank.allobackendtest.model.Caleg instances]
+2024-09-28 07:52:54.816 [20240928075254140] [http-nio-8080-exec-4] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2024-09-28 07:59:40.405 [20240928075940362] [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - GET "/pemilu/api/caleg?pageNumber=1&limit=5", parameters={masked}
+2024-09-28 07:59:40.477 [20240928075940362] [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.allobank.allobackendtest.controller.CalegController#getCaleg(String, String, String, String, String)
+2024-09-28 07:59:40.539 [20240928075940362] [http-nio-8080-exec-8] INFO  c.a.a.controller.CalegController - incoming request get data caleg
+2024-09-28 07:59:40.541 [20240928075940362] [http-nio-8080-exec-8] INFO  c.a.a.service.CalegService - start get all data caleg
+2024-09-28 07:59:40.545 [20240928075940362] [http-nio-8080-exec-8] INFO  c.a.a.service.CalegService - and get all data caleg
+2024-09-28 07:59:40.898 [20240928075940362] [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-09-28 07:59:40.901 [20240928075940362] [http-nio-8080-exec-8] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [Page 2 of 4 containing com.allobank.allobackendtest.model.Caleg instances]
+2024-09-28 07:59:41.247 [20240928075940362] [http-nio-8080-exec-8] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2024-09-28 08:00:14.387 [20240928080014386] [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - GET "/pemilu/api/caleg", parameters={}
+2024-09-28 08:00:14.388 [20240928080014386] [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.allobank.allobackendtest.controller.CalegController#getCaleg(String, String, String, String, String)
+2024-09-28 08:00:14.390 [20240928080014386] [http-nio-8080-exec-9] INFO  c.a.a.controller.CalegController - incoming request get data caleg
+2024-09-28 08:00:14.394 [20240928080014386] [http-nio-8080-exec-9] INFO  c.a.a.service.CalegService - start get all data caleg
+2024-09-28 08:00:14.395 [20240928080014386] [http-nio-8080-exec-9] INFO  c.a.a.service.CalegService - and get all data caleg
+2024-09-28 08:00:14.458 [20240928080014386] [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-09-28 08:00:14.460 [20240928080014386] [http-nio-8080-exec-9] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [Page 1 of 2 containing com.allobank.allobackendtest.model.Caleg instances]
+2024-09-28 08:00:14.470 [20240928080014386] [http-nio-8080-exec-9] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2024-09-28 08:05:28.495 [] [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-28 08:05:28.610 [] [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-09-28 08:05:28.763 [] [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-09-28 08:05:50.798 [] [main] INFO  c.a.a.AlloBackendTestApplication - Starting AlloBackendTestApplication using Java 17.0.11 with PID 25548 (C:\Users\mohfa\OneDrive\Documents\allo-backend-test\target\classes started by ASUS in C:\Users\mohfa\OneDrive\Documents\allo-backend-test)
+2024-09-28 08:05:50.806 [] [main] INFO  c.a.a.AlloBackendTestApplication - The following 1 profile is active: "dev"
+2024-09-28 08:05:52.463 [] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-28 08:05:52.611 [] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 129 ms. Found 1 JPA repository interfaces.
+2024-09-28 08:05:53.750 [] [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-09-28 08:05:53.770 [] [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-28 08:05:53.771 [] [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-09-28 08:05:53.965 [] [main] INFO  o.a.c.c.C.[.[localhost].[/pemilu] - Initializing Spring embedded WebApplicationContext
+2024-09-28 08:05:53.966 [] [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3042 ms
+2024-09-28 08:05:54.335 [] [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-28 08:05:54.483 [] [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2024-09-28 08:05:54.488 [] [main] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-09-28 08:05:55.150 [] [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-28 08:05:55.215 [] [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-09-28 08:05:55.985 [] [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@3ef2b8e5
+2024-09-28 08:05:55.990 [] [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-09-28 08:05:56.119 [] [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL57Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-09-28 08:05:56.121 [] [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL57Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-09-28 08:05:58.157 [] [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-28 08:05:58.394 [] [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-28 08:05:58.873 [] [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-28 08:05:59.058 [] [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2024-09-28 08:05:59.211 [] [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 3 mappings in 'requestMappingHandlerMapping'
+2024-09-28 08:05:59.257 [] [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2024-09-28 08:05:59.277 [] [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2024-09-28 08:05:59.524 [] [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path '/pemilu'
+2024-09-28 08:05:59.544 [] [main] INFO  c.a.a.AlloBackendTestApplication - Started AlloBackendTestApplication in 9.713 seconds (process running for 11.108)
+2024-09-28 08:08:06.545 [] [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/pemilu] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-28 08:08:06.554 [] [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-28 08:08:06.557 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2024-09-28 08:08:06.558 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2024-09-28 08:08:06.559 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2024-09-28 08:08:06.577 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@5d782a4a
+2024-09-28 08:08:06.577 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@1cc42abe
+2024-09-28 08:08:06.579 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2024-09-28 08:08:06.579 [] [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 24 ms
+2024-09-28 08:08:06.659 [20240928080806593] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/pemilu/api/caleg", parameters={}
+2024-09-28 08:08:06.725 [20240928080806593] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.allobank.allobackendtest.controller.CalegController#getCaleg(String, String, String, String, String)
+2024-09-28 08:08:06.871 [20240928080806593] [http-nio-8080-exec-1] INFO  c.a.a.controller.CalegController - incoming request get data caleg
+2024-09-28 08:08:06.872 [20240928080806593] [http-nio-8080-exec-1] INFO  c.a.a.service.CalegService - start get all data caleg
+2024-09-28 08:08:06.880 [20240928080806593] [http-nio-8080-exec-1] INFO  c.a.a.service.CalegService - and get all data caleg
+2024-09-28 08:08:08.403 [20240928080806593] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-09-28 08:08:08.407 [20240928080806593] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [Page 1 of 2 containing com.allobank.allobackendtest.model.Caleg instances]
+2024-09-28 08:08:08.683 [20240928080806593] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2024-09-28 08:10:14.685 [20240928081014528] [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - GET "/pemilu/api/caleg?pageNumber=0&limit=5", parameters={masked}
+2024-09-28 08:10:14.756 [20240928081014528] [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.allobank.allobackendtest.controller.CalegController#getCaleg(String, String, String, String, String)
+2024-09-28 08:10:14.844 [20240928081014528] [http-nio-8080-exec-5] INFO  c.a.a.controller.CalegController - incoming request get data caleg
+2024-09-28 08:10:14.846 [20240928081014528] [http-nio-8080-exec-5] INFO  c.a.a.service.CalegService - start get all data caleg
+2024-09-28 08:10:14.849 [20240928081014528] [http-nio-8080-exec-5] INFO  c.a.a.service.CalegService - and get all data caleg
+2024-09-28 08:10:15.187 [20240928081014528] [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-09-28 08:10:15.193 [20240928081014528] [http-nio-8080-exec-5] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [Page 1 of 4 containing com.allobank.allobackendtest.model.Caleg instances]
+2024-09-28 08:10:15.217 [20240928081014528] [http-nio-8080-exec-5] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2024-09-28 08:26:41.918 [] [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-28 08:26:42.143 [] [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-09-28 08:26:42.911 [] [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-09-28 08:27:38.646 [] [main] INFO  c.a.a.AlloBackendTestApplication - Starting AlloBackendTestApplication using Java 17.0.11 with PID 11300 (C:\Users\mohfa\OneDrive\Documents\allo-backend-test\target\classes started by ASUS in C:\Users\mohfa\OneDrive\Documents\allo-backend-test)
+2024-09-28 08:27:38.652 [] [main] INFO  c.a.a.AlloBackendTestApplication - The following 1 profile is active: "dev"
+2024-09-28 08:27:40.541 [] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-09-28 08:27:40.686 [] [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 121 ms. Found 1 JPA repository interfaces.
+2024-09-28 08:27:41.989 [] [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port(s): 8080 (http)
+2024-09-28 08:27:42.014 [] [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-09-28 08:27:42.014 [] [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.15]
+2024-09-28 08:27:42.284 [] [main] INFO  o.a.c.c.C.[.[localhost].[/pemilu] - Initializing Spring embedded WebApplicationContext
+2024-09-28 08:27:42.285 [] [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 3530 ms
+2024-09-28 08:27:42.653 [] [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-09-28 08:27:42.825 [] [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.2.13.Final
+2024-09-28 08:27:42.830 [] [main] INFO  org.hibernate.cfg.Environment - HHH000406: Using bytecode reflection optimizer
+2024-09-28 08:27:43.663 [] [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-09-28 08:27:43.730 [] [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-09-28 08:27:44.636 [] [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection com.mysql.cj.jdbc.ConnectionImpl@368424db
+2024-09-28 08:27:44.641 [] [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-09-28 08:27:44.814 [] [main] WARN  org.hibernate.orm.deprecation - HHH90000025: MySQL57Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-09-28 08:27:44.817 [] [main] WARN  org.hibernate.orm.deprecation - HHH90000026: MySQL57Dialect has been deprecated; use org.hibernate.dialect.MySQLDialect instead
+2024-09-28 08:27:47.382 [] [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-09-28 08:27:47.701 [] [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-09-28 08:27:48.385 [] [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-09-28 08:27:48.639 [] [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerAdapter - ControllerAdvice beans: 0 @ModelAttribute, 0 @InitBinder, 1 RequestBodyAdvice, 1 ResponseBodyAdvice
+2024-09-28 08:27:48.901 [] [main] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - 3 mappings in 'requestMappingHandlerMapping'
+2024-09-28 08:27:48.962 [] [main] DEBUG o.s.w.s.h.SimpleUrlHandlerMapping - Patterns [/webjars/**, /**] in 'resourceHandlerMapping'
+2024-09-28 08:27:48.982 [] [main] DEBUG o.s.w.s.m.m.a.ExceptionHandlerExceptionResolver - ControllerAdvice beans: 0 @ExceptionHandler, 1 ResponseBodyAdvice
+2024-09-28 08:27:49.230 [] [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port(s): 8080 (http) with context path '/pemilu'
+2024-09-28 08:27:49.253 [] [main] INFO  c.a.a.AlloBackendTestApplication - Started AlloBackendTestApplication in 11.776 seconds (process running for 13.588)
+2024-09-28 08:28:15.826 [] [http-nio-8080-exec-1] INFO  o.a.c.c.C.[.[localhost].[/pemilu] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-09-28 08:28:15.827 [] [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-09-28 08:28:15.830 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected StandardServletMultipartResolver
+2024-09-28 08:28:15.832 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected AcceptHeaderLocaleResolver
+2024-09-28 08:28:15.835 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected FixedThemeResolver
+2024-09-28 08:28:15.847 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.view.DefaultRequestToViewNameTranslator@2b5a04b0
+2024-09-28 08:28:15.848 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Detected org.springframework.web.servlet.support.SessionFlashMapManager@4af50246
+2024-09-28 08:28:15.853 [] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - enableLoggingRequestDetails='false': request parameters and headers will be masked to prevent unsafe logging of potentially sensitive data
+2024-09-28 08:28:15.854 [] [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 25 ms
+2024-09-28 08:28:15.914 [20240928082815867] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - GET "/pemilu/api/caleg?pageNumber=0&limit=5", parameters={masked}
+2024-09-28 08:28:16.024 [20240928082815867] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestMappingHandlerMapping - Mapped to com.allobank.allobackendtest.controller.CalegController#getCaleg(String, String, String, String, String)
+2024-09-28 08:28:16.516 [20240928082815867] [http-nio-8080-exec-1] INFO  c.a.a.controller.CalegController - incoming request get data caleg
+2024-09-28 08:28:16.517 [20240928082815867] [http-nio-8080-exec-1] INFO  c.a.a.service.CalegService - start get all data caleg
+2024-09-28 08:28:16.520 [20240928082815867] [http-nio-8080-exec-1] INFO  c.a.a.service.CalegService - and get all data caleg
+2024-09-28 08:28:17.570 [20240928082815867] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Using 'application/json', given [*/*] and supported [application/json, application/*+json]
+2024-09-28 08:28:17.579 [20240928082815867] [http-nio-8080-exec-1] DEBUG o.s.w.s.m.m.a.RequestResponseBodyMethodProcessor - Writing [Page 1 of 4 containing com.allobank.allobackendtest.model.Caleg instances]
+2024-09-28 08:28:17.866 [20240928082815867] [http-nio-8080-exec-1] DEBUG o.s.web.servlet.DispatcherServlet - Completed 200 OK
+2024-09-28 08:31:03.679 [] [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-09-28 08:31:03.748 [] [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-09-28 08:31:03.817 [] [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
