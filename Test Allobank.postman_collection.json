@@ -1,0 +1,59 @@
+{
+	"info": {
+		"_postman_id": "c3c6024c-6375-40f9-b071-98fa6dac0981",
+		"name": "Test Allobank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38292375"
+	},
+	"item": [
+		{
+			"name": "list caleg",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/api/v1/caleg/list?page=0&orderBy=nomor_urut&orderDirection=asc&partai=GERINDRA",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"caleg",
+						"list"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "orderBy",
+							"value": "nomor_urut"
+						},
+						{
+							"key": "orderDirection",
+							"value": "asc"
+						},
+						{
+							"key": "dapil",
+							"value": null,
+							"disabled": true
+						},
+						{
+							"key": "partai",
+							"value": "GERINDRA"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
