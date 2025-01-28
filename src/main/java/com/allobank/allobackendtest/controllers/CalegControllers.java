@@ -1,6 +1,7 @@
 package com.allobank.allobackendtest.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,14 +34,18 @@ public class CalegControllers {
             }
 
             response = calegService.SearchCaleg(page, size, orderBy, orderDirection, partai, dapil);
+            List<?> data = (List<?>) response.getData().get("data");
 
-            if (response.getData().isEmpty()) {
-                return ResponseEntity.notFound();
+            if (data.isEmpty()) {
+                response.setRc("404");
+                response.setRm("Data Caleg Tidak Ditemukan");
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
             }
 
             return ResponseEntity.ok().body(response);
         } catch (Exception e) {
-            e.printStackTrace();
+            response.setRc("500");
+            response.setRm("Terjadi Kesalahan pada Server");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(response);
         }
     }
