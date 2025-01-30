@@ -2,11 +2,15 @@ package com.allobank.allobackendtest.model;
 
 import lombok.Data;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 import java.util.List;
 import java.util.UUID;
 
+@Entity
 @Data
 public class Dapil {
+    @Id
     private UUID id;
     private String namaDapil;
     private String provinsi;
