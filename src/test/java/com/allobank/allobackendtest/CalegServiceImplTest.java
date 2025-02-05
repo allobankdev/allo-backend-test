@@ -25,7 +25,6 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 class CalegServiceImplTest {
 
-    //Test
     @Mock
     private CalegRepository calegRepository;
 
