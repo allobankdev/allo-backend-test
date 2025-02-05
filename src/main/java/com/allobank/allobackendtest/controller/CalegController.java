@@ -1,5 +1,6 @@
 package com.allobank.allobackendtest.controller;
 
+import com.allobank.allobackendtest.model.ApiResponse;
 import com.allobank.allobackendtest.model.Caleg;
 import com.allobank.allobackendtest.service.CalegService;
 import org.springframework.http.HttpStatus;
@@ -22,12 +23,17 @@ public class CalegController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Caleg>> listCalegs(
+    public ResponseEntity<ApiResponse<Object>> listCalegs(
             @RequestParam(required = false) String namaDapil,
             @RequestParam(required = false) String namaPartai,
             @RequestParam(defaultValue = "asc") String sortOrder
     ) {
+
         List<Caleg> calegList = calegService.listCalegs(namaDapil, namaPartai,sortOrder);
-        return new ResponseEntity<>(calegList, HttpStatus.OK);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponse.builder()
+                .status(HttpStatus.OK.getReasonPhrase())
+                .data(calegList)
+                .message("Successfully List Caleg")
+                .build());
     }
 }
