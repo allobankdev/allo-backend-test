@@ -1,4 +1,4 @@
-package com.allobank.allobackendtest.model;
+package com.allobank.allobackendtest.enums;
 
 public enum JenisKelamin {
     LAKILAKI, PEREMPUAN
