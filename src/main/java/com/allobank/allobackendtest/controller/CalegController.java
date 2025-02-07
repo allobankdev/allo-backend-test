@@ -49,15 +49,20 @@ public class CalegController {
   public ResponseEntity<CalegDto> createCaleg(@Valid @RequestBody CalegDto calegDto) {
     Caleg caleg = calegService.convertToEntity(calegDto);
     Caleg createdCaleg = calegService.createCaleg(caleg);
+    // System.out.println(createdCaleg);
     CalegDto createdCalegDto = calegService.convertToDto(createdCaleg);
     return new ResponseEntity<>(createdCalegDto, HttpStatus.CREATED);
   }
 
   @GetMapping("/filter")
   public List<CalegDto> getCalegByDapilAndPartai(
-      @RequestParam("dapilId") UUID dapilId,
-      @RequestParam("partaiId") UUID partaiId) {
-    List<Caleg> calegList = calegService.getCalegByDapilAndPartai(dapilId, partaiId);
+      @RequestParam("dapilId") String dapilId, // Changed to String
+      @RequestParam("partaiId") String partaiId) { // Changed to String
+
+    UUID dapilUUID = UUID.fromString(dapilId);
+    UUID partaiUUID = UUID.fromString(partaiId);
+
+    List<Caleg> calegList = calegService.getCalegByDapilAndPartai(dapilUUID, partaiUUID);
     return calegList.stream().map(calegService::convertToDto).collect(Collectors.toList());
   }
 

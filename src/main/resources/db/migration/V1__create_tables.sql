@@ -21,7 +21,7 @@ CREATE TABLE caleg (
     id UUID PRIMARY KEY,
     nama VARCHAR(255) NOT NULL,
     nomor_urut INT NOT NULL,
-    jenis_kelamin ENUM ('LAKI-LAKI', 'PEREMPUAN'),
+    jenis_kelamin ENUM ('LAKILAKI', 'PEREMPUAN'),
     alamat TEXT,
     dapil_id UUID,
     partai_id UUID,

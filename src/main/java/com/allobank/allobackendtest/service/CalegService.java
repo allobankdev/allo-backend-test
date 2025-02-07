@@ -19,6 +19,9 @@ import com.allobank.allobackendtest.repository.CalegRepository;
 import com.allobank.allobackendtest.repository.DapilRepository;
 import com.allobank.allobackendtest.repository.PartaiRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class CalegService {
   @Autowired
@@ -39,64 +42,88 @@ public class CalegService {
   }
 
   public Caleg createCaleg(Caleg caleg) {
-    if (caleg.getDapil() != null && caleg.getDapil().getId() != null) {
-      dapilRepository.findById(caleg.getDapil().getId())
-          .orElseThrow(() -> new EntityNotFoundException("Dapil not found"));
-    }
-    if (caleg.getPartai() != null && caleg.getPartai().getId() != null) {
-      partaiRepository.findById(caleg.getPartai().getId())
-          .orElseThrow(() -> new EntityNotFoundException("Partai not found"));
-    }
+    UUID dapilId = caleg.getDapil().getId();
+    UUID partaiId = caleg.getPartai().getId();
+
+    Dapil dapil = dapilRepository.findById(dapilId)
+        .orElseThrow(() -> new EntityNotFoundException("Dapil not found with id: " + dapilId));
+    Partai partai = partaiRepository.findById(partaiId)
+        .orElseThrow(() -> new EntityNotFoundException("Partai not found with id: " + partaiId));
+
+    caleg.setDapil(dapil);
+    caleg.setPartai(partai);
+
     return calegRepository.save(caleg);
   }
 
   public List<Caleg> getCalegByDapilAndPartai(UUID dapilId, UUID partaiId) {
-    return calegRepository.findByDapilAndPartai(dapilId, partaiId);
+    return calegRepository.findByDapilIdAndPartaiId(dapilId, partaiId);
   }
 
   public List<Caleg> getCalegSortedByNomorUrut(Sort.Direction direction) {
-    return calegRepository.findAll(Sort.by(direction, "nomor_urut"));
+    if (direction == Sort.Direction.ASC) {
+      return calegRepository.findAllByOrderByNomorUrutAsc();
+    } else {
+      return calegRepository.findAllByOrderByNomorUrutDesc();
+    }
   }
 
   public CalegDto convertToDto(Caleg caleg) {
     CalegDto calegDto = new CalegDto();
-    calegDto.setId(caleg.getId());
+
+    calegDto.setId(caleg.getId().toString());
     calegDto.setNama(caleg.getNama());
     calegDto.setNomor_urut(caleg.getNomor_urut());
+
     if (caleg.getJenisKelamin() != null) {
       calegDto.setJenisKelamin(caleg.getJenisKelamin().name());
     }
+
     calegDto.setAlamat(caleg.getAlamat());
+
     if (caleg.getDapil() != null) {
-      calegDto.setDapilId(caleg.getDapil().getId());
+      calegDto.setDapilId(caleg.getDapil().getId().toString());
     }
+
     if (caleg.getPartai() != null) {
-      calegDto.setPartaiId(caleg.getPartai().getId());
+      calegDto.setPartaiId(caleg.getPartai().getId().toString());
     }
+
     return calegDto;
   }
 
   public Caleg convertToEntity(CalegDto calegDto) {
     Caleg caleg = new Caleg();
-    caleg.setId(calegDto.getId());
+
+    if (calegDto.getId() != null) {
+      caleg.setId(UUID.fromString(calegDto.getId()));
+    }
+
     caleg.setNama(calegDto.getNama());
     caleg.setNomor_urut(calegDto.getNomor_urut());
-    if (calegDto.getJenisKelamin() != null) {
-      caleg.setJenisKelamin(JenisKelamin.valueOf(calegDto.getJenisKelamin()));
+
+    if (calegDto.getJenisKelamin() != null && !calegDto.getJenisKelamin().isEmpty()) {
+      try {
+        caleg.setJenisKelamin(JenisKelamin.valueOf(calegDto.getJenisKelamin()));
+      } catch (IllegalArgumentException ex) {
+        log.error("Invalid JenisKelamin: {}", calegDto.getJenisKelamin());
+      }
     }
+
     caleg.setAlamat(calegDto.getAlamat());
 
-    if (calegDto.getDapilId() != null) {
-      Dapil dapil = dapilRepository.findById(calegDto.getDapilId())
+    if (calegDto.getDapilId() != null) { // Perbaikan: getDapilId
+      Dapil dapil = dapilRepository.findById(UUID.fromString(calegDto.getDapilId()))
           .orElseThrow(() -> new EntityNotFoundException("Dapil not found"));
       caleg.setDapil(dapil);
     }
 
-    if (calegDto.getPartaiId() != null) {
-      Partai partai = partaiRepository.findById(calegDto.getPartaiId())
+    if (calegDto.getPartaiId() != null) { // Perbaikan: getPartaiId
+      Partai partai = partaiRepository.findById(UUID.fromString(calegDto.getPartaiId()))
           .orElseThrow(() -> new EntityNotFoundException("Partai not found"));
       caleg.setPartai(partai);
     }
+
     return caleg;
   }
 }

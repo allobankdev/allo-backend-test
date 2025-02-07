@@ -10,22 +10,16 @@ import lombok.Data;
 
 @Data
 public class CalegDto {
-  private UUID id;
-
+  private String id; // Ubah ke String
   @NotBlank(message = "Nama is required")
   private String nama;
-
   @NotNull(message = "Nomor urut is required")
   private Integer nomor_urut;
-
-  @Pattern(regexp = "LAKI-LAKI|PEREMPUAN", message = "Jenis kelamin harus LAKI-LAKI atau PEREMPUAN")
+  @Pattern(regexp = "LAKILAKI|PEREMPUAN", message = "Jenis kelamin harus LAKILAKI atau PEREMPUAN")
   private String jenisKelamin;
-
   private String alamat;
-
   @NotNull(message = "Dapil is required")
-  private UUID dapilId;
-
+  private String dapilId; // Ubah ke String
   @NotNull(message = "Partai is required")
-  private UUID partaiId;
+  private String partaiId; // Ubah ke String
 }

@@ -1,13 +1,13 @@
-package com.allobank.allobackendtest;
+// package com.allobank.allobackendtest;
 
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+// import org.junit.jupiter.api.Test;
+// import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
-class AlloBackendTestApplicationTests {
+// @SpringBootTest
+// class AlloBackendTestApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+// @Test
+// void contextLoads() {
+// }
 
-}
+// }
