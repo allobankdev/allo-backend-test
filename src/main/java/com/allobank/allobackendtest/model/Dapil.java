@@ -2,14 +2,24 @@ package com.allobank.allobackendtest.model;
 
 import lombok.Data;
 
-import java.util.List;
+import org.hibernate.annotations.GenericGenerator;
+
+import jakarta.persistence.*;
+
+// import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.UUID;
 
+@Entity
 @Data
 public class Dapil {
+    @Id
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
-    private String namaDapil;
-    private String provinsi;
-    private List<String> wilayahDapilList;
-    private int jumlahKursi;
+
+    @NotBlank(message = "Nama dapil is required")
+    @Column(unique = true)
+    private String nama_dapil;
 }
