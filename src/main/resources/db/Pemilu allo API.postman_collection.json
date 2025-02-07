@@ -1,0 +1,270 @@
+{
+	"info": {
+		"_postman_id": "e1cb525c-49e8-48d4-952d-12d99b8ccc89",
+		"name": "Pemilu allo API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "13581457"
+	},
+	"item": [
+		{
+			"name": "Create Partai",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nama_partai\": \"Partai 4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/partai",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"partai"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Partai",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/partai",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"partai"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Dapil",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/dapil",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"dapil"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Dapil",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nama_dapil\" : \"Dapil 4\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/dapil",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"dapil"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Caleg",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:8080/api/caleg",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"caleg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Caleg",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nama\": \"Caleg 8\",\r\n    \"nomor_urut\": 8,\r\n    \"jenisKelamin\": \"PEREMPUAN\",\r\n    \"alamat\": \"alamat 8\",\r\n    \"partaiId\": \"08ddc64b-3975-4369-852a-d0428471f79f\",  // ID partai yang sudah ada di database\r\n    \"dapilId\": \"6466c808-ea39-4246-b802-5badb477a61c\"   // ID dapil yang sudah ada di database\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/api/caleg",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"caleg"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Caleg Sort by Asc",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/caleg/sorted?direction=asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"caleg",
+						"sorted"
+					],
+					"query": [
+						{
+							"key": "direction",
+							"value": "asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Caleg Pagination",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/caleg?page=0&size=5&sort=nama,asc",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"caleg"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "size",
+							"value": "5"
+						},
+						{
+							"key": "sort",
+							"value": "nama,asc"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Caleg Filter by Dapil and Partai",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/caleg/filter?dapilId=6466c808-ea39-4246-b802-5badb477a61c&partaiId=08ddc64b-3975-4369-852a-d0428471f79f",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"caleg",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "dapilId",
+							"value": "6466c808-ea39-4246-b802-5badb477a61c"
+						},
+						{
+							"key": "partaiId",
+							"value": "08ddc64b-3975-4369-852a-d0428471f79f"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
