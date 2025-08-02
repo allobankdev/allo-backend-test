@@ -91,7 +91,7 @@ Untuk Windows:
 
 ## 🏃‍♂️ Menjalankan Aplikasi
 
-### Option 1: Menggunakan Docker Compose (Recommended)
+### Menggunakan Docker Compose
 
 ```bash
 # Build dan jalankan semua services
@@ -102,30 +102,6 @@ docker-compose up -d --build
 ```
 
 Aplikasi akan berjalan di: `http://localhost:8080/api`
-
-### Option 2: Development Mode
-
-1. Jalankan PostgreSQL dengan Docker:
-```bash
-docker run -d \
-  --name pemilu-postgres \
-  -e POSTGRES_DB=pemilu_db \
-  -e POSTGRES_USER=pemilu_user \
-  -e POSTGRES_PASSWORD=pemilu_pass \
-  -p 5432:5432 \
-  postgres:15-alpine
-```
-
-2. Jalankan aplikasi:
-```bash
-./mvnw spring-boot:run
-```
-
-### Option 3: Menggunakan JAR
-
-```bash
-java -jar target/allobackendtest-0.0.1-SNAPSHOT.jar
-```
 
 ## 📚 API Documentation
 
@@ -243,19 +219,10 @@ curl http://localhost:8080/api/caleg/750e8400-e29b-41d4-a716-446655440001
 
 ## 🧪 Testing
 
-### Run Unit Tests
-```bash
-./mvnw test
-```
 
 ### Run Specific Test Class
 ```bash
 ./mvnw test -Dtest=CalegControllerTest
-```
-
-### Test Coverage
-```bash
-./mvnw clean test jacoco:report
 ```
 
 Report akan tersedia di: `target/site/jacoco/index.html`
