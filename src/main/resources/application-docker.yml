@@ -1,0 +1,5 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgres:5432/pemilu_db
+    username: ${DB_USERNAME:pemilu_user}
+    password: ${DB_PASSWORD:pemilu_pass}

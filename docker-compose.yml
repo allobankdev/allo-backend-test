@@ -1,0 +1,43 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: pemilu-postgres
+    environment:
+      POSTGRES_DB: pemilu_db
+      POSTGRES_USER: pemilu_user
+      POSTGRES_PASSWORD: pemilu_pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - pemilu-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pemilu_user -d pemilu_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: pemilu-app
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_USERNAME: pemilu_user
+      DB_PASSWORD: pemilu_pass
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - pemilu-network
+
+volumes:
+  postgres_data:
+
+networks:
+  pemilu-network:
+    driver: bridge
