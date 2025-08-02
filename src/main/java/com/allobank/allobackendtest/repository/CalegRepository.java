@@ -19,7 +19,6 @@ public interface CalegRepository extends JpaRepository<Caleg, UUID> {
         FROM Caleg c
         WHERE COALESCE(:dapilId, c.dapil.id)  = c.dapil.id
           AND COALESCE(:partaiId, c.partai.id) = c.partai.id
-        ORDER BY c.nomorUrut
       """,
             countQuery = """
         SELECT COUNT(c)
