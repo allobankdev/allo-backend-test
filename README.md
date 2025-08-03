@@ -53,7 +53,7 @@ API REST untuk mengelola data Calon Legislatif (Caleg) dalam rangka menyambut Pe
 ## 🛠 Tech Stack
 
 - **Java 17**
-- **Spring Boot 3.2.0**
+- **Spring Boot 3.1.5**
 - **PostgreSQL 15**
 - **Docker & Docker Compose**
 - **Maven**
