@@ -2,9 +2,7 @@ package com.allobank.allobackendtest.controller;
 
 import com.allobank.allobackendtest.common.response.ApiResponse;
 import com.allobank.allobackendtest.dto.DapilDto;
-import com.allobank.allobackendtest.dto.DapilUpdateDto;
 import com.allobank.allobackendtest.model.Dapil;
-import com.allobank.allobackendtest.model.Partai;
 import com.allobank.allobackendtest.service.DapilService;
 import jakarta.validation.Valid;
 import org.apache.commons.logging.Log;
