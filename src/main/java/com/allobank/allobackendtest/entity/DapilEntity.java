@@ -24,7 +24,7 @@ public class DapilEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, name = "nama_dapil")
     private String namaDapil;
 
     @Column(nullable = false)
