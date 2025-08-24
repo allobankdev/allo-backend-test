@@ -3,17 +3,12 @@ package com.allobank.allobackendtest.service;
  import com.allobank.allobackendtest.mapper.BaseMapper;
  import jakarta.transaction.Transactional;
  import lombok.extern.slf4j.Slf4j;
- import org.springframework.boot.autoconfigure.data.web.SpringDataWebProperties;
+
  import org.springframework.data.domain.Page;
  import org.springframework.data.domain.Pageable;
  import org.springframework.data.jpa.repository.JpaRepository;
  import org.springframework.lang.NonNull;
-
- import java.io.Serializable;
- import java.util.List;
- import java.util.stream.Collectors;
-
- import static org.springframework.beans.BeanUtils.copyProperties;
+ import com.allobank.allobackendtest.common.exception.EntityNotFoundException;
 
 /**
  * Service
@@ -233,11 +228,4 @@ package com.allobank.allobackendtest.service;
      }
  }
 
-/**
- * Custom exception for entity not found.
- */
-class EntityNotFoundException extends RuntimeException {
-    public EntityNotFoundException(String message) {
-        super(message);
-    }
-}
+
