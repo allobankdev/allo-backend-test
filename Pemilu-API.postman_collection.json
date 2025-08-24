@@ -15,7 +15,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/v1/caleg?page=true",
+							"raw": "http://localhost:8080/api/v1/caleg?page=0&namaDapil=Dapil Jawa Barat I",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -28,17 +28,31 @@
 							],
 							"query": [
 								{
+									"key": "page",
+									"value": "0"
+								},
+								{
 									"key": "size",
-									"value": "1",
+									"value": "2",
 									"disabled": true
 								},
 								{
-									"key": "page",
-									"value": "true"
+									"key": "sort",
+									"value": "nomorUrut,asc",
+									"disabled": true
 								},
 								{
-									"key": "true",
-									"value": null,
+									"key": "dapilId",
+									"value": "e2e41a12-cceb-4f7c-8fa5-e1414178e0cd",
+									"disabled": true
+								},
+								{
+									"key": "namaDapil",
+									"value": "Dapil Jawa Barat I"
+								},
+								{
+									"key": "namaPartai",
+									"value": "YAKAN",
 									"disabled": true
 								}
 							]
