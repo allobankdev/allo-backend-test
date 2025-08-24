@@ -1,5 +1,6 @@
 package com.allobank.allobackendtest.service;
 
+import com.allobank.allobackendtest.common.exception.EntityNotFoundException;
 import com.allobank.allobackendtest.dto.CalegDto;
 import com.allobank.allobackendtest.entity.CalegEntity;
 import com.allobank.allobackendtest.mapper.CalegMapper;
