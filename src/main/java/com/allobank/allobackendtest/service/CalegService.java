@@ -7,7 +7,13 @@ import com.allobank.allobackendtest.model.Caleg;
 import com.allobank.allobackendtest.repository.CalegRepository;
 import com.allobank.allobackendtest.repository.DapilRepository;
 import com.allobank.allobackendtest.repository.PartaiRepository;
+import com.allobank.allobackendtest.specification.CalegSpecification;
 import jakarta.transaction.Transactional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -51,7 +57,12 @@ public class CalegService extends BaseService<CalegEntity, CalegDto, Caleg, UUID
                 .orElseThrow(() -> new EntityNotFoundException("Dapil tidak ditemukan")));
         entity.setPartai(partaiRepository.findById(dto.getPartai())
                 .orElseThrow(() -> new EntityNotFoundException("Partai tidak ditemukan")));
-
+        if (repository.existsByDapilIdAndNomorUrut(entity.getDapil().getId(), entity.getNomorUrut())) {
+            throw new IllegalArgumentException(
+                    "Nomor urut " + entity.getNomorUrut() +
+                            " sudah digunakan di dapil ini: " + entity.getDapil().getNamaDapil()
+            );
+        }
         return calegMapper.toResponse(repository.save(entity));
     }
     /**
@@ -78,9 +89,42 @@ public class CalegService extends BaseService<CalegEntity, CalegDto, Caleg, UUID
             entity.setPartai(partaiRepository.findById(dto.getPartai())
                     .orElseThrow(() -> new EntityNotFoundException("Partai tidak ditemukan")));
         }
-
+        if (repository.existsByDapilIdAndNomorUrut(dto.getDapil(), dto.getNomorUrut())) {
+            throw new IllegalArgumentException(
+                    "Nomor urut " + entity.getNomorUrut() +
+                            " sudah digunakan di dapil ini: " + entity.getDapil().getNamaDapil()
+            );
+        }
         return calegMapper.toResponse(repository.save(entity));
     }
+
+    /**
+     * Override findAll with filter by dapil,partai and sort with nomorUrut
+     * @param dapilID
+     * @param partaiID
+     * @param namaDapil
+     * @param namaPartai
+     * @param  pageable
+     * @return
+     */
+    public Page<Caleg> getAllCaleg(Pageable pageable,
+                                   String namaPartai,
+                                   String namaDapil,
+                                   UUID dapilID,
+                                   UUID partaiID) {
+
+        Specification<CalegEntity> spec = CalegSpecification.searchCaleg(
+                dapilID,
+                partaiID,
+                namaDapil != null && !namaDapil.isBlank() ? namaDapil : null,
+                namaPartai != null && !namaPartai.isBlank() ? namaPartai : null
+        );
+
+        Page<CalegEntity> result = repository.findAll(spec, pageable);
+        return result.map(calegMapper::toResponse);
+    }
+
+
 
     /**
      * Retrieves a list of Caleg by their name.
