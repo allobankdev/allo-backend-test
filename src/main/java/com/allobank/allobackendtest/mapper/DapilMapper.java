@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
  */
 @Mapper(componentModel = "spring")
 public interface DapilMapper extends BaseMapper<DapilEntity, DapilDto, Dapil> {
-
+    DapilMapper INSTANCE = Mappers.getMapper(DapilMapper.class);
     // CREATE request mapping
     @Override
     @Mapping(target = "id", ignore=true)
