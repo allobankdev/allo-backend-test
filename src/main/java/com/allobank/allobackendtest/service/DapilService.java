@@ -4,7 +4,6 @@ import com.allobank.allobackendtest.common.exception.BadRequestException;
 import com.allobank.allobackendtest.common.exception.ResourceNotFoundException;
 import com.allobank.allobackendtest.dto.DapilDto;
 
-import com.allobank.allobackendtest.dto.DapilUpdateDto;
 import com.allobank.allobackendtest.entity.DapilEntity;
 import com.allobank.allobackendtest.mapper.DapilMapper;
 
