@@ -1,0 +1,409 @@
+{
+	"info": {
+		"_postman_id": "16b5ce3b-2129-4383-98ff-211ab62728e5",
+		"name": "AlloBank - Test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "38940646"
+	},
+	"item": [
+		{
+			"name": "Partai",
+			"item": [
+				{
+					"name": "Find All Partai",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/partai?sortBy=nomorUrut&pageSize=10",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"partai"
+							],
+							"query": [
+								{
+									"key": "sortBy",
+									"value": "nomorUrut"
+								},
+								{
+									"key": "pageSize",
+									"value": "10"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/partai/",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"partai",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Partai",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"namaPartai\": \"Partai Kebangkitan Bangsa\",\r\n    \"nomorUrut\": 24\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/api/partai",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"partai"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Partai",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"namaPartai\": \"Partai Kebangkitan Bangsa\",\r\n    \"nomorUrut\": \"7\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/api/partai/update/94844186-7cea-44ba-8c35-61cfc7696008",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"partai",
+								"update",
+								"94844186-7cea-44ba-8c35-61cfc7696008"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Partai",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/partai/delete/829bf63c-bb40-4850-a945-18ecafbf6e42",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"partai",
+								"delete",
+								"829bf63c-bb40-4850-a945-18ecafbf6e42"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Caleg",
+			"item": [
+				{
+					"name": "Find All Caleg",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/caleg?pageSize=20&sortBy=nomorUrut&namaDapil=ACEH I",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"caleg"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "20"
+								},
+								{
+									"key": "sortBy",
+									"value": "nomorUrut"
+								},
+								{
+									"key": "namaDapil",
+									"value": "ACEH I"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find Caleg By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/caleg/",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"caleg",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Caleg",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nama\": \"Putri Melati\",\r\n    \"nomorUrut\": 2,\r\n    \"jenisKelamin\": \"PEREMPUAN\",\r\n    \"namaPartai\": \"Partai Solidaritas Indonesia\",\r\n    \"namaDapil\": \"SUMATERA BARAT II\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/api/caleg",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"caleg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Caleg",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nama\": \"Putri Melati Anjani\",\r\n    \"nomorUrut\": 2,\r\n    \"jenisKelamin\": \"PEREMPUAN\",\r\n    \"namaPartai\": \"Partai Solidaritas Indonesia\",\r\n    \"namaDapil\": \"SUMATERA BARAT II\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/api/caleg/update/44fb19ed-b9c4-4895-ad25-04352f10c3e6",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"caleg",
+								"update",
+								"44fb19ed-b9c4-4895-ad25-04352f10c3e6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Caleg",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/caleg/delete/44fb19ed-b9c4-4895-ad25-04352f10c3e6",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"caleg",
+								"delete",
+								"44fb19ed-b9c4-4895-ad25-04352f10c3e6"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Dapil",
+			"item": [
+				{
+					"name": "Find All Dapil",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/dapil?pageSize=20",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"dapil"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "20"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Find By ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/dapil/",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"dapil",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Dapil",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"namaDapil\": \"SUMATERA BARAT II\",\r\n    \"provinsi\": \"Sumatera Barat\",\r\n    \"wilayahDapilList\": [\"Padang Pariaman\",\"Agam\",\"Lima Puluh Kota\",\"Pasaman\",\"Pasaman Barat\",\"Kota Bukittinggi\",\"Kota Payakumbuh\",\"Kota Pariaman\"],\r\n    \"jumlahKursi\": 6\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/api/dapil",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"dapil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Dapil",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n     \"namaDapil\": \"ACEH III\",\r\n    \"provinsi\": \"Aceh Utara\",\r\n    \"wilayahDapilList\": [\"Aceh Timur\",\"Aceh Tengah\",\"Aceh Utara\",\"Bireuen\",\"Aceh Tamiang\",\"Bener Meriah\",\"Kota Lhokseumawe\",\"Kota Langsa\"],\r\n    \"jumlahKursi\": 6\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:9001/api/dapil/update/776435a4-fee5-4f9c-95d6-77bc0529b603",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"dapil",
+								"update",
+								"776435a4-fee5-4f9c-95d6-77bc0529b603"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Dapil",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "localhost:9001/api/dapil/delete/f407450e-2f1c-4d9c-9fc9-5bc3ad229407",
+							"host": [
+								"localhost"
+							],
+							"port": "9001",
+							"path": [
+								"api",
+								"dapil",
+								"delete",
+								"f407450e-2f1c-4d9c-9fc9-5bc3ad229407"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

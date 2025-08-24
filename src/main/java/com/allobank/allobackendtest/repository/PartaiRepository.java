@@ -1,0 +1,18 @@
+package com.allobank.allobackendtest.repository;
+
+import com.allobank.allobackendtest.model.Partai;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
+import java.util.UUID;
+
+@Repository
+public interface PartaiRepository extends JpaRepository<Partai, UUID> {
+    Page<Partai> findAll(Pageable pageable);
+    Boolean existsByNamaPartai(String namaPartai);
+    Optional<Partai> findByNamaPartai(String namaPartai);
+
+}
