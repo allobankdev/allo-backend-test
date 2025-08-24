@@ -9,6 +9,8 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,17 +29,31 @@ public class CalegController {
     }
 
     @GetMapping
-    public ResponseEntity<ApiResponse<List<Caleg>>> getAll(Pageable pageable) {
-        Page<Caleg> page = service.getAll(pageable);
-
-        ApiResponse<List<Caleg>> response = new ApiResponse<>(
-                page.getContent(),
-                "Successfully get data",
-                new ApiResponse.Meta(page.getNumber(), page.getSize(), page.getTotalElements())
+    public ResponseEntity<ApiResponse<List<Caleg>>> getAllCaleg(
+            @RequestParam(required = false) UUID dapilId,
+            @RequestParam(required = false) UUID partaiId,
+            @RequestParam(required = false) String namaDapil,
+            @RequestParam(required = false) String namaPartai,
+            Pageable pageable 
+    ) {
+        Page<Caleg> calegPage = service.getAllCaleg(
+                pageable,
+                namaPartai,
+                namaDapil,
+                dapilId,
+                partaiId
         );
+        ApiResponse<List<Caleg>> response = new ApiResponse<>(
+                calegPage.getContent(),
+                "Succesfully get Caleg",
+                new ApiResponse.Meta(
+                        calegPage.getNumber(),
+                        calegPage.getSize(),
+                        calegPage.getTotalElements()));
 
-        return ResponseEntity.ok(response); // <-- disini pakai ResponseEntity
+        return ResponseEntity.ok(response);
     }
+
 
 
     @GetMapping("/{id}")
