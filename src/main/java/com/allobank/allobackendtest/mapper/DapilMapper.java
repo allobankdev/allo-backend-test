@@ -1,7 +1,6 @@
 package com.allobank.allobackendtest.mapper;
 
 import com.allobank.allobackendtest.dto.DapilDto;
-import com.allobank.allobackendtest.dto.DapilUpdateDto;
 import com.allobank.allobackendtest.entity.DapilEntity;
 import com.allobank.allobackendtest.model.Dapil;
 import org.mapstruct.*;
