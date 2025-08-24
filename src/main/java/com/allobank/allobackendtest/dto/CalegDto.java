@@ -4,11 +4,13 @@ import com.allobank.allobackendtest.model.JenisKelamin;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Builder;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
+@Builder
 public class CalegDto {
 
     @NotNull(message = "Dapil wajib diisi")
