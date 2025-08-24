@@ -1,0 +1,521 @@
+{
+	"info": {
+		"_postman_id": "ec583675-23e6-4252-8e5d-e2e158bf246a",
+		"name": "Pemilu-API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "22288631"
+	},
+	"item": [
+		{
+			"name": "CALEG",
+			"item": [
+				{
+					"name": "get-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/caleg?page=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"caleg"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "true"
+								},
+								{
+									"key": "true",
+									"value": null,
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-nama",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/caleg?nama=Dewi Lestari",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"caleg"
+							],
+							"query": [
+								{
+									"key": "nama",
+									"value": "Dewi Lestari"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/caleg/33b0516c-4872-4c5e-9257-1c7f229dbb33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"caleg",
+								"33b0516c-4872-4c5e-9257-1c7f229dbb33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/caleg/33b0516c-4872-4c5e-9257-1c7f229dbb33",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"caleg",
+								"33b0516c-4872-4c5e-9257-1c7f229dbb33"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomorUrut\": 2,\n    \"nama\": \"KOKIN\",\n    \"jenisKelamin\": \"LAKILAKI\",\n    \"partai\":\"dd4bde8a-40c7-45b2-aa95-2dc77ce8499d\",\n    \"dapil\":\"a9cc093e-48d3-44cf-babd-aafa1d5fad24\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/caleg",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"caleg"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomorUrut\": 1,\n    \"nama\": \"KOKIN\",\n    \"jenisKelamin\": \"LAKILAKI\",\n    \"partai\":\"dd4bde8a-40c7-45b2-aa95-2dc77ce8499d\",\n    \"dapil\":\"a9cc093e-48d3-44cf-babd-aafa1d5fad24\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/caleg/1099edae-ce00-4be9-a8c4-27f11139ecda",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"caleg",
+								"1099edae-ce00-4be9-a8c4-27f11139ecda"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "DAPIL",
+			"item": [
+				{
+					"name": "get-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/dapil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dapil"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/dapil/223e4567-e89b-12d3-a456-426614174001",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dapil",
+								"223e4567-e89b-12d3-a456-426614174001"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "created",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"namaDapil\": \"Dapil Jawa Barat II\",\n    \"provinsi\": \"Jawa Barat\",\n    \"wilayahDapilList\": [\n        \"Bandung Barat\"\n    ],\n    \"jumlahKursi\": \"1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/dapil",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dapil"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"namaDapil\": \"Dapil Jawa Tengah VI\",\n    \"provinsi\": \"Jawa Tengah\",\n    \"wilayahDapilList\": [\n        \"Cilacap\"\n    ],\n    \"jumlahKursi\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/dapil/a9cc093e-48d3-44cf-babd-aafa1d5fad24",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dapil",
+								"a9cc093e-48d3-44cf-babd-aafa1d5fad24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/dapil/223e4567-e89b-12d3-a456-426614174000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dapil",
+								"223e4567-e89b-12d3-a456-426614174000"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-nama",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/dapil/by-nama/Dapil Jawa Barat I",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"dapil",
+								"by-nama",
+								"Dapil Jawa Barat I"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "PARTAI",
+			"item": [
+				{
+					"name": "get-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/partai",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"partai"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "// {\n//     \"namaPartai\":\"Bulan Terang\",\n//     \"nomorUrut\": 2\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/partai",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"partai"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "find-by-nama-partai",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/partai?nama=terang1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"partai"
+							],
+							"query": [
+								{
+									"key": "nama",
+									"value": "terang1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/partai/09c62e1d-7216-4a86-b45b-854ce1f016c8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"partai",
+								"09c62e1d-7216-4a86-b45b-854ce1f016c8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update-partai",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"nomorUrut\": 3\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/partai/09c62e1d-7216-4a86-b45b-854ce1f016c8",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"partai",
+								"09c62e1d-7216-4a86-b45b-854ce1f016c8"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/partai/dd4bde8a-40c7-45b2-aa95-2dc77ce8499d",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"partai",
+								"dd4bde8a-40c7-45b2-aa95-2dc77ce8499d"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
