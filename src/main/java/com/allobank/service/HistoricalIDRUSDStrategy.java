@@ -1,12 +1,15 @@
 package com.allobank.service;
 
 import com.allobank.config.FrankfurterApiProperties;
+import com.allobank.dto.HistoricalRatesResponse;
 import com.allobank.enums.ResourceType;
 import com.allobank.store.DataStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.Optional;
 
 @Component("historical_idr_usd")
 @RequiredArgsConstructor
@@ -19,16 +22,33 @@ public class HistoricalIDRUSDStrategy implements IDRDataFetcher {
 
     @Override
     public Object fetchFromExternalApi() {
-        return null;
+        String endpoint = properties.getEndpoints().getHistoricalIdrUsd();
+        log.info("Fetching historical IDR-USD rates from: {}", endpoint);
+
+
+        HistoricalRatesResponse response = webClient.get()
+                .uri(endpoint)
+                .retrieve()
+                .bodyToMono(HistoricalRatesResponse.class)
+                .block();
+
+        if (response == null) {
+            throw new RuntimeException("Failed to fetch historical rates");
+        }
+
+        log.info("Successfully fetched historical data with {} entries",
+                Optional.ofNullable(response.getRates()).map(java.util.Map::size).orElse(0));
+
+        return response;
     }
 
     @Override
     public Object getData() {
-        return null;
+        return dataStoreService.getData(getResourceType().getValue());
     }
 
     @Override
     public ResourceType getResourceType() {
-        return null;
+        return ResourceType.HISTORICAL_IDR_USD;
     }
 }
