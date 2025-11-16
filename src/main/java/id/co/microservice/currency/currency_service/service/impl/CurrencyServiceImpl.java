@@ -25,7 +25,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public CurrencyResponseDto executeStrategy(String resourceType) {
         CurrencyStrategy strategy = strategies.get(resourceType);
         if (strategy == null) {
-            throw new CurrencyException("Unsupported currency type: " + resourceType);
+            throw new CurrencyException("Unsupported resource type: " + resourceType);
         }
         return strategy.execute();
     }
