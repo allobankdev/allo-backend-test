@@ -4,6 +4,10 @@ import id.co.microservice.currency.currency_service.dto.CurrencyResponseDto;
 
 public interface CurrencyStrategy {
 
+    /**
+     * Execute strategy
+     * @return
+     */
     CurrencyResponseDto execute();
 
 }
