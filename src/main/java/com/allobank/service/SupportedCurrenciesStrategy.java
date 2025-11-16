@@ -1,6 +1,7 @@
 package com.allobank.service;
 
 import com.allobank.config.FrankfurterApiProperties;
+import com.allobank.dto.CurrenciesResponse;
 import com.allobank.enums.ResourceType;
 import com.allobank.store.DataStoreService;
 import lombok.RequiredArgsConstructor;
@@ -19,16 +20,32 @@ public class SupportedCurrenciesStrategy implements IDRDataFetcher {
 
     @Override
     public Object fetchFromExternalApi() {
-       return null;
+        String endpoint = properties.getEndpoints().getCurrencies();
+        log.info("Fetching supported currencies from: {}", endpoint);
+
+        CurrenciesResponse response = webClient.get()
+                .uri(endpoint)
+                .retrieve()
+                .bodyToMono(CurrenciesResponse.class)
+                .block();
+
+
+        if (response == null || response.getCurrencies() == null) {
+            throw new RuntimeException("Failed to fetch currencies");
+        }
+
+        log.info("Successfully fetched {} currencies", response.getCurrencies().size());
+
+        return response;
     }
 
     @Override
     public Object getData() {
-        return null;
+        return dataStoreService.getData(getResourceType().getValue());
     }
 
     @Override
     public ResourceType getResourceType() {
-        return null;
+        return ResourceType.SUPPORTED_CURRENCIES;
     }
 }
