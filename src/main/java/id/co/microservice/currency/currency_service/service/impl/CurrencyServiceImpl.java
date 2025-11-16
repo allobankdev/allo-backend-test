@@ -1,6 +1,7 @@
 package id.co.microservice.currency.currency_service.service.impl;
 
 import id.co.microservice.currency.currency_service.dto.CurrencyResponseDto;
+import id.co.microservice.currency.currency_service.exception.CurrencyException;
 import id.co.microservice.currency.currency_service.service.CurrencyService;
 import id.co.microservice.currency.currency_service.service.CurrencyStrategy;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +25,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     public CurrencyResponseDto executeStrategy(String resourceType) {
         CurrencyStrategy strategy = strategies.get(resourceType);
         if (strategy == null) {
-            throw new IllegalArgumentException("Unsupported currency type: " + resourceType);
+            throw new CurrencyException("Unsupported currency type: " + resourceType);
         }
         return strategy.execute();
     }
