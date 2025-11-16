@@ -1,0 +1,26 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: idr-rate-aggregator
+
+# External API Configuration
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+    connection-timeout: 5000
+    read-timeout: 10000
+    endpoints:
+      latest-idr: /latest?base=IDR
+      historical-idr-usd: /2024-01-01..2024-01-05?from=IDR&to=USD
+      currencies: /currencies
+
+# GitHub Username for Spread Calculation
+app:
+  github-username: ${GITHUB_USERNAME:hakimamarullah}
+
+logging:
+  level:
+    com.allobank: DEBUG
+    org.springframework.web: INFO
