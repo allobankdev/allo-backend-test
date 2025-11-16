@@ -4,3 +4,7 @@ server:
 spring:
   application:
     name: currency-service
+
+external:
+    api:
+        base-url: https://api.frankfurter.dev/v1
