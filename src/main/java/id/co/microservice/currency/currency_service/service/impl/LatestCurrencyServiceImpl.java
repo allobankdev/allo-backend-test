@@ -10,10 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Map;
+
 @Slf4j
 @Component(CurrencyConstant.LATEST_IDR_RATES)
 public class LatestCurrencyServiceImpl implements CurrencyStrategy {
 
+    private static final String USERNAME = "AriAulia";
     private final RestTemplate restTemplate;
     private final ExternalApiConfig externalApiConfig;
 
@@ -33,8 +36,18 @@ public class LatestCurrencyServiceImpl implements CurrencyStrategy {
         currencyResponseDto.setBase(latestRate.getBase());
         currencyResponseDto.setDate(latestRate.getDate());
         currencyResponseDto.setRates(latestRate.getRates());
-
+        currencyResponseDto.setUsdBuySpreadIdr(calculateBuySpread(latestRate));
         return currencyResponseDto;
+    }
+
+    private double calculateBuySpread(FrankfurterResponseDto latestRate) {
+        int asciiUserName = 0;
+        for (char c : USERNAME.toLowerCase().toCharArray()) {
+            asciiUserName += c;
+        }
+        double spreadFactor = (asciiUserName % 1000) / 100000.0;
+        double rateUSD = (double) ((Map) latestRate.getRates()).get("USD");
+        return (1 / rateUSD) * (1 + spreadFactor);
     }
 
 }
