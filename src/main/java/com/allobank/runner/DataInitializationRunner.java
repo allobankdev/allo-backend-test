@@ -4,7 +4,6 @@ import com.allobank.service.IDRDataFetcher;
 import com.allobank.store.DataStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.BeanFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.core.annotation.Order;
@@ -20,13 +19,11 @@ public class DataInitializationRunner implements ApplicationRunner {
 
     private final List<IDRDataFetcher> strategies;
     private final DataStoreService dataStoreService;
-    private final BeanFactory beanFactory;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         log.info("=== Starting Data Initialization ===");
         log.info("Found {} data fetching strategies", strategies.size());
-        log.info("Factory --> {}", beanFactory.containsBean("frankfurterWebClientFactory"));
         try {
             for (IDRDataFetcher strategy : strategies) {
                 String resourceType = strategy.getResourceType().getValue();

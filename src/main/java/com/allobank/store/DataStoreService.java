@@ -1,81 +1,75 @@
 package com.allobank.store;
 
 import com.allobank.enums.ResourceType;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
 public class DataStoreService {
 
-    private final Map<String, Object> dataStore = new ConcurrentHashMap<>();
-    /**
-     * -- GETTER --
-     *  Checks if the data store is initialized
-     */
-    @Getter
-    private volatile boolean initialized = false;
+
+    private final ConcurrentHashMap<String, Object> mutableStore = new ConcurrentHashMap<>();
+
+
+    private final AtomicReference<Map<String, Object>> frozenStore = new AtomicReference<>(null);
+
+    public boolean isInitialized() {
+        return frozenStore.get() != null;
+    }
 
     /**
-     * Stores data for a specific resource type
-     * Should only be called during application startup
-     * Note: No synchronized needed as this is only called from single-threaded ApplicationRunner
+     * Store data before initialization (bootstrap phase)
+     * Non-blocking and thread-safe.
      */
     public void storeData(ResourceType resourceType, Object data) {
-        if (initialized) {
-            log.warn("Attempting to modify data store after initialization");
-            throw new IllegalStateException("Data store is already initialized and immutable");
+        if (isInitialized()) {
+            throw new IllegalStateException("DataStore is already initialized and immutable");
         }
 
         String key = resourceType.getValue();
-        dataStore.put(key, data);
+        mutableStore.put(key, data);
         log.info("Stored data for resource type: {}", key);
     }
 
     /**
-     * Marks the data store as initialized and immutable
-     * Note: No synchronized needed as this is only called once from ApplicationRunner
+     * Freeze the store to make it immutable.
+     * Only first caller succeeds; others do nothing.
      */
     public void markInitialized() {
-        if (!initialized) {
-            initialized = true;
-            log.info("Data store initialized with {} resources", dataStore.size());
+        if (isInitialized()) return;
+
+        Map<String, Object> immutableCopy = Map.copyOf(mutableStore);
+
+        if (frozenStore.compareAndSet(null, immutableCopy)) {
+            log.info("Data store frozen with {} resources", immutableCopy.size());
+            mutableStore.clear();
         }
     }
 
     /**
-     * Retrieves data for a specific resource type
-     * Returns immutable view to prevent external modification
+     * Retrieve value for a resource after initialization.
      */
     public Object getData(String resourceType) {
-        if (!initialized) {
-            throw new IllegalStateException("Data store not yet initialized");
-        }
-
-        Object data = dataStore.get(resourceType);
-        if (data == null) {
-            throw new IllegalArgumentException("Unknown resource type: " + resourceType);
-        }
-
-        return data;
+        Map<String, Object> store = Optional.ofNullable(frozenStore.get())
+                .orElseThrow(() -> new IllegalStateException("Data store not yet initialized"));
+        return Optional.ofNullable(store.get(resourceType))
+                .orElseThrow(() -> new IllegalArgumentException("Unknown resource type: " + resourceType));
     }
 
     /**
-     * Returns all stored data as an unmodifiable map
+     * Get entire frozen data map
      */
     public Map<String, Object> getAllData() {
-        if (!initialized) {
-            throw new IllegalStateException("Data store not yet initialized");
-        }
-
-        return Collections.unmodifiableMap(dataStore);
+        return Optional.ofNullable(frozenStore.get())
+                .orElseThrow(() -> new IllegalStateException("Data store not yet initialized"));
     }
 
 }
