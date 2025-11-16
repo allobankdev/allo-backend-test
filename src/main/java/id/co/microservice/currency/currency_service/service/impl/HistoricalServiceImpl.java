@@ -7,6 +7,7 @@ import id.co.microservice.currency.currency_service.dto.FrankfurterResponseDto;
 import id.co.microservice.currency.currency_service.service.CurrencyStrategy;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -23,6 +24,7 @@ public class HistoricalServiceImpl implements CurrencyStrategy {
         this.externalApiConfig = externalApiConfig;
     }
 
+    @Cacheable(value = "historicalIdrUsd", key = "'historicalIdrUsd'", unless = "#result == null")
     @Override
     public CurrencyResponseDto execute() {
         log.info("Executing history currency logic");

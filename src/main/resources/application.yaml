@@ -4,7 +4,19 @@ server:
 spring:
   application:
     name: currency-service
+  cache:
+    type: caffeine
+    cache-names:
+      - supportedCurrencies
+      - latestIdrUsd
+      - historicalIdrUsd
+    caffeine:
+      spec: maximumSize=300,expireAfterAccess=30m
 
 external:
     api:
         base-url: https://api.frankfurter.dev/v1
+
+logging:
+    level:
+      org.springframework.cache: DEBUG
