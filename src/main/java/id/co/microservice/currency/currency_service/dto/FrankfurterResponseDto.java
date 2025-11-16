@@ -7,6 +7,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -24,7 +26,7 @@ public class FrankfurterResponseDto {
     private String date;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private HashMap<String, Double> rates;
+    private Object rates;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private String startDate;

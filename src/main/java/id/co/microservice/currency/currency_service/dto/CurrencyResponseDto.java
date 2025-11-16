@@ -15,6 +15,6 @@ import java.util.HashMap;
 public class CurrencyResponseDto extends FrankfurterResponseDto {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private HashMap<String, String> currencies;
+    private Object currencies;
 
 }
