@@ -1,3 +1,6 @@
+server:
+  port: 9990
+
 spring:
   application:
     name: currency-service
