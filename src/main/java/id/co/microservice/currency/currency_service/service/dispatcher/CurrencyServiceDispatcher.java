@@ -1,4 +1,4 @@
-package id.co.microservice.currency.currency_service.service.impl;
+package id.co.microservice.currency.currency_service.service.dispatcher;
 
 import id.co.microservice.currency.currency_service.dto.CurrencyResponseDto;
 import id.co.microservice.currency.currency_service.exception.CurrencyException;
@@ -12,12 +12,12 @@ import java.util.Map;
 
 @Slf4j
 @Service
-public class CurrencyServiceImpl implements CurrencyService {
+public class CurrencyServiceDispatcher implements CurrencyService {
 
     private final Map<String, CurrencyStrategy> strategies;
 
     @Autowired
-    public CurrencyServiceImpl(Map<String, CurrencyStrategy> strategies) {
+    public CurrencyServiceDispatcher(Map<String, CurrencyStrategy> strategies) {
         this.strategies = strategies;
     }
 

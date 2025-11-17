@@ -1,4 +1,4 @@
-package id.co.microservice.currency.currency_service.service.impl;
+package id.co.microservice.currency.currency_service.service.strategy;
 
 import id.co.microservice.currency.currency_service.config.ExternalApiConfig;
 import id.co.microservice.currency.currency_service.dto.CurrencyResponseDto;
@@ -11,12 +11,11 @@ import org.mockito.MockitoAnnotations;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class LatestRatesStrategyTest {
+class HistoricalRatesStrategyTest {
 
     @Mock
     private RestTemplate restTemplate;
@@ -25,7 +24,7 @@ class LatestRatesStrategyTest {
     private ExternalApiConfig externalApiConfig;
 
     @InjectMocks
-    private LatestRatesStrategy latestCurrencyService;
+    private HistoricalRatesStrategy historicalService;
 
     @BeforeEach
     void setUp() {
@@ -35,34 +34,28 @@ class LatestRatesStrategyTest {
     @Test
     void testExecute_ReturnsCurrencyResponseDto() {
         String baseUrl = "http://mock-api.com";
-        String expectedUrl = baseUrl + "/latest?base=IDR";
+        String expectedUrl = baseUrl + "/2024-01-01..2024-01-05?from=IDR&to=USD";
 
         FrankfurterResponseDto mockResponse = new FrankfurterResponseDto();
         mockResponse.setBase("IDR");
         mockResponse.setDate("2024-01-05");
+        mockResponse.setStartDate("2024-01-01");
+        mockResponse.setEndDate("2024-01-05");
 
-        Map<String, Double> rates = new HashMap<>();
+        HashMap<String, Double> rates = new HashMap<>();
         rates.put("USD", 0.000065); // example conversion rate
         mockResponse.setRates(rates);
 
         when(externalApiConfig.getBaseUrl()).thenReturn(baseUrl);
         when(restTemplate.getForObject(expectedUrl, FrankfurterResponseDto.class)).thenReturn(mockResponse);
 
-        CurrencyResponseDto result = latestCurrencyService.execute();
+        CurrencyResponseDto result = historicalService.execute();
 
         assertEquals("IDR", result.getBase());
         assertEquals("2024-01-05", result.getDate());
+        assertEquals("2024-01-01", result.getStartDate());
+        assertEquals("2024-01-05", result.getEndDate());
         assertEquals(rates, result.getRates());
-
-        int asciiUserName = 0;
-        for (char c : "AriAulia".toLowerCase().toCharArray()) {
-            asciiUserName += c;
-        }
-        double spreadFactor = (asciiUserName % 1000) / 100000.0;
-        double rateUSD = rates.get("USD");
-        double expectedSpread = (1 / rateUSD) * (1 + spreadFactor);
-
-        assertEquals(expectedSpread, result.getUsdBuySpreadIdr(), 0.000001);
 
         verify(restTemplate, times(1)).getForObject(expectedUrl, FrankfurterResponseDto.class);
         verify(externalApiConfig, times(1)).getBaseUrl();

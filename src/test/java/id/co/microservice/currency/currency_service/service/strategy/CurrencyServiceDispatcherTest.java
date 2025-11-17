@@ -1,8 +1,9 @@
-package id.co.microservice.currency.currency_service.service.impl;
+package id.co.microservice.currency.currency_service.service.strategy;
 
 import id.co.microservice.currency.currency_service.dto.CurrencyResponseDto;
 import id.co.microservice.currency.currency_service.exception.CurrencyException;
 import id.co.microservice.currency.currency_service.service.CurrencyStrategy;
+import id.co.microservice.currency.currency_service.service.dispatcher.CurrencyServiceDispatcher;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -12,7 +13,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class CurrencyServiceImplTest {
+class CurrencyServiceDispatcherTest {
 
     @Test
     void testExecuteStrategy_ReturnsResponseDto() {
@@ -26,7 +27,7 @@ class CurrencyServiceImplTest {
         Map<String, CurrencyStrategy> strategies = new HashMap<>();
         strategies.put("latest_idr_usd", mockStrategy);
 
-        CurrencyServiceImpl service = new CurrencyServiceImpl(strategies);
+        CurrencyServiceDispatcher service = new CurrencyServiceDispatcher(strategies);
 
         CurrencyResponseDto result = service.executeStrategy("latest_idr_usd");
 
@@ -39,7 +40,7 @@ class CurrencyServiceImplTest {
     @Test
     void testExecuteStrategy_ThrowsCurrencyExceptionForUnsupportedType() {
         Map<String, CurrencyStrategy> strategies = new HashMap<>();
-        CurrencyServiceImpl service = new CurrencyServiceImpl(strategies);
+        CurrencyServiceDispatcher service = new CurrencyServiceDispatcher(strategies);
 
         CurrencyException ex = assertThrows(CurrencyException.class,
                 () -> service.executeStrategy("unsupported_type"));
