@@ -15,7 +15,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 
-class CurrenciesServiceImplTest {
+class SupportedCurrenciesStrategyTest {
     @Mock
     private RestTemplate restTemplate;
 
@@ -23,7 +23,7 @@ class CurrenciesServiceImplTest {
     private ExternalApiConfig externalApiConfig;
 
     @InjectMocks
-    private CurrenciesServiceImpl currenciesService;
+    private SupportedCurrenciesStrategy currenciesService;
 
     @BeforeEach
     void setUp() {

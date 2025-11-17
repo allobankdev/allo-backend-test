@@ -14,13 +14,13 @@ import java.util.HashMap;
 
 @Slf4j
 @Component(CurrencyConstant.SUPPORTED_CURRENCIES)
-public class CurrenciesServiceImpl implements CurrencyStrategy {
+public class SupportedCurrenciesStrategy implements CurrencyStrategy {
 
     private final RestTemplate restTemplate;
     private final ExternalApiConfig externalApiConfig;
 
     @Autowired
-    public CurrenciesServiceImpl(RestTemplate restTemplate, ExternalApiConfig externalApiConfig) {
+    public SupportedCurrenciesStrategy(RestTemplate restTemplate, ExternalApiConfig externalApiConfig) {
         this.restTemplate = restTemplate;
         this.externalApiConfig = externalApiConfig;
     }

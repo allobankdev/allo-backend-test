@@ -15,7 +15,7 @@ import java.util.HashMap;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class HistoricalServiceImplTest {
+class HistoricalRatesStrategyTest {
 
     @Mock
     private RestTemplate restTemplate;
@@ -24,7 +24,7 @@ class HistoricalServiceImplTest {
     private ExternalApiConfig externalApiConfig;
 
     @InjectMocks
-    private HistoricalServiceImpl historicalService;
+    private HistoricalRatesStrategy historicalService;
 
     @BeforeEach
     void setUp() {

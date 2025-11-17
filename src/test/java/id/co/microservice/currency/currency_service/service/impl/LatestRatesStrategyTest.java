@@ -16,7 +16,7 @@ import java.util.Map;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class LatestCurrencyServiceImplTest {
+class LatestRatesStrategyTest {
 
     @Mock
     private RestTemplate restTemplate;
@@ -25,7 +25,7 @@ class LatestCurrencyServiceImplTest {
     private ExternalApiConfig externalApiConfig;
 
     @InjectMocks
-    private LatestCurrencyServiceImpl latestCurrencyService;
+    private LatestRatesStrategy latestCurrencyService;
 
     @BeforeEach
     void setUp() {

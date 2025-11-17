@@ -13,13 +13,13 @@ import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Component(CurrencyConstant.HISTORICAL_IDR_USD)
-public class HistoricalServiceImpl implements CurrencyStrategy {
+public class HistoricalRatesStrategy implements CurrencyStrategy {
 
     private final RestTemplate restTemplate;
     private final ExternalApiConfig externalApiConfig;
 
     @Autowired
-    public HistoricalServiceImpl(RestTemplate restTemplate, ExternalApiConfig externalApiConfig) {
+    public HistoricalRatesStrategy(RestTemplate restTemplate, ExternalApiConfig externalApiConfig) {
         this.restTemplate = restTemplate;
         this.externalApiConfig = externalApiConfig;
     }

@@ -15,14 +15,14 @@ import java.util.Map;
 
 @Slf4j
 @Component(CurrencyConstant.LATEST_IDR_RATES)
-public class LatestCurrencyServiceImpl implements CurrencyStrategy {
+public class LatestRatesStrategy implements CurrencyStrategy {
 
     private static final String USERNAME = "AriAulia";
     private final RestTemplate restTemplate;
     private final ExternalApiConfig externalApiConfig;
 
     @Autowired
-    public LatestCurrencyServiceImpl(RestTemplate restTemplate, ExternalApiConfig externalApiConfig) {
+    public LatestRatesStrategy(RestTemplate restTemplate, ExternalApiConfig externalApiConfig) {
         this.restTemplate = restTemplate;
         this.externalApiConfig = externalApiConfig;
     }
