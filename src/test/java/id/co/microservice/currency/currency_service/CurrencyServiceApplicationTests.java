@@ -10,4 +10,12 @@ class CurrencyServiceApplicationTests {
 	void contextLoads() {
 	}
 
+    @Test
+    void mainMethodRunsWithoutExceptions() {
+        CurrencyServiceApplication.main(new String[]{});
+
+        // Assert
+        // If no exception is thrown, the test passes.
+    }
+
 }
