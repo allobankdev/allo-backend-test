@@ -4,6 +4,7 @@ import com.allo.test.configs.properties.FrankfurterApiProperties;
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
@@ -17,13 +18,10 @@ import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class WebClientFactoryBean implements FactoryBean<WebClient> {
 
     private final FrankfurterApiProperties properties;
-
-    public WebClientFactoryBean(FrankfurterApiProperties properties) {
-        this.properties = properties;
-    }
 
     @Override
     public WebClient getObject() {

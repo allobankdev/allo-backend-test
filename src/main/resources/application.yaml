@@ -11,3 +11,4 @@ frankfurter:
     read-timeout: 10000
     write-timeout: 5000
     max-in-memory-size: 1048576
+    github-username: frhn9

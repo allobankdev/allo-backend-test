@@ -14,4 +14,5 @@ public class FrankfurterApiProperties {
     private Integer readTimeout;
     private Integer writeTimeout;
     private Integer maxInMemorySize;
+    private String githubUsername;
 }
