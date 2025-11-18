@@ -1,0 +1,3 @@
+spring:
+  application:
+    name: feat-idr-rate-aggregator
