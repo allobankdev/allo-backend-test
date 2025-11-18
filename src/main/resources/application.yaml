@@ -1,0 +1,20 @@
+spring:
+  application:
+    name: allo-bank
+
+client:
+  connect-timeout: 10000
+  read-timeout: 10000
+
+integration:
+  api:
+    frankfurter:
+        base-url: http://localhost:8080/v1
+#        base-url: https://api.frankfurter.app
+        path:
+          lates-idr: ${integration.api.frankfurter.base-url}/latest
+          currencies: ${integration.api.frankfurter.base-url}/currencies
+          exchange-history: ${integration.api.frankfurter.base-url}
+
+server:
+  port: 8082
