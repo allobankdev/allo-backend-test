@@ -1,5 +1,6 @@
 package com.allobank.exercise.api.service.impl;
 
+import com.allobank.exercise.api.cache.ResourceCache;
 import com.allobank.exercise.api.dto.CurrencyInfo;
 import com.allobank.exercise.api.integration.FrankfurterClient;
 import com.allobank.exercise.api.service.ExchangeRateService;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ExchangeRateServiceImpl implements ExchangeRateService {
@@ -28,12 +30,7 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     }
 
     @Override
-    public List<CurrencyInfo> getSupportedCurrencies() {
-        LinkedHashMap <String, String> currencyResponse =  frankfurterClient.getSupportedCurrencies();
-        List<CurrencyInfo> result = currencyResponse.entrySet().stream()
-                .map(e -> new CurrencyInfo(e.getKey(), e.getValue()))
-                .toList();
-
-        return result;
+    public Map<String, String> getSupportedCurrencies() {
+        return frankfurterClient.getSupportedCurrencies();
     }
 }

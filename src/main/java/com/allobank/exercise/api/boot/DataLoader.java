@@ -4,6 +4,7 @@ import com.allobank.exercise.api.cache.ResourceCache;
 import com.allobank.exercise.api.dto.CurrencyInfo;
 import com.allobank.exercise.api.enumeration.ResourceType;
 import com.allobank.exercise.api.service.ExchangeRateService;
+import com.allobank.exercise.api.service.impl.SupportedCurrencyFetcher;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
@@ -30,11 +31,8 @@ public class DataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        Map<String, Object> exchangeData = new HashMap<>();
 
-        List <CurrencyInfo> currencyResponse = exchangeRateService.getSupportedCurrencies();
-        exchangeData.put(ResourceType.SUPPORTED_CURRENCIES.getPath(), currencyResponse);
-
-        resourceCache.initImmutableCache(exchangeData);
+        Map<String, String> currencyResponse = exchangeRateService.getSupportedCurrencies();
+        resourceCache.initImmutableCache(currencyResponse);
     }
 }

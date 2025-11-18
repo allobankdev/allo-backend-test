@@ -2,6 +2,7 @@ package com.allobank.exercise.api.integration.impl;
 
 import com.allobank.exercise.api.integration.FrankfurterClient;
 import com.allobank.exercise.api.properties.FrankfurterApiProperties;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -35,7 +36,7 @@ public class FrankfurterClientImpl implements FrankfurterClient {
         return webClient.get()
             .uri(frankfurterApiProperties.getCurrencyPath())
             .retrieve()
-            .bodyToMono(LinkedHashMap.class)
+            .bodyToMono(new ParameterizedTypeReference<LinkedHashMap<String, String>>() {})
             .block();
     }
 }

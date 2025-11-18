@@ -14,15 +14,15 @@ import java.util.Map;
 @RequestMapping("/api/finance")
 public class FinanceController {
 
-    private final Map<String, IDRDataFetcher> idrDataFetcherStrategy;
+    private final Map<String, IDRDataFetcher> serviceSelector;
 
-    public FinanceController(Map<String, IDRDataFetcher> idrDataFetcherStrategy) {
-        this.idrDataFetcherStrategy = idrDataFetcherStrategy;
+    public FinanceController(Map<String, IDRDataFetcher> serviceSelector) {
+        this.serviceSelector = serviceSelector;
     }
 
     @GetMapping("/data/{resourceType}")
     public ResponseEntity getData(@PathVariable("resourceType") ResourceType resourceType){
-        IDRDataFetcher idrDataFetcher = idrDataFetcherStrategy.get(resourceType.getPath());
+        IDRDataFetcher idrDataFetcher = serviceSelector.get(resourceType.getPath());
         return ResponseEntity.ok(idrDataFetcher.getData());
     }
 }
