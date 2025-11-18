@@ -1,3 +1,12 @@
 spring:
   application:
     name: idr-rate-aggregator
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  github-username: praydwi24
+  historical:
+    start-date: 2024-01-01
+    end-date: 2024-01-05
+    from: IDR
+    to: USD
