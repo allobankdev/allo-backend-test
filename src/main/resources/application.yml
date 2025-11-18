@@ -1,0 +1,19 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: allo-backend-test
+
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+    timeout: 10000
+
+github:
+  username: RadityaDito
+
+logging:
+  level:
+    com.allo.backend.test: DEBUG
+    org.springframework.web: INFO
