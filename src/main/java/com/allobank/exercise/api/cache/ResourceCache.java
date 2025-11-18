@@ -9,13 +9,13 @@ import java.util.Map;
 @Component
 public class ResourceCache {
 
-    private Map<String, Object> dataCache = new HashMap<>();
+    private Map<String, Object> exchangeRateCache = new HashMap<>();
 
     public void initImmutableCache(Map<String, Object> dataCache){
-        this.dataCache = Collections.unmodifiableMap(dataCache);
+        this.exchangeRateCache = Collections.unmodifiableMap(dataCache);
     }
 
-    public Map<String, Object> getDataCache(){
-        return this.dataCache;
+    public Map<String, Object> getExchangeRateCache(){
+        return this.exchangeRateCache;
     }
 }
