@@ -18,7 +18,7 @@ public class CurrencyServiceIntegrationTest {
     @Test
     void testLatestIdrRatesEndpoint() {
         ResponseEntity<JsonNode> response =
-                restTemplate.getForEntity("/api/finance/data/latest_idr_rates", JsonNode.class);
+                restTemplate.getForEntity("/api/finance/data/latest_idr_usd", JsonNode.class);
 
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(response.getBody()).isNotNull();
@@ -40,9 +40,11 @@ public class CurrencyServiceIntegrationTest {
         ResponseEntity<JsonNode> response =
                 restTemplate.getForEntity("/api/finance/data/supported_currencies", JsonNode.class);
 
+        System.out.println(response.getBody());
+
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
         assertThat(response.getBody()).isNotNull();
-        assertThat(response.getBody().isArray()).isTrue();
+        assertThat(response.getBody().get("currencies").isObject()).isTrue();
         assertThat(response.getBody().toString()).contains("USD");
     }
 
