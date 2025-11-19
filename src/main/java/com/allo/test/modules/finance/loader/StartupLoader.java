@@ -1,6 +1,6 @@
 package com.allo.test.modules.finance.loader;
 
-import com.allo.test.modules.finance.client.strategy.IDRDataFetcher;
+import com.allo.test.modules.finance.client.IDRDataFetcher;
 import com.allo.test.modules.finance.enums.ResourceType;
 import com.allo.test.modules.finance.service.DataStoreService;
 import lombok.RequiredArgsConstructor;

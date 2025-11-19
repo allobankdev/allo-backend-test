@@ -1,6 +1,6 @@
 package com.allo.test.modules.finance.service.impl;
 
-import com.allo.test.modules.finance.client.strategy.IDRDataFetcher;
+import com.allo.test.modules.finance.client.IDRDataFetcher;
 import com.allo.test.modules.finance.enums.ResourceType;
 import com.allo.test.modules.finance.exceptions.InvalidResourceTypeException;
 import com.allo.test.modules.finance.service.DataStoreService;

@@ -21,7 +21,7 @@ public class DataStoreServiceImpl implements DataStoreService {
 
     @Override
     public <T> void store(ResourceType type, T data) {
-        log.info("Storing {} in memory", type.getDescription());
+        log.info("Storing {} in memory", type.getKey());
         dataStore.put(type.getKey(), data);
     }
 

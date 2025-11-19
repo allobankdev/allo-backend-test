@@ -1,6 +1,6 @@
-package com.allo.test.modules.finance.client.strategy.impl;
+package com.allo.test.modules.finance.client.impl;
 
-import com.allo.test.modules.finance.client.strategy.IDRDataFetcher;
+import com.allo.test.modules.finance.client.IDRDataFetcher;
 import com.allo.test.modules.finance.dto.res.LatestIDRRatesResponse;
 import com.allo.test.modules.finance.dto.res.LatestRatesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
@@ -67,8 +67,6 @@ public class LatestIDRRatesStrategy implements IDRDataFetcher {
 
         // Calculate USD_BuySpread_IDR
         BigDecimal usdBuySpreadIdr = SpreadCalculator.calculateUsdBuySpread(usdRate, spreadFactor);
-        log.info("Calculated USD_BuySpread_IDR: {} (from USD rate: {}, spread factor: {})",
-                usdBuySpreadIdr, usdRate, spreadFactor);
 
         // Build enhanced response
         LatestIDRRatesResponse response = LatestIDRRatesResponse.fromLatestRatesResponse()
@@ -79,7 +77,6 @@ public class LatestIDRRatesStrategy implements IDRDataFetcher {
         // Store in DataStore
         if (response != null) {
             dataStoreService.store(getResourceType(), response);
-            log.debug("Stored latest IDR rates in DataStore");
         }
 
         return response;

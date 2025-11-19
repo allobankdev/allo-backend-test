@@ -1,4 +1,4 @@
-package com.allo.test.modules.finance.client.strategy;
+package com.allo.test.modules.finance.client;
 
 import com.allo.test.modules.finance.enums.ResourceType;
 import org.springframework.web.reactive.function.client.WebClient;

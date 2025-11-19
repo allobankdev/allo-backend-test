@@ -1,13 +1,13 @@
-package com.allo.test.modules.finance.client.strategy.impl;
+package com.allo.test.modules.finance.client.impl;
 
 import com.allo.test.configs.properties.FrankfurterApiProperties;
-import com.allo.test.modules.finance.client.strategy.IDRDataFetcher;
+import com.allo.test.modules.finance.client.IDRDataFetcher;
 import com.allo.test.modules.finance.dto.res.CurrenciesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
-import com.allo.test.modules.finance.exceptions.ResponseParsingException;
 import com.allo.test.modules.finance.service.DataStoreService;
 import com.allo.test.shared.utils.WebClientErrorHandler;
 import io.github.resilience4j.retry.annotation.Retry;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -23,15 +23,11 @@ import java.util.Map;
  */
 @Slf4j
 @Component
+@RequiredArgsConstructor
 public class SupportedCurrenciesStrategy implements IDRDataFetcher {
 
     private final FrankfurterApiProperties apiProperties;
     private final DataStoreService dataStoreService;
-
-    public SupportedCurrenciesStrategy(FrankfurterApiProperties apiProperties, DataStoreService dataStoreService) {
-        this.apiProperties = apiProperties;
-        this.dataStoreService = dataStoreService;
-    }
 
     @Override
     @Retry(name = "frankfurterApi")
@@ -54,7 +50,6 @@ public class SupportedCurrenciesStrategy implements IDRDataFetcher {
         // Store in DataStore
         if (response != null) {
             dataStoreService.store(getResourceType(), response);
-            log.debug("Stored currencies in DataStore");
         }
 
         return response;
