@@ -17,8 +17,8 @@ public class CalculatorFinance {
 
     public BigDecimal calculateUSDBuySpreadIDR(BigDecimal rateUsd){
         BigDecimal spreadFactor = getSpreadFactor();
-        return (BigDecimal.ONE.divide(rateUsd, 5, RoundingMode.HALF_UP))
-                .multiply((BigDecimal.ONE).add(spreadFactor));
+        return (BigDecimal.ONE.divide(rateUsd,5, RoundingMode.HALF_UP))
+                .multiply((BigDecimal.ONE).add(spreadFactor)).setScale(5, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getSpreadFactor(){

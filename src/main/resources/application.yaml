@@ -12,8 +12,8 @@ github:
 integration:
   api:
     frankfurter:
-        base-url: http://localhost:8080/v1
-#        base-url: https://api.frankfurter.app
+#        base-url: http://localhost:8080/v1
+        base-url: https://api.frankfurter.app
         path:
           lates-idr: ${integration.api.frankfurter.base-url}/latest
           currencies: ${integration.api.frankfurter.base-url}/currencies

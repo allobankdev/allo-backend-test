@@ -12,8 +12,9 @@ import java.util.Map;
 public class ResourceCache {
 
     private Map<String, Object> dataCache = new HashMap<>();
+    private boolean isReady = false;
 
-    public void initImmutableCache
+    public synchronized void initImmutableCache
     (
         ExchangeRateResponse latestRateResponse,
         Map<String, String> currencyResponse,
@@ -27,6 +28,7 @@ public class ResourceCache {
         mutableDataCache.put(ResourceType.HISTORICAL_IDR_USD.getPath(), exchangeHistoryResponse);
 
         dataCache = Collections.unmodifiableMap(mutableDataCache);
+        isReady = true;
 
     }
 
@@ -34,5 +36,13 @@ public class ResourceCache {
     public <T> T getDataCache(ResourceType resourceType){
         Object data = dataCache.get(resourceType.getPath());
         return (T)data;
+    }
+
+    public Map <String, Object> getAllCache(){
+       return dataCache;
+    }
+
+    public boolean isReady() {
+        return isReady;
     }
 }
