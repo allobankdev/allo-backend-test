@@ -2,6 +2,7 @@ package com.allobank.exercise.api.service.impl;
 
 
 import com.allobank.exercise.api.cache.ResourceCache;
+import com.allobank.exercise.api.dto.ApiResponse;
 import com.allobank.exercise.api.dto.ExchangeRate;
 import com.allobank.exercise.api.enumeration.ResourceType;
 import com.allobank.exercise.api.integration.dto.ExchangeRateResponse;
@@ -23,7 +24,7 @@ public class LatestIdrRateFetcher implements IDRDataFetcher {
     }
 
     @Override
-    public ExchangeRate getData() {
+    public ApiResponse<Object> getData() {
         ExchangeRateResponse exchangeRateCache = resourceCache.getDataCache(ResourceType.LATEST_IDR_RATES);
         BigDecimal usdRate = exchangeRateCache.getRates().get("USD");
         BigDecimal USDBuySpreadIDR = calculatorFinance.calculateUSDBuySpreadIDR(usdRate);
@@ -31,6 +32,9 @@ public class LatestIdrRateFetcher implements IDRDataFetcher {
         ExchangeRate exchangeRate = new ExchangeRate();
         exchangeRate.copyFrom(exchangeRateCache, USDBuySpreadIDR);
 
-        return exchangeRate;
+        ApiResponse <Object> response = new ApiResponse<>();
+        response.setData(exchangeRate);
+        response.setStatus("success");
+        return response;
     }
 }

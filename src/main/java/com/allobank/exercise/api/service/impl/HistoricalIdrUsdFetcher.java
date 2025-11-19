@@ -1,6 +1,7 @@
 package com.allobank.exercise.api.service.impl;
 
 import com.allobank.exercise.api.cache.ResourceCache;
+import com.allobank.exercise.api.dto.ApiResponse;
 import com.allobank.exercise.api.dto.ExchangeHistory;
 import com.allobank.exercise.api.enumeration.ResourceType;
 import com.allobank.exercise.api.integration.dto.ExchangeHistoryResponse;
@@ -17,11 +18,15 @@ public class HistoricalIdrUsdFetcher implements IDRDataFetcher {
     }
 
     @Override
-    public ExchangeHistory getData() {
+    public ApiResponse<Object> getData() {
         ExchangeHistoryResponse exchangeHistoryCache = resourceCache.getDataCache(ResourceType.HISTORICAL_IDR_USD);
         ExchangeHistory exchangeHistory = new ExchangeHistory();
         exchangeHistory.copyFrom(exchangeHistoryCache);
 
-        return exchangeHistory;
+        ApiResponse <Object> apiResponse = new ApiResponse<>();
+        apiResponse.setData(exchangeHistory);
+        apiResponse.setStatus("success");
+
+        return apiResponse;
     }
 }

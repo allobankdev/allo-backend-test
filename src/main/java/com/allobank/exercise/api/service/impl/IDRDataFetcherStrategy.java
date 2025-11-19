@@ -1,10 +1,12 @@
 package com.allobank.exercise.api.service.impl;
 
+import com.allobank.exercise.api.dto.ApiResponse;
 import com.allobank.exercise.api.enumeration.ResourceType;
 import com.allobank.exercise.api.service.IDRDataFetcher;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Objects;
 
 @Service
 public class IDRDataFetcherStrategy {
@@ -15,7 +17,7 @@ public class IDRDataFetcherStrategy {
         this.strategies = strategies;
     }
 
-    public Object fetch(ResourceType type) {
+    public ApiResponse<Object> fetch(ResourceType type) {
         IDRDataFetcher fetcher = strategies.get(type.getPath());
 
         if (fetcher == null) {

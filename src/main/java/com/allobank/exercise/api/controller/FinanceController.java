@@ -1,5 +1,6 @@
 package com.allobank.exercise.api.controller;
 
+import com.allobank.exercise.api.dto.ApiResponse;
 import com.allobank.exercise.api.enumeration.ResourceType;
 import com.allobank.exercise.api.service.IDRDataFetcher;
 import com.allobank.exercise.api.service.impl.IDRDataFetcherStrategy;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/finance")
@@ -22,7 +24,7 @@ public class FinanceController {
     }
 
     @GetMapping("/data/{resourceType}")
-    public ResponseEntity getData(@PathVariable("resourceType") ResourceType resourceType){
+    public ResponseEntity<ApiResponse<Object>> getData(@PathVariable("resourceType") ResourceType resourceType){
         return ResponseEntity.ok(idrDataFetcherStrategy.fetch(resourceType));
     }
 }
