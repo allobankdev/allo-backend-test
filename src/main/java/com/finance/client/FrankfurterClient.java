@@ -14,23 +14,23 @@ public class FrankfurterClient{
 
     private final WebClient webClient;
 
-    public FrankfurterClient(@Qualifier("frankfurterWebClient") WebClient webClient) {
+    public FrankfurterClient(@Qualifier("frankClient") WebClient webClient) {
         this.webClient = webClient;
     }
-
     public Mono<RateResponse> getLatestRates(String base) {
         URI uri = UriComponentsBuilder
-                .fromPath("/latest")
+                .fromUriString("https://api.frankfurter.app/latest")
                 .queryParam("base", base)
                 .build()
                 .toUri();
 
-        System.out.println("URI = " + uri);
+        System.out.println("\nURI = " + uri);
 
         return webClient.get()
                 .uri(uri)
                 .retrieve()
-                .bodyToMono(RateResponse.class);
+                .bodyToMono(RateResponse.class)
+                .doOnNext(body -> System.out.println("RAW BODY = " + body));
     }
 }
 

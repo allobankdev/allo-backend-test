@@ -13,7 +13,6 @@ import io.netty.channel.ChannelOption;
 
 import java.time.Duration;
 
-// FrankfurterWebClientFactoryBean.java
 @Component
 public class FrankfurterWebClientFactoryBean implements FactoryBean<WebClient> {
 

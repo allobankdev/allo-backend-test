@@ -8,7 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class WebClientConfig {
 
     @Bean
-    public WebClient frankfurterWebClient() {
+    public WebClient frankClient() {
         return WebClient.builder()
                 .baseUrl("https://api.frankfurter.app")
                 .build();

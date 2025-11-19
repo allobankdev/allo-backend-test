@@ -36,7 +36,8 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
                 .blockOptional()
                 .orElseThrow(() -> new ExternalServiceException(AppConstant.NO_RESPONSE_FROM_API_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR));
 
-        Map<String, Double> rates = dto.getRates().getValues();
+        Map<String, Double> rates = dto.getRates();
+        System.out.println("rates : "+rates);
         if (rates == null || rates.isEmpty()) {
             throw new ExternalServiceException(AppConstant.EMPTY_RATES_RESPONSE_FROM_API_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
         }

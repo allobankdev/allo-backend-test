@@ -16,6 +16,6 @@ public class RateResponse {
     private Double amount;
     private String base;
     private String date;
-    private Rates rates;
+    private Map<String, Double> rates;
 }
 
