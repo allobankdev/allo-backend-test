@@ -14,7 +14,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HistoricalRatesResponse {
+public class FrankfurterLatestRatesResponse {
 
     @JsonProperty("amount")
     private BigDecimal amount;
@@ -22,12 +22,9 @@ public class HistoricalRatesResponse {
     @JsonProperty("base")
     private String base;
 
-    @JsonProperty("start_date")
-    private LocalDate startDate;
-
-    @JsonProperty("end_date")
-    private LocalDate endDate;
+    @JsonProperty("date")
+    private LocalDate date;
 
     @JsonProperty("rates")
-    private Map<LocalDate, Map<String, BigDecimal>> rates;
+    private Map<String, BigDecimal> rates;
 }

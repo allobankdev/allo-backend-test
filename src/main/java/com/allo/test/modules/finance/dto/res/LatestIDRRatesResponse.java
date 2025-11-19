@@ -20,7 +20,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class LatestIDRRatesResponse extends LatestRatesResponse {
+public class LatestIDRRatesResponse extends FrankfurterLatestRatesResponse {
 
     /**
      * The Rupiah selling rate to USD after applying a banking spread/margin.
@@ -39,7 +39,7 @@ public class LatestIDRRatesResponse extends LatestRatesResponse {
      * and calculates the USD buy spread.
      */
     @Builder(builderMethodName = "fromLatestRatesResponse")
-    public LatestIDRRatesResponse(LatestRatesResponse base, BigDecimal usdBuySpreadIdr) {
+    public LatestIDRRatesResponse(FrankfurterLatestRatesResponse base, BigDecimal usdBuySpreadIdr) {
         super(base.getAmount(), base.getBase(), base.getDate(), base.getRates());
         this.usdBuySpreadIdr = usdBuySpreadIdr;
     }

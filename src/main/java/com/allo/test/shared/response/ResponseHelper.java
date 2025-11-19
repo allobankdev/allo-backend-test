@@ -29,6 +29,7 @@ public class ResponseHelper {
     return ResponseEntity
             .status(responseEnum.getHttpStatus())
             .body(ResponseData.<T>builder()
+                    .responseSchema(responseMessageHelper.getResponseSchema(responseEnum))
                     .data(data)
                     .build());
   }

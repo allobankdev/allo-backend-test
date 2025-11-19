@@ -15,6 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.mockito.Mockito.*;
 
@@ -72,9 +73,9 @@ class StartupLoaderTest {
     @DisplayName("Should load all resources successfully when all strategies fetch data successfully")
     void shouldLoadAllResourcesSuccessfully_WhenAllStrategiesFetchDataSuccessfully() {
         // Arrange
-        when(latestRatesStrategy.fetchData(webClient)).thenReturn(new Object());
-        when(historicalRatesStrategy.fetchData(webClient)).thenReturn(new Object());
-        when(currenciesStrategy.fetchData(webClient)).thenReturn(new Object());
+        when(latestRatesStrategy.fetchData(webClient)).thenReturn(List.of(Map.of("key", "value")));
+        when(historicalRatesStrategy.fetchData(webClient)).thenReturn(List.of(Map.of("key", "value")));
+        when(currenciesStrategy.fetchData(webClient)).thenReturn(List.of(Map.of("key", "value")));
         when(dataStoreService.isDataLoaded()).thenReturn(true);
 
         // Act
@@ -101,10 +102,10 @@ class StartupLoaderTest {
     @DisplayName("Should continue loading when one strategy fails")
     void shouldContinueLoading_WhenOneStrategyFails() {
         // Arrange
-        when(latestRatesStrategy.fetchData(webClient)).thenReturn(new Object());
+        when(latestRatesStrategy.fetchData(webClient)).thenReturn(List.of(Map.of("key", "value")));
         when(historicalRatesStrategy.fetchData(webClient))
                 .thenThrow(new RuntimeException("API connection failed"));
-        when(currenciesStrategy.fetchData(webClient)).thenReturn(new Object());
+        when(currenciesStrategy.fetchData(webClient)).thenReturn(List.of(Map.of("key", "value")));
         when(dataStoreService.isDataLoaded()).thenReturn(false);
 
         // Act
@@ -131,7 +132,7 @@ class StartupLoaderTest {
                 .thenThrow(new RuntimeException("Latest rates API error"));
         when(historicalRatesStrategy.fetchData(webClient))
                 .thenThrow(new RuntimeException("Historical rates API error"));
-        when(currenciesStrategy.fetchData(webClient)).thenReturn(new Object());
+        when(currenciesStrategy.fetchData(webClient)).thenReturn(List.of(Map.of("key", "value")));
         when(dataStoreService.isDataLoaded()).thenReturn(false);
 
         // Act

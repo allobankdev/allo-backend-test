@@ -2,7 +2,7 @@ package com.allo.test.modules.finance.client.impl;
 
 import com.allo.test.configs.properties.FrankfurterApiProperties;
 import com.allo.test.modules.finance.client.IDRDataFetcher;
-import com.allo.test.modules.finance.dto.res.CurrenciesResponse;
+import com.allo.test.modules.finance.dto.res.CurrencyResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
 import com.allo.test.modules.finance.service.DataStoreService;
 import com.allo.test.shared.utils.WebClientErrorHandler;
@@ -13,13 +13,14 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import java.util.Map;
+import java.util.*;
 
 /**
  * Strategy implementation for fetching the list of all supported currency symbols
  * from the Frankfurter API.
  * <p>
- * Handles the "supported_currencies" resource type.
+ * Handles the "supported_currencies" resource type and transforms data to List of
+ * CurrencyResponse DTOs for type-safe JSON output.
  */
 @Slf4j
 @Component
@@ -31,7 +32,7 @@ public class SupportedCurrenciesStrategy implements IDRDataFetcher {
 
     @Override
     @Retry(name = "frankfurterApi")
-    public CurrenciesResponse fetchData(WebClient webClient) {
+    public List<CurrencyResponse> fetchData(WebClient webClient) {
         String endpoint = apiProperties.getCurrencies().getEndpoint();
 
         log.info("Fetching list of supported currencies");
@@ -43,16 +44,38 @@ public class SupportedCurrenciesStrategy implements IDRDataFetcher {
                 .onErrorMap(e -> WebClientErrorHandler.mapException(e, endpoint))
                 .block();
 
-        CurrenciesResponse response = CurrenciesResponse.builder()
-                .currencies(currencies)
-                .build();
+        // Transform to List of CurrencyResponse DTOs
+        List<CurrencyResponse> transformedData = transformToList(currencies);
 
         // Store in DataStore
-        if (response != null) {
-            dataStoreService.store(getResourceType(), response);
+        if (!transformedData.isEmpty()) {
+            dataStoreService.store(getResourceType(), transformedData);
         }
 
-        return response;
+        return transformedData;
+    }
+
+    /**
+     * Transforms the raw Map<String, String> to List of CurrencyResponse DTOs.
+     * Provides type-safe structure for JSON array output.
+     */
+    private List<CurrencyResponse> transformToList(Map<String, String> currencies) {
+        if (currencies == null) {
+            return Collections.emptyList();
+        }
+
+        List<CurrencyResponse> transformedList = new ArrayList<>();
+
+        for (Map.Entry<String, String> entry : currencies.entrySet()) {
+            CurrencyResponse currencyResponse = CurrencyResponse.builder()
+                    .code(entry.getKey())
+                    .name(entry.getValue())
+                    .build();
+
+            transformedList.add(currencyResponse);
+        }
+
+        return transformedList;
     }
 
     @Override

@@ -11,7 +11,7 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CurrenciesResponse {
+public class FrankfurterCurrenciesResponse {
 
     private Map<String, String> currencies;
 }

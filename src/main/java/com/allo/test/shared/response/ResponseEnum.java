@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum ResponseEnum {
-  SUCCESS("success", "success", HttpStatus.OK),
+  SUCCESS("success", "Success", HttpStatus.OK),
 
   INVALID_PARAM("invalid_param", "Invalid Parameter", HttpStatus.BAD_REQUEST),
   INVALID_RESOURCE_TYPE("invalid_resource_type", "Invalid Resource Type", HttpStatus.BAD_REQUEST),

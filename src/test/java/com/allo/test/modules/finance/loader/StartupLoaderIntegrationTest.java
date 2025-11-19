@@ -1,7 +1,7 @@
 package com.allo.test.modules.finance.loader;
 
-import com.allo.test.modules.finance.dto.res.CurrenciesResponse;
-import com.allo.test.modules.finance.dto.res.HistoricalRatesResponse;
+import com.allo.test.modules.finance.dto.res.CurrencyResponse;
+import com.allo.test.modules.finance.dto.res.HistoricalRateResponse;
 import com.allo.test.modules.finance.dto.res.LatestIDRRatesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
 import com.allo.test.modules.finance.service.DataStoreService;
@@ -9,6 +9,8 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -40,8 +42,8 @@ class StartupLoaderIntegrationTest {
         // If data loaded successfully, verify all three resources are available
         if (dataStoreService.isDataLoaded()) {
             LatestIDRRatesResponse latestRates = dataStoreService.get(ResourceType.LATEST_RATES);
-            HistoricalRatesResponse historicalRates = dataStoreService.get(ResourceType.HISTORICAL_RATES);
-            CurrenciesResponse currencies = dataStoreService.get(ResourceType.CURRENCIES);
+            List<HistoricalRateResponse> historicalRates = dataStoreService.get(ResourceType.HISTORICAL_RATES);
+            List<CurrencyResponse> currencies = dataStoreService.get(ResourceType.CURRENCIES);
 
             assertThat(latestRates).isNotNull();
             assertThat(historicalRates).isNotNull();
@@ -50,8 +52,8 @@ class StartupLoaderIntegrationTest {
             // Verify basic structure
             assertThat(latestRates.getBase()).isEqualTo("IDR");
             assertThat(latestRates.getUsdBuySpreadIdr()).isNotNull(); // Spread calculated
-            assertThat(historicalRates.getBase()).isEqualTo("IDR");
-            assertThat(currencies.getCurrencies()).isNotEmpty();
+            assertThat(historicalRates).isNotEmpty(); // Historical rates as typed DTOs
+            assertThat(currencies).isNotEmpty(); // Currencies as typed DTOs
         }
 
     }
@@ -68,13 +70,13 @@ class StartupLoaderIntegrationTest {
         // Assert - Same instance returned (no defensive copying)
         assertThat(firstRetrieval).isSameAs(secondRetrieval);
 
-        // Verify all resources return same instances
-        HistoricalRatesResponse historical1 = dataStoreService.get(ResourceType.HISTORICAL_RATES);
-        HistoricalRatesResponse historical2 = dataStoreService.get(ResourceType.HISTORICAL_RATES);
+        // Verify all resources return same instances (typed DTOs)
+        List<HistoricalRateResponse> historical1 = dataStoreService.get(ResourceType.HISTORICAL_RATES);
+        List<HistoricalRateResponse> historical2 = dataStoreService.get(ResourceType.HISTORICAL_RATES);
         assertThat(historical1).isSameAs(historical2);
 
-        CurrenciesResponse currencies1 = dataStoreService.get(ResourceType.CURRENCIES);
-        CurrenciesResponse currencies2 = dataStoreService.get(ResourceType.CURRENCIES);
+        List<CurrencyResponse> currencies1 = dataStoreService.get(ResourceType.CURRENCIES);
+        List<CurrencyResponse> currencies2 = dataStoreService.get(ResourceType.CURRENCIES);
         assertThat(currencies1).isSameAs(currencies2);
 
         // Verify data is loaded once and served from cache

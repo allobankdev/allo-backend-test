@@ -1,14 +1,14 @@
 package com.allo.test.modules.finance.client.impl;
 
+import com.allo.test.configs.properties.FrankfurterApiProperties;
 import com.allo.test.modules.finance.client.IDRDataFetcher;
 import com.allo.test.modules.finance.dto.res.LatestIDRRatesResponse;
-import com.allo.test.modules.finance.dto.res.LatestRatesResponse;
+import com.allo.test.modules.finance.dto.res.FrankfurterLatestRatesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
 import com.allo.test.modules.finance.exceptions.ResponseParsingException;
 import com.allo.test.modules.finance.service.DataStoreService;
 import com.allo.test.shared.utils.SpreadCalculator;
 import com.allo.test.shared.utils.WebClientErrorHandler;
-import com.allo.test.configs.properties.FrankfurterApiProperties;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -24,13 +24,13 @@ import java.math.BigDecimal;
  */
 @Slf4j
 @Component
-public class LatestIDRRatesStrategy implements IDRDataFetcher {
+public class LatestIdrRatesStrategy implements IDRDataFetcher {
 
     private final FrankfurterApiProperties apiProperties;
     private final DataStoreService dataStoreService;
     private final double spreadFactor;
 
-    public LatestIDRRatesStrategy(FrankfurterApiProperties apiProperties, DataStoreService dataStoreService) {
+    public LatestIdrRatesStrategy(FrankfurterApiProperties apiProperties, DataStoreService dataStoreService) {
         this.apiProperties = apiProperties;
         this.dataStoreService = dataStoreService;
         this.spreadFactor = SpreadCalculator.calculateSpreadFactor(apiProperties.getGithubUsername());
@@ -46,13 +46,13 @@ public class LatestIDRRatesStrategy implements IDRDataFetcher {
         log.info("Fetching latest rates with base currency: {}", baseCurrency);
 
         // Fetch base rates from API with error mapping
-        LatestRatesResponse baseResponse = webClient.get()
+        FrankfurterLatestRatesResponse baseResponse = webClient.get()
                 .uri(uriBuilder -> uriBuilder
                         .path(endpoint)
                         .queryParam("base", baseCurrency)
                         .build())
                 .retrieve()
-                .bodyToMono(LatestRatesResponse.class)
+                .bodyToMono(FrankfurterLatestRatesResponse.class)
                 .onErrorMap(e -> WebClientErrorHandler.mapException(e, endpoint))
                 .block();
 

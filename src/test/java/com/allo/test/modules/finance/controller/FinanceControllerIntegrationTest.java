@@ -1,7 +1,7 @@
 package com.allo.test.modules.finance.controller;
 
-import com.allo.test.modules.finance.dto.res.CurrenciesResponse;
-import com.allo.test.modules.finance.dto.res.HistoricalRatesResponse;
+import com.allo.test.modules.finance.dto.res.FrankfurterCurrenciesResponse;
+import com.allo.test.modules.finance.dto.res.FrankfurterHistoricalRatesResponse;
 import com.allo.test.modules.finance.dto.res.LatestIDRRatesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
 import com.allo.test.modules.finance.service.DataStoreService;
@@ -71,7 +71,7 @@ class FinanceControllerIntegrationTest {
         dataStoreService.store(ResourceType.LATEST_RATES, latestRates);
 
         // Mock Historical Rates Response
-        HistoricalRatesResponse historicalRates = HistoricalRatesResponse.builder()
+        FrankfurterHistoricalRatesResponse historicalRates = FrankfurterHistoricalRatesResponse.builder()
                 .amount(BigDecimal.ONE)
                 .base("IDR")
                 .startDate(LocalDate.of(2024, 1, 1))
@@ -97,11 +97,11 @@ class FinanceControllerIntegrationTest {
         currencies.put("GBP", "British Pound Sterling");
         currencies.put("JPY", "Japanese Yen");
 
-        CurrenciesResponse currenciesResponse = CurrenciesResponse.builder()
+        FrankfurterCurrenciesResponse frankfurterCurrenciesResponse = FrankfurterCurrenciesResponse.builder()
                 .currencies(currencies)
                 .build();
 
-        dataStoreService.store(ResourceType.CURRENCIES, currenciesResponse);
+        dataStoreService.store(ResourceType.CURRENCIES, frankfurterCurrenciesResponse);
     }
 
     // ==================== SUCCESS SCENARIOS ====================

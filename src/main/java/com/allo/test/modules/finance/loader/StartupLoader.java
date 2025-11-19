@@ -35,19 +35,26 @@ public class StartupLoader implements ApplicationRunner {
 
         for (IDRDataFetcher strategy : idrDataFetchers) {
             ResourceType resourceType = strategy.getResourceType();
-            log.info("Loading {}...", resourceType);
+            log.info("Loading {}...", resourceType.getKey());
 
             try {
                 strategy.fetchData(webClient);
             } catch (Exception e) {
-                log.error("Error loading {}: {}", resourceType, e.getMessage());
+                log.error("Error loading {}: {}", resourceType.getKey(), e.getMessage());
             }
         }
 
         // Verify all data is loaded
         if (dataStoreService.isDataLoaded()) {
             log.info("=== IDR exchange rate data loading completed successfully ===");
-            log.info("All three resources (latest_idr_rates, historical_idr_usd, supported_currencies) are available");
+            
+            // Dynamically generate the list of loaded resource keys using getKey()
+            String loadedKeys = idrDataFetchers.stream()
+                    .map(strategy -> strategy.getResourceType().getKey())
+                    .reduce((key1, key2) -> key1 + ", " + key2)
+                    .orElse("");
+                    
+            log.info("All resources loaded: {}", loadedKeys);
         } else {
             log.error("=== Data loading incomplete - some resources failed to load ===");
         }

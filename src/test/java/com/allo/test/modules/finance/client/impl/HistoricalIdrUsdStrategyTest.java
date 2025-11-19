@@ -1,7 +1,8 @@
 package com.allo.test.modules.finance.client.impl;
 
 import com.allo.test.configs.properties.FrankfurterApiProperties;
-import com.allo.test.modules.finance.dto.res.HistoricalRatesResponse;
+import com.allo.test.modules.finance.dto.res.HistoricalRateResponse;
+import com.allo.test.modules.finance.dto.res.FrankfurterHistoricalRatesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
 import com.allo.test.modules.finance.exceptions.ClientException;
 import com.allo.test.modules.finance.exceptions.ConnectivityException;
@@ -21,6 +22,7 @@ import reactor.core.publisher.Mono;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -32,11 +34,11 @@ import static org.mockito.Mockito.lenient;
 /**
  * Unit tests for HistoricalIDRUSDStrategy.
  * <p>
- * Tests the fetching and storage of historical IDR to USD exchange rates.
+ * Tests the fetching, transformation to List, and storage of historical IDR to USD exchange rates.
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("HistoricalIDRUSDStrategy Unit Tests")
-class HistoricalIDRUSDStrategyTest {
+class HistoricalIdrUsdStrategyTest {
 
     @Mock
     private WebClient webClient;
@@ -59,7 +61,7 @@ class HistoricalIDRUSDStrategyTest {
     @Mock
     private FrankfurterApiProperties.HistoricalRatesConfig historicalRatesConfig;
 
-    private HistoricalIDRUSDStrategy strategy;
+    private HistoricalIdrUsdStrategy strategy;
 
     @BeforeEach
     void setUp() {
@@ -70,44 +72,49 @@ class HistoricalIDRUSDStrategyTest {
         lenient().when(historicalRatesConfig.getToCurrency()).thenReturn("USD");
 
         // Initialize strategy
-        strategy = new HistoricalIDRUSDStrategy(apiProperties, dataStoreService);
+        strategy = new HistoricalIdrUsdStrategy(apiProperties, dataStoreService);
     }
 
     // ==================== SUCCESS SCENARIOS ====================
 
     @Test
-    @DisplayName("Should fetch historical data, store, and return response")
-    void shouldFetchHistoricalDataStoreAndReturnResponse() {
+    @DisplayName("Should fetch historical data, transform to List of DTOs, and store")
+    void shouldFetchHistoricalDataTransformToListAndStore() {
         // Arrange
-        HistoricalRatesResponse mockResponse = createMockHistoricalRatesResponse();
+        FrankfurterHistoricalRatesResponse mockResponse = createMockHistoricalRatesResponse();
 
         // Setup WebClient mock chain
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(any(java.util.function.Function.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToMono(HistoricalRatesResponse.class)).thenReturn(Mono.just(mockResponse));
+        when(responseSpec.bodyToMono(FrankfurterHistoricalRatesResponse.class)).thenReturn(Mono.just(mockResponse));
 
         // Act
-        HistoricalRatesResponse result = strategy.fetchData(webClient);
+        List<HistoricalRateResponse> result = strategy.fetchData(webClient);
 
         // Assert
-        assertThat(result).isNotNull();
-        assertThat(result.getBase()).isEqualTo("IDR");
-        assertThat(result.getStartDate()).isEqualTo(LocalDate.of(2024, 1, 1));
-        assertThat(result.getEndDate()).isEqualTo(LocalDate.of(2024, 1, 5));
-        assertThat(result.getRates()).isNotEmpty();
-        assertThat(result.getRates()).containsKey(LocalDate.of(2024, 1, 1));
+        assertThat(result)
+                .isNotNull()
+                .isInstanceOf(List.class)
+                .hasSize(3);
+
+        // Verify transformation structure with DTO
+        HistoricalRateResponse firstEntry = result.get(0);
+        assertThat(firstEntry).isNotNull();
+        assertThat(firstEntry.getDate()).isNotNull();
+        assertThat(firstEntry.getCurrency()).isEqualTo("USD");
+        assertThat(firstEntry.getRate()).isInstanceOf(BigDecimal.class);
 
         // Verify storage
         verify(dataStoreService, times(1)).store(ResourceType.HISTORICAL_RATES, result);
     }
 
     @Test
-    @DisplayName("Should getData return stored data from DataStoreService")
-    void shouldGetDataReturnStoredData() {
+    @DisplayName("Should getData return stored List of DTOs from DataStoreService")
+    void shouldGetDataReturnStoredListData() {
         // Arrange
-        HistoricalRatesResponse mockResponse = createMockHistoricalRatesResponse();
-        when(dataStoreService.get(ResourceType.HISTORICAL_RATES)).thenReturn(mockResponse);
+        List<HistoricalRateResponse> mockTransformedData = createExpectedTransformedData();
+        when(dataStoreService.get(ResourceType.HISTORICAL_RATES)).thenReturn(mockTransformedData);
 
         // Act
         Object result = strategy.getData();
@@ -115,8 +122,8 @@ class HistoricalIDRUSDStrategyTest {
         // Assert
         assertThat(result)
                 .isNotNull()
-                .isInstanceOf(HistoricalRatesResponse.class);
-        assertThat(((HistoricalRatesResponse) result).getBase()).isEqualTo("IDR");
+                .isInstanceOf(List.class);
+        assertThat((List<?>) result).hasSize(3);
 
         // Verify
         verify(dataStoreService, times(1)).get(ResourceType.HISTORICAL_RATES);
@@ -136,15 +143,15 @@ class HistoricalIDRUSDStrategyTest {
     @DisplayName("Should format date range correctly in request URI")
     void shouldFormatDateRangeCorrectlyInRequestUri() {
         // Arrange
-        HistoricalRatesResponse mockResponse = createMockHistoricalRatesResponse();
+        FrankfurterHistoricalRatesResponse mockResponse = createMockHistoricalRatesResponse();
 
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(any(java.util.function.Function.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToMono(HistoricalRatesResponse.class)).thenReturn(Mono.just(mockResponse));
+        when(responseSpec.bodyToMono(FrankfurterHistoricalRatesResponse.class)).thenReturn(Mono.just(mockResponse));
 
         // Act
-        HistoricalRatesResponse result = strategy.fetchData(webClient);
+        List<HistoricalRateResponse> result = strategy.fetchData(webClient);
 
         // Assert
         assertThat(result).isNotNull();
@@ -170,7 +177,7 @@ class HistoricalIDRUSDStrategyTest {
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(any(java.util.function.Function.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToMono(HistoricalRatesResponse.class))
+        when(responseSpec.bodyToMono(FrankfurterHistoricalRatesResponse.class))
                 .thenReturn(Mono.error(badRequest));
 
         // Act & Assert
@@ -197,7 +204,7 @@ class HistoricalIDRUSDStrategyTest {
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(any(java.util.function.Function.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToMono(HistoricalRatesResponse.class))
+        when(responseSpec.bodyToMono(FrankfurterHistoricalRatesResponse.class))
                 .thenReturn(Mono.error(serverError));
 
         // Act & Assert
@@ -218,7 +225,7 @@ class HistoricalIDRUSDStrategyTest {
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(any(java.util.function.Function.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToMono(HistoricalRatesResponse.class))
+        when(responseSpec.bodyToMono(FrankfurterHistoricalRatesResponse.class))
                 .thenReturn(Mono.error(requestException));
 
         // Act & Assert
@@ -233,29 +240,31 @@ class HistoricalIDRUSDStrategyTest {
     // ==================== EDGE CASES ====================
 
     @Test
-    @DisplayName("Should store null response when API returns null")
-    void shouldStoreNullResponse_WhenApiReturnsNull() {
-        // Arrange - Strategy has minimal validation, stores null as-is
+    @DisplayName("Should return empty list when API returns null")
+    void shouldReturnEmptyList_WhenApiReturnsNull() {
+        // Arrange
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(any(java.util.function.Function.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToMono(HistoricalRatesResponse.class)).thenReturn(Mono.empty());
+        when(responseSpec.bodyToMono(FrankfurterHistoricalRatesResponse.class)).thenReturn(Mono.empty());
 
         // Act
-        HistoricalRatesResponse result = strategy.fetchData(webClient);
+        List<HistoricalRateResponse> result = strategy.fetchData(webClient);
 
         // Assert
-        assertThat(result).isNull();
+        assertThat(result)
+                .isNotNull()
+                .isEmpty();
 
-        // Verify null response is NOT stored (if block prevents storage)
+        // Verify null response is NOT stored
         verify(dataStoreService, never()).store(any(), any());
     }
 
     @Test
-    @DisplayName("Should handle empty historical data gracefully")
-    void shouldHandleEmptyHistoricalDataGracefully() {
+    @DisplayName("Should handle empty historical data and return empty list")
+    void shouldHandleEmptyHistoricalDataAndReturnEmptyList() {
         // Arrange
-        HistoricalRatesResponse emptyResponse = HistoricalRatesResponse.builder()
+        FrankfurterHistoricalRatesResponse emptyResponse = FrankfurterHistoricalRatesResponse.builder()
                 .base("IDR")
                 .startDate(LocalDate.of(2024, 1, 1))
                 .endDate(LocalDate.of(2024, 1, 5))
@@ -265,22 +274,18 @@ class HistoricalIDRUSDStrategyTest {
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri(any(java.util.function.Function.class))).thenReturn(requestHeadersSpec);
         when(requestHeadersSpec.retrieve()).thenReturn(responseSpec);
-        when(responseSpec.bodyToMono(HistoricalRatesResponse.class)).thenReturn(Mono.just(emptyResponse));
+        when(responseSpec.bodyToMono(FrankfurterHistoricalRatesResponse.class)).thenReturn(Mono.just(emptyResponse));
 
         // Act
-        HistoricalRatesResponse result = strategy.fetchData(webClient);
+        List<HistoricalRateResponse> result = strategy.fetchData(webClient);
 
-        // Assert - Empty data stored as-is (minimal validation)
-        assertThat(result).isNotNull();
-        assertThat(result.getRates()).isEmpty();
-
-        // Verify storage still occurs
-        verify(dataStoreService, times(1)).store(ResourceType.HISTORICAL_RATES, result);
+        // Assert - Empty data results in empty list
+        assertThat(result).isEmpty();
     }
 
     // ==================== HELPER METHODS ====================
 
-    private HistoricalRatesResponse createMockHistoricalRatesResponse() {
+    private FrankfurterHistoricalRatesResponse createMockHistoricalRatesResponse() {
         Map<LocalDate, Map<String, BigDecimal>> historicalData = new HashMap<>();
 
         // Date 1: 2024-01-01
@@ -298,12 +303,33 @@ class HistoricalIDRUSDStrategyTest {
         jan3Rates.put("USD", new BigDecimal("0.0000638"));
         historicalData.put(LocalDate.of(2024, 1, 3), jan3Rates);
 
-        return HistoricalRatesResponse.builder()
+        return FrankfurterHistoricalRatesResponse.builder()
                 .amount(BigDecimal.ONE)
                 .base("IDR")
                 .startDate(LocalDate.of(2024, 1, 1))
                 .endDate(LocalDate.of(2024, 1, 5))
                 .rates(historicalData)
                 .build();
+    }
+
+    private List<HistoricalRateResponse> createExpectedTransformedData() {
+        // Expected transformed structure using HistoricalRateResponse DTOs
+        return List.of(
+                HistoricalRateResponse.builder()
+                        .date("2024-01-01")
+                        .currency("USD")
+                        .rate(new BigDecimal("0.0000640"))
+                        .build(),
+                HistoricalRateResponse.builder()
+                        .date("2024-01-02")
+                        .currency("USD")
+                        .rate(new BigDecimal("0.0000635"))
+                        .build(),
+                HistoricalRateResponse.builder()
+                        .date("2024-01-03")
+                        .currency("USD")
+                        .rate(new BigDecimal("0.0000638"))
+                        .build()
+        );
     }
 }

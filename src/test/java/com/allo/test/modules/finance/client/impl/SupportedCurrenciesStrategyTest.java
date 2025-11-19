@@ -1,7 +1,7 @@
 package com.allo.test.modules.finance.client.impl;
 
 import com.allo.test.configs.properties.FrankfurterApiProperties;
-import com.allo.test.modules.finance.dto.res.CurrenciesResponse;
+import com.allo.test.modules.finance.dto.res.CurrencyResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
 import com.allo.test.modules.finance.exceptions.ClientException;
 import com.allo.test.modules.finance.exceptions.ConnectivityException;
@@ -20,6 +20,7 @@ import org.springframework.web.reactive.function.client.WebClientResponseExcepti
 import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -31,7 +32,7 @@ import static org.mockito.Mockito.lenient;
 /**
  * Unit tests for SupportedCurrenciesStrategy.
  * <p>
- * Tests the fetching and storage of supported currency symbols.
+ * Tests the fetching, transformation to List, and storage of supported currency symbols.
  */
 @ExtendWith(MockitoExtension.class)
 @DisplayName("SupportedCurrenciesStrategy Unit Tests")
@@ -73,8 +74,8 @@ class SupportedCurrenciesStrategyTest {
     // ==================== SUCCESS SCENARIOS ====================
 
     @Test
-    @DisplayName("Should fetch currency list, store, and return response")
-    void shouldFetchCurrencyListStoreAndReturnResponse() {
+    @DisplayName("Should fetch currency list, transform to List of DTOs, and store")
+    void shouldFetchCurrencyListTransformToListAndStore() {
         // Arrange
         Map<String, String> mockCurrencies = createMockCurrenciesMap();
 
@@ -86,27 +87,30 @@ class SupportedCurrenciesStrategyTest {
                 .thenReturn(Mono.just(mockCurrencies));
 
         // Act
-        CurrenciesResponse result = strategy.fetchData(webClient);
+        List<CurrencyResponse> result = strategy.fetchData(webClient);
 
         // Assert
-        assertThat(result).isNotNull();
-        assertThat(result.getCurrencies()).isNotNull();
-        assertThat(result.getCurrencies()).isNotEmpty();
-        assertThat(result.getCurrencies()).containsKeys("USD", "EUR", "GBP", "JPY");
-        assertThat(result.getCurrencies()).containsEntry("USD", "United States Dollar");
+        assertThat(result)
+                .isNotNull()
+                .isInstanceOf(List.class)
+                .hasSize(8);
+
+        // Verify transformation structure with DTO
+        CurrencyResponse firstEntry = result.get(0);
+        assertThat(firstEntry).isNotNull();
+        assertThat(firstEntry.getCode()).isInstanceOf(String.class);
+        assertThat(firstEntry.getName()).isInstanceOf(String.class);
 
         // Verify storage
         verify(dataStoreService, times(1)).store(ResourceType.CURRENCIES, result);
     }
 
     @Test
-    @DisplayName("Should getData return stored data from DataStoreService")
-    void shouldGetDataReturnStoredData() {
+    @DisplayName("Should getData return stored List of DTOs from DataStoreService")
+    void shouldGetDataReturnStoredListData() {
         // Arrange
-        CurrenciesResponse mockResponse = CurrenciesResponse.builder()
-                .currencies(createMockCurrenciesMap())
-                .build();
-        when(dataStoreService.get(ResourceType.CURRENCIES)).thenReturn(mockResponse);
+        List<CurrencyResponse> mockTransformedData = createExpectedTransformedData();
+        when(dataStoreService.get(ResourceType.CURRENCIES)).thenReturn(mockTransformedData);
 
         // Act
         Object result = strategy.getData();
@@ -114,8 +118,8 @@ class SupportedCurrenciesStrategyTest {
         // Assert
         assertThat(result)
                 .isNotNull()
-                .isInstanceOf(CurrenciesResponse.class);
-        assertThat(((CurrenciesResponse) result).getCurrencies()).isNotEmpty();
+                .isInstanceOf(List.class);
+        assertThat((List<?>) result).hasSize(8);
 
         // Verify
         verify(dataStoreService, times(1)).get(ResourceType.CURRENCIES);
@@ -211,8 +215,8 @@ class SupportedCurrenciesStrategyTest {
     // ==================== EDGE CASES ====================
 
     @Test
-    @DisplayName("Should handle null currency map gracefully")
-    void shouldHandleNullCurrencyMapGracefully() {
+    @DisplayName("Should return empty list when API returns null")
+    void shouldReturnEmptyList_WhenApiReturnsNull() {
         // Arrange - API returns null map using justOrEmpty
         when(webClient.get()).thenReturn(requestHeadersUriSpec);
         when(requestHeadersUriSpec.uri("/currencies")).thenReturn(requestHeadersSpec);
@@ -221,19 +225,20 @@ class SupportedCurrenciesStrategyTest {
                 .thenReturn(Mono.justOrEmpty(null));
 
         // Act
-        CurrenciesResponse result = strategy.fetchData(webClient);
+        List<CurrencyResponse> result = strategy.fetchData(webClient);
 
-        // Assert - Null map wrapped in response
-        assertThat(result).isNotNull();
-        assertThat(result.getCurrencies()).isNull();
+        // Assert - Null map results in empty list
+        assertThat(result)
+                .isNotNull()
+                .isEmpty();
 
-        // Verify storage still occurs
-        verify(dataStoreService, times(1)).store(ResourceType.CURRENCIES, result);
+        // Verify no data stored
+        verify(dataStoreService, never()).store(any(), any());
     }
 
     @Test
-    @DisplayName("Should handle empty currency list gracefully")
-    void shouldHandleEmptyCurrencyListGracefully() {
+    @DisplayName("Should handle empty currency list and return empty list")
+    void shouldHandleEmptyCurrencyListAndReturnEmptyList() {
         // Arrange
         Map<String, String> emptyCurrencies = new HashMap<>();
 
@@ -244,14 +249,15 @@ class SupportedCurrenciesStrategyTest {
                 .thenReturn(Mono.just(emptyCurrencies));
 
         // Act
-        CurrenciesResponse result = strategy.fetchData(webClient);
+        List<CurrencyResponse> result = strategy.fetchData(webClient);
 
-        // Assert - Empty map stored as-is (minimal validation)
-        assertThat(result).isNotNull();
-        assertThat(result.getCurrencies()).isEmpty();
+        // Assert - Empty map results in empty list
+        assertThat(result)
+                .isNotNull()
+                .isEmpty();
 
-        // Verify storage still occurs
-        verify(dataStoreService, times(1)).store(ResourceType.CURRENCIES, result);
+        // Verify empty list is NOT stored (implementation skips storage for empty lists)
+        verify(dataStoreService, never()).store(any(), any());
     }
 
     @Test
@@ -270,12 +276,20 @@ class SupportedCurrenciesStrategyTest {
                 .thenReturn(Mono.just(specialCurrencies));
 
         // Act
-        CurrenciesResponse result = strategy.fetchData(webClient);
+        List<CurrencyResponse> result = strategy.fetchData(webClient);
 
-        // Assert - Special characters preserved
-        assertThat(result).isNotNull();
-        assertThat(result.getCurrencies().get("EUR")).contains("€");
-        assertThat(result.getCurrencies().get("GBP")).contains("£");
+        // Assert - Special characters preserved in transformation
+        assertThat(result)
+                .isNotNull()
+                .hasSize(3);
+
+        // Find EUR entry using DTO
+        CurrencyResponse eurEntry = result.stream()
+                .filter(entry -> "EUR".equals(entry.getCode()))
+                .findFirst()
+                .orElse(null);
+        assertThat(eurEntry).isNotNull();
+        assertThat(eurEntry.getName()).contains("€");
 
         // Verify storage
         verify(dataStoreService, times(1)).store(ResourceType.CURRENCIES, result);
@@ -294,5 +308,19 @@ class SupportedCurrenciesStrategyTest {
         currencies.put("CHF", "Swiss Franc");
         currencies.put("CNY", "Chinese Yuan");
         return currencies;
+    }
+
+    private List<CurrencyResponse> createExpectedTransformedData() {
+        // Expected transformed structure using CurrencyResponse DTOs
+        return List.of(
+                CurrencyResponse.builder().code("USD").name("United States Dollar").build(),
+                CurrencyResponse.builder().code("EUR").name("Euro").build(),
+                CurrencyResponse.builder().code("GBP").name("British Pound Sterling").build(),
+                CurrencyResponse.builder().code("JPY").name("Japanese Yen").build(),
+                CurrencyResponse.builder().code("CAD").name("Canadian Dollar").build(),
+                CurrencyResponse.builder().code("AUD").name("Australian Dollar").build(),
+                CurrencyResponse.builder().code("CHF").name("Swiss Franc").build(),
+                CurrencyResponse.builder().code("CNY").name("Chinese Yuan").build()
+        );
     }
 }
