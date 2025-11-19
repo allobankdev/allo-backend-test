@@ -110,7 +110,7 @@ class FinanceControllerIntegrationTest {
     @DisplayName("Should return latest IDR rates when resource type is 'latest_idr_rates'")
     void shouldReturnLatestIDRRates_WhenResourceTypeIsValid() throws Exception {
         // Act & Assert
-        mockMvc.perform(get("/api/finance/data/latest_idr_rates"))
+        mockMvc.perform(get("/finance/data/latest_idr_rates"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.data.amount").value(1))
@@ -128,7 +128,7 @@ class FinanceControllerIntegrationTest {
     @DisplayName("Should return historical rates when resource type is 'historical_idr_usd'")
     void shouldReturnHistoricalRates_WhenResourceTypeIsValid() throws Exception {
         // Act & Assert
-        mockMvc.perform(get("/api/finance/data/historical_idr_usd"))
+        mockMvc.perform(get("/finance/data/historical_idr_usd"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.data.amount").value(1))
@@ -143,7 +143,7 @@ class FinanceControllerIntegrationTest {
     @DisplayName("Should return supported currencies when resource type is 'supported_currencies'")
     void shouldReturnSupportedCurrencies_WhenResourceTypeIsValid() throws Exception {
         // Act & Assert
-        mockMvc.perform(get("/api/finance/data/supported_currencies"))
+        mockMvc.perform(get("/finance/data/supported_currencies"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data").exists())
                 .andExpect(jsonPath("$.data.currencies").exists())
@@ -159,7 +159,7 @@ class FinanceControllerIntegrationTest {
     @DisplayName("Should throw InvalidResourceTypeException when resource type is invalid")
     void shouldThrowInvalidResourceTypeException_WhenResourceTypeIsInvalid() throws Exception {
         // Act & Assert
-        mockMvc.perform(get("/api/finance/data/invalid_type"))
+        mockMvc.perform(get("/finance/data/invalid_type"))
                 .andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.responseSchema").exists())
                 .andExpect(jsonPath("$.responseSchema.responseCode").value("invalid_resource_type"))

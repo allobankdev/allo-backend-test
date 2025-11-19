@@ -1,8 +1,10 @@
 spring:
   application:
     name: test
-  liquibase:
-    enabled: false
+
+server:
+  servlet:
+    context-path: /api
 
 frankfurter:
   api:

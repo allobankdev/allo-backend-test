@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @Slf4j
 @RestController
-@RequestMapping("/api/finance")
+@RequestMapping("/finance")
 @RequiredArgsConstructor
 public class FinanceController {
 
@@ -32,7 +32,8 @@ public class FinanceController {
     /**
      * Retrieves exchange rate data for the specified resource type.
      * <p>
-     * Endpoint: GET /api/finance/data/{resourceType}
+     * Endpoint: GET /finance/data/{resourceType} (context path: /api)
+     * Full URL: GET /api/finance/data/{resourceType}
      * <p>
      * Valid resource types:
      * <ul>
