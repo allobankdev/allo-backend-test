@@ -2,6 +2,7 @@ package com.allobank.exercise.api.integration.impl;
 
 import com.allobank.exercise.api.integration.FrankfurterClient;
 import com.allobank.exercise.api.integration.dto.ExchangeHistoryResponse;
+import com.allobank.exercise.api.integration.dto.ExchangeRateResponse;
 import com.allobank.exercise.api.properties.FrankfurterApiProperties;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -21,8 +22,12 @@ public class FrankfurterClientImpl implements FrankfurterClient {
     }
 
     @Override
-    public Object getLatestRates() {
-        return null;
+    public ExchangeRateResponse getLatestRates() {
+        return webClient.get()
+                .uri(frankfurterApiProperties.getLatestIdrPath())
+                .retrieve()
+                .bodyToMono(ExchangeRateResponse.class)
+                .block();
     }
 
     @Override

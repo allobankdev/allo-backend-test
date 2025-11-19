@@ -6,6 +6,9 @@ client:
   connect-timeout: 10000
   read-timeout: 10000
 
+github:
+  username: candra160391
+
 integration:
   api:
     frankfurter:
