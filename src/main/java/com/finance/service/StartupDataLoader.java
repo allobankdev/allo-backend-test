@@ -11,10 +11,10 @@ import java.util.Map;
 @Component
 public class StartupDataLoader implements ApplicationRunner {
 
-    private final Map<String, IDRDataFetcher> fetcherMap;
+    private final Map<String, DataFetcher> fetcherMap;
     private final AggregatedDataStore store;
 
-    public StartupDataLoader(Map<String, IDRDataFetcher> fetcherMap, AggregatedDataStore store) {
+    public StartupDataLoader(Map<String, DataFetcher> fetcherMap, AggregatedDataStore store) {
         this.fetcherMap = fetcherMap;
         this.store = store;
     }

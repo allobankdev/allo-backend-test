@@ -1,6 +1,7 @@
 package com.finance.client;
 
 import com.finance.dto.RateResponse;
+import com.finance.dto.SupportedCurrenciesResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -30,6 +31,21 @@ public class FrankfurterClient{
                 .uri(uri)
                 .retrieve()
                 .bodyToMono(RateResponse.class)
+                .doOnNext(body -> System.out.println("RAW BODY = " + body));
+    }
+
+    public Mono<SupportedCurrenciesResponse> getSupportedCurrencies() {
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://api.frankfurter.app/currencies")
+                .build()
+                .toUri();
+
+        System.out.println("\nURI = " + uri);
+
+        return webClient.get()
+                .uri(uri)
+                .retrieve()
+                .bodyToMono(SupportedCurrenciesResponse.class)
                 .doOnNext(body -> System.out.println("RAW BODY = " + body));
     }
 }

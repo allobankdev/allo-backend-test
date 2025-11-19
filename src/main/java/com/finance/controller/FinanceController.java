@@ -1,7 +1,7 @@
 package com.finance.controller;
 
 import com.finance.service.AggregatedDataStore;
-import com.finance.service.IDRDataFetcher;
+import com.finance.service.DataFetcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,10 +14,10 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/finance/data")
 public class FinanceController {
-    private final Map<String, IDRDataFetcher> fetcherMap;
+    private final Map<String, DataFetcher> fetcherMap;
     private final AggregatedDataStore store;
 
-    public FinanceController(Map<String, IDRDataFetcher> fetcherMap, AggregatedDataStore store) {
+    public FinanceController(Map<String, DataFetcher> fetcherMap, AggregatedDataStore store) {
         this.fetcherMap = fetcherMap;
         this.store = store;
     }

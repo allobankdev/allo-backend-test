@@ -2,6 +2,7 @@ package com.finance.service;
 
 import com.finance.client.FrankfurterClient;
 import com.finance.constant.AppConstant;
+import com.finance.dto.LatestIdrRatesResponse;
 import com.finance.dto.RateResponse;
 import com.finance.exception.ExternalServiceException;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,7 +15,7 @@ import java.util.Locale;
 import java.util.Map;
 
 @Component
-public class LatestIdrRatesFetcher implements IDRDataFetcher {
+public class LatestIdrRatesFetcher implements DataFetcher {
 
     private final FrankfurterClient client;
     private final double spreadFactor;
@@ -49,14 +50,14 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
 
         double usdBuySpreadIdr = (1.0 / usdRate) * (1.0 + spreadFactor);
 
-        Map<String, Object> out = Map.of(
-                "base", dto.getBase(),
-                "date", dto.getDate(),
-                "rates", Collections.unmodifiableMap(rates),
-                "USD_BuySpread_IDR", usdBuySpreadIdr
-        );
+        LatestIdrRatesResponse out = LatestIdrRatesResponse.builder()
+                .base(dto.getBase())
+                .date(dto.getDate())
+                .rate(Collections.unmodifiableMap(rates))
+                .USD_BuySpread_IDR(usdBuySpreadIdr)
+        .build();
 
-        return List.of(out);
+        return List.of((Map<String, Object>) out);
     }
 
 }
