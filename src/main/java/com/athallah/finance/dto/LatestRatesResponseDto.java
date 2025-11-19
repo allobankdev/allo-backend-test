@@ -18,6 +18,5 @@ public class LatestRatesResponseDto {
     private String date;
     private Map<String, BigDecimal> rates;
 
-    private BigDecimal usdBuySpreadIdr;   // ← hasil perhitungan
-    private double spreadFactor;          // opsional, kalau mau dilihat di response
+    private BigDecimal usdBuySpreadIdr;
 }
