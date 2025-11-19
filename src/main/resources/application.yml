@@ -1,0 +1,6 @@
+frankfurter:
+  base-url: https://api.frankfurter.app
+  connect-timeout-ms: 3000
+
+candidate:
+  github-username: kenthona
