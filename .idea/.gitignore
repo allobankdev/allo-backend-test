@@ -1,3 +1,96 @@
-# Default ignored files
-/shelf/
-/workspace.xml
+# Maven
+target/
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+.mvn/tar*
+
+# IntelliJ IDEA
+.idea/
+*.iws
+*.iml
+.idea_modules/
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries/
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+.idea/contentModel.xml
+.idea/compiler.xml
+.idea/copyright/
+
+# Eclipse
+.metadata/
+.classpath
+.project
+.settings/
+.springBeans
+
+# VS Code
+.vscode/
+.env
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Compiled class file
+*.class
+
+# Package Files
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# dependency directories
+node_modules/
+bower_components/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Optional REPL history
+.repl-history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# dotenv environment variables file
+.env
+.env.test
+.env.development.local
+.env.test.local
+.env.production.local
+
+# parcel-bundler cache<a href="https://parceljs.org/" target="_blank" rel="noopener noreferrer nofollow"></a>
+.cache
+.pnp.*
+.pnp.js
+
+# Optional but recommended
+.yarn/cache
+.yarn/unplugged
+.yarn/build-state.yml
+.yarn/install-state.gz
