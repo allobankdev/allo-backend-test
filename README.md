@@ -16,17 +16,17 @@ You will need Java 17+ and Apache Maven to run this application.
 
 1. Build Application
 Open the terminal in the project's root directory (where pom.xml is located) and run:
--Clean and package the JAR file
+Clean and package the JAR file
 ./mvnw clean package
 
 2. Run Application
 The application will automatically execute the ApplicationRunner to fetch and cache the necessary data during startup.
--(default port: 8080)
+(default port: 8080)
 ./ mvn spring-boot:run
 
 3. Run Tests
 This command will execute all your Unit Tests (using MockWebServer) and Integration Tests.
--Run all tests to verify business logic and error handling
+Run all tests to verify business logic and error handling
 ./mvnw test
 
 
