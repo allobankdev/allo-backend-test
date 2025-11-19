@@ -15,7 +15,7 @@ public class LatestRatesFetcher implements IDRDataFetcher {
 
     private static final String RESOURCE_KEY = "latest_idr_rates";
     private final WebClient webClient;
-    private final BigDecimal spreadFactor;
+    public final BigDecimal spreadFactor;
 
     public LatestRatesFetcher(WebClient webClient, @Value("${frankfurter.username}") String username) {
         this.webClient = webClient;
