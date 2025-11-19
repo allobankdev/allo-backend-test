@@ -1,12 +1,12 @@
 package com.allobank.exercise.api.service;
 
-import com.allobank.exercise.api.dto.CurrencyInfo;
+import com.allobank.exercise.api.integration.dto.ExchangeHistoryResponse;
 
-import java.util.List;
 import java.util.Map;
 
 public interface ExchangeRateService {
     Object getLatestRates();
-    Object getHistoricalRates();
+
+    ExchangeHistoryResponse getExchangeHistory(String queryTime, String fromCurrency, String toCurrency);
     Map<String, String> getSupportedCurrencies();
 }

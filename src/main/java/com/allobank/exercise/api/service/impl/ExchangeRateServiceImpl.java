@@ -1,13 +1,10 @@
 package com.allobank.exercise.api.service.impl;
 
-import com.allobank.exercise.api.cache.ResourceCache;
-import com.allobank.exercise.api.dto.CurrencyInfo;
 import com.allobank.exercise.api.integration.FrankfurterClient;
+import com.allobank.exercise.api.integration.dto.ExchangeHistoryResponse;
 import com.allobank.exercise.api.service.ExchangeRateService;
 import org.springframework.stereotype.Service;
 
-import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 @Service
@@ -25,8 +22,8 @@ public class ExchangeRateServiceImpl implements ExchangeRateService {
     }
 
     @Override
-    public Object getHistoricalRates() {
-        return null;
+    public ExchangeHistoryResponse getExchangeHistory(String queryTime, String fromCurrency, String toCurrency) {
+        return frankfurterClient.getExchangeHistory(queryTime, fromCurrency, toCurrency);
     }
 
     @Override

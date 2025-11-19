@@ -22,7 +22,7 @@ public class SupportedCurrencyFetcher implements IDRDataFetcher {
 
     @Override
     public List<CurrencyInfo> getData() {
-        Map<String, String> currencyCache = resourceCache.getCurrencyCache();
+        Map<String, String> currencyCache = resourceCache.getDataCache(ResourceType.SUPPORTED_CURRENCIES);
 
         return currencyCache.entrySet().stream()
                 .map(e -> new CurrencyInfo(e.getKey(), e.getValue()))

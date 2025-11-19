@@ -2,7 +2,9 @@ package com.allobank.exercise.api.boot;
 
 import com.allobank.exercise.api.cache.ResourceCache;
 import com.allobank.exercise.api.dto.CurrencyInfo;
+import com.allobank.exercise.api.dto.ExchangeHistory;
 import com.allobank.exercise.api.enumeration.ResourceType;
+import com.allobank.exercise.api.integration.dto.ExchangeHistoryResponse;
 import com.allobank.exercise.api.service.ExchangeRateService;
 import com.allobank.exercise.api.service.impl.SupportedCurrencyFetcher;
 import org.springframework.boot.ApplicationArguments;
@@ -33,6 +35,9 @@ public class DataLoader implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         Map<String, String> currencyResponse = exchangeRateService.getSupportedCurrencies();
-        resourceCache.initImmutableCache(currencyResponse);
+        ExchangeHistoryResponse exchangeHistoryResponse = exchangeRateService.getExchangeHistory("2024-01-01..2024-01-05?",
+                "IDR", "USD");
+
+        resourceCache.initImmutableCache(currencyResponse, exchangeHistoryResponse);
     }
 }

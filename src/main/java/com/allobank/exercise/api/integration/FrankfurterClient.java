@@ -1,12 +1,13 @@
 package com.allobank.exercise.api.integration;
 
-import java.util.LinkedHashMap;
+import com.allobank.exercise.api.integration.dto.ExchangeHistoryResponse;
+import java.util.Map;
 
 public interface FrankfurterClient {
 
     Object getLatestRates();
 
-    Object getHistoricalRates();
+    ExchangeHistoryResponse getExchangeHistory(String queryTime, String fromCurrency, String toCurrency);
 
-    LinkedHashMap<String, String> getSupportedCurrencies();
+    Map<String, String> getSupportedCurrencies();
 }

@@ -11,6 +11,16 @@ public class FrankfurterApiProperties {
     private String currencyPath;
     @Value("${integration.api.frankfurter.path.lates-idr}")
     private String latestIdrPath;
+    @Value("${integration.api.frankfurter.base-url}")
+    private String baseUrl;
+
+    public String getBaseUrl() {
+        return baseUrl;
+    }
+
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
+    }
 
     public String getCurrencyPath() {
         return currencyPath;
