@@ -1,3 +1,7 @@
 spring:
   application:
     name: feat-idr-rate-aggregator
+frankfurter:
+  base-url: https://api.frankfurter.app
+  username: "mendochandra"
+
