@@ -66,6 +66,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>allo-bank-test</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
