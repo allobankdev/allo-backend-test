@@ -1,138 +1,342 @@
-# Allo Bank Backend Developer Take-Home Test
+# IDR Exchange Rate Service
 
-Thank you for applying to our team! This take-home test is designed to evaluate your practical skills in building **production-ready** Spring Boot applications within a finance domain, focusing on architectural patterns and complex data handling.
+A Spring Boot microservice that fetches and serves Indonesian Rupiah (IDR) exchange rate data from the Frankfurter API. The service provides three different resource types through a single endpoint and includes personalized spread factor calculations.
 
-## 📝 Objective
+## 📋 Table of Contents
 
-Your task is to create a single Spring Boot REST API endpoint capable of aggregating data from multiple, distinct resources provided by the public, keyless **Frankfurter Exchange Rate API**. The primary focus is on handling Indonesian Rupiah (IDR) data.
+- [Features](#features)
+- [Architecture](#architecture)
+- [Resilience & Fault Tolerance](#-resilience--fault-tolerance)
+- [Documentation](#documentation)
+- [Setup/Run Instructions](#setuprun-instructions)
+- [Endpoint Usage](#endpoint-usage)
+- [Personalization Note](#personalization-note)
+- [🛠️ Architectural Rationale](#️-architectural-rationale)
 
-The focus of this test is not just functional correctness, but demonstrating clean code, advanced Spring concepts, thread-safe design, and architectural clarity.
+## ✨ Features
 
-## I. Core Task: The Polymorphic API
+- **Three Resource Types**: Latest rates with USD spread calculation, historical rates, and supported currencies
+- **Strategy Pattern**: Clean separation of concerns for different data fetching strategies
+- **Performance Optimized**: Data loaded once at startup and served from memory
+- **Resilience4j Retry**: Automatic retries for transient failures with configurable backoff
+- **Personalized**: Custom spread factor calculation based on GitHub username
 
-### 1. External API Integration (Frankfurter API)
+## 🏗️ Architecture
 
-* **Base URL (Public):** `https://api.frankfurter.app/`.
+The application follows a layered architecture with the following key components:
 
-* You must integrate with three distinct data resources to enforce the architectural pattern:
+- **Controller Layer**: REST endpoints for data access
+- **Service Layer**: Business logic and strategy delegation
+- **Strategy Layer**: Individual data fetchers for different resource types
+- **Client Layer**: WebClient-based HTTP communication
+- **Data Store**: In-memory storage for API responses
+- **Configuration**: Properties and factory beans for WebClient creation
 
-   1.  `/latest?base=IDR` (The latest rates relative to IDR)
+## ⚡ Resilience & Fault Tolerance
 
-   2.  **Historical Data:** Query a specific, small time series (e.g., `/2024-01-01..2024-01-05?from=IDR&to=USD`). **Note:** *Use the date range provided in this example unless a different range is communicated separately.*
+### Retry Mechanism
 
-   3.  `/currencies` (The list of all supported currency symbols)
+The application uses **Resilience4j** to provide automatic retry capabilities for external API calls, ensuring robust communication with the Frankfurter API.
 
-### 2. Internal API Endpoint
+**Configuration** (`application.yaml`):
+- **Max Attempts**: 3 retries
+- **Wait Duration**: 2 seconds between attempts
+- **Retry Exceptions**:
+  - `WebClientResponseException` (4xx/5xx errors)
+  - `WebClientRequestException` (network/timeout errors)
+- **Ignored Exceptions**: `ClientException` (4xx client errors are not retried)
 
-You must expose **one single endpoint** in your application: ```GET /api/finance/data/{resourceType}```
-
-Where `{resourceType}` can be one of the three strings: `latest_idr_rates`, `historical_idr_usd`, or `supported_currencies`.
-
-### 3. Required Functionality & Business Logic
-
-* **Resource Handling:** Your service must correctly map the three incoming `resourceType` values to the correct data fetching strategies.
-
-* **Data Load:** All three resources should be fetched from the external API.
-
-* **Data Transformation (Latest IDR Rates only) - Unique Calculation:** For the **`latest_idr_rates`** resource, you must calculate and include a new field, `"USD_BuySpread_IDR"`. This is the Rupiah selling rate to USD after applying a banking spread/margin.
-
-  **The Spread Factor Must Be Unique :**
-
-   1.  **Input:** Your GitHub username (e.g., `johndoe47`).
-   2.  **Calculation:** Calculate the sum of the Unicode (ASCII) values of all characters in your lowercase GitHub username string.
-   3.  **Spread Factor Derivation:** `Spread Factor = (Sum of Unicode Values % 1000) / 100000.0`
-       *(This will yield a unique factor between 0.00000 and 0.00999, ensuring a personalized result.)*
-
-  **Final Formula:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)` (where `Rate_USD` is the value from the API when `base=IDR`).
-
-* **Other Resources:** The `historical_idr_usd` and `supported_currencies` resources can return their data with minimal transformation, but the final output must be a unified JSON array of results.
-
-## II. Architectural Constraints
-
-Meeting the core task is only one part of the solution. The following constraints must be strictly adhered to and will be heavily weighted during evaluation:
-
-### Constraint A: The Strategy Pattern
-
-The logic for handling the three different resources (`latest_idr_rates`, `historical_idr_usd`, `supported_currencies`) must be implemented using the **Strategy Design Pattern**.
-
-1.  Define a clear **Strategy Interface** (e.g., `IDRDataFetcher`).
-
-2.  Implement **three concrete strategy classes** (one for each resource).
-
-3.  The main `Controller` should dynamically select the correct strategy implementation using a map-based lookup injected by Spring, avoiding any manual `if/else` or `switch` logic in the controller layer.
-
-### Constraint B: Client Factory Bean
-
-The instance of your chosen external API client (`WebClient` or `RestTemplate`) **must be defined and created within a custom implementation of Spring's `FactoryBean<T>` interface**.
-
-* This `FactoryBean` should be responsible for externalizing the API Base URL via `@Value` or `@ConfigurationProperties` and applying any initial configuration (e.g., timeouts, shared headers).
-
-* ***You may not define the client as a simple `@Bean` in a `@Configuration` class.***
-
-### Constraint C: Startup Data Runner & Immutability
-
-The aggregated data for **ALL three resources** must be fetched **exactly once on application startup** and loaded into an in-memory store.
-
-1.  Use a Spring Boot **`ApplicationRunner`** or **`CommandLineRunner`** component to initiate the data fetching process.
-
-2.  The API endpoint (`GET /api/finance/data/{resourceType}`) must serve the data from this **in-memory store**, not by making a new call to the external API on every request.
-
-3.  The in-memory storage mechanism (e.g., a service holding the data) must be designed to be **thread-safe** and ensure the data is **immutable** once the `ApplicationRunner` has finished loading it.
-
-## III. Production Readiness & Deliverables
-
-Your final solution must demonstrate production quality through code, testing, and communication.
-
-### 1. Robustness & Best Practices
-
-* Graceful **Error Handling** for network failures or 4xx/5xx responses from the external API.
-
-* Proper use of **Configuration Properties** (e.g., `application.yml`) for external service URLs.
-
-* Clear separation of concerns (Controller, Service, Model/DTO, etc.).
-
-### 2. Testing
-
-* **Unit Tests** for all three `IDRDataFetcher` strategy implementations, ensuring data calculation and transformation logic is covered (using mock clients for external calls).
-
-* **Integration Tests** to verify the `ApplicationRunner` successfully initializes and loads the data into the in-memory store before the application context is ready.
-
-### 3. Documentation
-
-A clear `README.md` is mandatory. It must include:
-
-* **Setup/Run Instructions:** Clear steps to clone, build, and run the application and tests.
-
-* **Endpoint Usage:** Example cURL commands to test the three different resource types.
-
-* **Personalization Note:** Clearly state your GitHub username and show the exact **Spread Factor** (e.g., `0.00765`) calculated by your function.
-
-* ---
-
-* ### 🛠️ Architectural Rationale
-
-  This section should contain a brief, but detailed, explanation answering the following questions:
-
-   1.  **Polymorphism Justification:** Explain *why* the Strategy Pattern was used over a simpler conditional block in the service layer for handling the multi-resource endpoint. Discuss the benefits in terms of **extensibility** and **maintainability**.
-
-   2.  **Client Factory:** Explain the specific role and benefit of using a **`FactoryBean`** to construct the external API client. Why is this preferable to defining the client using a standard `@Bean` method in this scenario?
-
-   3.  **Startup Runner Choice:** Justify the choice of using an `ApplicationRunner` (or `CommandLineRunner`) for the initial data ingestion over a simpler `@PostConstruct` method.
-
-## IV. Submission & Review Process
-
-1.  **Fork** this repository.
-
-2.  Implement your solution on a dedicated feature branch (e.g., `feat/idr-rate-aggregator`).
-
-3.  When complete, submit your solution via a **Pull Request (PR)** back to the main repository.
-
-**Your PR will be evaluated on the following:**
-
-* **Commit History:** Clean, atomic, and descriptive commit messages (e.g., "feat: Implement IDR latest rates strategy," "fix: Correctly calculate IDR spread in tests").
-
-* **PR Description:** The description must clearly summarize the solution and **must contain the full answers** to the three "Architectural Rationale" questions from Section III.
-
-* **Code Review Readiness:** The code should be well-structured and ready for immediate review.
-
-Good luck!
+**How It Works:**
+
+Each strategy implementation is annotated with `@Retry(name = "frankfurterApi")`:
+- `LatestIdrRatesStrategy` - Retries failed API calls for latest rates
+- `HistoricalIdrUsdStrategy` - Retries failed API calls for historical data
+- `SupportedCurrenciesStrategy` - Retries failed API calls for currency list
+
+**Benefits:**
+- **Transient Failure Handling**: Automatically recovers from temporary network issues
+- **Graceful Degradation**: Application can still start even if API is temporarily unavailable
+- **Exponential Backoff**: 2-second wait between retries prevents overwhelming the API
+
+**Example Scenario:**
+
+If the Frankfurter API returns a 503 (Service Unavailable), the strategy will:
+1. Wait 2 seconds
+2. Retry the request (up to 2 more times)
+3. If all retries fail, throw `ServerException`
+4. Application continues running with cached data from previous startup (if available)
+
+## 📖 Documentation
+
+### Setup/Run Instructions
+
+#### Prerequisites
+
+- Java 21 or higher
+- Gradle (or use the included gradlew wrapper)
+
+#### Installation
+
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/frhn9/allo-backend-test.git
+   ```
+
+2. **Build the application**
+   ```bash
+   ./gradlew clean build
+   ```
+
+3. **Run the application**
+   ```bash
+   ./gradlew bootRun
+   ```
+
+   Or run the JAR file:
+   ```bash
+   java -jar build/libs/allo-backend-test-0.0.1-SNAPSHOT.jar
+   ```
+
+4. **Run tests**
+   ```bash
+   ./gradlew test
+   ```
+
+#### Expected Output
+
+The application will start and load data from the Frankfurter API during initialization:
+
+```
+=== Starting IDR exchange rate data loading at application startup ===
+Loading latest_idr_rates...
+Loading historical_idr_usd...
+Loading supported_currencies...
+=== IDR exchange rate data loading completed successfully ===
+All resources loaded: latest_idr_rates, historical_idr_usd, supported_currencies
+```
+
+The service will be available at `http://localhost:8080/api` (context path).
+
+### Endpoint Usage
+
+The service provides a single endpoint for all three resource types:
+
+**Base URL**: `http://localhost:8080/api/finance/data/{resourceType}`
+
+#### 1. Latest IDR Rates (with USD spread calculation)
+
+```bash
+curl -X GET "http://localhost:8080/api/finance/data/latest_idr_rates" \
+     -H "Accept: application/json"
+```
+
+**Sample Response**:
+```json
+{
+  "responseSchema": {
+    "responseCode": "success",
+    "responseMessage": "Success"
+  },
+  "data": {
+    "amount": 1.0,
+    "base": "IDR",
+    "date": "2025-11-19",
+    "rates": {
+      "AUD": 0.000092,
+      "BGN": 0.0001,
+      "BRL": 0.00032,
+      "CAD": 0.000084,
+      "CHF": 0.000048,
+      "CNY": 0.00043,
+      "CZK": 0.00125,
+      "DKK": 0.00039,
+      "EUR": 0.000052,
+      "GBP": 0.000046,
+      "HKD": 0.00047,
+      "HUF": 0.01974,
+      "ILS": 0.0002,
+      "INR": 0.00529,
+      "ISK": 0.00758,
+      "JPY": 0.00934,
+      "KRW": 0.08769,
+      "MXN": 0.0011,
+      "MYR": 0.00025,
+      "NOK": 0.00061,
+      "NZD": 0.00011,
+      "PHP": 0.00352,
+      "PLN": 0.00022,
+      "RON": 0.00026,
+      "SEK": 0.00057,
+      "SGD": 0.000078,
+      "THB": 0.00194,
+      "TRY": 0.00253,
+      "USD": 0.000060,
+      "ZAR": 0.00103
+    },
+    "USD_BuySpread_IDR": 16747.83
+  }
+}
+```
+
+#### 2. Historical IDR to USD Rates
+
+```bash
+curl -X GET "http://localhost:8080/api/finance/data/historical_idr_usd" \
+     -H "Accept: application/json"
+```
+
+**Sample Response** (Returns array of `HistoricalRateResponse` DTOs):
+```json
+{
+  "responseSchema": {
+    "responseCode": "success",
+    "responseMessage": "Success"
+  },
+  "data": [
+    {
+      "date": "2024-01-01",
+      "currency": "USD",
+      "rate": 0.000064
+    },
+    {
+      "date": "2024-01-02",
+      "currency": "USD",
+      "rate": 0.0000635
+    },
+    {
+      "date": "2024-01-03",
+      "currency": "USD",
+      "rate": 0.0000638
+    }
+  ]
+}
+```
+
+#### 3. Supported Currencies
+
+```bash
+curl -X GET "http://localhost:8080/api/finance/data/supported_currencies" \
+     -H "Accept: application/json"
+```
+
+**Sample Response** (Returns array of `CurrencyResponse` DTOs):
+```json
+{
+  "responseSchema": {
+    "responseCode": "success",
+    "responseMessage": "Success"
+  },
+  "data": [
+    {
+      "code": "AUD",
+      "name": "Australian Dollar"
+    },
+    {
+      "code": "CAD",
+      "name": "Canadian Dollar"
+    },
+    {
+      "code": "CHF",
+      "name": "Swiss Franc"
+    },
+    {
+      "code": "EUR",
+      "name": "Euro"
+    },
+    {
+      "code": "GBP",
+      "name": "British Pound"
+    },
+    {
+      "code": "USD",
+      "name": "US Dollar"
+    }
+  ]
+}
+```
+
+### Personalization Note
+
+This application includes a personalized spread factor calculation based on the developer's GitHub username.
+
+**GitHub Username**: `frhn9`
+
+**Spread Factor Calculation**:
+- Formula: `(Sum of Unicode Values % 1000) / 100000.0`
+- For username "frhn9": 
+  - Unicode values: f(102) + r(114) + h(104) + n(110) + 9(57) = 487
+  - Calculation: `(487 % 1000) / 100000.0 = 0.00487`
+- **Exact Spread Factor**: `0.00487`
+
+The spread factor is applied to calculate the USD buy spread in IDR: `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)`
+
+## 🛠️ Architectural Rationale
+
+### 1. Polymorphism Justification: Strategy Pattern
+
+**Why Strategy Pattern over conditional blocks?**
+
+The Strategy Pattern was implemented in the service layer (`ExchangeRateServiceImpl`) to handle the multi-resource endpoint instead of using simple conditional blocks. This design choice provides several critical benefits:
+
+**Extensibility Benefits:**
+- **Open/Closed Principle**: New resource types can be added without modifying the existing service implementation
+- **Automatic Discovery**: Spring automatically injects all `IDRDataFetcher` implementations, making it trivial to add new strategies
+- **Type Safety**: The `ResourceType` enum ensures compile-time safety for resource routing
+
+**Maintainability Benefits:**
+- **Single Responsibility**: Each strategy handles exactly one resource type with its own data fetching and transformation logic
+- **Testability**: Individual strategies can be tested in isolation without complex mocking scenarios
+- **Clear Separation**: Business logic for different resources is cleanly separated, making the codebase easier to understand and modify
+- **Reduced Complexity**: Eliminates large conditional blocks that would become increasingly complex as more resource types are added
+
+**Real-world Impact:**
+If we needed to add a new resource type (e.g., `INTRADAY_RATES`), we simply create a new implementation of `IDRDataFetcher` and Spring automatically integrates it. With conditional blocks, we'd need to modify the existing service method, increasing the risk of introducing bugs in existing functionality.
+
+### 2. Client Factory: FactoryBean for WebClient
+
+**Role and Benefits of FactoryBean:**
+
+The `WebClientFactoryBean` is used to construct the external API client (`WebClient`) instead of a standard `@Bean` method for several important reasons:
+
+**Configuration Complexity:**
+- **Complex Setup**: WebClient requires multiple configurations (HTTP client timeouts, connection settings, exchange strategies) that would clutter a regular `@Bean` method
+- **Parameter-driven**: The factory receives configuration from `FrankfurterApiProperties`, making it easier to manage and modify settings
+- **Specialized Logic**: The factory encapsulates all the complex WebClient setup logic, keeping the configuration class clean
+
+**Lifecycle Management:**
+- **Fine-grained Control**: `FactoryBean` provides better control over the creation process with methods like `getObject()`, `getObjectType()`, and `isSingleton()`
+- **Conditional Creation**: Allows for conditional logic in the WebClient creation if needed (e.g., different configurations for different environments)
+- **Error Handling**: Centralized error handling during the complex setup process
+
+**Preferability over Standard `@Bean`:**
+- **Readability**: Moves complex construction logic out of configuration classes
+- **Reusability**: The factory pattern makes it easier to create multiple instances with different configurations if needed
+- **Testing**: Easier to mock and test the factory independently
+
+### 3. Startup Runner Choice: ApplicationRunner
+
+**Justification over @PostConstruct:**
+
+The `StartupLoader` uses `ApplicationRunner` instead of `@PostConstruct` for initial data ingestion for these reasons:
+
+**Execution Order Control:**
+- **Application Context Ready**: `ApplicationRunner` runs after the Spring Boot application is fully initialized and all beans are ready
+- **Dependency Injection**: Ensures all dependencies (`IDRDataFetcher` list, `DataStoreService`, `WebClient`) are properly injected before execution
+- **Configuration Properties**: Guarantees that configuration properties are loaded and available
+
+**Error Handling:**
+- **Exception Propagation**: Better exception handling - if data loading fails, the application startup can be failed appropriately
+- **Logging Integration**: Standardized logging through Spring Boot's logging system from the very beginning
+- **Graceful Degradation**: Can implement sophisticated error handling and retry mechanisms
+
+**Spring Boot Integration:**
+- **Lifecycle Integration**: Seamlessly integrates with Spring Boot's application lifecycle
+- **Resource Management**: Better resource management as the application context is fully prepared
+- **Configuration Aware**: Can access all Spring Boot configuration and external configuration sources
+
+**Practical Benefits:**
+- **Startup Optimization**: Data is loaded exactly once when the application starts, not on every bean initialization
+- **Memory Efficiency**: Ensures consistent loading order and prevents multiple simultaneous data fetch attempts
+- **Monitoring**: Better integration with Spring Boot Actuator for startup monitoring and health checks
+
+Using `@PostConstruct` would run during bean instantiation, potentially before all dependencies and configurations are ready, leading to race conditions or missing configurations.
