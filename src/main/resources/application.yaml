@@ -12,3 +12,32 @@ frankfurter:
     write-timeout: 5000
     max-in-memory-size: 1048576
     github-username: frhn9
+
+    # Strategy-specific configurations
+    latest-rates:
+      endpoint: /latest
+      base-currency: IDR
+
+    historical-rates:
+      date-range: 2024-01-01..2024-01-05
+      from-currency: IDR
+      to-currency: USD
+
+    currencies:
+      endpoint: /currencies
+
+resilience4j:
+  retry:
+    instances:
+      frankfurterApi:
+        max-attempts: 3
+        wait-duration: 1s
+        exponential-backoff-multiplier: 2
+        retry-exceptions:
+          - java.net.ConnectException
+          - java.net.SocketTimeoutException
+          - java.util.concurrent.TimeoutException
+          - org.springframework.web.reactive.function.client.WebClientRequestException
+        ignore-exceptions:
+          - org.springframework.web.reactive.function.client.WebClientResponseException$BadRequest
+          - org.springframework.web.reactive.function.client.WebClientResponseException$NotFound

@@ -1,5 +1,7 @@
 package com.allo.test.shared.utils;
 
+import com.allo.test.modules.finance.exceptions.MissingRequiredConfigException;
+import lombok.experimental.UtilityClass;
 import lombok.extern.slf4j.Slf4j;
 
 import java.math.BigDecimal;
@@ -10,11 +12,8 @@ import java.math.RoundingMode;
  * The spread factor is personalized based on a GitHub username.
  */
 @Slf4j
+@UtilityClass
 public final class SpreadCalculator {
-
-    private SpreadCalculator() {
-        // Utility class - prevent instantiation
-    }
 
     /**
      * Calculates a unique spread factor based on a GitHub username.
@@ -28,15 +27,15 @@ public final class SpreadCalculator {
      */
     public static double calculateSpreadFactor(String githubUsername) {
         if (githubUsername == null || githubUsername.trim().isEmpty()) {
-            log.warn("GitHub username is null or empty, using default spread factor of 0.0");
-            return 0.0;
+            log.error("GitHub username is null or empty - required configuration missing");
+            throw new MissingRequiredConfigException();
         }
 
         String lowercase = githubUsername.toLowerCase();
         int sum = 0;
 
         for (char c : lowercase.toCharArray()) {
-            sum += (int) c;
+            sum += c;
         }
 
         double spreadFactor = ((sum % 1000) / 100000.0);

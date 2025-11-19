@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Map;
-
 /**
  * REST controller for accessing IDR exchange rate data.
  * <p>
@@ -45,21 +43,13 @@ public class FinanceController {
      *
      * @param resourceType the type of resource to retrieve
      * @return ResponseEntity containing the requested data or error response
-     */
+ */
     @GetMapping("/data/{resourceType}")
     public ResponseEntity<ResponseData<Object>> getData(@PathVariable String resourceType) {
-        log.info("Request received for resource type: {}", resourceType);
-
-        // Delegate to service layer - all routing logic is handled there
-        return exchangeRateService.getData(resourceType)
-                .map(data -> {
-                    log.info("Successfully retrieved data for resource type: {}", resourceType);
-                    return responseHelper.createResponseData(ResponseEnum.SUCCESS, data);
-                })
-                .orElseGet(() -> {
-                    log.warn("Invalid or unavailable resource type: {}", resourceType);
-                    return responseHelper.createResponseData(ResponseEnum.INVALID_PARAM, null);
-                });
+        return responseHelper.createResponseData(
+                ResponseEnum.SUCCESS,
+                exchangeRateService.getData(resourceType)
+        );
     }
 
 }

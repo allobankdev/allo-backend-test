@@ -4,9 +4,12 @@ import com.allo.test.modules.finance.client.strategy.IDRDataFetcher;
 import com.allo.test.modules.finance.dto.res.LatestIDRRatesResponse;
 import com.allo.test.modules.finance.dto.res.LatestRatesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
-import com.allo.test.modules.finance.store.DataStore;
+import com.allo.test.modules.finance.exceptions.ResponseParsingException;
+import com.allo.test.modules.finance.service.DataStoreService;
 import com.allo.test.shared.utils.SpreadCalculator;
+import com.allo.test.shared.utils.WebClientErrorHandler;
 import com.allo.test.configs.properties.FrankfurterApiProperties;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -20,51 +23,47 @@ import java.math.BigDecimal;
  * Handles the "latest_idr_rates" resource type.
  */
 @Slf4j
-@Component("latest_idr_rates")
+@Component
 public class LatestIDRRatesStrategy implements IDRDataFetcher {
 
-    private static final String ENDPOINT = "/latest";
-    private static final String BASE_CURRENCY = "IDR";
-
     private final FrankfurterApiProperties apiProperties;
-    private final DataStore dataStore;
+    private final DataStoreService dataStoreService;
     private final double spreadFactor;
 
-    public LatestIDRRatesStrategy(FrankfurterApiProperties apiProperties, DataStore dataStore) {
+    public LatestIDRRatesStrategy(FrankfurterApiProperties apiProperties, DataStoreService dataStoreService) {
         this.apiProperties = apiProperties;
-        this.dataStore = dataStore;
+        this.dataStoreService = dataStoreService;
         this.spreadFactor = SpreadCalculator.calculateSpreadFactor(apiProperties.getGithubUsername());
         log.info("Initialized LatestIDRRatesStrategy with spread factor: {}", spreadFactor);
     }
 
     @Override
+    @Retry(name = "frankfurterApi")
     public LatestIDRRatesResponse fetchData(WebClient webClient) {
-        log.info("Fetching latest rates with base currency: {}", BASE_CURRENCY);
+        String endpoint = apiProperties.getLatestRates().getEndpoint();
+        String baseCurrency = apiProperties.getLatestRates().getBaseCurrency();
 
-        // Fetch base rates from API
+        log.info("Fetching latest rates with base currency: {}", baseCurrency);
+
+        // Fetch base rates from API with error mapping
         LatestRatesResponse baseResponse = webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path(ENDPOINT)
-                        .queryParam("base", BASE_CURRENCY)
+                        .path(endpoint)
+                        .queryParam("base", baseCurrency)
                         .build())
                 .retrieve()
                 .bodyToMono(LatestRatesResponse.class)
-                .doOnSuccess(response -> log.info("Successfully fetched latest rates for {} currencies",
-                        response.getRates() != null ? response.getRates().size() : 0))
-                .doOnError(error -> log.error("Error fetching latest rates: {}", error.getMessage()))
+                .onErrorMap(e -> WebClientErrorHandler.mapException(e, endpoint))
                 .block();
 
+        // Validation
         if (baseResponse == null || baseResponse.getRates() == null) {
             log.error("Failed to fetch latest rates or rates map is null");
-            return null;
+            throw new ResponseParsingException(endpoint);
         }
 
         // Get USD rate from the response
         BigDecimal usdRate = baseResponse.getRates().get("USD");
-        if (usdRate == null) {
-            log.error("USD rate not found in response");
-            return null;
-        }
 
         // Calculate USD_BuySpread_IDR
         BigDecimal usdBuySpreadIdr = SpreadCalculator.calculateUsdBuySpread(usdRate, spreadFactor);
@@ -79,7 +78,7 @@ public class LatestIDRRatesStrategy implements IDRDataFetcher {
 
         // Store in DataStore
         if (response != null) {
-            dataStore.store(getResourceType(), response);
+            dataStoreService.store(getResourceType(), response);
             log.debug("Stored latest IDR rates in DataStore");
         }
 
@@ -88,7 +87,7 @@ public class LatestIDRRatesStrategy implements IDRDataFetcher {
 
     @Override
     public Object getData() {
-        return dataStore.get(getResourceType());
+        return dataStoreService.get(getResourceType());
     }
 
     @Override

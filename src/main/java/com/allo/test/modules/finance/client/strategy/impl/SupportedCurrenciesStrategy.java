@@ -1,10 +1,13 @@
 package com.allo.test.modules.finance.client.strategy.impl;
 
+import com.allo.test.configs.properties.FrankfurterApiProperties;
 import com.allo.test.modules.finance.client.strategy.IDRDataFetcher;
 import com.allo.test.modules.finance.dto.res.CurrenciesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
-import com.allo.test.modules.finance.store.DataStore;
-import lombok.RequiredArgsConstructor;
+import com.allo.test.modules.finance.exceptions.ResponseParsingException;
+import com.allo.test.modules.finance.service.DataStoreService;
+import com.allo.test.shared.utils.WebClientErrorHandler;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
@@ -19,25 +22,29 @@ import java.util.Map;
  * Handles the "supported_currencies" resource type.
  */
 @Slf4j
-@Component("supported_currencies")
-@RequiredArgsConstructor
+@Component
 public class SupportedCurrenciesStrategy implements IDRDataFetcher {
 
-    private static final String ENDPOINT = "/currencies";
+    private final FrankfurterApiProperties apiProperties;
+    private final DataStoreService dataStoreService;
 
-    private final DataStore dataStore;
+    public SupportedCurrenciesStrategy(FrankfurterApiProperties apiProperties, DataStoreService dataStoreService) {
+        this.apiProperties = apiProperties;
+        this.dataStoreService = dataStoreService;
+    }
 
     @Override
+    @Retry(name = "frankfurterApi")
     public CurrenciesResponse fetchData(WebClient webClient) {
+        String endpoint = apiProperties.getCurrencies().getEndpoint();
+
         log.info("Fetching list of supported currencies");
 
         Map<String, String> currencies = webClient.get()
-                .uri(ENDPOINT)
+                .uri(endpoint)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {})
-                .doOnSuccess(response -> log.info("Successfully fetched {} currencies",
-                        response != null ? response.size() : 0))
-                .doOnError(error -> log.error("Error fetching currencies: {}", error.getMessage()))
+                .onErrorMap(e -> WebClientErrorHandler.mapException(e, endpoint))
                 .block();
 
         CurrenciesResponse response = CurrenciesResponse.builder()
@@ -46,7 +53,7 @@ public class SupportedCurrenciesStrategy implements IDRDataFetcher {
 
         // Store in DataStore
         if (response != null) {
-            dataStore.store(getResourceType(), response);
+            dataStoreService.store(getResourceType(), response);
             log.debug("Stored currencies in DataStore");
         }
 
@@ -55,7 +62,7 @@ public class SupportedCurrenciesStrategy implements IDRDataFetcher {
 
     @Override
     public Object getData() {
-        return dataStore.get(getResourceType());
+        return dataStoreService.get(getResourceType());
     }
 
     @Override

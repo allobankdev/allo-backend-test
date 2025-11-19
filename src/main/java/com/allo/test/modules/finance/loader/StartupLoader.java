@@ -2,7 +2,7 @@ package com.allo.test.modules.finance.loader;
 
 import com.allo.test.modules.finance.client.strategy.IDRDataFetcher;
 import com.allo.test.modules.finance.enums.ResourceType;
-import com.allo.test.modules.finance.store.DataStore;
+import com.allo.test.modules.finance.service.DataStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -25,43 +25,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class StartupLoader implements ApplicationRunner {
 
-    private final List<IDRDataFetcher> strategies;
-    private final DataStore dataStore;
+    private final List<IDRDataFetcher> idrDataFetchers;
+    private final DataStoreService dataStoreService;
     private final WebClient webClient;
 
     @Override
     public void run(ApplicationArguments args) {
         log.info("=== Starting IDR exchange rate data loading at application startup ===");
 
-        try {
-            strategies.forEach(strategy -> {
-                ResourceType resourceType = strategy.getResourceType();
-                log.info("Loading {}...", resourceType);
+        for (IDRDataFetcher strategy : idrDataFetchers) {
+            ResourceType resourceType = strategy.getResourceType();
+            log.info("Loading {}...", resourceType);
 
-                try {
-                    Object data = strategy.fetchData(webClient);
-
-                    if (data != null) {
-                        log.info("{} loaded and stored successfully", resourceType);
-                    } else {
-                        log.warn("Failed to load {} - response was null", resourceType);
-                    }
-                } catch (Exception e) {
-                    log.error("Error loading {}: {}", resourceType, e.getMessage());
-                }
-            });
-
-            // Verify all data is loaded
-            if (dataStore.isDataLoaded()) {
-                log.info("=== IDR exchange rate data loading completed successfully ===");
-                log.info("All three resources (latest_idr_rates, historical_idr_usd, supported_currencies) are available");
-            } else {
-                log.error("=== Data loading incomplete - some resources failed to load ===");
+            try {
+                strategy.fetchData(webClient);
+            } catch (Exception e) {
+                log.error("Error loading {}: {}", resourceType, e.getMessage());
             }
+        }
 
-        } catch (Exception e) {
-            log.error("Error occurred while loading exchange rate data: {}", e.getMessage());
-            log.warn("=== Application will start with empty data store. Data can be loaded later when API is available ===");
+        // Verify all data is loaded
+        if (dataStoreService.isDataLoaded()) {
+            log.info("=== IDR exchange rate data loading completed successfully ===");
+            log.info("All three resources (latest_idr_rates, historical_idr_usd, supported_currencies) are available");
+        } else {
+            log.error("=== Data loading incomplete - some resources failed to load ===");
         }
     }
 }

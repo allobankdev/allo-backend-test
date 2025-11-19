@@ -1,10 +1,13 @@
 package com.allo.test.modules.finance.client.strategy.impl;
 
+import com.allo.test.configs.properties.FrankfurterApiProperties;
 import com.allo.test.modules.finance.client.strategy.IDRDataFetcher;
 import com.allo.test.modules.finance.dto.res.HistoricalRatesResponse;
 import com.allo.test.modules.finance.enums.ResourceType;
-import com.allo.test.modules.finance.store.DataStore;
-import lombok.RequiredArgsConstructor;
+import com.allo.test.modules.finance.exceptions.ResponseParsingException;
+import com.allo.test.modules.finance.service.DataStoreService;
+import com.allo.test.shared.utils.WebClientErrorHandler;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -16,37 +19,41 @@ import org.springframework.web.reactive.function.client.WebClient;
  * Handles the "historical_idr_usd" resource type.
  */
 @Slf4j
-@Component("historical_idr_usd")
-@RequiredArgsConstructor
+@Component
 public class HistoricalIDRUSDStrategy implements IDRDataFetcher {
 
-    private static final String DATE_RANGE = "2024-01-01..2024-01-05";
-    private static final String FROM_CURRENCY = "IDR";
-    private static final String TO_CURRENCY = "USD";
+    private final FrankfurterApiProperties apiProperties;
+    private final DataStoreService dataStoreService;
 
-    private final DataStore dataStore;
+    public HistoricalIDRUSDStrategy(FrankfurterApiProperties apiProperties, DataStoreService dataStoreService) {
+        this.apiProperties = apiProperties;
+        this.dataStoreService = dataStoreService;
+    }
 
     @Override
+    @Retry(name = "frankfurterApi")
     public HistoricalRatesResponse fetchData(WebClient webClient) {
+        String dateRange = apiProperties.getHistoricalRates().getDateRange();
+        String fromCurrency = apiProperties.getHistoricalRates().getFromCurrency();
+        String toCurrency = apiProperties.getHistoricalRates().getToCurrency();
+
         log.info("Fetching historical rates from {} to {} for date range: {}",
-                FROM_CURRENCY, TO_CURRENCY, DATE_RANGE);
+                fromCurrency, toCurrency, dateRange);
 
         HistoricalRatesResponse response = webClient.get()
                 .uri(uriBuilder -> uriBuilder
-                        .path("/" + DATE_RANGE)
-                        .queryParam("from", FROM_CURRENCY)
-                        .queryParam("to", TO_CURRENCY)
+                        .path("/" + dateRange)
+                        .queryParam("from", fromCurrency)
+                        .queryParam("to", toCurrency)
                         .build())
                 .retrieve()
                 .bodyToMono(HistoricalRatesResponse.class)
-                .doOnSuccess(r -> log.info("Successfully fetched historical rates for {} dates",
-                        r.getRates() != null ? r.getRates().size() : 0))
-                .doOnError(error -> log.error("Error fetching historical rates: {}", error.getMessage()))
+                .onErrorMap(e -> WebClientErrorHandler.mapException(e, "/" + dateRange))
                 .block();
 
         // Store in DataStore
         if (response != null) {
-            dataStore.store(getResourceType(), response);
+            dataStoreService.store(getResourceType(), response);
             log.debug("Stored historical rates in DataStore");
         }
 
@@ -55,7 +62,7 @@ public class HistoricalIDRUSDStrategy implements IDRDataFetcher {
 
     @Override
     public Object getData() {
-        return dataStore.get(getResourceType());
+        return dataStoreService.get(getResourceType());
     }
 
     @Override
