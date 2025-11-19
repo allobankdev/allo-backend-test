@@ -9,23 +9,21 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class FinanceService {
 
-    private final Map<String, IDRDataFetcher> strategyMap;
+    private final FinanceDataStore dataStore;
 
     public Object getData(ResourceType resourceType) {
-        String key = resourceType.name();
+        Object data = dataStore.get(resourceType);
 
-        IDRDataFetcher strategy = strategyMap.get(key);
-
-        if (strategy == null) {
+        if (data == null) {
             throw new IllegalArgumentException(
-                    "Unknown resource type: " + resourceType
+                    "Data for resourceType " + resourceType + " is not available"
             );
         }
 
-        return strategy.fetchData();
+        return data;
     }
 }
+
