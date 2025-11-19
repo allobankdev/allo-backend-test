@@ -2,17 +2,21 @@ package com.allobank.exercise.api.config;
 
 import com.allobank.exercise.api.properties.ClientProperties;
 import io.netty.channel.ChannelOption;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
+
 import java.time.Duration;
 
 @Configuration
 public class ClientFactoryBean implements FactoryBean<WebClient> {
 
     private final ClientProperties clientProperties;
+    private static final Logger log = LoggerFactory.getLogger(ClientFactoryBean.class);
 
     public ClientFactoryBean(ClientProperties clientProperties) {
         this.clientProperties = clientProperties;

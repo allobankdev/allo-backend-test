@@ -4,10 +4,7 @@ import com.allobank.exercise.api.cache.ResourceCache;
 import com.allobank.exercise.api.dto.CurrencyInfo;
 import com.allobank.exercise.api.enumeration.ResourceType;
 import com.allobank.exercise.api.service.IDRDataFetcher;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
-
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
