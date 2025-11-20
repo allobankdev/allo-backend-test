@@ -1,0 +1,39 @@
+package com.allobank.assignment.strategy.impl;
+
+import com.allobank.assignment.config.CurrencyApiProperties;
+import com.allobank.assignment.strategy.CurrencyDataFetcher;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
+
+import java.util.concurrent.CompletableFuture;
+
+@Component("supported_currencies")
+public class SupportedCurrenciesFetcher implements CurrencyDataFetcher {
+
+	private final RestTemplate restTemplate;
+	private final CurrencyApiProperties props;
+
+	public SupportedCurrenciesFetcher(RestTemplate restTemplate, CurrencyApiProperties props) {
+		this.restTemplate = restTemplate;
+		this.props = props;
+	}
+
+	@Override
+	public CompletableFuture<Object> fetch(String queryParam) {
+
+		return CompletableFuture.supplyAsync(() -> {
+
+			String url = props.getBaseUrl() + props.getCurrenciesEndpoint();
+
+			Object json = restTemplate.getForObject(url, Object.class);
+
+			return json; // EXACT JSON — NO CHANGES
+		});
+	}
+
+	@Override
+	public String getName() {
+		return "supported_currencies";
+	}
+}
+
