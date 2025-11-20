@@ -29,6 +29,11 @@ class HistoricalIdrUsdFetcherTest {
     @InjectMocks
     private HistoricalIdrUsdFetcher fetcher;
 
+    @BeforeEach
+    void setup(){
+        when(client.getHistoricalIdrUsd()).thenReturn(Mono.just(buildMockResponse()));
+    }
+
     private HistoricalRateResponse buildMockResponse() {
         Map<String, Map<String, BigDecimal>> rates = new HashMap<>();
         rates.put("2025-11-20", Map.of("USD", new BigDecimal("0.000062")));
@@ -41,10 +46,6 @@ class HistoricalIdrUsdFetcherTest {
 
     @Test
     void fetch_shouldReturnHistoricalRateInfoList_whenClientReturnsData() {
-        // Arrange
-        HistoricalRateResponse mockResponse = buildMockResponse();
-        when(client.getHistoricalIdrUsd()).thenReturn(Mono.just(mockResponse));
-
         // Act
         List<HistoricalRateInfoResponse> result = fetcher.fetch();
 
