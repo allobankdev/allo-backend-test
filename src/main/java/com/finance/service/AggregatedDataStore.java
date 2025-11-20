@@ -18,4 +18,8 @@ public class AggregatedDataStore {
     public List<?> get(String key) {
         return data.get(key);
     }
+
+    public boolean contains(String key) {
+        return data.containsKey(key);
+    }
 }

@@ -1,5 +1,7 @@
 package com.finance.client;
 
+import com.finance.constant.AppConstant;
+import com.finance.dto.external.HistoricalRateResponse;
 import com.finance.dto.external.RateResponse;
 import com.finance.dto.external.SupportedCurrenciesResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -50,17 +52,22 @@ public class FrankfurterClient{
                 .doOnNext(body -> System.out.println("RAW BODY = " + body));
     }
 
-    public RateResponse getHistoricalIdrUsd(LocalDate date) {
+    public Mono<HistoricalRateResponse> getHistoricalIdrUsd() {
+        String range = "2024-01-01..2024-01-05"; // fixed range, as the README.md said
+        URI uri = UriComponentsBuilder
+                .fromUriString("https://api.frankfurter.app/" + range)
+                .queryParam("from", AppConstant.IDR_BASE)
+                .queryParam("to", AppConstant.USD_BASE)
+                .build()
+                .toUri();
+
+        System.out.println("\nURI = " + uri);
+
         return webClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/" + date.toString())
-                        .queryParam("from", "IDR")
-                        .queryParam("to", "USD")
-                        .build())
+                .uri(uri)
                 .retrieve()
-                .bodyToMono(RateResponse.class)
-                .doOnNext(body -> System.out.println("RAW BODY = " + body))
-                .block();
+                .bodyToMono(HistoricalRateResponse.class)
+                .doOnNext(body -> System.out.println("RAW BODY = " + body));
     }
 }
 
