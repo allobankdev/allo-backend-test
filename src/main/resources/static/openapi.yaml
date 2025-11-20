@@ -22,6 +22,7 @@ paths:
             type: string
             enum:
               - latest_idr_rates
+              - historical_idr_usd
           description: Identifier for the target resource.
       responses:
         '200':

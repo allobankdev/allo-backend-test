@@ -1,6 +1,7 @@
 package com.allobank.assignment.client;
 
 import com.allobank.assignment.exception.ExternalServiceException;
+import com.allobank.assignment.model.HistoricalRatesResponse;
 import com.allobank.assignment.model.LatestRatesResponse;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
@@ -26,5 +27,21 @@ public class FrankfurterApiClient {
                 .bodyToMono(LatestRatesResponse.class)
                 .blockOptional()
                 .orElseThrow(() -> new ExternalServiceException("Frankfurter latest rates response was empty"));
+    }
+
+    public HistoricalRatesResponse getHistoricalRates(String from, String to, String start, String end) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder.path("/" + start + ".." + end)
+                        .queryParam("from", from)
+                        .queryParam("to", to)
+                        .build())
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
+                        .defaultIfEmpty("Frankfurter historical rates error")
+                        .map(body -> new ExternalServiceException("Failed to fetch historical rates: " + body,
+                                response.statusCode())))
+                .bodyToMono(HistoricalRatesResponse.class)
+                .blockOptional()
+                .orElseThrow(() -> new ExternalServiceException("Frankfurter historical rates response was empty"));
     }
 }
