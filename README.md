@@ -136,3 +136,40 @@ A clear `README.md` is mandatory. It must include:
 * **Code Review Readiness:** The code should be well-structured and ready for immediate review.
 
 Good luck!
+
+# Allo Bank Take-Home Test  
+**hafizs08** – Backend Engineer
+
+Halo tim Allo Bank!  
+Ini submission saya, semoga sesuai ekspektasi ya 
+
+### Yang udah saya kerjain:
+- 3 resource Frankfurter: latest, historical (5 hari Jan 2024), sama list currencies  
+- Pakai **Strategy Pattern** + Map lookup (nol if/else, bersih banget)  
+- WebClient dibikin lewat **FactoryBean** (bukan @Bean biasa)  
+- Data di-load sekali pas startup → langsung masuk cache (thread-safe)  
+- Latest rates dapet bonus spread pribadi: **hafizs08 → 0.00849**  
+- Response latest sekarang ada 3 field tambahan:  
+  - `USD_BuySpread_IDR`  
+  - `appliedSpreadFactor`  
+  - `githubUsername: "hafizs08"`  
+- Historical & currencies balikin data mentah (minimal transformation)  
+- Scientific notation dibiarkan (6.0E-5) → sesuai aslinya  
+- **Nol Lombok** (pure Java record + getter manual, bank friendly banget)  
+- Test 100% hijau (5 test, pake Mockito + Awaitility)  
+- Actuator nyala (bonus kecil-kecilan )
+
+### Endpoint (langsung coba aja)
+```bash
+GET /api/finance/data/latest_idr_rates
+GET /api/finance/data/historical_idr_usd
+GET /api/finance/data/supported_currencies
+
+Cara jalanin
+Bash./mvnw spring-boot:run
+
+Test
+./mvnw test
+
+Tech stack
+Spring Boot 3.5.7 + Java 17
