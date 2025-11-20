@@ -3,7 +3,7 @@ package com.finance.util;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 import com.fasterxml.jackson.databind.JsonNode;
-import com.finance.dto.Rates;
+import com.finance.dto.external.Rates;
 import com.fasterxml.jackson.core.JsonParser;
 
 import java.io.IOException;

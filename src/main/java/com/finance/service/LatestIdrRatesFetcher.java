@@ -1,9 +1,11 @@
 package com.finance.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.finance.client.FrankfurterClient;
 import com.finance.constant.AppConstant;
-import com.finance.dto.LatestIdrRatesResponse;
-import com.finance.dto.RateResponse;
+import com.finance.dto.internal.LatestIdrRatesResponse;
+import com.finance.dto.external.RateResponse;
 import com.finance.exception.ExternalServiceException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -38,7 +40,6 @@ public class LatestIdrRatesFetcher implements DataFetcher {
                 .orElseThrow(() -> new ExternalServiceException(AppConstant.NO_RESPONSE_FROM_API_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR));
 
         Map<String, Double> rates = dto.getRates();
-        System.out.println("rates : "+rates);
         if (rates == null || rates.isEmpty()) {
             throw new ExternalServiceException(AppConstant.EMPTY_RATES_RESPONSE_FROM_API_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -55,9 +56,14 @@ public class LatestIdrRatesFetcher implements DataFetcher {
                 .date(dto.getDate())
                 .rate(Collections.unmodifiableMap(rates))
                 .USD_BuySpread_IDR(usdBuySpreadIdr)
-        .build();
+                .build();
 
-        return List.of((Map<String, Object>) out);
+        // Convert POJO → Map
+        Map<String, Object> map = new ObjectMapper()
+                .convertValue(out, new TypeReference<Map<String, Object>>() {});
+
+        return List.of(map);
     }
+
 
 }

@@ -1,10 +1,9 @@
-package com.finance.dto;
+package com.finance.dto.internal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.extern.jackson.Jacksonized;
 
 import java.util.Map;
 
@@ -12,10 +11,10 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class RateResponse {
+public class LatestIdrRatesResponse {
     private Double amount;
     private String base;
     private String date;
-    private Map<String, Double> rates;
+    private Map<String, Double> rate;
+    private Double USD_BuySpread_IDR;
 }
-

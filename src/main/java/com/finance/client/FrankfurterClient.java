@@ -1,7 +1,7 @@
 package com.finance.client;
 
-import com.finance.dto.RateResponse;
-import com.finance.dto.SupportedCurrenciesResponse;
+import com.finance.dto.external.RateResponse;
+import com.finance.dto.external.SupportedCurrenciesResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -9,6 +9,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import reactor.core.publisher.Mono;
 
 import java.net.URI;
+import java.time.LocalDate;
 
 @Component
 public class FrankfurterClient{
@@ -47,6 +48,19 @@ public class FrankfurterClient{
                 .retrieve()
                 .bodyToMono(SupportedCurrenciesResponse.class)
                 .doOnNext(body -> System.out.println("RAW BODY = " + body));
+    }
+
+    public RateResponse getHistoricalIdrUsd(LocalDate date) {
+        return webClient.get()
+                .uri(uriBuilder -> uriBuilder
+                        .path("/" + date.toString())
+                        .queryParam("from", "IDR")
+                        .queryParam("to", "USD")
+                        .build())
+                .retrieve()
+                .bodyToMono(RateResponse.class)
+                .doOnNext(body -> System.out.println("RAW BODY = " + body))
+                .block();
     }
 }
 
