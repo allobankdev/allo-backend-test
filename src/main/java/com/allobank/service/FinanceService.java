@@ -27,8 +27,9 @@ public class FinanceService {
                 yield new LatestRatesResponse("IDR", LocalDate.now(), rates);
             }
             case "historical" -> {
-                Map<String, Map<String, Double>> rates = (Map<String, Map<String, Double>>) cache.get("historical");
-                yield new HistoricalRatesResponse(rates);
+                Map<String, Object> raw = (Map<String, Object>) cache.get("historical");
+                Map<String, Map<String, Double>> ratesByDate = (Map<String, Map<String, Double>>) raw.get("rates");
+                yield new HistoricalRatesResponse(ratesByDate);  // Pass the sub-map directly
             }
             case "currencies" -> {
                 Map<String, String> currencies = (Map<String, String>) cache.get("currencies");
