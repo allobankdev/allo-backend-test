@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: agregator
+
+api:
+  frankfurt: https://api.frankfuter.app
