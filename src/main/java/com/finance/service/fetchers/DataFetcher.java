@@ -1,4 +1,4 @@
-package com.finance.service;
+package com.finance.service.fetchers;
 
 import java.util.List;
 import java.util.Map;

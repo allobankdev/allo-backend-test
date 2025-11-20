@@ -1,7 +1,7 @@
 package com.finance.controller;
 
 import com.finance.service.AggregatedDataStore;
-import com.finance.service.DataFetcher;
+import com.finance.service.fetchers.DataFetcher;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

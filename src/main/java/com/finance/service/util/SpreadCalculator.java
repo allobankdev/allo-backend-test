@@ -1,4 +1,4 @@
-package com.finance.service;
+package com.finance.service.util;
 
 public class SpreadCalculator {
     public static double computeSpread(String githubUsernameLowercase) {

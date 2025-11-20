@@ -1,5 +1,7 @@
-package com.finance.service;
+package com.finance.service.intializers;
 
+import com.finance.service.AggregatedDataStore;
+import com.finance.service.fetchers.DataFetcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

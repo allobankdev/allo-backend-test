@@ -1,6 +1,6 @@
 package com.finance.config;
 
-import com.finance.service.DataFetcher;
+import com.finance.service.fetchers.DataFetcher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

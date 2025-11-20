@@ -1,4 +1,4 @@
-package com.finance.service;
+package com.finance.service.fetchers;
 
 import com.finance.client.FrankfurterClient;
 import com.finance.constant.AppConstant;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class SupportedCurrenciesFetcher implements DataFetcher{
+public class SupportedCurrenciesFetcher implements DataFetcher {
     private final FrankfurterClient client;
 
     public SupportedCurrenciesFetcher(FrankfurterClient client) {

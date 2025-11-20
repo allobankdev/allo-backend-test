@@ -1,4 +1,4 @@
-package com.finance.service;
+package com.finance.service.fetchers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -7,6 +7,7 @@ import com.finance.constant.AppConstant;
 import com.finance.dto.internal.LatestIdrRatesResponse;
 import com.finance.dto.external.RateResponse;
 import com.finance.exception.ExternalServiceException;
+import com.finance.service.util.SpreadCalculator;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
