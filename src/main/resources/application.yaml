@@ -1,3 +1,7 @@
 spring:
   application:
     name: backend
+
+external:
+  api:
+    frankfurter-base-url: https://api.frankfurter.app/
