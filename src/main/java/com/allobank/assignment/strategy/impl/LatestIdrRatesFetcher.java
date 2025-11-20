@@ -44,7 +44,7 @@ public class LatestIdrRatesFetcher implements CurrencyDataFetcher {
 				json.put("USD_BuySpread_IDR", usdBuySpreadIdr);
 			}
 
-			return json;  // return EXACT + new fields
+			return json;
 		});
 	}
 

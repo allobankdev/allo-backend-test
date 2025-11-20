@@ -27,7 +27,7 @@ public class HistoricalIdrUsdFetcher implements CurrencyDataFetcher {
 
 			Object json = restTemplate.getForObject(url, Object.class);
 
-			return json; // EXACT RESPONSE — NO TRANSFORMATION
+			return json;
 		});
 	}
 

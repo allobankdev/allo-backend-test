@@ -24,10 +24,8 @@ public class CurrencyApiClientFactory implements FactoryBean<RestTemplate> {
 
 		RestTemplate rt = new RestTemplate(rf);
 
-		// Ensure JSON parsing works consistently
 		rt.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
-		// Default headers for safety
 		rt.getInterceptors().add((req, body, exec) -> {
 			req.getHeaders().set("Accept", "application/json");
 			req.getHeaders().set("User-Agent", "IDR-Finance-App/1.0");

@@ -27,7 +27,7 @@ public class SupportedCurrenciesFetcher implements CurrencyDataFetcher {
 
 			Object json = restTemplate.getForObject(url, Object.class);
 
-			return json; // EXACT JSON — NO CHANGES
+			return json;
 		});
 	}
 
