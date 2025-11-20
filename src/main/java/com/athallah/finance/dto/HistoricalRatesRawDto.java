@@ -1,12 +1,14 @@
 package com.athallah.finance.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Data;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
 @Data
+@Builder
 public class HistoricalRatesRawDto {
     private int amount;
     private String base;
