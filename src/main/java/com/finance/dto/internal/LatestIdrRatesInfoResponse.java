@@ -11,7 +11,7 @@ import java.util.Map;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LatestIdrRatesResponse {
+public class LatestIdrRatesInfoResponse {
 //    private Double amount; will be uncommented if needed
     private String base;
     private String date;
