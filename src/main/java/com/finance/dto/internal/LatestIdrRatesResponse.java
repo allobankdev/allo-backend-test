@@ -12,7 +12,7 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LatestIdrRatesResponse {
-    private Double amount;
+//    private Double amount; will be uncommented if needed
     private String base;
     private String date;
     private Map<String, Double> rate;
