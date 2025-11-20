@@ -1,6 +1,8 @@
 package com.allobank.assignment.service;
 
 import com.allobank.assignment.model.FinanceDataResponse;
+import com.allobank.assignment.model.ResourceType;
+import com.allobank.assignment.strategy.IdrDataFetchStrategy;
 import com.allobank.assignment.strategy.IdrDataStrategyRegistry;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,12 @@ public class FinanceDataService {
 
 
     public List<FinanceDataResponse> getFinanceData(String resourceType) {
-        return null;
+        ResourceType type = ResourceType.from(resourceType);
+        IdrDataFetchStrategy strategy = strategyRegistry.getStrategy(type);
+        if (strategy == null) {
+            throw new IllegalArgumentException("Unsupported resource type: " + resourceType);
+        }
+        FinanceDataResponse response = cache.get(type);
+        return List.of(response);
     }
 }
