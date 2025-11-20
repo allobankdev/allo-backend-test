@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>livecoding</groupId>
-    <artifactId>demo</artifactId>
+    <artifactId>allobank</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>demo</name>
-    <description>demo</description>
+    <name>backend-test</name>
+    <description>this is a test for AlloBank Java Backend Developer</description>
     <url/>
     <licenses>
         <license/>
