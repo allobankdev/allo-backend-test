@@ -34,20 +34,29 @@ public class LatestIdrRatesFetcher implements DataFetcher {
     public String resourceType() { return "latest_idr_rates"; }
 
     @Override
-    public List<Map<String, Object>> fetch() {
+    public List<LatestIdrRatesResponse> fetch() {
 
         RateResponse dto = client.getLatestRates(AppConstant.IDR_BASE)
                 .blockOptional()
-                .orElseThrow(() -> new ExternalServiceException(AppConstant.NO_RESPONSE_FROM_API_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR));
+                .orElseThrow(() -> new ExternalServiceException(
+                        AppConstant.NO_RESPONSE_FROM_API_MESSAGE,
+                        HttpStatus.INTERNAL_SERVER_ERROR
+                ));
 
         Map<String, Double> rates = dto.getRates();
         if (rates == null || rates.isEmpty()) {
-            throw new ExternalServiceException(AppConstant.EMPTY_RATES_RESPONSE_FROM_API_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ExternalServiceException(
+                    AppConstant.EMPTY_RATES_RESPONSE_FROM_API_MESSAGE,
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
 
         Double usdRate = rates.get(AppConstant.USD_BASE);
         if (usdRate == null) {
-            throw new ExternalServiceException(AppConstant.USD_RATE_RESPONSE_MISSING_FROM_API_MESSAGE, HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ExternalServiceException(
+                    AppConstant.USD_RATE_RESPONSE_MISSING_FROM_API_MESSAGE,
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
 
         double usdBuySpreadIdr = (1.0 / usdRate) * (1.0 + spreadFactor);
@@ -55,15 +64,11 @@ public class LatestIdrRatesFetcher implements DataFetcher {
         LatestIdrRatesResponse out = LatestIdrRatesResponse.builder()
                 .base(dto.getBase())
                 .date(dto.getDate())
-                .rate(Collections.unmodifiableMap(rates))
+                .rate(Map.copyOf(rates))  // immutable
                 .USD_BuySpread_IDR(usdBuySpreadIdr)
                 .build();
 
-        // Convert POJO → Map
-        Map<String, Object> map = new ObjectMapper()
-                .convertValue(out, new TypeReference<Map<String, Object>>() {});
-
-        return List.of(map);
+        return List.of(out);
     }
 
 

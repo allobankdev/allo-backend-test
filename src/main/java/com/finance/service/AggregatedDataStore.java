@@ -9,13 +9,13 @@ import java.util.Map;
 
 @Component
 public class AggregatedDataStore {
-    private volatile Map<String, List<Map<String,Object>>> store = Map.of();
+    private Map<String, List<?>> data;
 
-    public boolean contains(String key) { return store.containsKey(key); }
-    public List<Map<String,Object>> get(String key) { return store.get(key); }
+    public void initialize(Map<String, List<?>> data) {
+        this.data = data;
+    }
 
-    public synchronized void initialize(Map<String, List<Map<String,Object>>> initial) {
-        if (!store.isEmpty()) throw new IllegalStateException("already initialized");
-        this.store = Map.copyOf(initial);
+    public List<?> get(String key) {
+        return data.get(key);
     }
 }

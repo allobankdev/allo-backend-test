@@ -23,7 +23,8 @@ public class SupportedCurrenciesFetcher implements DataFetcher {
     public String resourceType() { return "supported_currencies"; }
 
     @Override
-    public List<Map<String, Object>> fetch() {
+    public List<CurrencyInfoResponse> fetch() {
+
         SupportedCurrenciesResponse dto = client.getSupportedCurrencies()
                 .blockOptional()
                 .orElseThrow(() -> new ExternalServiceException(
@@ -34,10 +35,9 @@ public class SupportedCurrenciesFetcher implements DataFetcher {
         return dto.getSupportedCurrencies()
                 .entrySet()
                 .stream()
-                .map(entry -> new CurrencyInfoResponse(entry.getKey(), entry.getValue()))
-                .map(info -> Map.<String, Object>of(
-                        "currencyCode", info.getCurrencyCode(),
-                        "currencyName", info.getCurrencyName()
+                .map(entry -> new CurrencyInfoResponse(
+                        entry.getKey(),
+                        entry.getValue()
                 ))
                 .toList();
     }

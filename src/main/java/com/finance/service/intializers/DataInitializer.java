@@ -11,10 +11,10 @@ import java.util.stream.Collectors;
 @Service
 public class DataInitializer {
 
-    public DataInitializer(Map<String, DataFetcher> fetchers,
+    public DataInitializer(Map<String, DataFetcher<?>> fetchers,
                            AggregatedDataStore store) {
 
-        Map<String, List<Map<String, Object>>> initial =
+        Map<String, List<?>> initial =
                 fetchers.values()
                         .stream()
                         .collect(Collectors.toMap(
