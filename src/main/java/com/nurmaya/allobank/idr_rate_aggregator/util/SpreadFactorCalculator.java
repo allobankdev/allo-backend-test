@@ -23,5 +23,4 @@ public class SpreadFactorCalculator {
 
         return (sum % 1000) / 100000.0;
     }
-    
 }
