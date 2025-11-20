@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "external-api",
+      "type": "com.allo.idr.config.ExternalApiProperties",
+      "sourceType": "com.allo.idr.config.ExternalApiProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "external-api.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.allo.idr.config.ExternalApiProperties"
+    }
+  ],
+  "hints": []
+}

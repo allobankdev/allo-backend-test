@@ -1,0 +1,6 @@
+com/allo/idr/SupportCurrenciesFetcherTest.class
+com/allo/idr/InitialDataLoaderTest.class
+com/allo/idr/LatestRatesFetcherTest.class
+com/allo/idr/HistoricalRatesFetcherTest.class
+com/allo/idr/IdrAggregatorApplicationTests.class
+com/allo/idr/IDRDataLoaderIntegrationTest.class

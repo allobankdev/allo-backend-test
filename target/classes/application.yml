@@ -1,0 +1,10 @@
+external-api:
+  base-url: "https://api.frankfurter.app"
+  connection-timeout-ms: 5000
+  read-timeout-ms: 5000
+
+app:
+  github-username: "RianCh140775"
+
+server:
+  port: 9000

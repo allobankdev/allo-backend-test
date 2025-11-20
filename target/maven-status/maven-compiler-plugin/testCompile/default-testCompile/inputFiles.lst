@@ -1,0 +1,6 @@
+/Users/rianchoirulansyah/test/allo-backend-test/src/test/java/com/allo/idr/InitialDataLoaderTest.java
+/Users/rianchoirulansyah/test/allo-backend-test/src/test/java/com/allo/idr/IDRDataLoaderIntegrationTest.java
+/Users/rianchoirulansyah/test/allo-backend-test/src/test/java/com/allo/idr/SupportCurrenciesFetcherTest.java
+/Users/rianchoirulansyah/test/allo-backend-test/src/test/java/com/allo/idr/IdrAggregatorApplicationTests.java
+/Users/rianchoirulansyah/test/allo-backend-test/src/test/java/com/allo/idr/HistoricalRatesFetcherTest.java
+/Users/rianchoirulansyah/test/allo-backend-test/src/test/java/com/allo/idr/LatestRatesFetcherTest.java
