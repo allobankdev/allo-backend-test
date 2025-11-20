@@ -1,12 +1,9 @@
 package com.athallah.finance.service;
 
-import com.athallah.finance.startegy.IDRDataFetcher;
+import com.athallah.finance.cache.FinanceDataStore;
 import com.athallah.finance.util.constant.ResourceType;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.Map;
 
 @Service
 @RequiredArgsConstructor

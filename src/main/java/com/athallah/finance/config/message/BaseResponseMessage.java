@@ -1,8 +1,6 @@
-package com.athallah.finance.config.response_message;
+package com.athallah.finance.config.message;
 
 
-import com.athallah.finance.config.response_message.localization_messages.EnumMessagesKey;
-import com.athallah.finance.config.response_message.localization_messages.LocalizedMessages;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

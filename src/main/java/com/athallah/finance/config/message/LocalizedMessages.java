@@ -1,4 +1,4 @@
-package com.athallah.finance.config.response_message.localization_messages;
+package com.athallah.finance.config.message;
 
 import java.util.Locale;
 import java.util.ResourceBundle;

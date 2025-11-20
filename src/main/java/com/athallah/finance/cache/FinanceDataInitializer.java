@@ -1,6 +1,6 @@
-package com.athallah.finance.service;
+package com.athallah.finance.cache;
 
-import com.athallah.finance.startegy.IDRDataFetcher;
+import com.athallah.finance.service.strategy.IDRDataFetcher;
 import com.athallah.finance.util.constant.ResourceType;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.ApplicationArguments;
@@ -20,7 +20,7 @@ public class FinanceDataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) {
         for (IDRDataFetcher fetcher : strategyMap.values()) {
             ResourceType type = fetcher.getResourceType();
-            Object data = fetcher.fetchData();      // FETCH SEKALI SAJA DI STARTUP
+            Object data = fetcher.fetchData();
             dataStore.put(type, data);
         }
     }

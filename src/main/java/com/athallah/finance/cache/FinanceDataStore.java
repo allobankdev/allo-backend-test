@@ -1,4 +1,4 @@
-package com.athallah.finance.service;
+package com.athallah.finance.cache;
 
 import com.athallah.finance.util.constant.ResourceType;
 import org.springframework.stereotype.Service;

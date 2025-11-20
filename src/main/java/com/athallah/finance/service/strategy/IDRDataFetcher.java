@@ -1,4 +1,4 @@
-package com.athallah.finance.startegy;
+package com.athallah.finance.service.strategy;
 
 import com.athallah.finance.util.constant.ResourceType;
 
