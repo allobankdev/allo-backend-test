@@ -1,0 +1,109 @@
+openapi: 3.0.3
+info:
+  title: IDR Rate Aggregator API
+  version: 1.0.0
+  description: |
+    Aggregates IDR related data from the Frankfurter API and serves cached responses.
+  contact:
+    name: praydwi24
+servers:
+  - url: /
+paths:
+  /api/finance/data/{resourceType}:
+    get:
+      summary: Get cached financial data
+      description: >-
+        Returns the cached payload for the requested resource type loaded at application startup.
+      parameters:
+        - in: path
+          name: resourceType
+          required: true
+          schema:
+            type: string
+            enum:
+              - latest_idr_rates
+          description: Identifier for the target resource.
+      responses:
+        '200':
+          description: Successful response from cache
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/FinanceDataResponse'
+        '400':
+          description: Unsupported resource type
+        '503':
+          description: Cache not initialized
+components:
+  schemas:
+    FinanceDataResponse:
+      type: object
+      properties:
+        resourceType:
+          type: string
+          example: latest_idr_rates
+        payload:
+          description: Response body from the Frankfurter API, annotated when required.
+          oneOf:
+            - $ref: '#/components/schemas/LatestRatesAggregation'
+            - $ref: '#/components/schemas/HistoricalRatesResponse'
+            - type: object
+              additionalProperties:
+                type: string
+              description: Mapping of currency codes to their names.
+        fetchedAt:
+          type: string
+          format: date-time
+          description: Timestamp when the data was fetched during application bootstrap.
+    LatestRatesAggregation:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 1
+        base:
+          type: string
+          example: IDR
+        date:
+          type: string
+          format: date
+          example: 2024-01-05
+        rates:
+          type: object
+          additionalProperties:
+            type: number
+          example:
+            USD: 0.000064
+            EUR: 0.000059
+        USD_BuySpread_IDR:
+          type: number
+          example: 15760.9375
+          description: Personalized buy spread calculated using GitHub username `praydwi24`.
+    HistoricalRatesResponse:
+      type: object
+      properties:
+        amount:
+          type: number
+          example: 1
+        base:
+          type: string
+          example: IDR
+        start_date:
+          type: string
+          format: date
+          example: 2024-01-01
+        end_date:
+          type: string
+          format: date
+          example: 2024-01-05
+        rates:
+          type: object
+          additionalProperties:
+            type: object
+            additionalProperties:
+              type: number
+          example:
+            2024-01-02:
+              USD: 0.000064
