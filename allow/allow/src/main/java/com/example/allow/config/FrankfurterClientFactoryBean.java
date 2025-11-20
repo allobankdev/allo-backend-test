@@ -1,6 +1,8 @@
 package com.example.allow.config;
 
 import io.netty.channel.ChannelOption;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
 import org.springframework.stereotype.Component;
@@ -12,6 +14,8 @@ import java.time.Duration;
 
 @Component
 public class FrankfurterClientFactoryBean implements FactoryBean<WebClient> {
+
+    private static final Logger log = LoggerFactory.getLogger(FrankfurterClientFactoryBean.class);
 
     private final AppConfig config;
 
@@ -30,11 +34,11 @@ public class FrankfurterClientFactoryBean implements FactoryBean<WebClient> {
                 .clientConnector(new ReactorClientHttpConnector(httpClient))
                 .defaultHeader("Accept", "application/json")
                 .filter(ExchangeFilterFunction.ofRequestProcessor(request -> {
-                    System.out.println("→ Request: " + request.method() + " " + request.url());
+                    log.info("Request: {} {}", request.method(), request.url());
                     return Mono.just(request);
                 }))
                 .filter(ExchangeFilterFunction.ofResponseProcessor(response -> {
-                    System.out.println("← Response: " + response.statusCode());
+                    log.info("Response: {} {}", response.statusCode(), response.headers().asHttpHeaders().getFirst("Content-Type"));
                     return Mono.just(response);
                 }))
                 .build();

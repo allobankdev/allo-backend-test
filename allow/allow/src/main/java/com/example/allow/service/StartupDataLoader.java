@@ -1,11 +1,11 @@
 package com.example.allow.service;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
-
 import com.example.allow.strategy.IDRDataFetcher;
-
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -15,6 +15,8 @@ import java.util.Map;
 
 @Component
 public class StartupDataLoader implements ApplicationRunner {
+
+    private static final Logger log = LoggerFactory.getLogger(StartupDataLoader.class);
 
     private final List<IDRDataFetcher> fetchers;
     private final DataAggregationService cache;
@@ -26,16 +28,16 @@ public class StartupDataLoader implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        System.out.println("STARTING FRANKFURTER DATA PRELOAD...");
+        log.info("STARTING FRANKFURTER DATA PRELOAD...");
 
         Flux.fromIterable(fetchers)
                 .flatMap(fetcher -> fetcher.fetchData()
                         .doOnSuccess(data -> {
                             cache.put(fetcher.getResourceKey(), data);
-                            System.out.println("SUCCESS: " + fetcher.getResourceKey());
+                            log.info("SUCCESS: {}", fetcher.getResourceKey());
                         })
                         .doOnError(err -> {
-                            System.err.println("FAILED: " + fetcher.getResourceKey() + " → " + err.getMessage());
+                            log.error("FAILED: {} → {}", fetcher.getResourceKey(), err.getMessage());
                             cache.put(fetcher.getResourceKey(), Map.of(
                                     "error", "Failed to load: " + err.getMessage(),
                                     "resource", fetcher.getResourceKey()
@@ -45,7 +47,7 @@ public class StartupDataLoader implements ApplicationRunner {
                 )
                 .doFinally(signalType -> {
                     cache.markAsLoaded();
-                    System.out.println("ALL DATA LOADING COMPLETED (success or partial failure)");
+                    log.info("ALL DATA LOADING COMPLETED (success or partial failure)");
                 })
                 .blockLast(Duration.ofSeconds(30));
     }
