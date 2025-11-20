@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import java.util.Map;
+
 @Component
 public class FrankfurterApiClient {
 
@@ -43,5 +45,18 @@ public class FrankfurterApiClient {
                 .bodyToMono(HistoricalRatesResponse.class)
                 .blockOptional()
                 .orElseThrow(() -> new ExternalServiceException("Frankfurter historical rates response was empty"));
+    }
+
+    public Map<String, String> getSupportedCurrencies() {
+        return webClient.get()
+                .uri("/currencies")
+                .retrieve()
+                .onStatus(HttpStatusCode::isError, response -> response.bodyToMono(String.class)
+                        .defaultIfEmpty("Frankfurter currencies error")
+                        .map(body -> new ExternalServiceException("Failed to fetch currencies: " + body,
+                                response.statusCode())))
+                .bodyToMono(new org.springframework.core.ParameterizedTypeReference<Map<String, String>>() {})
+                .blockOptional()
+                .orElseThrow(() -> new ExternalServiceException("Frankfurter currencies response was empty"));
     }
 }

@@ -23,6 +23,7 @@ paths:
             enum:
               - latest_idr_rates
               - historical_idr_usd
+              - supported_currencies
           description: Identifier for the target resource.
       responses:
         '200':
