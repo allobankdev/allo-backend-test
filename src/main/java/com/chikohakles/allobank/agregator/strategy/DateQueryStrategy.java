@@ -1,20 +1,22 @@
 package com.chikohakles.allobank.agregator.strategy;
 
 import com.chikohakles.allobank.agregator.constant.ResourceType;
+import com.chikohakles.allobank.agregator.dto.DateQueryResponse;
 import com.chikohakles.allobank.agregator.service.AgregatorService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClient;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+@RequiredArgsConstructor
 @Service
 public class DateQueryStrategy implements BaseStrategy{
-    AgregatorService agregatorService;
-    DateQueryStrategy(AgregatorService agregatorService) {
-        this.agregatorService = agregatorService;
-    }
+    private static final String URL_DATE_QUERY = "/{from}..{to}?from={base}&to={target}";
+    private final RestClient restClient;
     @Override
     public ResourceType getResourceType() {
         return ResourceType.HISTORICAL_IDR_USD;
@@ -37,6 +39,9 @@ public class DateQueryStrategy implements BaseStrategy{
             throw new IllegalArgumentException("Unknown date: " + from);
         }
 
-        return agregatorService.getDateQuery(fromDate, toDate, base, target);
+        return restClient.get()
+                .uri(URL_DATE_QUERY, fromDate, toDate, base, target)
+                .retrieve()
+                .body(DateQueryResponse.class);
     }
 }
