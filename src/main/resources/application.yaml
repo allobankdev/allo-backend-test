@@ -5,3 +5,7 @@ spring:
 external:
   api:
     frankfurter-base-url: https://api.frankfurter.app/
+
+internal:
+  data:
+    github-username: vilis-iv
