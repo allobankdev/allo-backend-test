@@ -2,5 +2,10 @@ spring:
   application:
     name: agregator
 
-api:
-  frankfurt: https://api.frankfuter.app
+frankfurt:
+  api: https://api.frankfurter.app
+  connect-timeout-ms: 3000
+  read-timeout-ms: 5000
+
+github:
+  username: chikohakles
