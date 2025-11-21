@@ -3,7 +3,6 @@ package test.allo.backend.service.impl;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import com.fasterxml.jackson.databind.node.MissingNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,10 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 import test.allo.backend.service.IDRDataFetcher;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 
 @Slf4j
 @Service("historical_idr_usd")
