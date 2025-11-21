@@ -6,10 +6,10 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import test.allo.backend.service.IDRDataFetcher;
+import test.allo.backend.storage.InMemoryStorage;
+import static test.allo.backend.utils.ConstantUtils.HISTORICAL_IDR_USD;
 
 import java.util.Iterator;
 
@@ -18,21 +18,15 @@ import java.util.Iterator;
 @RequiredArgsConstructor
 public class HistoricalIdrUsdImpl implements IDRDataFetcher {
 
-    @Value("${external.frankfurter.endpoint.historical-idr-usd}")
-    String uriHistoricalIdrUsd;
-
     private final ObjectMapper mapper;
-    private final WebClient webClient;
+    private final InMemoryStorage storage;
 
     @Override
     public JsonNode fetchData() {
 
-        JsonNode externalResponse = webClient.get()
-                .uri(uriHistoricalIdrUsd)
-                .retrieve()
-                .bodyToMono(JsonNode.class)
-                .block();
-        log.info("external API response: {}", externalResponse);
+        Object storageData = storage.get(HISTORICAL_IDR_USD);
+        JsonNode externalResponse = mapper.valueToTree(storageData);
+        log.info("HistoricalIdrUsd data: {}", externalResponse);
 
         ArrayNode response = mapper.createArrayNode();
         if (externalResponse != null) {

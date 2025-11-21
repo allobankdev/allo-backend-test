@@ -7,8 +7,10 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 import test.allo.backend.service.IDRDataFetcher;
+import test.allo.backend.storage.InMemoryStorage;
+
+import static test.allo.backend.utils.ConstantUtils.LATEST_IDR_RATE;
 
 @Slf4j
 @Service("latest_idr_rates")
@@ -18,11 +20,8 @@ public class LatestIdrRatesImpl implements IDRDataFetcher {
     @Value("${internal.data.github.username}")
     String username;
 
-    @Value("${external.frankfurter.endpoint.latest-idr-rates}")
-    String uriLatestIdrRate;
-
     private final ObjectMapper mapper;
-    private final WebClient webClient;
+    private final InMemoryStorage storage;
 
     @Override
     public JsonNode fetchData() {
@@ -36,13 +35,10 @@ public class LatestIdrRatesImpl implements IDRDataFetcher {
         double spreadFactor = (unicodeSum % 1000) / 100000.0;
         log.info("spreadFactor value: {}", spreadFactor);
 
-        JsonNode externalResponse = webClient.get()
-                .uri(uriLatestIdrRate)
-                .retrieve()
-                .bodyToMono(JsonNode.class)
-                .block();
-        log.info("external API response: {}", externalResponse);
+        Object storageData = storage.get(LATEST_IDR_RATE);
 
+        JsonNode externalResponse = mapper.valueToTree(storageData);
+        log.info("latestIdrRates data: {}", externalResponse);
         if(externalResponse != null && externalResponse.has("rates")) {
             rateUsd = externalResponse
                     .path("rates")
