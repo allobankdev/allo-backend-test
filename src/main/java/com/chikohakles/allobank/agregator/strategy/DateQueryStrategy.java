@@ -28,19 +28,9 @@ public class DateQueryStrategy implements BaseStrategy{
         String to = "2024-01-05";
         String base = "IDR";
         String target = "USD";
-        Date fromDate = null;
-        Date toDate = null;
-
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            fromDate = dateFormat.parse(from);
-            toDate = dateFormat.parse(to);
-        } catch (ParseException e) {
-            throw new IllegalArgumentException("Unknown date: " + from);
-        }
 
         return restClient.get()
-                .uri(URL_DATE_QUERY, fromDate, toDate, base, target)
+                .uri(URL_DATE_QUERY, from, to, base, target)
                 .retrieve()
                 .body(DateQueryResponse.class);
     }

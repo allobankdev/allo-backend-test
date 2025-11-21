@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 import java.util.List;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
@@ -23,6 +24,6 @@ public class CurrenciesStrategy implements BaseStrategy{
         return restClient.get()
                 .uri(URL_CURRENCIES)
                 .retrieve()
-                .body(List.class);
+                .body(Map.class);
     }
 }
