@@ -8,8 +8,9 @@ import java.util.Map;
 
 @Data
 public class LatestResponse {
+    private BigDecimal USD_BuySpread_IDR;
     private BigDecimal amount;
-    private String baseCurrency;
+    private String base;
     private Date date;
     Map<String, BigDecimal> rates;
 }
