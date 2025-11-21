@@ -12,7 +12,7 @@ import java.util.Map;
 import static com.example.allo_bank.util.Constant.SUCCESS;
 
 @Service("supported_currencies")
-public class SupportedCurrencies implements GetStorageDataService {
+public class SupportedCurrenciesServiceImpl implements GetStorageDataService {
 
     @Autowired
     private Cache cache;
