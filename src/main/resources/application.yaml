@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: finance-api
+
+webclient:
+  base-url: https://api.example.com
+  connection-timeout-ms: 5000
+  read-timeout-ms: 10000
+  write-timeout-ms: 10000
+  max-in-memory-size-mb: 10
+  headers:
+    User-Agent: FinanceAPI/1.0
+    Accept: application/json
