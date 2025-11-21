@@ -36,22 +36,20 @@ public class HistoricalIdrUsdImpl implements IDRDataFetcher {
 
         ArrayNode response = mapper.createArrayNode();
         if (externalResponse != null) {
+
             String baseCurrency = externalResponse.path("base").asText("");
             double baseAmount = externalResponse.path("amount").asDouble(0d);
             JsonNode rates = externalResponse.path("rates");
 
-            Iterator<String> ratesValue = rates.fieldNames();
-            while (ratesValue.hasNext()) {
-                ObjectNode node = mapper.createObjectNode();
-                String date = ratesValue.next();
-                JsonNode rateData = rates.get(date);
-                String quoteCurrency = rateData.fieldNames().next();
-                double quoteAmount = rateData.path(quoteCurrency).asDouble(0d);
+            Iterator<String> rateList = rates.fieldNames();
+            while (rateList.hasNext()) {
+                String date = rateList.next();
+                JsonNode quoteRate = rates.get(date);
 
+                ObjectNode node = mapper.createObjectNode();
                 node.put("date", date);
                 node.put(baseCurrency, baseAmount);
-                node.put(quoteCurrency, quoteAmount);
-
+                node.setAll((ObjectNode) quoteRate);
                 response.add(node);
             }
         }
