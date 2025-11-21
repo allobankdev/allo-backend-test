@@ -1,0 +1,27 @@
+spring:
+  application:
+    name: allo-bank
+
+github:
+  username: lukypanca
+
+client:
+  connection-timeout: 10000
+  read-timeout: 10000
+
+integration:
+  api:
+    frankfurter:
+      base-url: https://api.frankfurter.app
+      path:
+        latest-idr-rates: ${integration.api.frankfurter.base-url}/latest?base=
+        historical-idr-usd: ${integration.api.frankfurter.base-url}
+        supported-currencies: ${integration.api.frankfurter.base-url}/currencies
+  request:
+    from-currency: IDR
+    to-currency: USD
+    start-date: 2024-01-01
+    end-date: 2024-01-05
+
+server:
+  port: 8081
