@@ -15,8 +15,11 @@ import test.allo.backend.service.IDRDataFetcher;
 @RequiredArgsConstructor
 public class LatestIdrRatesImpl implements IDRDataFetcher {
 
-    @Value("${internal.data.github-username}")
+    @Value("${internal.data.github.username}")
     String username;
+
+    @Value("${external.frankfurter.endpoint.latest-idr-rates}")
+    String uriLatestIdrRate;
 
     private final ObjectMapper mapper;
     private final WebClient webClient;
@@ -34,7 +37,7 @@ public class LatestIdrRatesImpl implements IDRDataFetcher {
         log.info("spreadFactor value: {}", spreadFactor);
 
         JsonNode externalResponse = webClient.get()
-                .uri("/latest?base=IDR")
+                .uri(uriLatestIdrRate)
                 .retrieve()
                 .bodyToMono(JsonNode.class)
                 .block();

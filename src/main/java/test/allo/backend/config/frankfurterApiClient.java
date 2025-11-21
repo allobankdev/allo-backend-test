@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class frankfurterApiClient implements FactoryBean<WebClient> {
 
-    @Value("${external.api.frankfurter-base-url}")
+    @Value("${external.frankfurter.base-url}")
     String baseUrl;
 
     @Override

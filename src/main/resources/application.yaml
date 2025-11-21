@@ -3,9 +3,12 @@ spring:
     name: backend
 
 external:
-  api:
-    frankfurter-base-url: https://api.frankfurter.app/
+  frankfurter:
+    base-url: https://api.frankfurter.app/
+    endpoint:
+      latest-idr-rates: latest?base=IDR
 
 internal:
   data:
-    github-username: vilis-iv
+    github:
+      username: vilis-iv
