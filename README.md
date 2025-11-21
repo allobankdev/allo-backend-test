@@ -1,138 +1,274 @@
-# Allo Bank Backend Developer Take-Home Test
+# Application Documentation
 
-Thank you for applying to our team! This take-home test is designed to evaluate your practical skills in building **production-ready** Spring Boot applications within a finance domain, focusing on architectural patterns and complex data handling.
+This Spring Boot application aggregates Indonesian Rupiah (IDR) financial data from the public Frankfurter API using clean architecture patterns such as the Strategy Pattern, FactoryBean-based client creation, and immutable in-memory caching loaded at startup.
 
-## 📝 Objective
+---
 
-Your task is to create a single Spring Boot REST API endpoint capable of aggregating data from multiple, distinct resources provided by the public, keyless **Frankfurter Exchange Rate API**. The primary focus is on handling Indonesian Rupiah (IDR) data.
+## Setup Instructions
 
-The focus of this test is not just functional correctness, but demonstrating clean code, advanced Spring concepts, thread-safe design, and architectural clarity.
+### Prerequisites
 
-## I. Core Task: The Polymorphic API
+- **Java 17** 
+- **Maven 3.9+**
+- **Git**
+- **Internet connection** (to access Frankfurter API)
 
-### 1. External API Integration (Frankfurter API)
+### Step 1: Clone the Repository
 
-* **Base URL (Public):** `https://api.frankfurter.app/`.
+```bash
+git clone https://github.com/lukypanca/allo-backend-test.git
+```
 
-* You must integrate with three distinct data resources to enforce the architectural pattern:
+### Step 2: Change Branch to feat/idr-rate-aggregator
 
-   1.  `/latest?base=IDR` (The latest rates relative to IDR)
+```bash
+git checkout feat/idr-rate-aggregator
+```
 
-   2.  **Historical Data:** Query a specific, small time series (e.g., `/2024-01-01..2024-01-05?from=IDR&to=USD`). **Note:** *Use the date range provided in this example unless a different range is communicated separately.*
+---
+### Step 3: Build the Application
+```bash
+mvn clean install
+```
 
-   3.  `/currencies` (The list of all supported currency symbols)
+---
+### Step 4 Run All Tests
 
-### 2. Internal API Endpoint
+```bash
+mvn test 
+```
 
-You must expose **one single endpoint** in your application: ```GET /api/finance/data/{resourceType}```
+---
+### Step 5: Run the Application
 
-Where `{resourceType}` can be one of the three strings: `latest_idr_rates`, `historical_idr_usd`, or `supported_currencies`.
+```bash
+mvn spring-boot:run
+```
 
-### 3. Required Functionality & Business Logic
+### Verify Application Started Successfully
 
-* **Resource Handling:** Your service must correctly map the three incoming `resourceType` values to the correct data fetching strategies.
+You should see output similar to:
 
-* **Data Load:** All three resources should be fetched from the external API.
-
-* **Data Transformation (Latest IDR Rates only) - Unique Calculation:** For the **`latest_idr_rates`** resource, you must calculate and include a new field, `"USD_BuySpread_IDR"`. This is the Rupiah selling rate to USD after applying a banking spread/margin.
-
-  **The Spread Factor Must Be Unique :**
-
-   1.  **Input:** Your GitHub username (e.g., `johndoe47`).
-   2.  **Calculation:** Calculate the sum of the Unicode (ASCII) values of all characters in your lowercase GitHub username string.
-   3.  **Spread Factor Derivation:** `Spread Factor = (Sum of Unicode Values % 1000) / 100000.0`
-       *(This will yield a unique factor between 0.00000 and 0.00999, ensuring a personalized result.)*
-
-  **Final Formula:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)` (where `Rate_USD` is the value from the API when `base=IDR`).
-
-* **Other Resources:** The `historical_idr_usd` and `supported_currencies` resources can return their data with minimal transformation, but the final output must be a unified JSON array of results.
-
-## II. Architectural Constraints
-
-Meeting the core task is only one part of the solution. The following constraints must be strictly adhered to and will be heavily weighted during evaluation:
-
-### Constraint A: The Strategy Pattern
-
-The logic for handling the three different resources (`latest_idr_rates`, `historical_idr_usd`, `supported_currencies`) must be implemented using the **Strategy Design Pattern**.
-
-1.  Define a clear **Strategy Interface** (e.g., `IDRDataFetcher`).
-
-2.  Implement **three concrete strategy classes** (one for each resource).
-
-3.  The main `Controller` should dynamically select the correct strategy implementation using a map-based lookup injected by Spring, avoiding any manual `if/else` or `switch` logic in the controller layer.
-
-### Constraint B: Client Factory Bean
-
-The instance of your chosen external API client (`WebClient` or `RestTemplate`) **must be defined and created within a custom implementation of Spring's `FactoryBean<T>` interface**.
-
-* This `FactoryBean` should be responsible for externalizing the API Base URL via `@Value` or `@ConfigurationProperties` and applying any initial configuration (e.g., timeouts, shared headers).
-
-* ***You may not define the client as a simple `@Bean` in a `@Configuration` class.***
-
-### Constraint C: Startup Data Runner & Immutability
-
-The aggregated data for **ALL three resources** must be fetched **exactly once on application startup** and loaded into an in-memory store.
-
-1.  Use a Spring Boot **`ApplicationRunner`** or **`CommandLineRunner`** component to initiate the data fetching process.
-
-2.  The API endpoint (`GET /api/finance/data/{resourceType}`) must serve the data from this **in-memory store**, not by making a new call to the external API on every request.
-
-3.  The in-memory storage mechanism (e.g., a service holding the data) must be designed to be **thread-safe** and ensure the data is **immutable** once the `ApplicationRunner` has finished loading it.
-
-## III. Production Readiness & Deliverables
-
-Your final solution must demonstrate production quality through code, testing, and communication.
-
-### 1. Robustness & Best Practices
-
-* Graceful **Error Handling** for network failures or 4xx/5xx responses from the external API.
-
-* Proper use of **Configuration Properties** (e.g., `application.yml`) for external service URLs.
-
-* Clear separation of concerns (Controller, Service, Model/DTO, etc.).
-
-### 2. Testing
-
-* **Unit Tests** for all three `IDRDataFetcher` strategy implementations, ensuring data calculation and transformation logic is covered (using mock clients for external calls).
-
-* **Integration Tests** to verify the `ApplicationRunner` successfully initializes and loads the data into the in-memory store before the application context is ready.
-
-### 3. Documentation
-
-A clear `README.md` is mandatory. It must include:
-
-* **Setup/Run Instructions:** Clear steps to clone, build, and run the application and tests.
-
-* **Endpoint Usage:** Example cURL commands to test the three different resource types.
-
-* **Personalization Note:** Clearly state your GitHub username and show the exact **Spread Factor** (e.g., `0.00765`) calculated by your function.
-
-* ---
-
-* ### 🛠️ Architectural Rationale
-
-  This section should contain a brief, but detailed, explanation answering the following questions:
-
-   1.  **Polymorphism Justification:** Explain *why* the Strategy Pattern was used over a simpler conditional block in the service layer for handling the multi-resource endpoint. Discuss the benefits in terms of **extensibility** and **maintainability**.
-
-   2.  **Client Factory:** Explain the specific role and benefit of using a **`FactoryBean`** to construct the external API client. Why is this preferable to defining the client using a standard `@Bean` method in this scenario?
-
-   3.  **Startup Runner Choice:** Justify the choice of using an `ApplicationRunner` (or `CommandLineRunner`) for the initial data ingestion over a simpler `@PostConstruct` method.
-
-## IV. Submission & Review Process
-
-1.  **Fork** this repository.
-
-2.  Implement your solution on a dedicated feature branch (e.g., `feat/idr-rate-aggregator`).
-
-3.  When complete, submit your solution via a **Pull Request (PR)** back to the main repository.
-
-**Your PR will be evaluated on the following:**
-
-* **Commit History:** Clean, atomic, and descriptive commit messages (e.g., "feat: Implement IDR latest rates strategy," "fix: Correctly calculate IDR spread in tests").
-
-* **PR Description:** The description must clearly summarize the solution and **must contain the full answers** to the three "Architectural Rationale" questions from Section III.
-
-* **Code Review Readiness:** The code should be well-structured and ready for immediate review.
-
-Good luck!
+```
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::                (v3.5.7)
+
+2025-11-21T15:35:08.782+07:00  INFO 27984 --- [allo-bank] [           main] c.example.allo_bank.AlloBankApplication  : Starting AlloBankApplication using Java 17.0.15 with PID 27984 (C:\Users\Luky\Documents\Project\allobank\allo-backend-test\target\classes started by Luky in C:\Users\Luky\Documents\Project\allobank\allo-backend-test)
+2025-11-21T15:35:08.784+07:00  INFO 27984 --- [allo-bank] [           main] c.example.allo_bank.AlloBankApplication  : No active profile set, falling back to 1 default profile: "default"
+2025-11-21T15:35:09.982+07:00  INFO 27984 --- [allo-bank] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8081 (http)
+2025-11-21T15:35:09.995+07:00  INFO 27984 --- [allo-bank] [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-11-21T15:35:09.995+07:00  INFO 27984 --- [allo-bank] [           main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.48]
+2025-11-21T15:35:10.056+07:00  INFO 27984 --- [allo-bank] [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-11-21T15:35:10.057+07:00  INFO 27984 --- [allo-bank] [           main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1211 ms
+2025-11-21T15:35:10.728+07:00  INFO 27984 --- [allo-bank] [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8081 (http) with context path '/'
+2025-11-21T15:35:10.738+07:00  INFO 27984 --- [allo-bank] [           main] c.example.allo_bank.AlloBankApplication  : Started AlloBankApplication in 2.486 seconds (process running for 2.9)
+```
+
+The application will start on **http://localhost:8081** by default can be changed on application.yml.
+
+---
+
+## API Endpoint Usage
+
+### Base Endpoint
+
+```
+GET /api/finance/data/{resourceType}
+```
+
+### Resource Types
+
+| resourceType | Description                                                          |
+|---|----------------------------------------------------------------------|
+| `latest_idr_rates` | Latest IDR exchange rates with custom USD buy spread |
+| `historical_idr_usd` | Historical IDR/USD rates from start date to end date                 |
+| `supported_currencies` | List of all supported currency codes and names                       |
+
+---
+
+### 1. Get Latest IDR Rates with Spread Factor
+
+**Request:**
+
+```bash
+curl -X GET "http://localhost:8081/api/finance/data/latest_idr_rates" \
+  -H "Accept: application/json"
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "resourceType": "latest_idr_rates",
+  "status": "success",
+  "data": {
+    "base": "IDR",
+    "date": "2025-11-20",
+    "rates": {
+      "USD": 0.000060
+    },
+    "usdBuySpreadIdr": 16828.00000
+  }
+}
+```
+
+---
+
+### 2. Get Historical IDR/USD Data
+
+**Request:**
+
+```bash
+curl -X GET "http://localhost:8081/api/finance/data/historical_idr_usd" \
+  -H "Accept: application/json"
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "resourceType": "historical_idr_usd",
+  "status": "success",
+  "data": {
+    "amount": 1.0,
+    "base": "IDR",
+    "startDate": "2023-12-29",
+    "endDate": "2024-01-05",
+    "rates": {
+      "2023-12-29": {
+        "USD": 0.000065
+      },
+      "2024-01-02": {
+        "USD": 0.000064
+      },
+      "2024-01-03": {
+        "USD": 0.000064
+      },
+      "2024-01-04": {
+        "USD": 0.000064
+      },
+      "2024-01-05": {
+        "USD": 0.000064
+      }
+    }
+  }
+}
+```
+
+---
+
+### 3. Get Supported Currencies
+
+**Request:**
+
+```bash
+curl -X GET "http://localhost:8081/api/finance/data/supported_currencies" \
+  -H "Accept: application/json"
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "resourceType": "supported_currencies",
+  "status": "success",
+  "data": {
+    "AUD": "Australian Dollar",
+    "BGN": "Bulgarian Lev",
+    "BRL": "Brazilian Real",
+    "CAD": "Canadian Dollar",
+    "CHF": "Swiss Franc",
+    "CNY": "Chinese Renminbi Yuan",
+    "CZK": "Czech Koruna",
+    "DKK": "Danish Krone",
+    "EUR": "Euro",
+    "GBP": "British Pound",
+    "HKD": "Hong Kong Dollar",
+    "HUF": "Hungarian Forint",
+    "IDR": "Indonesian Rupiah",
+    "ILS": "Israeli New Sheqel",
+    "INR": "Indian Rupee",
+    "ISK": "Icelandic Króna",
+    "JPY": "Japanese Yen",
+    "KRW": "South Korean Won",
+    "MXN": "Mexican Peso",
+    "MYR": "Malaysian Ringgit",
+    "NOK": "Norwegian Krone",
+    "NZD": "New Zealand Dollar",
+    "PHP": "Philippine Peso",
+    "PLN": "Polish Złoty",
+    "RON": "Romanian Leu",
+    "SEK": "Swedish Krona",
+    "SGD": "Singapore Dollar",
+    "THB": "Thai Baht",
+    "TRY": "Turkish Lira",
+    "USD": "United States Dollar",
+    "ZAR": "South African Rand"
+  }
+}
+```
+
+---
+
+### Error Handling Examples
+
+**Invalid Resource Type:**
+
+```bash
+curl -X GET "http://localhost:8081/api/finance/data/invalid_type"
+```
+
+**Response (400 Bad Request):**
+
+```json
+{
+  "timestamp": "2025-11-21T08:31:58.541+00:00",
+  "status": 400,
+  "error": "Bad Request",
+  "path": "/api/finance/data/latest_idr_rateS"
+}
+```
+
+---
+
+## Personalization Details
+
+
+
+### Personalization Calculated Spread Factor
+
+**GitHub Username: `lukypanca`**
+
+```
+✅ Spread Factor: 0.00968
+✅ Calculation Verification:
+   - Username: lukypanca
+   - Sum of Unicode values: 968
+   - Spread Factor: 0.00968
+```
+
+---
+
+
+## 🛠️ Architectural Rationale
+
+### i. Polymorphism Justification (Strategy Pattern)
+The Strategy Pattern is used to avoid a large conditional block and to keep each resource’s logic isolated. It allows the controller to dynamically select the correct handler using a Spring-injected strategy map, improving extensibility and maintainability. Adding a new resource requires only creating a new strategy class—no changes to the controller—fully complying with the Open/Closed Principle. It also makes testing and refactoring significantly easier because each strategy is independently testable and self-contained.
+
+---
+
+### ii. Client Factory (Why FactoryBean Instead of @Bean)
+A FactoryBean provides full control over how the external API client is constructed, including applying base URL configuration, timeouts, headers, and other customization in a clean, centralized way. Unlike a simple `@Bean`, a FactoryBean encapsulates the entire client-creation lifecycle and separates configuration concerns from application logic. This approach produces a more flexible and production-ready client and satisfies the requirement to avoid defining the client in a standard `@Bean` method.
+
+---
+
+### iii. Startup Runner Choice (Why ApplicationRunner Over @PostConstruct)
+`ApplicationRunner` executes after the entire Spring context has been initialized, ensuring all strategies, configuration properties, and the API client are fully ready before data loading begins. It is safer for performing external API calls and heavy initialization tasks, which are not recommended inside `@PostConstruct` due to lifecycle timing issues. Using a runner also guarantees that the in-memory cache is fully populated before the API endpoint receives any requests, providing predictable and thread-safe startup behavior.
+
+---
