@@ -14,7 +14,7 @@ import java.time.Duration;
 import java.util.List;
 
 @Component
-public class frankfurterApiClient implements FactoryBean<WebClient> {
+public class FrankFurtherApiClientConfig implements FactoryBean<WebClient> {
 
     @Value("${external.frankfurter.base-url}")
     String baseUrl;
