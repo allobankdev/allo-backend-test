@@ -10,6 +10,7 @@ import test.allo.backend.client.FrankFurtherApiClient;
 import test.allo.backend.storage.InMemoryStorage;
 
 import static test.allo.backend.utils.ConstantUtils.*;
+import static test.allo.backend.utils.StorageUtils.isValidData;
 
 @Slf4j
 @Component
@@ -20,17 +21,19 @@ public class StartupLoader implements ApplicationRunner {
     private final InMemoryStorage storage;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         JsonNode latestIdrRates = client.fetchLatestIdrRates();
-        if (latestIdrRates != null) storage.save(LATEST_IDR_RATE, latestIdrRates);
+        saveData(LATEST_IDR_RATE, latestIdrRates);
 
         JsonNode historicalIdrUsd = client.fetchHistoricalIdrUsd();
-        if (historicalIdrUsd != null) storage.save(HISTORICAL_IDR_USD, historicalIdrUsd);
+        saveData(HISTORICAL_IDR_USD, historicalIdrUsd);
 
         JsonNode supportedCurrencies = client.fetchSupportedCurrencies();
-        if(supportedCurrencies != null) storage.save(SUPPORTED_CURRENCIES, supportedCurrencies);
-
-        storage.lockStorage();
-
+        saveData(SUPPORTED_CURRENCIES, supportedCurrencies);
     }
+
+    private void saveData(String key, JsonNode data) {
+        storage.save(key, data, isValidData(data));
+    }
+
 }

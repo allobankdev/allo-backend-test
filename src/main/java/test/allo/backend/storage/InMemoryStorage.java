@@ -9,20 +9,19 @@ import java.util.Map;
 @Service
 public class InMemoryStorage {
     private Map<String, JsonNode> data = Map.of();
-    boolean locked = false;
+    private final Map<String, Boolean> lockState = new HashMap<>();
 
-    public synchronized void save(String key, JsonNode value) {
-        if (locked) {
+    public synchronized void save(String key, JsonNode value, boolean lock) {
+        if (lockState.getOrDefault(key, false)) {
             throw new IllegalStateException("storage data modification is prohibited");
         }
 
         Map<String, JsonNode> copy = new HashMap<>(data);
         copy.put(key, value.deepCopy());
         data = Map.copyOf(copy);
-    }
 
-    public synchronized void lockStorage() {
-        locked = true;
+        if (lock)
+            lockState.put(key, true);
     }
 
     public JsonNode get(String key) {
