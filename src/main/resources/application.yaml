@@ -13,3 +13,5 @@ client:
       to: USD
       historical-start-date: 2024-01-01
       historical-end-date: 2024-01-05
+github:
+  username: wiratama-p

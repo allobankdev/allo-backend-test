@@ -32,10 +32,10 @@ public class FrankfurterClient {
         .build())
       .retrieve()
       .bodyToMono(new ParameterizedTypeReference<LatestRatesResponse>() {})
-      .defaultIfEmpty(LatestRatesResponse.builder().build())
+      .defaultIfEmpty(new LatestRatesResponse(null, null, null, null))
       .onErrorResume(error -> {
         log.error("Error fetching latest rates {}", error.getMessage(), error);
-        return Mono.just(LatestRatesResponse.builder().build());
+        return Mono.just(new LatestRatesResponse(null, null, null, null));
       });
   }
 
@@ -49,10 +49,10 @@ public class FrankfurterClient {
           frankfurterClientProperties.getRate().getHistoricalEndDate()))
       .retrieve()
       .bodyToMono(new ParameterizedTypeReference<HistoricalRatesResponse>() {})
-      .defaultIfEmpty(HistoricalRatesResponse.builder().build())
+      .defaultIfEmpty(new HistoricalRatesResponse(null, null, null, null, null))
       .onErrorResume(error -> {
         log.error("Error fetching historical rates {}", error.getMessage(), error);
-        return Mono.just(HistoricalRatesResponse.builder().build());
+        return Mono.just(new HistoricalRatesResponse(null, null, null, null, null));
       });
   }
 

@@ -14,7 +14,7 @@ import reactor.core.scheduler.Schedulers;
 
 @Component
 @RequiredArgsConstructor
-public class InitialDataRunner implements ApplicationRunner {
+public class InitialFinanceDataRunner implements ApplicationRunner {
 
   private final FrankfurterClient frankfurterClient;
 

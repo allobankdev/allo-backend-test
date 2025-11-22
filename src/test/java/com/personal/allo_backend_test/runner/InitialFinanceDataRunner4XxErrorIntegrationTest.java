@@ -22,7 +22,7 @@ import com.personal.allo_backend_test.constant.ResourceTypeConstant;
 import com.personal.allo_backend_test.repository.InMemoryRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class InitialDataRunnerIntegrationTest {
+class InitialFinanceDataRunner4XxErrorIntegrationTest {
 
   private static WireMockServer wireMockServer;
 
@@ -34,7 +34,7 @@ class InitialDataRunnerIntegrationTest {
     wireMockServer = new WireMockServer(
       WireMockConfiguration.wireMockConfig()
         .dynamicPort()
-        .usingFilesUnderClasspath("wiremock")
+        .usingFilesUnderClasspath("wiremock-errors-4xx")
     );
     wireMockServer.start();
     registry.add("client.frankfurter.base-url", wireMockServer::baseUrl);
@@ -48,7 +48,7 @@ class InitialDataRunnerIntegrationTest {
   }
 
   @Test
-  void onStartup_whenSuccessfullyFetchFromFrankfurterApi_shouldProperlySetDataToInMemory() {
+  void onStartup_when4xxErrorsFromFrankfurterApi_shouldStoreDefaultDtosInMemory() {
     await()
       .atMost(Duration.ofSeconds(5))
       .pollInterval(Duration.ofMillis(100))
@@ -57,33 +57,26 @@ class InitialDataRunnerIntegrationTest {
           .get(ResourceTypeConstant.LATEST_IDR_RATES)
           .block();
         assertThat(latestRates).isNotNull();
-        assertThat(latestRates.getBase()).isEqualTo("IDR");
-        assertThat(latestRates.getDate()).isEqualTo("2024-01-10");
-        assertThat(latestRates.getRates()).containsKeys("USD", "EUR", "GBP", "SGD", "JPY");
-        assertThat(latestRates.getRates().get("USD")).isEqualTo(0.000063);
-        assertThat(latestRates.getRates().get("EUR")).isEqualTo(0.000058);
+        assertThat(latestRates.base()).isNull();
+        assertThat(latestRates.date()).isNull();
+        assertThat(latestRates.amount()).isNull();
+        assertThat(latestRates.rates()).isNull();
 
         HistoricalRatesResponse historicalRates = (HistoricalRatesResponse) inMemoryRepository
           .get(ResourceTypeConstant.HISTORICAL_IDR_USD)
           .block();
         assertThat(historicalRates).isNotNull();
-        assertThat(historicalRates.getBase()).isEqualTo("IDR");
-        assertThat(historicalRates.getStartDate()).isEqualTo("2024-01-01");
-        assertThat(historicalRates.getEndDate()).isEqualTo("2024-01-05");
-        assertThat(historicalRates.getRates()).hasSize(5);
-        assertThat(historicalRates.getRates()).containsKeys(
-          "2024-01-01", "2024-01-02", "2024-01-03", "2024-01-04", "2024-01-05"
-        );
-        assertThat(historicalRates.getRates().get("2024-01-01").get("USD")).isEqualTo(0.000062);
-        assertThat(historicalRates.getRates().get("2024-01-05").get("USD")).isEqualTo(0.000064);
+        assertThat(historicalRates.base()).isNull();
+        assertThat(historicalRates.startDate()).isNull();
+        assertThat(historicalRates.endDate()).isNull();
+        assertThat(historicalRates.amount()).isNull();
+        assertThat(historicalRates.rates()).isNull();
 
         Map<String, String> currencies = (Map<String, String>) inMemoryRepository
           .get(ResourceTypeConstant.SUPPORTED_CURRENCIES)
           .block();
         assertThat(currencies).isNotNull();
-        assertThat(currencies).isNotEmpty();
-        assertThat(currencies).containsKeys("USD", "EUR", "GBP", "JPY", "SGD", "IDR");
-        assertThat(currencies).hasSize(31);
+        assertThat(currencies).isEmpty();
       });
   }
 }

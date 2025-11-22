@@ -22,7 +22,7 @@ import com.personal.allo_backend_test.constant.ResourceTypeConstant;
 import com.personal.allo_backend_test.repository.InMemoryRepository;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class InitialDataRunner5xxErrorIntegrationTest {
+class InitialFinanceDataRunner5XxErrorIntegrationTest {
 
   private static WireMockServer wireMockServer;
 
@@ -57,20 +57,20 @@ class InitialDataRunner5xxErrorIntegrationTest {
           .get(ResourceTypeConstant.LATEST_IDR_RATES)
           .block();
         assertThat(latestRates).isNotNull();
-        assertThat(latestRates.getBase()).isNull();
-        assertThat(latestRates.getDate()).isNull();
-        assertThat(latestRates.getAmount()).isNull();
-        assertThat(latestRates.getRates()).isNull();
+        assertThat(latestRates.base()).isNull();
+        assertThat(latestRates.date()).isNull();
+        assertThat(latestRates.amount()).isNull();
+        assertThat(latestRates.rates()).isNull();
 
         HistoricalRatesResponse historicalRates = (HistoricalRatesResponse) inMemoryRepository
           .get(ResourceTypeConstant.HISTORICAL_IDR_USD)
           .block();
         assertThat(historicalRates).isNotNull();
-        assertThat(historicalRates.getBase()).isNull();
-        assertThat(historicalRates.getStartDate()).isNull();
-        assertThat(historicalRates.getEndDate()).isNull();
-        assertThat(historicalRates.getAmount()).isNull();
-        assertThat(historicalRates.getRates()).isNull();
+        assertThat(historicalRates.base()).isNull();
+        assertThat(historicalRates.startDate()).isNull();
+        assertThat(historicalRates.endDate()).isNull();
+        assertThat(historicalRates.amount()).isNull();
+        assertThat(historicalRates.rates()).isNull();
 
         Map<String, String> currencies = (Map<String, String>) inMemoryRepository
           .get(ResourceTypeConstant.SUPPORTED_CURRENCIES)
