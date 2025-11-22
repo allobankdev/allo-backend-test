@@ -55,5 +55,7 @@ public class StartupLoader implements ApplicationRunner {
         log.info("supportedCurrencies response: {}", supportedCurrencies);
         if(supportedCurrencies != null) storage.save(SUPPORTED_CURRENCIES, supportedCurrencies);
 
+        storage.lockStorage();
+
     }
 }
