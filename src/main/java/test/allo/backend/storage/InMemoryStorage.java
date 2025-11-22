@@ -20,8 +20,9 @@ public class InMemoryStorage {
         copy.put(key, value.deepCopy());
         data = Map.copyOf(copy);
 
-        if (lock)
+        if (lock) {
             lockState.put(key, true);
+        }
     }
 
     public JsonNode get(String key) {
