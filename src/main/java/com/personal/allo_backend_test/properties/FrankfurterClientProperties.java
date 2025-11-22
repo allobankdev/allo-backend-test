@@ -17,5 +17,15 @@ public class FrankfurterClientProperties {
   private Duration readTimeout;
   private Duration writeTimeout;
   private int maxInMemorySizeInMb;
+  private RateProperties rate;
+
+  @Getter
+  @Setter
+  public static class RateProperties {
+    private String from;
+    private String to;
+    private String historicalStartDate;
+    private String historicalEndDate;
+  }
 }
 

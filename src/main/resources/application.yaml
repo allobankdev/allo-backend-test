@@ -5,6 +5,11 @@ client:
   frankfurter:
     base-url: https://api.frankfurter.app
     max-in-memory-size-in-mb: 2
-    connect-timeout: 500ms
-    write-timeout: 500ms
-    read-timeout: 500ms
+    connect-timeout: 2s
+    write-timeout: 2s
+    read-timeout: 2s
+    rate:
+      from: IDR
+      to: USD
+      historical-start-date: 2024-01-01
+      historical-end-date: 2024-01-05

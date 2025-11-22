@@ -1,0 +1,22 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/latest",
+    "queryParameters": {
+      "base": {
+        "equalTo": "IDR"
+      }
+    }
+  },
+  "response": {
+    "status": 404,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "message": "Not Found",
+      "detail": "The requested resource was not found"
+    }
+  }
+}
+

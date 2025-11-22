@@ -1,0 +1,30 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/latest",
+    "queryParameters": {
+      "base": {
+        "equalTo": "IDR"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "amount": 1.0,
+      "base": "IDR",
+      "date": "2024-01-10",
+      "rates": {
+        "USD": 0.000063,
+        "EUR": 0.000058,
+        "GBP": 0.000050,
+        "SGD": 0.000084,
+        "JPY": 0.0095
+      }
+    }
+  }
+}
+

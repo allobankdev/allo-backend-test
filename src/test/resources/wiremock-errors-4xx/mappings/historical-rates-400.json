@@ -1,0 +1,25 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/2024-01-01..2024-01-05",
+    "queryParameters": {
+      "from": {
+        "equalTo": "IDR"
+      },
+      "to": {
+        "equalTo": "USD"
+      }
+    }
+  },
+  "response": {
+    "status": 400,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "message": "Bad Request",
+      "detail": "Invalid date range provided"
+    }
+  }
+}
+

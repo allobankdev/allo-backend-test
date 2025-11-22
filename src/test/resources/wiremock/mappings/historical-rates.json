@@ -1,0 +1,44 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/2024-01-01..2024-01-05",
+    "queryParameters": {
+      "from": {
+        "equalTo": "IDR"
+      },
+      "to": {
+        "equalTo": "USD"
+      }
+    }
+  },
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "amount": 1.0,
+      "base": "IDR",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-05",
+      "rates": {
+        "2024-01-01": {
+          "USD": 0.000062
+        },
+        "2024-01-02": {
+          "USD": 0.000062
+        },
+        "2024-01-03": {
+          "USD": 0.000063
+        },
+        "2024-01-04": {
+          "USD": 0.000063
+        },
+        "2024-01-05": {
+          "USD": 0.000064
+        }
+      }
+    }
+  }
+}
+

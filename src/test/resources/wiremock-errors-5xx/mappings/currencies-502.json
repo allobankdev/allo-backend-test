@@ -1,0 +1,17 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/currencies"
+  },
+  "response": {
+    "status": 502,
+    "headers": {
+      "Content-Type": "application/json"
+    },
+    "jsonBody": {
+      "message": "Bad Gateway",
+      "detail": "The upstream server returned an invalid response"
+    }
+  }
+}
+
