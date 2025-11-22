@@ -12,7 +12,6 @@ import java.time.Duration;
 @Component
 @ConfigurationProperties(prefix = "client.frankfurter")
 public class FrankfurterClientProperties {
-
   private String baseUrl;
   private Duration connectTimeout;
   private Duration readTimeout;
