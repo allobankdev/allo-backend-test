@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import test.allo.backend.client.FrankFurtherApiClient;
 import test.allo.backend.storage.InMemoryStorage;
@@ -14,6 +15,7 @@ import static test.allo.backend.utils.StorageUtils.isValidData;
 
 @Slf4j
 @Component
+@Profile("!test")
 @RequiredArgsConstructor
 public class StartupLoader implements ApplicationRunner {
 
