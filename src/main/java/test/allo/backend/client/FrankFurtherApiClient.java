@@ -43,14 +43,14 @@ public class FrankFurtherApiClient {
 
     private JsonNode fetchData(String uri, String responseId) {
         try {
-            JsonNode supportedCurrencies = webClient.get()
+            JsonNode response = webClient.get()
                     .uri(uri)
                     .retrieve()
                     .bodyToMono(JsonNode.class)
                     .block();
 
-            log.info("{} response: {}", responseId, supportedCurrencies);
-            return supportedCurrencies;
+            log.info("{} response: {}", responseId, response);
+            return response;
         } catch (WebClientResponseException e) {
             return failedResponse(e.getStatusCode().value(), "HTTP error", e.getResponseBodyAsString());
         } catch (WebClientRequestException e) {
