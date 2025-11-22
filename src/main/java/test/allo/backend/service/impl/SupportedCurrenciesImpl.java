@@ -9,6 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import test.allo.backend.service.IDRDataFetcher;
 import test.allo.backend.storage.InMemoryStorage;
+import test.allo.backend.utils.ExternalApiUtils;
 
 import java.util.Iterator;
 
@@ -27,21 +28,19 @@ public class SupportedCurrenciesImpl implements IDRDataFetcher {
 
         Object storageData = storage.get(SUPPORTED_CURRENCIES);
         JsonNode externalResponse = mapper.valueToTree(storageData);
+        ExternalApiUtils.validateResponse(externalResponse);
         log.info("supportedCurrencies data: {}", externalResponse);
 
         ArrayNode response = mapper.createArrayNode();
-        if (externalResponse != null) {
+        Iterator<String> currencyList = externalResponse.fieldNames();
+        while (currencyList.hasNext()) {
+            String currencyCode = currencyList.next();
+            String currencyName = externalResponse.path(currencyCode).asText("");
 
-            Iterator<String> currencyList = externalResponse.fieldNames();
-            while (currencyList.hasNext()) {
-                String currencyCode = currencyList.next();
-                String currencyName = externalResponse.path(currencyCode).asText("");
-
-                ObjectNode node = mapper.createObjectNode();
-                node.put("code", currencyCode);
-                node.put("name", currencyName);
-                response.add(node);
-            }
+            ObjectNode node = mapper.createObjectNode();
+            node.put("code", currencyCode);
+            node.put("name", currencyName);
+            response.add(node);
         }
 
         return response;

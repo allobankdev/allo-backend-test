@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import test.allo.backend.service.IDRDataFetcher;
 import test.allo.backend.storage.InMemoryStorage;
+import test.allo.backend.utils.ExternalApiUtils;
 
 import static test.allo.backend.utils.ConstantUtils.LATEST_IDR_RATE;
 
@@ -38,8 +39,10 @@ public class LatestIdrRatesImpl implements IDRDataFetcher {
         Object storageData = storage.get(LATEST_IDR_RATE);
 
         JsonNode externalResponse = mapper.valueToTree(storageData);
+        ExternalApiUtils.validateResponse(externalResponse);
         log.info("latestIdrRates data: {}", externalResponse);
-        if(externalResponse != null && externalResponse.has("rates")) {
+
+        if(externalResponse.has("rates")) {
             rateUsd = externalResponse
                     .path("rates")
                     .path("USD")

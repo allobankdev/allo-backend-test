@@ -9,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import test.allo.backend.service.IDRDataFetcher;
 import test.allo.backend.storage.InMemoryStorage;
+import test.allo.backend.utils.ExternalApiUtils;
+
 import static test.allo.backend.utils.ConstantUtils.HISTORICAL_IDR_USD;
 
 import java.util.Iterator;
@@ -26,26 +28,24 @@ public class HistoricalIdrUsdImpl implements IDRDataFetcher {
 
         Object storageData = storage.get(HISTORICAL_IDR_USD);
         JsonNode externalResponse = mapper.valueToTree(storageData);
+        ExternalApiUtils.validateResponse(externalResponse);
         log.info("HistoricalIdrUsd data: {}", externalResponse);
 
         ArrayNode response = mapper.createArrayNode();
-        if (externalResponse != null) {
+        String baseCurrency = externalResponse.path("base").asText("");
+        double baseAmount = externalResponse.path("amount").asDouble(0d);
+        JsonNode rates = externalResponse.path("rates");
 
-            String baseCurrency = externalResponse.path("base").asText("");
-            double baseAmount = externalResponse.path("amount").asDouble(0d);
-            JsonNode rates = externalResponse.path("rates");
+        Iterator<String> rateList = rates.fieldNames();
+        while (rateList.hasNext()) {
+            String date = rateList.next();
+            JsonNode quoteRate = rates.get(date);
 
-            Iterator<String> rateList = rates.fieldNames();
-            while (rateList.hasNext()) {
-                String date = rateList.next();
-                JsonNode quoteRate = rates.get(date);
-
-                ObjectNode node = mapper.createObjectNode();
-                node.put("date", date);
-                node.put(baseCurrency, baseAmount);
-                node.setAll((ObjectNode) quoteRate);
-                response.add(node);
-            }
+            ObjectNode node = mapper.createObjectNode();
+            node.put("date", date);
+            node.put(baseCurrency, baseAmount);
+            node.setAll((ObjectNode) quoteRate);
+            response.add(node);
         }
 
         return response;
