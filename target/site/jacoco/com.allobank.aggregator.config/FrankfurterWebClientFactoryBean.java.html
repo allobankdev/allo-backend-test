@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FrankfurterWebClientFactoryBean.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">idr-rate-aggregator</a> &gt; <a href="index.source.html" class="el_package">com.allobank.aggregator.config</a> &gt; <span class="el_source">FrankfurterWebClientFactoryBean.java</span></div><h1>FrankfurterWebClientFactoryBean.java</h1><pre class="source lang-java linenums">package com.allobank.aggregator.config;
+
+import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.ExchangeStrategies;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.netty.http.client.HttpClient;
+import reactor.netty.resources.ConnectionProvider;
+import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+
+import java.time.Duration;
+
+@Component(&quot;frankfurterClientFactory&quot;)
+public class FrankfurterWebClientFactoryBean implements FactoryBean&lt;WebClient&gt; {
+
+    private final FrankfurterProperties props;
+
+    @Autowired
+<span class="fc" id="L20">    public FrankfurterWebClientFactoryBean(FrankfurterProperties props) {</span>
+<span class="fc" id="L21">        this.props = props;</span>
+<span class="fc" id="L22">    }</span>
+
+    @Override
+    public WebClient getObject() {
+<span class="fc" id="L26">        ConnectionProvider provider = ConnectionProvider.create(&quot;frankfurter-conn&quot;);</span>
+<span class="fc" id="L27">        HttpClient httpClient = HttpClient.create(provider)</span>
+<span class="fc" id="L28">                .responseTimeout(Duration.ofMillis(props.getTimeoutMs()));</span>
+
+<span class="fc" id="L30">        ReactorClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);</span>
+
+<span class="fc" id="L32">        return WebClient.builder()</span>
+<span class="fc" id="L33">                .baseUrl(props.getBaseUrl())</span>
+<span class="fc" id="L34">                .clientConnector(connector)</span>
+<span class="fc" id="L35">                .exchangeStrategies(ExchangeStrategies.builder().build())</span>
+<span class="fc" id="L36">                .build();</span>
+    }
+
+    @Override
+<span class="fc" id="L40">    public Class&lt;?&gt; getObjectType() { return WebClient.class; }</span>
+
+    @Override
+<span class="fc" id="L43">    public boolean isSingleton() { return true; }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

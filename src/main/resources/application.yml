@@ -1,0 +1,10 @@
+server:
+  port: 8080
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  timeout-ms: 5000
+
+app:
+  github:
+    username: sriHayati

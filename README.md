@@ -2,6 +2,54 @@
 
 Thank you for applying to our team! This take-home test is designed to evaluate your practical skills in building **production-ready** Spring Boot applications within a finance domain, focusing on architectural patterns and complex data handling.
 
+## 🚀 Quick Start
+
+### Prerequisites
+- Java 21
+- Maven 3.9+
+
+### Clone & Build
+```bash
+git clone <your-fork-url>
+cd allo-backend-test
+mvn clean package
+```
+
+### Run the App
+```bash
+# Option 1: Using Spring Boot plugin
+mvn spring-boot:run
+
+# Option 2: Using the packaged jar
+java -jar target/idr-rate-aggregator-0.0.1-SNAPSHOT.jar
+```
+
+The application starts on http://localhost:8080
+
+### Run Tests and Coverage
+```bash
+mvn test
+# Generate JaCoCo HTML report
+mvn test jacoco:report
+# Open report (MacOS path shown)
+open target/site/jacoco/index.html
+```
+
+### Configuration
+External service base URL, timeout, and GitHub username are configured in `src/main/resources/application.yml`:
+```yaml
+frankfurter:
+  base-url: https://api.frankfurter.app
+  timeout-ms: 5000
+app:
+  github:
+    username: sriHayati
+```
+You can override these via environment variables or a different profile if needed.
+
+### Postman Collection
+Use `postman_collection.json` in the project root to try the APIs quickly.
+
 ## 📝 Objective
 
 Your task is to create a single Spring Boot REST API endpoint capable of aggregating data from multiple, distinct resources provided by the public, keyless **Frankfurter Exchange Rate API**. The primary focus is on handling Indonesian Rupiah (IDR) data.
@@ -28,6 +76,19 @@ You must expose **one single endpoint** in your application: ```GET /api/finance
 
 Where `{resourceType}` can be one of the three strings: `latest_idr_rates`, `historical_idr_usd`, or `supported_currencies`.
 
+#### Endpoint Usage (cURL Examples)
+```bash
+# Latest IDR rates (with computed USD_BuySpread_IDR field)
+curl -s http://localhost:8080/api/finance/data/latest_idr_rates | jq
+
+# Historical IDR→USD small time series
+curl -s http://localhost:8080/api/finance/data/historical_idr_usd | jq
+
+# Supported currencies
+curl -s http://localhost:8080/api/finance/data/supported_currencies | jq
+```
+Response is a unified JSON array tailored to each resource type.
+
 ### 3. Required Functionality & Business Logic
 
 * **Resource Handling:** Your service must correctly map the three incoming `resourceType` values to the correct data fetching strategies.
@@ -46,6 +107,14 @@ Where `{resourceType}` can be one of the three strings: `latest_idr_rates`, `his
   **Final Formula:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)` (where `Rate_USD` is the value from the API when `base=IDR`).
 
 * **Other Resources:** The `historical_idr_usd` and `supported_currencies` resources can return their data with minimal transformation, but the final output must be a unified JSON array of results.
+
+### Personalization Note
+- GitHub username (from configuration): `sriHayati` → lowercase `srihayati`
+- Unicode sum: s(115)+r(114)+i(105)+h(104)+a(97)+y(121)+a(97)+t(116)+i(105) = 974
+- Spread Factor = (974 % 1000) / 100000.0 = `0.00974`
+
+This factor is applied to compute `USD_BuySpread_IDR` for the `latest_idr_rates` resource:
+`USD_BuySpread_IDR = (1 / Rate_USD) * (1 + 0.00974)`
 
 ## II. Architectural Constraints
 
@@ -106,7 +175,6 @@ A clear `README.md` is mandatory. It must include:
 * **Endpoint Usage:** Example cURL commands to test the three different resource types.
 
 * **Personalization Note:** Clearly state your GitHub username and show the exact **Spread Factor** (e.g., `0.00765`) calculated by your function.
-
 * ---
 
 * ### 🛠️ Architectural Rationale
@@ -118,6 +186,22 @@ A clear `README.md` is mandatory. It must include:
    2.  **Client Factory:** Explain the specific role and benefit of using a **`FactoryBean`** to construct the external API client. Why is this preferable to defining the client using a standard `@Bean` method in this scenario?
 
    3.  **Startup Runner Choice:** Justify the choice of using an `ApplicationRunner` (or `CommandLineRunner`) for the initial data ingestion over a simpler `@PostConstruct` method.
+
+## 🛠️ Architectural Rationale — Implementasi pada Proyek Ini
+
+1) Mengapa Strategy Pattern?
+- Endpoint menerima tiga resource berbeda dengan aturan transformasi yang berbeda. Dengan Strategy Pattern, tiap resource diwakili oleh implementasi `IDRDataFetcher` yang terpisah (`LatestIdrRatesFetcher`, `HistoricalIdrUsdFetcher`, `SupportedCurrenciesFetcher`).
+- Seleksi strategi dilakukan secara dinamis melalui map-based lookup yang di-inject Spring di Controller, tanpa if/else atau switch, sehingga mudah ditambah resource baru tanpa menyentuh controller/service lain.
+- Keterpisahan ini meningkatkan testability (unit test per strategi) dan menjaga Single Responsibility, sehingga maintainability meningkat.
+
+2) Mengapa FactoryBean untuk WebClient?
+- `FrankfurterWebClientFactoryBean` bertanggung jawab membuat dan mengkonfigurasi `WebClient` sekali, menggunakan `FrankfurterProperties` untuk base URL dan timeout. Ini menyatukan pembuatan client dan konfigurasi eksternal di satu tempat yang tervalidasi.
+- Berbeda dengan sekadar `@Bean`, `FactoryBean` memberi fleksibilitas lifecycle, lazy creation, dan enkapsulasi kompleksitas instansiasi sehingga konfigurasi tetap bersih dan mudah diuji.
+
+3) Mengapa ApplicationRunner untuk preloading data?
+- Kebutuhan bisnis: seluruh data dari ketiga resource harus diambil tepat sekali saat startup, lalu disajikan dari in-memory store secara immutable dan thread-safe.
+- `ApplicationRunner` memastikan proses ini terjadi setelah konteks Spring siap dan dependency terinisialisasi sempurna, lebih dapat diandalkan dibanding `@PostConstruct` yang dapat berjalan terlalu awal pada fase bean initialization.
+- Dengan pendekatan ini, endpoint tidak memanggil API eksternal per request dan latensi menjadi konsisten.
 
 ## IV. Submission & Review Process
 
