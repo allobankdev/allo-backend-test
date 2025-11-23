@@ -82,9 +82,9 @@ Jika tidak, akan throw Exception.
 
 ### Path Parameters
 
-| Name         | Type   | Required | Description                         |
-|--------------|--------|----------|-------------------------------------|
-| resourceType | String | Yes      | Must be one of the supported enums  |
+| Name         | Type   | Required | Description                                     |
+|--------------|--------|----------|-------------------------------------------------|
+| resourceType | String | Yes      | Hanya supported resourceType yang bisa diproses |
 
 ### Examples
 
@@ -211,7 +211,7 @@ Cek ke application.yml untuk melihat value yang dibutuhkan aplikasi
 ### Jalankan Aplikasi
 ```
 mvn clean install
-java -jar target/finance-aggregator.jar
+java -jar target/agregator-1.0.0.jar
 ```
 
 ### cUrl Command
