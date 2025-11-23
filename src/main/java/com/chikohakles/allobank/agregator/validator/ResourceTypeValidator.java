@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ResourceTypeValidator {
     public void validate(String resourceType) {
-        if (!StringUtils.isBlank(resourceType)) {
+        if (StringUtils.isBlank(resourceType)) {
             throw new IllegalArgumentException(resourceType + " is not a valid resource type.");
         }
 
