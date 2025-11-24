@@ -1,0 +1,11 @@
+spring:
+    application:
+        name: allo-bank-test-exhange-rate
+app:
+  frankfurter:
+    base-url: https://api.frankfurter.dev/v1/
+  github:
+    username: "Schwanzeirs"
+server:
+  port: 8080
+
