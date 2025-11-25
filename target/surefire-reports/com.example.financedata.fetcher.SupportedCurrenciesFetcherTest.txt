@@ -1,0 +1,12 @@
+-------------------------------------------------------------------------------
+Test set: com.example.financedata.fetcher.SupportedCurrenciesFetcherTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.141 s <<< FAILURE! -- in com.example.financedata.fetcher.SupportedCurrenciesFetcherTest
+com.example.financedata.fetcher.SupportedCurrenciesFetcherTest.testFetchCurrencies -- Time elapsed: 0.137 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "reactor.core.publisher.Mono.map(java.util.function.Function)" because the return value of "org.springframework.web.reactive.function.client.WebClient$ResponseSpec.bodyToMono(java.lang.Class)" is null
+	at com.example.financedata.fetcher.SupportedCurrenciesFetcher.fetch(SupportedCurrenciesFetcher.java:23)
+	at com.example.financedata.fetcher.SupportedCurrenciesFetcherTest.testFetchCurrencies(SupportedCurrenciesFetcherTest.java:57)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

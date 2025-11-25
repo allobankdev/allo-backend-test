@@ -1,0 +1,17 @@
+com\example\financedata\service\FetcherRegistryService.class
+com\example\financedata\App.class
+META-INF\spring-configuration-metadata.json
+com\example\financedata\config\FetcherConfig.class
+com\example\financedata\fetcher\LatestIdrRatesFetcher.class
+com\example\financedata\runner\StartupDataLoader.class
+com\example\financedata\dto\HistoricalDto.class
+com\example\financedata\fetcher\IDRDataFetcher.class
+com\example\financedata\store\ImmutableFinanceStore.class
+com\example\financedata\config\FrankfurterWebClientFactoryBean.class
+com\example\financedata\fetcher\SupportedCurrenciesFetcher.class
+com\example\financedata\dto\LatestRatesDto.class
+com\example\financedata\FinanceDataApplication.class
+com\example\financedata\config\FrankfurterProperties.class
+com\example\financedata\fetcher\HistoricalIdrUsdFetcher.class
+com\example\financedata\dto\CurrenciesDto.class
+com\example\financedata\controller\FinanceDataController.class

@@ -1,0 +1,16 @@
+d:\Project\financedata\src\main\java\com\example\financedata\FinanceDataApplication.java
+d:\Project\financedata\src\main\java\com\example\financedata\dto\CurrenciesDto.java
+d:\Project\financedata\src\main\java\com\example\financedata\fetcher\IDRDataFetcher.java
+d:\Project\financedata\src\main\java\com\example\financedata\config\FetcherConfig.java
+d:\Project\financedata\src\main\java\com\example\financedata\controller\FinanceDataController.java
+d:\Project\financedata\src\main\java\com\example\financedata\config\FrankfurterWebClientFactoryBean.java
+d:\Project\financedata\src\main\java\com\example\financedata\fetcher\HistoricalIdrUsdFetcher.java
+d:\Project\financedata\src\main\java\com\example\financedata\runner\StartupDataLoader.java
+d:\Project\financedata\src\main\java\com\example\financedata\dto\LatestRatesDto.java
+d:\Project\financedata\src\main\java\com\example\financedata\config\FrankfurterProperties.java
+d:\Project\financedata\src\main\java\com\example\financedata\dto\HistoricalDto.java
+d:\Project\financedata\src\main\java\com\example\financedata\fetcher\LatestIdrRatesFetcher.java
+d:\Project\financedata\src\main\java\com\example\financedata\fetcher\SupportedCurrenciesFetcher.java
+d:\Project\financedata\src\main\java\com\example\financedata\store\ImmutableFinanceStore.java
+d:\Project\financedata\src\main\java\com\example\financedata\App.java
+d:\Project\financedata\src\main\java\com\example\financedata\service\FetcherRegistryService.java

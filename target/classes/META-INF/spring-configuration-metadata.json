@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "frankfurter",
+      "type": "com.example.financedata.config.FrankfurterProperties",
+      "sourceType": "com.example.financedata.config.FrankfurterProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "frankfurter.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.financedata.config.FrankfurterProperties"
+    }
+  ],
+  "hints": []
+}

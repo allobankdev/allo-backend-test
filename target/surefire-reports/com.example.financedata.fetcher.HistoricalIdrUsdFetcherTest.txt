@@ -1,0 +1,11 @@
+-------------------------------------------------------------------------------
+Test set: com.example.financedata.fetcher.HistoricalIdrUsdFetcherTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 1.300 s <<< FAILURE! -- in com.example.financedata.fetcher.HistoricalIdrUsdFetcherTest
+com.example.financedata.fetcher.HistoricalIdrUsdFetcherTest.testFetchHistoricalRates -- Time elapsed: 1.266 s <<< ERROR!
+java.lang.NullPointerException: Cannot invoke "org.springframework.web.reactive.function.client.WebClient$RequestHeadersUriSpec.uri(String, Object[])" because the return value of "org.springframework.web.reactive.function.client.WebClient.get()" is null
+	at com.example.financedata.fetcher.HistoricalIdrUsdFetcherTest.testFetchHistoricalRates(HistoricalIdrUsdFetcherTest.java:50)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

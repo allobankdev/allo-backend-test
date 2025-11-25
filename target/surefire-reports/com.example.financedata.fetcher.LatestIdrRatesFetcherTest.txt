@@ -1,0 +1,32 @@
+-------------------------------------------------------------------------------
+Test set: com.example.financedata.fetcher.LatestIdrRatesFetcherTest
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 1, Skipped: 0, Time elapsed: 0.024 s <<< FAILURE! -- in com.example.financedata.fetcher.LatestIdrRatesFetcherTest
+com.example.financedata.fetcher.LatestIdrRatesFetcherTest.testUsdBuySpreadCalculation -- Time elapsed: 0.021 s <<< ERROR!
+org.mockito.exceptions.misusing.InvalidUseOfMatchersException: 
+
+Misplaced or misused argument matcher detected here:
+
+-> at com.example.financedata.fetcher.HistoricalIdrUsdFetcherTest.testFetchHistoricalRates(HistoricalIdrUsdFetcherTest.java:50)
+
+You cannot use argument matchers outside of verification or stubbing.
+Examples of correct usage of argument matchers:
+    when(mock.get(anyInt())).thenReturn(null);
+    doThrow(new RuntimeException()).when(mock).someVoidMethod(any());
+    verify(mock).someMethod(contains("foo"))
+
+This message may appear after an NullPointerException if the last matcher is returning an object 
+like any() but the stubbed method signature expect a primitive argument, in this case,
+use primitive alternatives.
+    when(mock.get(any())); // bad use, will raise NPE
+    when(mock.get(anyInt())); // correct usage use
+
+Also, this error might show up because you use argument matchers with methods that cannot be mocked.
+Following methods *cannot* be stubbed/verified: final/private/equals()/hashCode().
+Mocking methods declared on non-public parent classes is not supported.
+
+	at com.example.financedata.fetcher.LatestIdrRatesFetcherTest.testUsdBuySpreadCalculation(LatestIdrRatesFetcherTest.java:18)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:580)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+

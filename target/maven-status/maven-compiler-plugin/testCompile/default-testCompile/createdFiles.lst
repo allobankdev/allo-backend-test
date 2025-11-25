@@ -1,0 +1,4 @@
+com\example\financedata\fetcher\SupportedCurrenciesFetcherTest.class
+com\example\financedata\fetcher\LatestIdrRatesFetcherTest.class
+com\example\financedata\fetcher\HistoricalIdrUsdFetcherTest.class
+com\example\financedata\integration\StartupDataLoaderIntegrationTest.class
