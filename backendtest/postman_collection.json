@@ -1,0 +1,95 @@
+{
+	"info": {
+		"_postman_id": "59ef960d-54ca-4b4b-8d4a-eb71664c34ef",
+		"name": "Allo Bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Latest Rate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/api/finance/data/latest_idr_rates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"latest_idr_rates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Historical IDR USD",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/api/finance/data/historical_idr_usd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"historical_idr_usd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Supported Currency",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/api/finance/data/supported_currencies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"supported_currencies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Health Check",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8181/actuator/health",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8181",
+					"path": [
+						"actuator",
+						"health"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

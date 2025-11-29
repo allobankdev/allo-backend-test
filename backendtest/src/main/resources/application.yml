@@ -1,0 +1,23 @@
+external:
+  api:
+    base-url: https://api.frankfurter.app
+    timeout-ms: 5000
+    max-retries: 3
+    retry-backoff-ms: 500
+
+app:
+  github:
+    username: nurhamim96
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  endpoint:
+    health:
+      show-details: always
+
+server:
+  port: 8181
