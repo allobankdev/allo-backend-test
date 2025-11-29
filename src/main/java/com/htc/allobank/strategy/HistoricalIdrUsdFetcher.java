@@ -1,0 +1,27 @@
+package com.htc.allobank.strategy;
+
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
+
+@Component("historical_idr_usd")
+public class HistoricalIdrUsdFetcher implements IDRDataFetcher {
+
+    private final WebClient client;
+
+    public HistoricalIdrUsdFetcher(WebClient client) {
+        this.client = client;
+    }
+
+    @Override
+    public Mono<Object> fetch() {
+        return client.get()
+          .uri(uriBuilder -> uriBuilder
+            .path("/2024-01-01..2024-01-05")
+            .queryParam("from", "IDR")
+            .queryParam("to", "USD")
+            .build())
+          .retrieve()
+          .bodyToMono(Object.class); // simple passthrough, no transformation needed
+    }
+}
