@@ -1,6 +1,7 @@
 package com.htc.allobank.strategy;
 
 import com.htc.allobank.util.SpreadUtil;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
@@ -8,15 +9,11 @@ import reactor.core.publisher.Mono;
 import java.util.Map;
 
 @Component("latest_idr_rates")
+@AllArgsConstructor
 public class LatestIdrRatesFetcher implements IDRDataFetcher {
 
     private final WebClient client;
     private final SpreadUtil spreadUtil;
-
-    public LatestIdrRatesFetcher(WebClient client, SpreadUtil spreadUtil) {
-        this.client = client;
-        this.spreadUtil = spreadUtil;
-    }
 
     @Override
     public Mono<Object> fetch() {
