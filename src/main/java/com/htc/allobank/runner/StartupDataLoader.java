@@ -2,6 +2,7 @@ package com.htc.allobank.runner;
 
 import com.htc.allobank.dto.FinanceDataStore;
 import com.htc.allobank.strategy.IDRDataFetcher;
+import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.ApplicationArguments;
@@ -13,17 +14,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Component
+@AllArgsConstructor
 public class StartupDataLoader implements ApplicationRunner {
-
     private static final Logger log = LoggerFactory.getLogger(StartupDataLoader.class);
-
     private final Map<String, IDRDataFetcher> strategies;
     private final FinanceDataHolder holder;
-
-    public StartupDataLoader(Map<String, IDRDataFetcher> strategies, FinanceDataHolder holder) {
-        this.strategies = strategies;
-        this.holder = holder;
-    }
 
     @Override
     public void run(ApplicationArguments args) {
