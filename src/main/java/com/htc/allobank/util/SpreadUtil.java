@@ -1,16 +1,15 @@
 package com.htc.allobank.util;
 
 import com.htc.allobank.config.ExternalApiProperties;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Component;
 
 @Component
+@NoArgsConstructor
+@AllArgsConstructor
 public class SpreadUtil {
-    private final ExternalApiProperties externalApiProperties;
-
-
-    public SpreadUtil(ExternalApiProperties externalApiProperties) {
-        this.externalApiProperties = externalApiProperties;
-    }
+    private ExternalApiProperties externalApiProperties;
 
     public double computeSpreadFactor() {
         int sum = 0;

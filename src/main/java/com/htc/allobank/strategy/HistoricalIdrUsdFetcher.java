@@ -22,6 +22,6 @@ public class HistoricalIdrUsdFetcher implements IDRDataFetcher {
             .queryParam("to", "USD")
             .build())
           .retrieve()
-          .bodyToMono(Object.class); // simple passthrough, no transformation needed
+          .bodyToMono(Object.class);
     }
 }

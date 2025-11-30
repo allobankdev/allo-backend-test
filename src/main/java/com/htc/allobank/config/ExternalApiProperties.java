@@ -9,7 +9,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Setter
 @ConfigurationProperties(prefix = "app")
 public class ExternalApiProperties {
-
     private Frankfurter frankfurter = new Frankfurter();
     private Personalization personalization = new Personalization();
 
