@@ -1,7 +1,7 @@
 package com.htc.allobank.runner;
 
 import com.htc.allobank.dto.FinanceDataStore;
-import com.htc.allobank.strategy.IDRDataFetcher;
+import com.htc.allobank.strategy.DataFetcher;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class StartupDataLoader implements ApplicationRunner {
     private static final Logger log = LoggerFactory.getLogger(StartupDataLoader.class);
-    private final Map<String, IDRDataFetcher> strategies;
+    private final Map<String, DataFetcher> strategies;
     private final FinanceDataHolder holder;
 
     @Override

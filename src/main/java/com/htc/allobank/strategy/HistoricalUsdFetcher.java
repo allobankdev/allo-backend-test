@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 @Component("historical_idr_usd")
 @AllArgsConstructor
-public class HistoricalIdrUsdFetcher implements IDRDataFetcher {
+public class HistoricalUsdFetcher implements DataFetcher {
     private final WebClient client;
 
     @Override

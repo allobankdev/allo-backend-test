@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class HistoricalIdrUsdFetcherTest {
 
-    HistoricalIdrUsdFetcher fetcher;
+    HistoricalUsdFetcher fetcher;
 
     @BeforeEach
     void setUp() {
@@ -40,7 +40,7 @@ public class HistoricalIdrUsdFetcherTest {
           .exchangeFunction(fakeExchange)
           .build();
 
-        fetcher = new HistoricalIdrUsdFetcher(fakeClient);
+        fetcher = new HistoricalUsdFetcher(fakeClient);
     }
 
     @Test

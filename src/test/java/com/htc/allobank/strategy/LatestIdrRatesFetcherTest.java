@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class LatestIdrRatesFetcherTest {
 
-    LatestIdrRatesFetcher fetcher;
+    LatestRatesFetcher fetcher;
 
     @BeforeEach
     void setUp() {
@@ -47,7 +47,7 @@ public class LatestIdrRatesFetcherTest {
         props.getPersonalization().setGithubUsername("exampleuser");
         SpreadUtil spreadUtil = new SpreadUtil(props);
 
-        fetcher = new LatestIdrRatesFetcher(fakeClient, spreadUtil);
+        fetcher = new LatestRatesFetcher(fakeClient, spreadUtil);
     }
 
     @Test

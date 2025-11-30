@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Component("latest_idr_rates")
 @AllArgsConstructor
-public class LatestIdrRatesFetcher implements IDRDataFetcher {
+public class LatestRatesFetcher implements DataFetcher {
 
     private final WebClient client;
     private final SpreadUtil spreadUtil;

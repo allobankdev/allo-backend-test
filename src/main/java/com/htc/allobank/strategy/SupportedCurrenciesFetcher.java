@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 @Component("supported_currencies")
 @AllArgsConstructor
-public class SupportedCurrenciesFetcher implements IDRDataFetcher {
+public class SupportedCurrenciesFetcher implements DataFetcher {
     private final WebClient client;
 
     @Override
