@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: idr-rate-aggregator
+
+app:
+  external:
+    frankfurter-base-url: https://api.frankfurter.app
+  github:
+    username: brnhrdwnnr
+
+server:
+  port: 8080
