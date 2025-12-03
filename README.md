@@ -123,17 +123,16 @@ thasya07
 ### Step 1 — Sum of Unicode values
 
 ```text
-t h a s y a l a r a
-116 + 104 + 97 + 115 + 121 + 97 + 108 + 97 + 114 + 97 = 1066
+t  h  a  s  y  a  0  7
+116 104 97 115 121 97 48 55
 ```
 
 ### Step 2 — Apply formula
 
 ```text
-spreadFactor = (sum % 1000) / 100000.0
-             = (1066 % 1000) / 100000.0
-             = 66 / 100000
-             = 0.00066
+spreadFactor = (753 % 1000) / 100000.0
+             = 753 / 100000
+             = 0.00753
 ```
 
 ### Step 3 — Final computed value
@@ -141,10 +140,8 @@ spreadFactor = (sum % 1000) / 100000.0
 This factor is injected into:
 
 ```text
-USD_BuySpread_IDR = (1 / Rate_USD) * (1 + 0.00066)
+USD_BuySpread_IDR = (1 / Rate_USD) * (1 + 0.00753)
 ```
-
-Every application's output becomes **unique** to your GitHub account. 🎉
 
 ---
 
