@@ -8,9 +8,15 @@ spring:
 frankfurter:
   api:
     base-url: https://api.frankfurter.app
-    timeout: 5000 # dalam milidetik
+    timeout: 5000
     headers:
       Accept: application/json
+
+external:
+  frankfurter:
+    latest-url: "https://api.frankfurter.app/latest?base=IDR"
+    currencies-url: "https://api.frankfurter.app/currencies"
+    historical-url: "https://api.frankfurter.app/2024-01-01..2024-01-05?from=IDR&to=USD"
 
 resources:
   - latest_idr_rates
@@ -19,3 +25,12 @@ resources:
 
 spread:
   github-username: "tisnandanurhidayat"
+
+logging:
+  level:
+    root: INFO
+    id.tisnanda.allobank: INFO
+    org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver: ERROR
+
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
