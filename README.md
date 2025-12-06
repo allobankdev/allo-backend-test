@@ -48,7 +48,7 @@ The API supports: currencies, latest, and historical.
 
 **Request**
 ```bash
-curl -X GET "http://localhost:8080/api/exchange?resource=latest"
+curl -X GET "http://localhost:7685/api/exchange?resource=latest"
 ```
 
 **Sample Response**
