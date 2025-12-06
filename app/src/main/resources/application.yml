@@ -1,0 +1,29 @@
+server:
+  port: 9000
+
+app:
+  github-username: saputramb
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+
+logging:
+  level:
+    org.apache.tomcat.util.net: WARN
+    org.apache.coyote.http11: WARN
+    sun:
+      rmi: OFF
+    javax:
+      management: OFF
+    java:
+      rmi: OFF
+    org:
+      springframework:
+        web: DEBUG
+        http:
+          converter:
+            json: DEBUG
+        security: DEBUG
+    root: DEBUG
+  pattern:
+    console: ">> [%level] %msg%n"

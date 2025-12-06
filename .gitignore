@@ -1,0 +1,45 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/app/main/**/target/
+!**/app/test/**/target/
+!**/core/main/**/target/
+!**/core/test/**/target/
+!**/data/main/**/target/
+!**/data/test/**/target/
+!**/presenter/main/**/target/
+!**/presenter/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/app/main/**/build/
+!**/app/test/**/build/
+!**/core/main/**/build/
+!**/core/test/**/build/
+!**/data/main/**/build/
+!**/data/test/**/build/
+!**/presenter/main/**/build/
+!**/presenter/test/**/build/
+
+### VS Code ###
+.vscode/

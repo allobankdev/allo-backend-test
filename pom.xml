@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>com.bank.allo</groupId>
+	<artifactId>allo-bank-idr-aggregator</artifactId>
+	<version>${revision}</version>
+	<packaging>pom</packaging>
+
+	<name>allo-bank-idr-aggregator</name>
+	<description>Demo project for Spring Boot</description>
+
+	<modules>
+		<module>app</module>
+		<module>core</module>
+		<module>data</module>
+		<module>presenter</module>
+	</modules>
+
+	<properties>
+		<revision>0.0.1-SNAPSHOT</revision>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<java.version>17</java.version>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.release>${java.version}</maven.compiler.release>
+		<maven.compiler.version>3.14.0</maven.compiler.version>
+		<maven.compiler.plugin.version>${maven.compiler.version}</maven.compiler.plugin.version>
+		<maven.surefire.plugin.version>3.5.3</maven.surefire.plugin.version>
+		<spring.boot.version>3.5.3</spring.boot.version>
+		<lombok.version>1.18.38</lombok.version>
+		<spring.boot.starter.security.version>3.5.3</spring.boot.starter.security.version>
+		<json.unit.version>2.19.0</json.unit.version>
+		<mapstruct.version>1.6.3</mapstruct.version>
+		<lombok.mapstruct.version>0.2.0</lombok.mapstruct.version>
+		<spring.webflux.version>7.0.0-M1</spring.webflux.version>
+		<reactor.netty.version>1.3.0-M1</reactor.netty.version>
+		<spring.tx.version>7.0.0-M1</spring.tx.version>
+		<junit.jupiter.version>5.10.2</junit.jupiter.version>
+		<mockito.version>5.20.0</mockito.version>
+		<wiremock.jre8.version>2.35.1</wiremock.jre8.version>
+	</properties>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit</groupId>
+				<artifactId>junit-bom</artifactId>
+				<version>${junit.jupiter.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>spring-plugins-release</id>
+			<url>https://repo.spring.io/plugins-release</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<repositories>
+		<repository>
+			<id>oracle-maven</id>
+			<url>https://maven.oracle.com</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>spring-releases</id>
+			<url>https://repo.spring.io/release</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>flatten-maven-plugin</artifactId>
+				<version>1.2.2</version>
+				<configuration>
+					<updatePomFile>true</updatePomFile>
+					<flattenMode>resolveCiFriendliesOnly</flattenMode>
+				</configuration>
+				<executions>
+					<execution>
+						<id>flatten</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>flatten</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>flatten.clean</id>
+						<phase>clean</phase>
+						<goals>
+							<goal>clean</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
