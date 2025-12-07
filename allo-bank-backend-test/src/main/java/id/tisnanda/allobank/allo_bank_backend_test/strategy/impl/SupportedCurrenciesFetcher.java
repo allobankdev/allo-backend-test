@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.strategy.impl;
 
+import id.tisnanda.allobank.allo_bank_backend_test.dto.strategy.CurrenciesResponseDTO;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.BadRequestException;
 import id.tisnanda.allobank.allo_bank_backend_test.strategy.IDRDataFetcher;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,14 +8,12 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-
 @Component("supported_currencies")
-public class SupportedCurrenciesFetcher implements IDRDataFetcher {
+public class SupportedCurrenciesFetcher implements IDRDataFetcher<CurrenciesResponseDTO> {
 
     @Autowired
     public RestTemplate restTemplate;
@@ -23,26 +22,22 @@ public class SupportedCurrenciesFetcher implements IDRDataFetcher {
     public String currenciesUrl;
 
     @Override
-    public List<Map<String, Object>> fetchData() {
+    public List<CurrenciesResponseDTO> fetchData() {
         if (restTemplate == null) {
             throw new BadRequestException("RestTemplate must be set before fetching data");
         }
 
+        // Ambil data dari API eksternal
         Map<String, String> response = restTemplate.getForObject(currenciesUrl, Map.class);
 
         if (response == null) {
             throw new BadRequestException("Failed to fetch supported currencies");
         }
 
-        List<Map<String, Object>> result = new ArrayList<>();
-        response.forEach((code, name) -> {
-            Map<String, Object> record = new HashMap<>();
-            record.put("code", code);
-            record.put("name", name);
-            result.add(record);
-        });
+        // Bungkus Map di dalam satu DTO
+        CurrenciesResponseDTO dto = new CurrenciesResponseDTO(response);
 
-        return result;
+        // Kembalikan sebagai List dengan satu elemen
+        return Collections.singletonList(dto);
     }
-
 }

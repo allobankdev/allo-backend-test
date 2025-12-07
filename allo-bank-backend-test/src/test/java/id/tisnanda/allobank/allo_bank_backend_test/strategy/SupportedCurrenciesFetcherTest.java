@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.strategy;
 
+import id.tisnanda.allobank.allo_bank_backend_test.dto.strategy.CurrenciesResponseDTO;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.BadRequestException;
 import id.tisnanda.allobank.allo_bank_backend_test.strategy.impl.SupportedCurrenciesFetcher;
 import org.junit.jupiter.api.BeforeEach;
@@ -23,8 +24,8 @@ class SupportedCurrenciesFetcherTest {
     void setUp() {
         mockRestTemplate = mock(RestTemplate.class);
         fetcher = new SupportedCurrenciesFetcher();
-        fetcher.restTemplate = mockRestTemplate;  // set manual
-        fetcher.currenciesUrl = mockUrl;          // set manual
+        fetcher.restTemplate = mockRestTemplate;
+        fetcher.currenciesUrl = mockUrl;
     }
 
     @Test
@@ -36,14 +37,17 @@ class SupportedCurrenciesFetcherTest {
 
         when(mockRestTemplate.getForObject(mockUrl, Map.class)).thenReturn(response);
 
-        List<Map<String, Object>> result = fetcher.fetchData();
+        List<CurrenciesResponseDTO> result = fetcher.fetchData();
 
-        assertEquals(3, result.size());
+        // Hanya satu DTO karena kita bungkus Map di DTO
+        assertEquals(1, result.size());
 
-        // Pastikan salah satu currency ada
-        Map<String, Object> first = result.get(0);
-        assertTrue(first.containsKey("code"));
-        assertTrue(first.containsKey("name"));
+        CurrenciesResponseDTO dto = result.get(0);
+        Map<String, String> currencies = dto.getCurrencies();
+
+        assertEquals(3, currencies.size());
+        assertTrue(currencies.containsKey("USD"));
+        assertEquals("United States Dollar", currencies.get("USD"));
     }
 
     @Test

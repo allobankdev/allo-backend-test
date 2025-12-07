@@ -5,11 +5,8 @@ import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Map;
 
-public interface IDRDataFetcher {
+public interface IDRDataFetcher<T> {
 
-    /**
-     * Ambil data dari external API
-     */
-    List<Map<String, Object>> fetchData();
+    List<T> fetchData();
 
 }

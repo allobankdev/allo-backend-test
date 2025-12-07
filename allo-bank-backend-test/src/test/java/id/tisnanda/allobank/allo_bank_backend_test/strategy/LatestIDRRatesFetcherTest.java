@@ -1,78 +1,84 @@
 package id.tisnanda.allobank.allo_bank_backend_test.strategy;
 
+import id.tisnanda.allobank.allo_bank_backend_test.dto.strategy.LatestIDRRateResponseDTO;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.BadRequestException;
 import id.tisnanda.allobank.allo_bank_backend_test.strategy.impl.LatestIDRRatesFetcher;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.junit.jupiter.MockitoSettings;
-import org.mockito.quality.Strictness;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-@MockitoSettings(strictness = Strictness.LENIENT)
-public class LatestIDRRatesFetcherTest {
+class LatestIDRRatesFetcherTest {
 
+    @Mock
+    private RestTemplate restTemplate;
+
+    @InjectMocks
     private LatestIDRRatesFetcher fetcher;
-    private RestTemplate mockRestTemplate;
-    private String mockUrl = "/latest?base=IDR";
+
+    private final String mockUrl = "/latest?base=IDR";
 
     @BeforeEach
     void setUp() {
-        mockRestTemplate = mock(RestTemplate.class);
-        fetcher = new LatestIDRRatesFetcher();
-        fetcher.restTemplate = mockRestTemplate; // set manual
-        fetcher.latestUrl = mockUrl;             // set manual
+        fetcher.setLatestUrl(mockUrl);
         fetcher.setGithubUsername("tisnandanurhidayat");
     }
 
     @Test
-    void testFetchData_withMockedApi() {
-        // Dummy API response
+    void testFetchData_withMockedApi_returnsDto() {
+        Map<String, Object> mockedResponse = new HashMap<>();
+        mockedResponse.put("base", "IDR");
+        mockedResponse.put("date", "2025-12-07");
+
         Map<String, Object> rates = new HashMap<>();
-        rates.put("USD", 6.0E-5);
-        rates.put("EUR", 5.2E-5);
+        rates.put("USD", 15000.0);
+        mockedResponse.put("rates", rates);
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("rates", rates);
+        when(restTemplate.getForObject(fetcher.getLatestUrl(), Map.class))
+                .thenReturn(mockedResponse);
 
-        // Stub RestTemplate
-        when(mockRestTemplate.getForObject(mockUrl, Map.class)).thenReturn(response);
+        List<LatestIDRRateResponseDTO> result = fetcher.fetchData();
 
-        List<Map<String, Object>> result = fetcher.fetchData();
-
-        assertNotNull(result);
         assertEquals(1, result.size());
 
-        Map<String, Object> record = result.get(0);
-        assertTrue(record.containsKey("USD_BuySpread_IDR"));
-        double usdBuySpread = ((Number) record.get("USD_BuySpread_IDR")).doubleValue();
-        assertTrue(usdBuySpread > 0);
+        LatestIDRRateResponseDTO dto = result.get(0);
+
+        assertEquals("2025-12-07", dto.getDate());
+        assertEquals(15000.0, dto.getUSD());
+
+        double expectedSpread = (1 / 15000.0) * (1 + fetcher.calculateSpreadFactor("tisnandanurhidayat"));
+        assertEquals(expectedSpread, dto.getUSD_BuySpread_IDR(), 1e-6);
     }
 
     @Test
     void testFetchData_whenRestTemplateIsNull_shouldThrowException() {
-        fetcher.restTemplate = null;
+        Map<String, Object> response = Collections.emptyMap();
 
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> fetcher.fetchData());
-        assertEquals("RestTemplate must be set before fetching data", exception.getMessage());
+        when(restTemplate.getForObject(fetcher.getLatestUrl(), Map.class)).thenReturn(response);
+
+        BadRequestException ex = assertThrows(BadRequestException.class, fetcher::fetchData);
+        assertEquals("Failed to fetch latest IDR rates", ex.getMessage());
     }
 
     @Test
     void testFetchData_whenRatesMissing_shouldThrowException() {
-        Map<String, Object> response = new HashMap<>();
-        when(mockRestTemplate.getForObject(mockUrl, Map.class)).thenReturn(response);
+        Map<String, Object> response = Collections.emptyMap(); // rates missing
+        when(restTemplate.getForObject(mockUrl, Map.class)).thenReturn(response);
 
-        BadRequestException exception = assertThrows(BadRequestException.class, () -> fetcher.fetchData());
-        assertEquals("Failed to fetch latest IDR rates", exception.getMessage());
+        BadRequestException ex = assertThrows(BadRequestException.class, fetcher::fetchData);
+        assertEquals("Failed to fetch latest IDR rates", ex.getMessage());
     }
 }

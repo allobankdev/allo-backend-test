@@ -34,6 +34,7 @@ public class IDRDataLoader implements ApplicationRunner {
                 financeService.setData(resourceType, data);
             } catch (Exception e) {
                 log.errorf(e, "Failed to fetch data for resource: %s", resourceType);
+                throw new IllegalStateException("Startup aborted: cannot load required data");
             }
         });
 
