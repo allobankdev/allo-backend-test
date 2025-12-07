@@ -27,7 +27,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
         ErrorCodes code = ex.getErrorCodes();
 
-        log.warnf("Handled exception occurred: %s - %s, path=%s",
+        log.errorf("Handled exception occurred: %s - %s, path=%s",
                 code.name(),
                 ex.getMessage(),
                 request.getRequestURI()
