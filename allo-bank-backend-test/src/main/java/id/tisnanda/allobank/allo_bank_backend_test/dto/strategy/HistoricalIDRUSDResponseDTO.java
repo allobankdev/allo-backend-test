@@ -14,7 +14,6 @@ import lombok.NoArgsConstructor;
 public class HistoricalIDRUSDResponseDTO {
     private String date;
 
-    @JsonSerialize(using = ToStringSerializer.class)
     @JsonProperty("USD")
     private Double usd;
 }
