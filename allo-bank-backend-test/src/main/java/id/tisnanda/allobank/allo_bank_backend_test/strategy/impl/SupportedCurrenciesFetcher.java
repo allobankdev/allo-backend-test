@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.strategy.impl;
 
+import id.tisnanda.allobank.allo_bank_backend_test.constant.Constant;
 import id.tisnanda.allobank.allo_bank_backend_test.dto.strategy.CurrenciesResponseDTO;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.BadRequestException;
 import id.tisnanda.allobank.allo_bank_backend_test.strategy.IDRDataFetcher;
@@ -24,20 +25,17 @@ public class SupportedCurrenciesFetcher implements IDRDataFetcher<CurrenciesResp
     @Override
     public List<CurrenciesResponseDTO> fetchData() {
         if (restTemplate == null) {
-            throw new BadRequestException("RestTemplate must be set before fetching data");
+            throw new BadRequestException(Constant.REST_TEMPLATE_NOT_SET);
         }
 
-        // Ambil data dari API eksternal
         Map<String, String> response = restTemplate.getForObject(currenciesUrl, Map.class);
 
         if (response == null) {
-            throw new BadRequestException("Failed to fetch supported currencies");
+            throw new BadRequestException(Constant.FAILED_FETCH_SUPPORTED_CURRENCIES);
         }
 
-        // Bungkus Map di dalam satu DTO
         CurrenciesResponseDTO dto = new CurrenciesResponseDTO(response);
 
-        // Kembalikan sebagai List dengan satu elemen
         return Collections.singletonList(dto);
     }
 }

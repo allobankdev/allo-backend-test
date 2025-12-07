@@ -19,7 +19,6 @@ class SupportedCurrenciesFetcherTest {
 
     private SupportedCurrenciesFetcher fetcher;
     private RestTemplate mockRestTemplate;
-//    private String mockUrl = "http://mock-currencies-url";
 
     @BeforeEach
     void setUp() {

@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.strategy.impl;
 
+import id.tisnanda.allobank.allo_bank_backend_test.constant.Constant;
 import id.tisnanda.allobank.allo_bank_backend_test.dto.strategy.HistoricalIDRUSDResponseDTO;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.BadRequestException;
 import id.tisnanda.allobank.allo_bank_backend_test.strategy.IDRDataFetcher;
@@ -25,22 +26,22 @@ public class HistoricalIDRUSDFetcher implements IDRDataFetcher<HistoricalIDRUSDR
     public List<HistoricalIDRUSDResponseDTO> fetchData() {
 
         if (restTemplate == null) {
-            throw new BadRequestException("RestTemplate must be set before fetching data");
+            throw new BadRequestException(Constant.REST_TEMPLATE_NOT_SET);
         }
 
         Map<String, Object> response = restTemplate.getForObject(historicalUrl, Map.class);
 
-        if (response == null || !response.containsKey("rates")) {
-            throw new BadRequestException("Failed to fetch historical IDR->USD rates");
+        if (response == null || !response.containsKey(Constant.RATES_KEY)) {
+            throw new BadRequestException(Constant.FAILED_FETCH_HISTORICAL_IDR_USD_RATES);
         }
 
-        Map<String, Map<String, Object>> rates = (Map<String, Map<String, Object>>) response.get("rates");
+        Map<String, Map<String, Object>> rates = (Map<String, Map<String, Object>>) response.get(Constant.RATES_KEY);
         List<HistoricalIDRUSDResponseDTO> result = new ArrayList<>();
 
         for (Map.Entry<String, Map<String, Object>> entry : rates.entrySet()) {
             String date = entry.getKey();
             Map<String, Object> usdMap = entry.getValue();
-            Double usdValue = ((Number) usdMap.get("USD")).doubleValue();
+            Double usdValue = ((Number) usdMap.get(Constant.USD)).doubleValue();
 
             result.add(new HistoricalIDRUSDResponseDTO(date, usdValue));
         }

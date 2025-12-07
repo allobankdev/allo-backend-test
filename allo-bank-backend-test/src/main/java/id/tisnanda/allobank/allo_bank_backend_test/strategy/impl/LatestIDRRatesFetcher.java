@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.strategy.impl;
 
+import id.tisnanda.allobank.allo_bank_backend_test.constant.Constant;
 import id.tisnanda.allobank.allo_bank_backend_test.dto.strategy.LatestIDRRateResponseDTO;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.BadRequestException;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.handler.GlobalExceptionHandler;
@@ -38,20 +39,19 @@ public class LatestIDRRatesFetcher implements IDRDataFetcher<LatestIDRRateRespon
 
         Map<String, Object> response = restTemplate.getForObject(latestUrl, Map.class);
 
-        if (response == null || !response.containsKey("rates")) {
-            throw new BadRequestException("Failed to fetch latest IDR rates");
+        if (response == null || !response.containsKey(Constant.RATES_KEY)) {
+            throw new BadRequestException(Constant.FAILED_FETCH_LATEST_IDR_RATES);
         }
 
-        Map<String, Object> rates = (Map<String, Object>) response.get("rates");
-        double rateUSD = ((Number) rates.get("USD")).doubleValue();
+        Map<String, Object> rates = (Map<String, Object>) response.get(Constant.RATES_KEY);
+        double rateUSD = ((Number) rates.get(Constant.USD)).doubleValue();
         double spreadFactor = calculateSpreadFactor(githubUsername);
-        log.info("spreadFactor : " + spreadFactor);
         double usdBuySpread = (1 / rateUSD) * (1 + spreadFactor);
 
-        Map<String, Double> mappedRates = Map.of("IDR", usdBuySpread);
+        Map<String, Double> mappedRates = Map.of(Constant.IDR, usdBuySpread);
 
         LatestIDRRateResponseDTO dto = new LatestIDRRateResponseDTO(
-                (String) response.getOrDefault("date", LocalDate.now().toString()),
+                (String) response.getOrDefault(Constant.DATE, LocalDate.now().toString()),
                 rateUSD,
                 usdBuySpread
         );
