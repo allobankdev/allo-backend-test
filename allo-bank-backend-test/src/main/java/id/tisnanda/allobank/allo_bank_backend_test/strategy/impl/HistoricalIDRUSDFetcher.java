@@ -25,10 +25,6 @@ public class HistoricalIDRUSDFetcher implements IDRDataFetcher<HistoricalIDRUSDR
     @Override
     public List<HistoricalIDRUSDResponseDTO> fetchData() {
 
-        if (restTemplate == null) {
-            throw new BadRequestException(Constant.REST_TEMPLATE_NOT_SET);
-        }
-
         Map<String, Object> response = restTemplate.getForObject(historicalUrl, Map.class);
 
         if (response == null || !response.containsKey(Constant.RATES_KEY)) {

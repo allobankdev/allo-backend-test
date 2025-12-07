@@ -51,14 +51,6 @@ class SupportedCurrenciesFetcherTest {
     }
 
     @Test
-    void testFetchData_whenRestTemplateIsNull_shouldThrowException() {
-        fetcher.restTemplate = null;
-
-        BadRequestException exception = assertThrows(BadRequestException.class, fetcher::fetchData);
-        assertEquals(Constant.REST_TEMPLATE_NOT_SET, exception.getMessage());
-    }
-
-    @Test
     void testFetchData_whenResponseNull_shouldThrowException() {
         when(mockRestTemplate.getForObject(Constant.MOCK_CURRENCIES_URL, Map.class)).thenReturn(null);
 

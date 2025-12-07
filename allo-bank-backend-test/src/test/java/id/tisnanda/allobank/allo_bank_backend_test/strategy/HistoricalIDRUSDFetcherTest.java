@@ -61,14 +61,6 @@ class HistoricalIDRUSDFetcherTest {
     }
 
     @Test
-    void testFetchData_whenRestTemplateIsNull_shouldThrowException() {
-        fetcher.restTemplate = null;
-
-        BadRequestException exception = assertThrows(BadRequestException.class, fetcher::fetchData);
-        assertEquals(Constant.REST_TEMPLATE_NOT_SET, exception.getMessage());
-    }
-
-    @Test
     void testFetchData_whenRatesMissing_shouldThrowException() {
         Map<String, Object> response = new HashMap<>();
         when(restTemplate.getForObject(Constant.MOCK_URL, Map.class)).thenReturn(response);

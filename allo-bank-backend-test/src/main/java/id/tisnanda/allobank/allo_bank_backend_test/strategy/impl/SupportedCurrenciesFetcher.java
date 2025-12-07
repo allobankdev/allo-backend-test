@@ -24,9 +24,6 @@ public class SupportedCurrenciesFetcher implements IDRDataFetcher<CurrenciesResp
 
     @Override
     public List<CurrenciesResponseDTO> fetchData() {
-        if (restTemplate == null) {
-            throw new BadRequestException(Constant.REST_TEMPLATE_NOT_SET);
-        }
 
         Map<String, String> response = restTemplate.getForObject(currenciesUrl, Map.class);
 
