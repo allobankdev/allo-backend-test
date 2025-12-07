@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.dto.strategy;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,11 @@ import java.util.Map;
 @AllArgsConstructor
 public class LatestIDRRateResponseDTO {
     private String date;
-    private Double USD;
-    private Double USD_BuySpread_IDR;
+
+    @JsonProperty("USD")
+
+    private Double usd;
+
+    @JsonProperty("USD_BuySpread_IDR")
+    private Double usdBuySpreedIDR;
 }

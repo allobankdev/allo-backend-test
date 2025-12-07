@@ -57,10 +57,10 @@ class LatestIDRRatesFetcherTest {
         LatestIDRRateResponseDTO dto = result.get(0);
 
         assertEquals("2025-12-07", dto.getDate());
-        assertEquals(15000.0, dto.getUSD());
+        assertEquals(15000.0, dto.getUsd());
 
         double expectedSpread = (1 / 15000.0) * (1 + fetcher.calculateSpreadFactor("tisnandanurhidayat"));
-        assertEquals(expectedSpread, dto.getUSD_BuySpread_IDR(), 1e-6);
+        assertEquals(expectedSpread, dto.getUsdBuySpreedIDR(), 1e-6);
     }
 
     @Test

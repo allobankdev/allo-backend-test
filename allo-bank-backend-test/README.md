@@ -16,7 +16,7 @@ Terima kasih sudah menilai aplikasi ini! Repository ini adalah solusi untuk take
 ```
  
 ```bash
-  ./mvnw spring-boot:run
+./mvnw spring-boot:run
 ```
 
 Requirements
@@ -52,8 +52,8 @@ respone sample with GlobalResponseFilter:
             "data": [
                 {
                     "date": "2025-12-05",
-                    "usd_BuySpread_IDR": 16821.833333333332,
-                    "usd": 6.0E-5
+                    "USD": 6.0E-5,
+                    "USD_BuySpread_IDR": 16821.833333333332
                 }
             ]
         }
