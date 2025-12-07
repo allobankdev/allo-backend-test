@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.exception.handler;
 
+import id.tisnanda.allobank.allo_bank_backend_test.constant.Constant;
 import id.tisnanda.allobank.allo_bank_backend_test.dto.ErrorResponse;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.AlloBankException;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.ErrorCodes;
@@ -21,13 +22,14 @@ import java.time.LocalDateTime;
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final Logger log = Logger.getLogger(GlobalExceptionHandler.class);
+    private static final Logger alloBankLog = Logger.getLogger(AlloBankException.class);
 
     @ExceptionHandler(AlloBankException.class)
     public ResponseEntity<ErrorResponse> handleAlloBankException(AlloBankException ex, HttpServletRequest request) {
-
         ErrorCodes code = ex.getErrorCodes();
 
-        log.errorf("Handled exception occurred: %s - %s, path=%s",
+        alloBankLog.errorf("Handled exception occurred: %s - %s, path=%s",
+
                 code.name(),
                 ex.getMessage(),
                 request.getRequestURI()
@@ -58,8 +60,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         );
 
         ErrorResponse response = new ErrorResponse(
-                "500",
-                ex.getMessage() != null ? ex.getMessage() : "Unexpected error",
+                Constant.INTERNAL_SERVER_ERROR_CODE,
+                ex.getMessage() != null ? ex.getMessage() : Constant.UNEXPECTED_ERROR,
                 ex.getClass().getSimpleName(),
                 request.getRequestURI(),
                 DateUtils.formatLocalDateTime(LocalDateTime.now())

@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.runner;
 
+import id.tisnanda.allobank.allo_bank_backend_test.constant.Constant;
 import id.tisnanda.allobank.allo_bank_backend_test.service.IDRFinanceService;
 import id.tisnanda.allobank.allo_bank_backend_test.strategy.IDRDataFetcher;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,24 +23,24 @@ class IDRDataLoaderTest {
         financeService = mock(IDRFinanceService.class);
         fetcherMock = mock(IDRDataFetcher.class);
 
-        Map<String, IDRDataFetcher> fetchers = Map.of("historical_idr_usd", fetcherMock);
+        Map<String, IDRDataFetcher> fetchers = Map.of(Constant.HISTORICAL_IDR_USD, fetcherMock);
         loader = new IDRDataLoader(financeService, fetchers);
     }
 
     @Test
     void testRun_success() throws Exception {
-        List<Map<String, Object>> mockData = Collections.singletonList(Map.of("USD", 0.00006));
+        List<Map<String, Object>> mockData = Collections.singletonList(Map.of(Constant.USD, 0.00006));
         when(fetcherMock.fetchData()).thenReturn(mockData);
 
         loader.run(null);
 
         verify(fetcherMock, times(1)).fetchData();
-        verify(financeService, times(1)).setData("historical_idr_usd", mockData);
+        verify(financeService, times(1)).setData(Constant.HISTORICAL_IDR_USD, mockData);
     }
 
     @Test
     void testRun_fetcherThrows_exception() throws Exception {
-        when(fetcherMock.fetchData()).thenThrow(new RuntimeException("API failed"));
+        when(fetcherMock.fetchData()).thenThrow(new RuntimeException(Constant.API_FAILED));
 
         try {
             loader.run(null);

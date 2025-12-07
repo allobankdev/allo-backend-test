@@ -1,5 +1,6 @@
 package id.tisnanda.allobank.allo_bank_backend_test.strategy;
 
+import id.tisnanda.allobank.allo_bank_backend_test.constant.Constant;
 import id.tisnanda.allobank.allo_bank_backend_test.dto.strategy.HistoricalIDRUSDResponseDTO;
 import id.tisnanda.allobank.allo_bank_backend_test.exception.BadRequestException;
 import id.tisnanda.allobank.allo_bank_backend_test.strategy.impl.HistoricalIDRUSDFetcher;
@@ -21,31 +22,30 @@ class HistoricalIDRUSDFetcherTest {
 
     private HistoricalIDRUSDFetcher fetcher;
     private RestTemplate restTemplate;
-    private String mockUrl = "http://mock-url";
 
     @BeforeEach
     void setUp() {
         restTemplate = mock(RestTemplate.class);
         fetcher = new HistoricalIDRUSDFetcher();
         fetcher.restTemplate = restTemplate; // set manual
-        fetcher.historicalUrl = mockUrl;     // set manual
+        fetcher.historicalUrl = Constant.MOCK_URL;     // set manual
     }
 
     @Test
     void testFetchData_withMockedApi() {
         Map<String, Object> usdRate1 = new HashMap<>();
-        usdRate1.put("USD", 15000.0);
+        usdRate1.put(Constant.USD, Constant.RATE_15000);
         Map<String, Object> usdRate2 = new HashMap<>();
-        usdRate2.put("USD", 15100.0);
+        usdRate2.put(Constant.USD, Constant.RATE_15100);
 
         Map<String, Object> rates = new HashMap<>();
-        rates.put("2025-12-05", usdRate1);
-        rates.put("2025-12-06", usdRate2);
+        rates.put(Constant.DATE_2025_12_05, usdRate1);
+        rates.put(Constant.DATE_2025_12_06, usdRate2);
 
         Map<String, Object> response = new HashMap<>();
-        response.put("rates", rates);
+        response.put(Constant.RATES_KEY, rates);
 
-        when(restTemplate.getForObject(mockUrl, Map.class)).thenReturn(response);
+        when(restTemplate.getForObject(Constant.MOCK_URL, Map.class)).thenReturn(response);
 
         List<HistoricalIDRUSDResponseDTO> result = fetcher.fetchData();
 
@@ -54,10 +54,10 @@ class HistoricalIDRUSDFetcherTest {
         HistoricalIDRUSDResponseDTO first = result.get(0);
         HistoricalIDRUSDResponseDTO second = result.get(1);
 
-        assertEquals("2025-12-05", first.getDate());
-        assertEquals(15000.0, first.getUsd());
-        assertEquals("2025-12-06", second.getDate());
-        assertEquals(15100.0, second.getUsd());
+        assertEquals(Constant.DATE_2025_12_05, first.getDate());
+        assertEquals(Constant.RATE_15000, first.getUsd());
+        assertEquals(Constant.DATE_2025_12_06, second.getDate());
+        assertEquals(Constant.RATE_15100, second.getUsd());
     }
 
     @Test
@@ -65,15 +65,15 @@ class HistoricalIDRUSDFetcherTest {
         fetcher.restTemplate = null;
 
         BadRequestException exception = assertThrows(BadRequestException.class, fetcher::fetchData);
-        assertEquals("RestTemplate must be set before fetching data", exception.getMessage());
+        assertEquals(Constant.REST_TEMPLATE_NOT_SET, exception.getMessage());
     }
 
     @Test
     void testFetchData_whenRatesMissing_shouldThrowException() {
         Map<String, Object> response = new HashMap<>();
-        when(restTemplate.getForObject(mockUrl, Map.class)).thenReturn(response);
+        when(restTemplate.getForObject(Constant.MOCK_URL, Map.class)).thenReturn(response);
 
         BadRequestException exception = assertThrows(BadRequestException.class, fetcher::fetchData);
-        assertEquals("Failed to fetch historical IDR->USD rates", exception.getMessage());
+        assertEquals(Constant.FAILED_FETCH_HISTORICAL_IDR_USD_RATES, exception.getMessage());
     }
 }
