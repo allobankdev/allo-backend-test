@@ -37,11 +37,101 @@ resourceType options:
 * historical_idr_usd
 * supported_currencies
 
-Contoh cURL:
+Example cURL:
+
+respone sample with GlobalResponseFilter:
 
 * curl http://localhost:8089/api/finance/data/latest_idr_rates
+
+
+    
+    {
+        "code": "200",
+        "message": "Success",
+        "resource": "ALBS",
+        "data": [
+            {
+                "date": "2025-12-05",
+                "usd_BuySpread_IDR": 16821.833333333332,
+                "usd": 6.0E-5
+            }
+        ]
+    }
 * curl http://localhost:8089/api/finance/data/historical_idr_usd
+
+            {
+              "code": "200",
+              "message": "Success",
+              "resource": "ALBS",
+              "data": [
+                {
+                    "date": "2023-12-29",
+                    "USD": "6.5E-5"
+                },
+                {
+                    "date": "2024-01-02",
+                    "USD": "6.4E-5"
+                },
+                {
+                    "date": "2024-01-03",
+                    "USD": "6.4E-5"
+                },
+                {
+                    "date": "2024-01-04",
+                    "USD": "6.4E-5"
+                },
+                {
+                    "date": "2024-01-05",
+                    "USD": "6.4E-5"
+                }
+              ]
+            }
+
+
 * curl http://localhost:8089/api/finance/data/supported_currencies
+
+        {
+        "code": "200",
+        "message": "Success",
+        "resource": "ALBS",
+        "data": [
+            {
+                "currencies": {
+                        "AUD": "Australian Dollar",
+                        "BGN": "Bulgarian Lev",
+                        "BRL": "Brazilian Real",
+                        "CAD": "Canadian Dollar",
+                        "CHF": "Swiss Franc",
+                        "CNY": "Chinese Renminbi Yuan",
+                        "CZK": "Czech Koruna",
+                        "DKK": "Danish Krone",
+                        "EUR": "Euro",
+                        "GBP": "British Pound",
+                        "HKD": "Hong Kong Dollar",
+                        "HUF": "Hungarian Forint",
+                        "IDR": "Indonesian Rupiah",
+                        "ILS": "Israeli New Sheqel",
+                        "INR": "Indian Rupee",
+                        "ISK": "Icelandic Króna",
+                        "JPY": "Japanese Yen",
+                        "KRW": "South Korean Won",
+                        "MXN": "Mexican Peso",
+                        "MYR": "Malaysian Ringgit",
+                        "NOK": "Norwegian Krone",
+                        "NZD": "New Zealand Dollar",
+                        "PHP": "Philippine Peso",
+                        "PLN": "Polish Złoty",
+                        "RON": "Romanian Leu",
+                        "SEK": "Swedish Krona",
+                        "SGD": "Singapore Dollar",
+                        "THB": "Thai Baht",
+                        "TRY": "Turkish Lira",
+                        "USD": "United States Dollar",
+                        "ZAR": "South African Rand"
+                    }
+                }
+            ]
+        }
 
 
 🧑‍💻 Personalization
@@ -52,8 +142,8 @@ Spread Factor Calculation
 
 Formula:
 
-    Spread Factor = (sum of ASCII values of lowercase username % 1000) / 100000.0
-    Example Spread Factor: 0.00765
+    Sum of ASCII values of lowercase username: XXXX
+    Spread Factor = (XXXX % 1000) / 100000.0 = 0.YYYYY
 
     Formula untuk USD_BuySpread_IDR
     USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)
