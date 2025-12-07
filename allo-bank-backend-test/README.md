@@ -45,18 +45,19 @@ respone sample with GlobalResponseFilter:
 
 
     
-    {
-        "code": "200",
-        "message": "Success",
-        "resource": "ALBS",
-        "data": [
-            {
-                "date": "2025-12-05",
-                "usd_BuySpread_IDR": 16821.833333333332,
-                "usd": 6.0E-5
-            }
-        ]
-    }
+        {
+            "code": "200",
+            "message": "Success",
+            "resource": "ALBS",
+            "data": [
+                {
+                    "date": "2025-12-05",
+                    "usd_BuySpread_IDR": 16821.833333333332,
+                    "usd": 6.0E-5
+                }
+            ]
+        }
+
 * curl http://localhost:8089/api/finance/data/historical_idr_usd
 
             {
