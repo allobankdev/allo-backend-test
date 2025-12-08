@@ -136,3 +136,29 @@ A clear `README.md` is mandatory. It must include:
 * **Code Review Readiness:** The code should be well-structured and ready for immediate review.
 
 Good luck!
+
+
+
+# Allo Bank - IDR Rate Aggregator
+
+## Setup
+1. Clone repo
+2. Edit `src/main/resources/application.properties` and set:
+  - `frankfurter.github-username=abdulwahid17`
+3. Build:
+   mvn clean package
+4. Run:
+   mvn spring-boot:run
+
+## Endpoints
+GET /api/finance/data/latest_idr_rates
+GET /api/finance/data/historical_idr_usd
+GET /api/finance/data/supported_currencies
+
+## Contoh cURL
+curl -v http://localhost:8383/api/finance/data/latest_idr_rates
+
+## Personalization (Spread Factor)
+GitHub username: abdulwahid17
+Spread factor = (sum of unicode values of 'abdulwahid17' lowercase % 1000) / 100000.0
+(Your app prints exact spread in `LatestRatesDto.spreadFactor`)
