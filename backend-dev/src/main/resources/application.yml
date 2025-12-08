@@ -11,6 +11,14 @@ app:
 
 personal:
   github-username: "weakbaby2"
+  resource-types:
+    latest: latest_idr_rates
+    historical: historical_idr_usd
+    supported: supported_currencies
+    
+  default-dates:
+    historical-start: "2024-01-01"
+    historical-end: "2024-01-05"
   
 server:
   port: 8080

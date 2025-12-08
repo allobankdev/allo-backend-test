@@ -14,10 +14,10 @@ public class RestTemplateFactoryBean implements FactoryBean<RestTemplate> {
     @Value("${api.frankfurter.base-url}")
     private String baseUrl;
 
-    @Value("${api.frankfurter.connect-timeout:3000}")
+    @Value("${api.frankfurter.connect-timeout}")
     private int connectTimeout;
 
-    @Value("${api.frankfurter.read-timeout:5000}")
+    @Value("${api.frankfurter.read-timeout}")
     private int readTimeout;
 
     @Override
