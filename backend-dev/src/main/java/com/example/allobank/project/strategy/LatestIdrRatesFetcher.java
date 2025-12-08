@@ -21,7 +21,7 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
     RestTemplate restTemplate;
 
 	@Value("${frankfurter.api.base-url}")
-    private String baseUrl;
+	public String baseUrl;
 	
     @Value("${personal.github-username}")
     private String githubUsername;

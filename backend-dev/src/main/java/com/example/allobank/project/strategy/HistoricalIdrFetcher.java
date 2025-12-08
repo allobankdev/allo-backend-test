@@ -21,16 +21,16 @@ public class HistoricalIdrFetcher implements IDRDataFetcher {
     RestTemplate restTemplate;
 
 	@Value("${frankfurter.api.base-url}")
-    private String baseUrl;
+    public String baseUrl;
 
     @Value("${personal.resource-types.historical}")
-    private String resourceType;
+    public String resourceType;
     
     @Value("${personal.resource-types.historical-start}")
-    private String startDate;
+    public String startDate;
     
     @Value("${personal.resource-types.historical-end}")
-    private String endDate;
+    public String endDate;
     
     @Override
 	public String getResourceType() {
