@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: allobank-backend-test
+
+app:
+  frankfurter:
+    base-url: https://api.frankfurter.app
+    # timeouts in milliseconds
+    connect-timeout-ms: 5000
+    read-timeout-ms: 10000
+
+personal:
+  github-username: "weakbaby2"
+  
+server:
+  port: 8080
+  servlet:
+    session:
+      timeout: 30m
+  connection-timeout: 100s  
+
+logging:
+  level:
+    root: INFO
+    com.example.allobank: DEBUG
