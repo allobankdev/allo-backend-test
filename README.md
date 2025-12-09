@@ -297,7 +297,7 @@ It externalizes base URL and configures:
 ## 1. Clone repository
 
 ```
-git clone -b feat/idr-rate-aggregator https://github.com/allobankdev/allo-backend-test
+git clone https://github.com/allobankdev/allo-backend-test
 cd allo-backend-test
 git checkout feat/idr-rate-aggregator
 
@@ -326,19 +326,19 @@ No Docker is required.
 ### **1. Latest IDR Rates**
 
 ```
-curl http://localhost:8080/api/finance/data/latest_idr_rates
+curl http://localhost:9000/api/finance/data/latest_idr_rates
 ```
 
 ### **2. Historical IDR → USD (2024-01-01..05)**
 
 ```
-curl http://localhost:8080/api/finance/data/historical_idr_usd
+curl http://localhost:9000/api/finance/data/historical_idr_usd
 ```
 
 ### **3. Supported Currencies**
 
 ```
-curl http://localhost:8080/api/finance/data/supported_currencies
+curl http://localhost:9000/api/finance/data/supported_currencies
 ```
 
 ---
