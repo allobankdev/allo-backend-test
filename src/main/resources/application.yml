@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: finance-aggregator
+
+app:
+  frankfurter:
+    base-url: https://api.frankfurter.app
+    connect-timeout-ms: 5000
+    read-timeout-ms: 10000
+  spread:
+    github-username: primaputraa
