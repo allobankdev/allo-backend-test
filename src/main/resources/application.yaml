@@ -7,7 +7,7 @@ server:
 
 frankfurter:
   base-url: https://api.frankfurter.app
-  connect-timeout-ms: 2000
-  read-timeout-ms: 3000
+  connect-timeout-ms: 5000
+  read-timeout-ms: 20000
   historical-range: 2024-01-01..2024-01-05
   github-username: achlaq
