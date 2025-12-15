@@ -1,0 +1,5 @@
+app:
+  frankfurter:
+    base-url: https://api.frankfurter.app
+  github:
+    username: AryaSegara

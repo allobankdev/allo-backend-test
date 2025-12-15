@@ -1,0 +1,18 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: idr-rate-aggregator
+
+app:
+  frankfurter:
+    base-url: https://api.frankfurter.app
+    timeout:
+      connect: 5000
+      read: 10000
+  
+  github:
+    username: AryaSegara  
