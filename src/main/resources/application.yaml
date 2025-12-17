@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: allobank
+
+server:
+  port: 8080
+
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+    connect-timeout: 5000
+    read-timeout: 5000
+    max-retries: 3
+
+github:
+  username: RiskyAdit06
