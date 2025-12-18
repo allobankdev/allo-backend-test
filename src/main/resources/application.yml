@@ -1,0 +1,17 @@
+server:
+  port: 8080
+spring:
+  application:
+    name: backendtest
+
+frankfurter:
+  base-url: https://api.frankfurter.dev/v1
+  connect-timeout-millis: 10000
+  read-timeout-millis: 10000
+  base-date-range: 2024-01-01..2024-01-05
+
+# for spread
+github:
+  username: MrPandoyo
+
+

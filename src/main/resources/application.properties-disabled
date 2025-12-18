@@ -1,0 +1,12 @@
+spring.application.name=backendtest
+server.port=8080
+
+frankfurter.base-url=https://api.frankfurter.dev/v1
+#frankfurter.base-ccy=IDR
+#frankfurter.base-daterange=2024-01-01..2024-01-05
+frankfurter.path.latest=/latest?base=IDR
+frankfurter.path.historical=/2024-01-01..2024-01-05?from=IDR&to=USD
+frankfurter.path.currencies=/currencies
+
+# for spread
+github.username=MrPandoyo
