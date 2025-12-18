@@ -2,6 +2,7 @@ package com.allo.backendtest.service.impl;
 
 import com.allo.backendtest.dto.frankfurter.HistoricalDto;
 import com.allo.backendtest.service.IdrDataFetcher;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -21,7 +22,7 @@ public class HistoricalRateService implements IdrDataFetcher {
 
     private final RestClient restClient;
 
-    public HistoricalRateService(RestClient restClient) {
+    public HistoricalRateService(@Qualifier("frankfurterRestClientConfig") RestClient restClient) {
         this.restClient = restClient;
     }
 

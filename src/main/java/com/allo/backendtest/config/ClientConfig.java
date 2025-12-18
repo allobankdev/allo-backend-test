@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 public class ClientConfig {
 
     @Bean
-    public RestClientFactoryBean loadRestClient(FrankfurterProperties properties) {
-        return new RestClientFactoryBean(properties);
+    public FrankfurterRcBean frankfurterRestClientConfig(FrankfurterProperties properties) {
+        return new FrankfurterRcBean(properties);
     }
 }

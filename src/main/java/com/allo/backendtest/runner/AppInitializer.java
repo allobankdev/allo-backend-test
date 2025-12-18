@@ -1,4 +1,4 @@
-package com.allo.backendtest.config;
+package com.allo.backendtest.runner;
 
 import com.allo.backendtest.service.IdrDataFetcher;
 import org.springframework.boot.ApplicationArguments;

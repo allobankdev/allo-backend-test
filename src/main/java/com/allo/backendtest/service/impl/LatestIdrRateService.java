@@ -3,6 +3,7 @@ package com.allo.backendtest.service.impl;
 import com.allo.backendtest.dto.frankfurter.LatestDto;
 import com.allo.backendtest.helper.SpreadHelper;
 import com.allo.backendtest.service.IdrDataFetcher;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,7 @@ public class LatestIdrRateService implements IdrDataFetcher {
     private final RestClient restClient;
     private final ObjectMapper mapper;
 
-    public LatestIdrRateService(RestClient restClient,ObjectMapper mapper) {
+    public LatestIdrRateService(@Qualifier("frankfurterRestClientConfig")RestClient restClient, ObjectMapper mapper) {
         this.restClient = restClient;
         this.mapper = mapper;
     }

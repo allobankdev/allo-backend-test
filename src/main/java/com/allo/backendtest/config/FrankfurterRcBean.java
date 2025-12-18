@@ -6,11 +6,11 @@ import org.springframework.http.client.BufferingClientHttpRequestFactory;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 
-public class FrankfurterBean implements FactoryBean<RestClient> {
+public class FrankfurterRcBean implements FactoryBean<RestClient> {
 
     private final FrankfurterProperties properties;
 
-    public FrankfurterBean(FrankfurterProperties properties) {
+    public FrankfurterRcBean(FrankfurterProperties properties) {
         this.properties = properties;
     }
 

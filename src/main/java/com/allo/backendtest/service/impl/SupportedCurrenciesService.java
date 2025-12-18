@@ -2,6 +2,7 @@ package com.allo.backendtest.service.impl;
 
 import com.allo.backendtest.dto.frankfurter.CurrenciesDto;
 import com.allo.backendtest.service.IdrDataFetcher;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -20,7 +21,7 @@ public class SupportedCurrenciesService implements IdrDataFetcher {
     private final RestClient restClient;
     private final ObjectMapper mapper;
 
-    public SupportedCurrenciesService(RestClient restClient, ObjectMapper mapper) {
+    public SupportedCurrenciesService(@Qualifier("frankfurterRestClientConfig")RestClient restClient, ObjectMapper mapper) {
         this.restClient = restClient;
         this.mapper = mapper;
     }
