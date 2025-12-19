@@ -1,10 +1,12 @@
 package com.zultest.allobank_backend_test.service;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
 import java.util.Map;
 
+@Component
 public class SupportedCurrenciesFetcher implements IDRDataFetcherInterface{
     private final WebClient webClient;
 
