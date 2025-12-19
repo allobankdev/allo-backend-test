@@ -3,32 +3,37 @@ package com.zultest.allobank_backend_test.store;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class InMemoryStore {
 
-    private Map<String, Object> store;
+    private final Map<String, Object> dataStore = new ConcurrentHashMap<>();
+    private volatile boolean initialized = false;
 
-    public void put(String key, Object value) {
-        if (store != null) {
-            throw new IllegalStateException("Store is already initialized");
+    public void put(String resourceType, Object data) {
+        if (initialized) {
+            throw new IllegalStateException("Store is already initialized and immutable");
         }
-
-        store = new HashMap<>();
-        store.put(key, value);
+        dataStore.put(resourceType, data);
     }
 
     public void markInitialized() {
-        store = Collections.unmodifiableMap(store);
+        this.initialized = true;
     }
 
-    public Object get(String key) {
-        Object value = store.get(key);
-        if (value == null) {
-            throw new IllegalArgumentException("No data found for resourceType: " + key);
+    public Object get(String resourceType) {
+        Object data = dataStore.get(resourceType);
+        if (data == null) {
+            throw new IllegalArgumentException(
+                    "No data found for resourceType: " + resourceType
+            );
         }
-        return value;
+        return data;
+    }
+
+    public Map<String, Object> snapshot() {
+        return Collections.unmodifiableMap(dataStore);
     }
 }
