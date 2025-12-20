@@ -80,6 +80,29 @@ git push --set-upstream origin feat/idr-rate-aggregator
 - GitHub Username: **Happid**
 - Spread Factor (calculated): **0.0063**
 
-This Spread factor is calculated automatically by the application based on the sum of the Unicode values
+This Spread factor is calculated automatically by the 
+application based on the sum of the Unicode values
 of each character in the GitHub username,
 according to the rules described in the requirements.
+
+## Architectural Rationale
+### i. Polymorphism Justification
+The Strategy Pattern is used to handle multiple resource 
+types within a single endpoint without using if-else or switch patterns. 
+Each resource is implemented as a separate strategy, 
+making code easier to develop and maintain. When a new resource is added, 
+simply add a new strategy without changing existing controllers or services.
+
+### ii. Client Factory
+External API clients are created using FactoryBean to centralize and 
+control the client creation and configuration process. 
+This approach provides more flexibility than a standard 
+@Bean, particularly for lifecycle management, initial configuration, 
+and subsequent development without impacting business logic.
+
+### iii. Startup Runner Choice
+ApplicationRunner is used to fetch external data once at startup 
+because it runs after the entire Spring Context is ready.
+This approach is safer than @PostConstruct and ensures the data 
+is complete, immutable, and ready to use before the endpoint receives 
+the request.
