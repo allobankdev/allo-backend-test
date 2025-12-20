@@ -9,8 +9,7 @@ class BackendtestApplicationTests {
 	@Test
 	void contextLoads() {
 		String text = "MrPandoyo".toLowerCase();
-		text.chars()
-				.forEach(System.out::println);
+		text.chars().forEach(System.out::println);
 		System.out.println("BackendtestApplicationTests.contextLoads SUM : " + text.chars().sum());
 	}
 

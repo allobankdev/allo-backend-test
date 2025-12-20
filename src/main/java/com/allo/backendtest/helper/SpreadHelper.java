@@ -17,13 +17,14 @@ public class SpreadHelper {
         if(username == null) throw new IllegalArgumentException("Username is null");
         if(rateUsd == null) throw new IllegalArgumentException("Rate USD is null");
 
-        BigDecimal one = BigDecimal.valueOf(1);
+        var one = BigDecimal.valueOf(1);
         int sum = username.toLowerCase().chars().sum();
 
-        BigDecimal spreadFactor = BigDecimal.valueOf((sum % 1000) / 100000.0);
+        var spreadFactor = BigDecimal.valueOf((sum % 1000) / 100000.0);
+        log.info("spreadFactor for username {} is {}", username, spreadFactor);
 
-        BigDecimal oneDivideRateUsd = one.divide(rateUsd, RoundingMode.HALF_EVEN);
-        BigDecimal factorPlusOne = one.add(spreadFactor);
+        var oneDivideRateUsd = one.divide(rateUsd, RoundingMode.HALF_EVEN);
+        var factorPlusOne = one.add(spreadFactor);
 
         return oneDivideRateUsd.multiply(factorPlusOne);
     }

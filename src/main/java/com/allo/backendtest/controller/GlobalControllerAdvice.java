@@ -12,7 +12,7 @@ public class GlobalControllerAdvice {
 
     @ExceptionHandler(HttpException.class)
     public ResponseEntity<ErrorResponse> handleHttpException(HttpException ex) {
-        ErrorResponse error = new ErrorResponse(
+        var error = new ErrorResponse(
                 ex.getErrorCode(),
                 ex.getMessage()
         );

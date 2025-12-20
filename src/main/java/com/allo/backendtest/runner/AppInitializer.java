@@ -10,7 +10,7 @@ import java.util.Map;
 @Component
 public class AppInitializer implements ApplicationRunner {
 
-    private final Map<String, IdrDataFetcher> idrDataFetcherMap;
+    private final Map<String,IdrDataFetcher> idrDataFetcherMap;
 
     public AppInitializer(Map<String, IdrDataFetcher> idrDataFetcherMap) {
         this.idrDataFetcherMap = idrDataFetcherMap;
@@ -18,8 +18,8 @@ public class AppInitializer implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        for (IdrDataFetcher idrDataFetcher : idrDataFetcherMap.values()) {
-            idrDataFetcher.update();
+        for (Map.Entry<String, IdrDataFetcher> entry : idrDataFetcherMap.entrySet()) {
+            entry.getValue().fetchAndStoreData();
         }
     }
 }
