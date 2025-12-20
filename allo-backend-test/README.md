@@ -51,7 +51,7 @@ git commit -m "YOUR_COMMENT"
 ```
 - For push or update the repository
 ```terminal
-git push
+git push --set-upstream origin feat/idr-rate-aggregator
 ```
 
 ## Run Instruction (IDE - Intellij CE)
