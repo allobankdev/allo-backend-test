@@ -9,7 +9,7 @@
 1. **Clone the repository:**
    ```bash
    git clone <repository-url>
-   cd allo-backend
+   cd allo-backend-test
    ```
 
 2. **Build the project:**
