@@ -136,3 +136,35 @@ A clear `README.md` is mandatory. It must include:
 * **Code Review Readiness:** The code should be well-structured and ready for immediate review.
 
 Good luck!
+
+
+
+---
+
+# PR DESCRIPTION
+
+```md
+## Summary
+Implemented a polymorphic finance data aggregator using Spring Boot that integrates with the Frankfurter API and focuses on IDR-related data.
+
+The solution applies Strategy Pattern for resource handling, FactoryBean for API client creation, and ApplicationRunner for startup data ingestion.
+
+---
+
+## Architectural Rationale
+
+### Strategy Pattern
+Strategy Pattern digunakan untuk memisahkan logika pengambilan data berdasarkan jenis resource dari layer controller. Dengan pendekatan ini, penambahan resource baru dapat dilakukan dengan menambahkan implementasi strategy baru tanpa mengubah kode controller, sehingga meningkatkan maintainability dan extensibility serta menghindari conditional branching (if/switch).
+
+### FactoryBean
+FactoryBean digunakan untuk membuat dan mengonfigurasi client eksternal (WebClient) secara terpusat. Pendekatan ini memberikan kontrol lifecycle yang lebih jelas, memisahkan concern konfigurasi client dari logic bisnis, dan lebih fleksibel dibandingkan pendefinisian client menggunakan @Bean biasa.
+
+### ApplicationRunner
+ApplicationRunner dipilih untuk proses load data awal karena menjamin seluruh konteks Spring dan dependency sudah siap sebelum proses dijalankan. Pendekatan ini lebih aman dan terkontrol dibandingkan @PostConstruct untuk kebutuhan inisialisasi data satu kali saat startup.
+
+---
+
+## Personalization
+GitHub Username: byufdhs2219  
+Unicode Sum: 963  
+Spread Factor: 0.00963
