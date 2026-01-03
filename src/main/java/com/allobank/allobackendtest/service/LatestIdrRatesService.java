@@ -6,7 +6,10 @@ import org.springframework.stereotype.Service;
 
 import com.allobank.allobackendtest.model.DTO.LatestIdrRatesResponse;
 
+import lombok.extern.slf4j.Slf4j;
+
 @Service
+@Slf4j
 public class LatestIdrRatesService {
 
     private static final String GITHUB_USERNAME = "fluxions-471";
@@ -16,6 +19,8 @@ public class LatestIdrRatesService {
         BigDecimal usdRate = response.getRates().get("USD");
 
         BigDecimal spreadFactor = calculateSpreadFactor();
+
+        log.info("Github Username ({}) Spread Factor = {}", GITHUB_USERNAME , spreadFactor);
 
         BigDecimal usdBuySpreadIdr = BigDecimal.ONE
                 .divide(usdRate, 10, RoundingMode.HALF_UP)
