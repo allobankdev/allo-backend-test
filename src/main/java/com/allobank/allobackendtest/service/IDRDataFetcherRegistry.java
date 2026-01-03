@@ -22,8 +22,7 @@ public class IDRDataFetcherRegistry {
     public IDRDataFetcher getFetcher(String resourceType) {
         IDRDataFetcher fetcher = fetcherMap.get(resourceType);
         if (fetcher == null) {
-            throw new IllegalArgumentException(
-                    "Unsupported resourceType: " + resourceType);
+            throw new IllegalArgumentException("Unsupported resourceType: " + resourceType);
         }
         return fetcher;
     }
