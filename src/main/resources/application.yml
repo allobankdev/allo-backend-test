@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: AlloBackendTest
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  timeout-ms: 5000
