@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.allobank.allobackendtest.model.DTO.ApiResponse;
 import com.allobank.allobackendtest.store.InMemoryDataStore;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,17 +23,17 @@ public class FinanceDataController {
     }
 
     @GetMapping("/{resourceType}")
-    public ResponseEntity<?> getFinanceData(@PathVariable String resourceType) {
+    public ApiResponse<Object> getFinanceData(@PathVariable String resourceType) {
         log.info("Request received for resourceType={}", resourceType);
         
         Object data = dataStore.get(resourceType);
 
         if (data == null) {
             log.warn("Unsupported or unavailable resourceType={}", resourceType);
-            return ResponseEntity.badRequest().body("Unsupported resourceType or data not available: " + resourceType);
+            throw new IllegalArgumentException("Unsupported resourceType or data not available: " + resourceType);
         }
 
-        return ResponseEntity.ok(data);
+        return ApiResponse.success("Data fetched successfully", data);
     }
 
 }

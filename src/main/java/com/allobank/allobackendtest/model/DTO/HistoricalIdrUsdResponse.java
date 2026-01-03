@@ -10,8 +10,8 @@ public class HistoricalIdrUsdResponse {
 
     private BigDecimal amount;
     private String base;
-    private String startDate;
-    private String endDate;
+    private String start_date;
+    private String end_date;
     private Map<String, Map<String, BigDecimal>> rates;
 
 }
