@@ -1,4 +1,4 @@
-package com.allobank.allobanktest.client;
+package com.allobank.allobanktest.strategy;
 
 import com.allobank.allobanktest.strategy.SupportedCurrenciesFetcher;
 import org.junit.jupiter.api.Test;
