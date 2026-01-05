@@ -14,6 +14,6 @@ public interface IDRDataFetcher {
      * Fetches and transforms data from the external API.
      * Executed once during application startup.
      */
-    Map<String, String> fetchAndTransform();
+    Object fetchAndTransform();
 
 }
