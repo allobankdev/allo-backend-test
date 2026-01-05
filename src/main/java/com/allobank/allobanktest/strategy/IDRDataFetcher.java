@@ -1,5 +1,7 @@
 package com.allobank.allobanktest.strategy;
 
+import java.util.Map;
+
 public interface IDRDataFetcher {
 
 
@@ -12,6 +14,6 @@ public interface IDRDataFetcher {
      * Fetches and transforms data from the external API.
      * Executed once during application startup.
      */
-    Object fetchAndTransform();
+    Map<String, String> fetchAndTransform();
 
 }
