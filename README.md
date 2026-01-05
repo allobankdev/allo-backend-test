@@ -136,3 +136,208 @@ A clear `README.md` is mandatory. It must include:
 * **Code Review Readiness:** The code should be well-structured and ready for immediate review.
 
 Good luck!
+
+
+---
+
+## Overview
+his project is a Spring Boot–based backend application developed as part of the **Allo Bank Backend Developer Take-Home Test**.  
+The primary goal of this application is to demonstrate the ability to design and implement a **production-ready financial service** with a strong focus on **clean architecture, extensibility, and deterministic data handling**.
+
+## 🔗 Endpoint Usage
+
+The application exposes **one single polymorphic REST endpoint** to serve different finance data resources.
+
+### Base Endpoint
+
+GET /api/finance/data/{resourceType}
+
+Where `{resourceType}` determines the type of finance data to be returned.
+
+## Supported Resource Types
+
+| Resource Type | Description |
+|--------------|------------|
+| `supported_currencies` | Returns a list of supported currency codes and their descriptions |
+| `historical_idr_usd` | Returns historical IDR to USD exchange rate data |
+| `latest_idr_rates` | Returns the latest IDR exchange rates including a calculated USD buy spread |
+
+[Postman Collection Details](docs/Allo%20Bank%20Test.postman_collection.json)
+
+---
+### Project Structure
+```
+.
+├── .gitignore
+├── .mvn
+├── README.md
+├── docs
+│   └── Allo Bank Test.postman_collection.json
+├── mvnw
+├── mvnw.cmd
+├── pom.xml
+└── src
+    ├── main
+    │   ├── java
+    │   │   └── com
+    │   │       └── allobank
+    │   │           └── allobanktest
+    │   │               ├── AllobanktestApplication.java
+    │   │               ├── client
+    │   │               │   └── FrankfurterClientFactory.java
+    │   │               ├── config
+    │   │               │   ├── FrankfurterClientConfig.java
+    │   │               │   └── FrankfurterProperties.java
+    │   │               ├── controller
+    │   │               │   └── FinanceController.java
+    │   │               ├── dto
+    │   │               │   ├── ApiResponse.java
+    │   │               │   ├── HistoriRateResponse.java
+    │   │               │   └── LatestIdrRateResponse.java
+    │   │               ├── runner
+    │   │               │   └── FinanceDataLoader.java
+    │   │               ├── store
+    │   │               │   └── FinanceDataStore.java
+    │   │               ├── strategy
+    │   │               │   ├── SupportedCurrenciesFetcher.java
+    │   │               │   ├── HistoricalIdrUsdFetcher.java
+    │   │               │   ├── LatestIdrRatesFetcher.java
+    │   │               │   ├── ResourceType.java
+    │   │               │   └── IDRDataFetcher.java
+    │   └── resources
+    │       ├── application.yaml
+    └── test
+        └── java
+            └── com
+                └── allobank
+                    └── allobanktest
+                        ├── AllobanktestApplictionTests.java
+                        ├── runner
+                        │   └── FinanceDataLoaderTest.java
+                        └── strategy
+                            ├── HistoricalIdrUsdFetcherTest.java
+                            ├── LatestIdrRatesFetcherTest.java
+                            └── SupportedCurrenciesFetcherTest.java
+                                
+
+```
+### Details Project Structure
+
+- `AllobanktestApplication.java`  
+  The main Spring Boot application class responsible for bootstrapping and launching the Allo Bank finance data aggregator application.
+
+---
+
+- Package `com.allobank.allobanktest.client`:
+    - `FrankfurterClientFactory.java`  
+      A custom `FactoryBean` responsible for creating and configuring a singleton `WebClient` instance used to communicate with the Frankfurter Exchange Rate API. This centralizes external API client creation and configuration.
+
+---
+
+- Package `com.allobank.allobanktest.config`:
+    - `FrankfurterClientConfig.java`  
+      Spring configuration class that registers the Frankfurter API client factory as a managed bean within the application context.
+
+    - `FrankfurterProperties.java`  
+      Configuration properties class used to externalize and bind Frankfurter API settings (such as the base URL) from `application.yml`.
+
+---
+
+- Package `com.allobank.allobanktest.controller`:
+    - `FinanceController.java`  
+      REST controller that exposes a single polymorphic endpoint for retrieving finance data. It validates the requested resource type and serves data from the immutable in-memory store without invoking external APIs at runtime.
+
+---
+
+- Package `com.allobank.allobanktest.dto`:
+    - `ApiResponse.java`  
+      A minimal and generic API response wrapper that provides contextual metadata (resource type) while preserving the original response payload structure.
+
+    - `HistoricalRateResponse.java`  
+      Data Transfer Object (DTO) representing the historical IDR to USD exchange rate response returned by the Frankfurter API, including time-series rate data.
+
+    - `LatestIdrRateResponse.java`  
+      DTO representing the latest IDR exchange rate data enriched with a calculated USD buy spread. All monetary values are represented using `BigDecimal` to ensure financial precision.
+
+---
+
+- Package `com.allobank.allobanktest.runner`:
+    - `FinanceDataLoader.java`  
+      An `ApplicationRunner` implementation responsible for fetching all required finance data at application startup using the Strategy Pattern and storing the results in an immutable in-memory store.
+
+---
+
+- Package `com.allobank.allobanktest.store`:
+    - `FinanceDataStore.java`  
+      A thread-safe, immutable in-memory data store that holds all preloaded finance data. It ensures data consistency by allowing write operations only during application startup and read-only access at runtime.
+
+---
+
+- Package `com.allobank.allobanktest.strategy`:
+    - `SupportedCurrenciesFetcher.java`  
+      Strategy implementation responsible for fetching and returning the list of supported currency codes from the Frankfurter API.
+
+    - `HistoricalIdrUsdFetcher.java`  
+      Strategy implementation responsible for retrieving historical IDR to USD exchange rate data without applying additional business transformations.
+
+    - `LatestIdrRatesFetcher.java`  
+      Strategy implementation responsible for fetching the latest IDR exchange rates and calculating a personalized USD buy spread based on the GitHub username.
+
+    - `ResourceType.java`  
+      Enumeration defining all supported finance resource types used to safely route requests and strategy selection without relying on magic strings.
+
+    - `IDRDataFetcher.java`  
+      Strategy interface that defines a contract for fetching and transforming finance-related data. Each concrete implementation handles a specific resource type.
+
+---
+
+- File `application.yml`  
+  Centralized configuration file used to define external API settings, GitHub username personalization, and other application-level properties.
+
+- File `Allo Bank Test.postman_collection.json`  
+  Postman collection containing predefined API requests to facilitate manual testing and validation of the finance endpoints.
+
+- File `pom.xml`  
+  Maven configuration file that defines project dependencies, build plugins, and Java version settings.
+
+---
+
+- Directory `src/main/java`  
+  Contains the main application source code, including controllers, services (strategies), configuration, and infrastructure components.
+
+- Directory `src/main/resources`  
+  Holds application configuration files and other required runtime resources.
+
+- Directory `src/test/java`  
+  Contains unit and integration tests that validate strategy logic, startup data loading, and error handling behavior.
+---
+
+### Prerequisites
+- Java SDK 17 or above
+- Apache Maven 3.8.4 or above
+---
+
+
+### Installations
+1. Clone the repo `git clone https://github.com/hasanalmunawr/allo-backend-test.git`
+2. Install Maven Dependencies `mvn clean install`
+3. Configure properties in `application.yml` file
+  ```yml
+    frankfurter:
+      base-url: https://api.frankfurter.app
+    github:
+      username: <github-username> # The username of your github account
+```
+4. Run test `mvn test`
+5. Run the application `mvn spring-boot:run`
+
+
+
+### Personalization
+
+- Github Username `hasanalmunawr`
+- Spread Factor: `0.00394`
+
+
+
+
