@@ -1,3 +1,5 @@
 spring:
   application:
     name: allobanktest
+frankfurter:
+  base-url: https://api.frankfurter.app
