@@ -1,0 +1,18 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: allobank-finance-api
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+      - org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  connect-timeout-ms: 3000
+  response-timeout-ms: 5000
+
+github:
+  username: yourgithubusername
