@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>FinanceDataLoader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">idr-rate-aggregator</a> &gt; <a href="index.source.html" class="el_package">com.allobank.aggregator.runner</a> &gt; <span class="el_source">FinanceDataLoader.java</span></div><h1>FinanceDataLoader.java</h1><pre class="source lang-java linenums">package com.allobank.aggregator.runner;
+
+import com.allobank.aggregator.dto.FinanceDataDto;
+import com.allobank.aggregator.service.FinanceDataStore;
+import com.allobank.aggregator.strategy.IDRDataFetcher;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Component
+public class FinanceDataLoader implements ApplicationRunner {
+
+<span class="fc" id="L19">    private static final Logger log = LoggerFactory.getLogger(FinanceDataLoader.class);</span>
+
+    private final List&lt;IDRDataFetcher&gt; fetchers;
+    private final FinanceDataStore store;
+
+<span class="fc" id="L24">    public FinanceDataLoader(List&lt;IDRDataFetcher&gt; fetchers, FinanceDataStore store) {</span>
+<span class="fc" id="L25">        this.fetchers = fetchers;</span>
+<span class="fc" id="L26">        this.store = store;</span>
+<span class="fc" id="L27">    }</span>
+
+    @Override
+    public void run(ApplicationArguments args) {
+<span class="fc" id="L31">        log.info(&quot;FinanceDataLoader starting - fetching all resources once&quot;);</span>
+<span class="fc" id="L32">        Map&lt;String, FinanceDataDto&gt; temp = new HashMap&lt;&gt;();</span>
+<span class="fc bfc" id="L33" title="All 2 branches covered.">        for (IDRDataFetcher fetcher : fetchers) {</span>
+            try {
+<span class="fc" id="L35">                FinanceDataDto dto = fetcher.fetch();</span>
+<span class="fc" id="L36">                temp.put(fetcher.resourceKey(), dto);</span>
+<span class="fc" id="L37">                log.info(&quot;Loaded resource: {}&quot;, fetcher.resourceKey());</span>
+<span class="fc" id="L38">            } catch (Exception e) {</span>
+<span class="fc" id="L39">                log.error(&quot;Failed to load resource {}: {}&quot;, fetcher.resourceKey(), e.getMessage(), e);</span>
+                // fail fast: don't start app if we could not fetch all required resources
+<span class="fc" id="L41">                throw new RuntimeException(&quot;Initialization failed for &quot; + fetcher.resourceKey(), e);</span>
+<span class="fc" id="L42">            }</span>
+<span class="fc" id="L43">        }</span>
+<span class="fc" id="L44">        store.initialize(temp);</span>
+<span class="fc" id="L45">        log.info(&quot;FinanceDataLoader finished initialization&quot;);</span>
+<span class="fc" id="L46">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>

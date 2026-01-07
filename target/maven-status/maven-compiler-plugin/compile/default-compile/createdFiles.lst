@@ -1,0 +1,14 @@
+com/allobank/aggregator/AllobankIdrAggregatorApplication.class
+com/allobank/aggregator/strategy/SupportedCurrenciesFetcher.class
+com/allobank/aggregator/dto/FinanceDataDto.class
+com/allobank/aggregator/runner/FinanceDataLoader.class
+com/allobank/aggregator/dto/LatestRatesResponse.class
+com/allobank/aggregator/util/SpreadCalculator.class
+com/allobank/aggregator/config/FrankfurterWebClientFactoryBean.class
+com/allobank/aggregator/config/FrankfurterProperties.class
+com/allobank/aggregator/dto/HistoricalRatesResponse.class
+com/allobank/aggregator/strategy/IDRDataFetcher.class
+com/allobank/aggregator/service/FinanceDataStore.class
+com/allobank/aggregator/controller/FinanceController.class
+com/allobank/aggregator/strategy/LatestIdrRatesFetcher.class
+com/allobank/aggregator/strategy/HistoricalIdrUsdFetcher.class
