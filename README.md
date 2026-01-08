@@ -137,3 +137,59 @@ A clear `README.md` is mandatory. It must include:
 * **Code Review Readiness:** The code should be well-structured and ready for immediate review.
 
 Good luck!
+
+## V. Setup & Run Instructions
+1. **Clone the Repository:**
+   ```bash
+   git clone <repository-url>
+   cd <repository-directory>
+   ```
+2. **Build and run tests:**
+   ```bash
+   mvn clean verify
+   ```
+3. **Run the Application:**
+   ```bash
+   mvn spring-boot:run
+   ```
+   or
+   ```bash
+   java -jar target/allobackendtest-0.0.1-SNAPSHOT.jar
+    ```
+4. **Default port: 9090**
+
+### 1. Endpoint Usage Examples
+- **Latest IDR Rates:**
+  ```bash
+  curl -X GET http://localhost:9090/api/finance/data/latest_idr_rates
+  ```
+- **Historical IDR to USD Rates:**
+  ```bash
+  curl -X GET http://localhost:9090/api/finance/data/historical_idr_usd
+  ```
+- **Supported Currencies:**
+  ```bash
+  curl -X GET http://localhost:9090/api/finance/data/supported_currencies
+  ```
+### 2. Personalization Note
+- **GitHub Username:** `bluntswordman` *note: replace with your actual username*
+- **SUM of Unicode Lowercase Characters:** `1181`
+- **Spread Factor Calculation:**(1181 % 1000) / 100000.0 = `0.00181`
+- **Formula Used:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + 0.00181)`
+- *Example:* If `Rate_USD` is `15000`, then `USD_BuySpread_IDR = (1 / 15000) * (1 + 0.00181) = 0.00006678733`
+
+### 🛠️ Architectural Rationale
+1. **Polymorphism Justification:**
+   The Strategy Pattern was chosen to handle the different resource types because it promotes a clean separation of concerns and adheres to the Open/Closed Principle. By encapsulating each resource-fetching logic in its own class, we can easily add new resource types in the future without modifying existing code. This enhances maintainability and extensibility, as new strategies can be introduced with minimal impact on the overall system.********
+2. **Client Factory:**
+   Using a `FactoryBean` to create the external API client allows for greater flexibility and configurability. It enables us to encapsulate the client creation logic, including setting base URLs and timeouts, in a single location. This approach is preferable to a standard `@Bean` method because it allows for more complex initialization logic and can be reused across different parts of the application if needed. Additionally, it aligns with the Dependency Injection principles of Spring, promoting cleaner code.
+3. **Startup Runner Choice:**
+   The choice of using an `ApplicationRunner` for initial data ingestion was made to ensure that the data fetching process occurs after the application context is fully initialized. This guarantees that all necessary beans and configurations are in place before attempting to fetch data from the external API. In contrast, a `@PostConstruct` method may execute too early in the lifecycle, potentially leading to issues if dependencies are not fully set up. The `ApplicationRunner` provides a more controlled and reliable way to perform startup tasks.
+4. **Test Coverage:**
+- **Unit Tests:** Each of the three `IDRDataFetcher` strategy implementations has been thoroughly tested using mock `WebClient` instances and JSON stubs to ensure accurate data fetching and transformation logic.
+- **Integration Tests:** An integration test verifies that the `StartupDataLoader` successfully populates
+- the in-memory store before the application context is fully ready, ensuring that the API endpoint serves pre-fetched data. the in-memory store before the application context is fully ready, ensuring that the API endpoint serves pre-fetched data.
+- **Reports:** Test coverage reports are available in the `target/surefire-reports` directory after running the tests.
+- ---
+5. **Note:** Replace `<repository-url>` and `<repository-directory>` with the actual URL and directory name of your cloned repository.
+6. **Ensure you have Java 17+ and Maven installed on your machine to build and run the application.**
