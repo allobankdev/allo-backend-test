@@ -18,12 +18,4 @@ public class AlloBankTestApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(AlloBankTestApplication.class, args);
 	}
-
-	@Bean
-	public Jackson2ObjectMapperBuilderCustomizer jacksonCustomizer() {
-		return builder -> {
-			builder.featuresToDisable(com.fasterxml.jackson.databind.SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-			builder.featuresToEnable(com.fasterxml.jackson.core.JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN);
-		};
-	}
 }
