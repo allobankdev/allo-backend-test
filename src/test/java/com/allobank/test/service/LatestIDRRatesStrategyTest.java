@@ -1,4 +1,4 @@
-package com.allobank.test.service.strategy.impl;
+package com.allobank.test.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +10,8 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.allobank.test.service.DataCacheService;
+import com.allobank.test.service.strategy.impl.LatestIDRRatesStrategy;
+
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
@@ -79,15 +81,15 @@ public class LatestIDRRatesStrategyTest {
         assertEquals(0.0001, ((Map<String, BigDecimal>) result.get("rates")).get("USD").doubleValue());
 
         // Check calculation
-        // User: antigravity-bot
+        // User: codelamps-academy
         // Sum calculation:
-        // a=97, n=110, t=116, i=105, g=103, r=114, a=97, v=118, i=105, t=116, y=121,
-        // -=45, b=98, o=111, t=116
-        // Sum = 1572
-        // Spread Factor = (1572 % 1000) / 100000.0 = 572 / 100000.0 = 0.00572
-        // Formula: (1 / 0.0001) * (1 + 0.00572) = 10000 * 1.00572 = 10057.2
+        // c=99, o=111, d=100, e=101, l=108, a=97, m=109, p=112, s=115,
+        // -=45, a=97, c=99, a=97, d=100, e=101, m=109, y=121
+        // Sum = 1721
+        // Spread Factor = (1721 % 1000) / 100000.0 = 721 / 100000.0 = 0.00721
+        // Formula: (1 / 0.0001) * (1 + 0.00721) = 10000 * 1.00721 = 10072.1
 
-        double expectedSpreadFactor = 0.00572;
+        double expectedSpreadFactor = 0.00721;
         double expectedRate = (1 / 0.0001) * (1 + expectedSpreadFactor);
 
         assertEquals(expectedRate, (Double) result.get("USD_BuySpread_IDR"), 0.001);

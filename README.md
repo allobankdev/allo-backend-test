@@ -22,19 +22,19 @@ The application provides a single polymorphic internal API endpoint: `GET /api/f
 ### 1. Latest IDR Rates
 Returns the latest exchange rates with IDR as the base currency, including a calculated `USD_BuySpread_IDR`.
 ```bash
-curl -X GET http://localhost:8181/api/finance/data/latest_idr_rates
+curl -X GET http://localhost:8080/api/finance/data/latest_idr_rates
 ```
 
 ### 2. Historical IDR-USD
 Returns historical exchange rates between IDR and USD for the range 2024-01-01 to 2024-01-05.
 ```bash
-curl -X GET http://localhost:8181/api/finance/data/historical_idr_usd
+curl -X GET http://localhost:8080/api/finance/data/historical_idr_usd
 ```
 
 ### 3. Supported Currencies
 Returns a list of all supported currencies and their codes.
 ```bash
-curl -X GET http://localhost:8181/api/finance/data/supported_currencies
+curl -X GET http://localhost:8080/api/finance/data/supported_currencies
 ```
 
 ## Personalization

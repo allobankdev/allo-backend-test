@@ -1,4 +1,4 @@
-package com.allobank.test.service.strategy.impl;
+package com.allobank.test.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -10,6 +10,8 @@ import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClient;
 import com.allobank.test.service.DataCacheService;
+import com.allobank.test.service.strategy.impl.HistoricalIDRUSDStrategy;
+
 import reactor.core.publisher.Mono;
 
 import java.math.BigDecimal;
