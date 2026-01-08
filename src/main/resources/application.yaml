@@ -1,0 +1,13 @@
+server:
+  port: 9090
+
+spring:
+  application:
+    name: allo-bank-test
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  timeout-seconds: 5
+
+app:
+  github-username: bluntswordman
