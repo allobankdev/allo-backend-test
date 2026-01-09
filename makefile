@@ -13,7 +13,7 @@ first_setup:
 		-d packageName=com.example.idr \
 		-d packaging=jar \
 		-d javaVersion=17 \
-		-d dependencies=web,actuator,validation \
+		-d dependencies=web,actuator,validation,test \
 		-o $(ZIP_FILE)
 	
 	unzip $(ZIP_FILE) -d $(ARTIFACT_ID)
@@ -28,6 +28,9 @@ run:
 
 run_test:
 	cd $(ARTIFACT_ID) && ./mvnw clean test
+
+make compile:
+	cd $(ARTIFACT_ID) && ./mvnw clean compile
 
 clean:
 	rm -rf $(ARTIFACT_ID)
