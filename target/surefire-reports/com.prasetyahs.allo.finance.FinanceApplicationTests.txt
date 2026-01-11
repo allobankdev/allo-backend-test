@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.prasetyahs.allo.finance.FinanceApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.647 s -- in com.prasetyahs.allo.finance.FinanceApplicationTests
