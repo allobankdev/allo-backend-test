@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+frankfurter:
+  api:
+    url: "https://api.frankfurter.app"
+
+github:
+  username: "inganta23"
