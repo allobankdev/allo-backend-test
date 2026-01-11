@@ -1,0 +1,10 @@
+app:
+  frankfurter:
+    base-url: https://api.frankfurter.app/
+#    base-url: https://api.frankfurter.app
+  github-username: prasetyahs
+
+logging:
+  level:
+    root: INFO
+    com.prasetyahs.allo.finance: DEBUG

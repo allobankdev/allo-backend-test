@@ -1,0 +1,16 @@
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/strategy/LatestIDRRatesFetcher.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/strategy/IDRDataFetcher.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/model/HistoricalRateEntry.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/model/ApiResponse.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/config/FrankfurterClientFactoryBean.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/model/LatestResponse.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/model/CurrencyEntry.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/strategy/HistoricalIDRFetcher.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/model/EnhancedLatestData.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/runner/StartupDataRunner.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/FinanceApplication.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/store/InMemoryDataStore.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/strategy/SupportedCurrenciesFetcher.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/model/FrankfurterData.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/model/HistoricalResponse.java
+/Users/kpdev105/Documents/pras/allo-backend-test/src/main/java/com/prasetyahs/allo/finance/controller/FinanceController.java
