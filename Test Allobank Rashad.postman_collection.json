@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "5f1ff728-af49-427b-bbf2-b29842ba4304",
+		"name": "Test Allobank Rashad",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "25654646"
+	},
+	"item": [
+		{
+			"name": "latest_idr_rates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/finance/data/latest_idr_rates",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"latest_idr_rates"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "supported_currencies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/finance/data/supported_currencies",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"supported_currencies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "historical_idr_usd",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/finance/data/historical_idr_usd",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"historical_idr_usd"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "frankfurter latest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://api.frankfurter.app/latest?base=IDR",
+					"protocol": "https",
+					"host": [
+						"api",
+						"frankfurter",
+						"app"
+					],
+					"path": [
+						"latest"
+					],
+					"query": [
+						{
+							"key": "base",
+							"value": "IDR"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
