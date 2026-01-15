@@ -1,40 +1,44 @@
 package com.allobank.finance.client;
 
+import com.allobank.finance.config.FrankfurterProperties;
+import com.allobank.finance.exception.ResourceTypeNotFoundException;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.Map;
 
-import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
-
+@Slf4j
 @Component
+@RequiredArgsConstructor
 public class FrankfurterClient {
 
-    private final WebClient webClient;
-
-    public FrankfurterClient(WebClient webClient) {
-        this.webClient = webClient;
-    }
+    private final RestTemplate restTemplate;
+    private final FrankfurterProperties properties;
 
     public Map<String, Object> getLatestIdrRates() {
-        return webClient.get()
-                .uri("/latest?base=IDR")
-                .retrieve()
-                .bodyToMono(Map.class)
-                .block();
+        return get(properties.getLatestIdr());
     }
 
     public Map<String, Object> getHistoricalIdrUsd() {
-        return webClient.get()
-                .uri("/2024-01-01..2024-01-05?from=IDR&to=USD")
-                .retrieve()
-                .bodyToMono(Map.class)
-                .block();
+        return get(properties.getHistoricalIdrUsd());
     }
 
     public Map<String, Object> getSupportedCurrencies() {
-        return webClient.get()
-                .uri("/currencies")
-                .retrieve()
-                .bodyToMono(Map.class)
-                .block();
+        return get(properties.getCurrencies());
+    }
+
+    private Map<String, Object> get(String path) {
+        try {
+            String url = properties.getBaseUrl() + path;
+            log.info("Calling Frankfurter API: {}", url);
+            return restTemplate.getForObject(url, Map.class);
+        } catch (RestClientException e) {
+            log.error("Frankfurter API error", e);
+            throw new ResourceTypeNotFoundException("Frankfurter API unavailable", e);
+        }
     }
 }

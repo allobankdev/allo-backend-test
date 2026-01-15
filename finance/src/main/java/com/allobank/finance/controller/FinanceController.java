@@ -1,25 +1,23 @@
 package com.allobank.finance.controller;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import com.allobank.finance.store.FinanceDataStore;
+import org.springframework.web.bind.annotation.*;
+
+import com.allobank.finance.service.IDRService;
 
 @RestController
 @RequestMapping("/api/finance")
 public class FinanceController {
 
-    private final FinanceDataStore dataStore;
+    private final IDRService idrService;
 
-    public FinanceController(FinanceDataStore dataStore) {
-        this.dataStore = dataStore;
+    public FinanceController(IDRService idrService) {
+        this.idrService = idrService;
     }
 
     @GetMapping("/data/{resourceType}")
     public ResponseEntity<Object> getFinanceData(@PathVariable String resourceType) {
-        Object data = dataStore.get(resourceType);
+        Object data = idrService.getData(resourceType);
 
         if (data == null) {
             return ResponseEntity.notFound().build();
