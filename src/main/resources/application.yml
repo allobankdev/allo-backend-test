@@ -1,0 +1,8 @@
+aggregator:
+  api:
+    base-url: "https://api.frankfurter.app"
+    spread:
+      username: "halim13"
+
+server:
+  port: 8081
