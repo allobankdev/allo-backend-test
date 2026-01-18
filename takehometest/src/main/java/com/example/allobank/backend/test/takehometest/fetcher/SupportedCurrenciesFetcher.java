@@ -1,29 +1,27 @@
 package com.example.allobank.backend.test.takehometest.fetcher;
 
+import java.util.List;
+
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+
+import com.example.allobank.backend.test.takehometest.client.FrankfurterClient;
 
 @Component
-public class SupportedCurrenciesFetcher implements DataFetcher{
+public class SupportedCurrenciesFetcher implements DataFetcher {
 
-    private final WebClient webClient;
+    private final FrankfurterClient client;
 
-    public SupportedCurrenciesFetcher(WebClient webClient) {
-        this.webClient = webClient;
+    public SupportedCurrenciesFetcher(FrankfurterClient client) {
+        this.client = client;
     }
 
     @Override
     public String getResourceType() {
-        return "supported_fetcher";
+        return "supported_currencies";
     }
 
     @Override
-    public Object fetchData() {
-        return webClient
-            .get()
-            // .uri("/2024-01-01..2024-01-05?from=IDR&to=USD")
-            .retrieve()
-            .bodyToMono(Object.class)
-            .block();
+    public List<Object> fetchData() {
+        return List.of(client.getSupporCurrencies());
     }
 }

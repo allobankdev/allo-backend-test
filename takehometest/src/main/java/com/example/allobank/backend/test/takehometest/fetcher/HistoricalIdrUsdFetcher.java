@@ -1,28 +1,44 @@
 package com.example.allobank.backend.test.takehometest.fetcher;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.web.reactive.function.client.WebClient;
+
+import com.example.allobank.backend.test.takehometest.client.FrankfurterClient;
 
 @Component
-public class HistoricalIdrUsdFetcher implements DataFetcher{
-    private final WebClient webClient;
+public class HistoricalIdrUsdFetcher implements DataFetcher {
 
-    public HistoricalIdrUsdFetcher(WebClient webClient) {
-        this.webClient = webClient;
+    @Value("${app.historical.from-date}")
+    private String historyFromDate;
+
+    @Value("${app.historical.to-date}")
+    private String historyToDate;
+
+    @Value("${app.historical.base}")
+    private String historyBase;
+
+    @Value("${app.historical.target}")
+    private String historyTarget;
+
+    private FrankfurterClient client;
+
+    public HistoricalIdrUsdFetcher(FrankfurterClient client) {
+        this.client = client;
     }
-    
+
     @Override
     public String getResourceType() {
-        return "historical_idr_fetcher";
+        return "historical_idr_usd";
     }
 
     @Override
-    public Object fetchData() {
-        return webClient
-            .get()
-            // .uri("/2024-01-01..2024-01-05?from=IDR&to=USD")
-            .retrieve()
-            .bodyToMono(Object.class)
-            .block();
+    public List<Object> fetchData() {
+        return List.of(client.getHistoricalIdrUsd(
+                this.historyFromDate,
+                this.historyToDate,
+                this.historyBase,
+                this.historyTarget));
     }
 }
