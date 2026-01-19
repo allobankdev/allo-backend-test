@@ -1,7 +1,6 @@
 package com.example.allo.client.impl;
 
 import com.example.allo.client.FrankfurterClient;
-import com.example.allo.dto.CurrenciesResponse;
 import com.example.allo.dto.HistoricalRatesResponse;
 import com.example.allo.dto.LatestRatesResponse;
 import org.springframework.core.ParameterizedTypeReference;
