@@ -1,0 +1,19 @@
+package com.example.allo.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.Map;
+
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+public class HistoricalRatesResponse {
+    private String start_date;
+    private String end_date;
+    private Map<String, Map<String, Double>> rates;
+}
+
