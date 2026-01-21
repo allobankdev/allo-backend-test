@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: app
+    
+springdoc:
+  swagger-ui:
+    path: /swagger
+  api-docs:
+    path: /v3/api-docs
+
+external-service:
+  frankfurter:
+    url: ${FRANKFURTHER_URL}
+    timeout: ${FRANKFURTHER_TIMEOUT}
