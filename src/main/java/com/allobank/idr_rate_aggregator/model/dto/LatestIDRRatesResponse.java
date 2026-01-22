@@ -1,4 +1,4 @@
-package com.allobank.idr_rate_aggregator.controller.model.dto;
+package com.allobank.idr_rate_aggregator.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
