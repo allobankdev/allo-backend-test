@@ -1,6 +1,6 @@
 package com.allobank.idr_rate_aggregator.service.strategy;
 import com.allobank.idr_rate_aggregator.config.FrankfurterApiProperties;
-import com.allobank.idr_rate_aggregator.model.dto.HistoricalDataResponse;
+import com.allobank.idr_rate_aggregator.model.dto.FrankfurterTimeSeriesResponse;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.AfterEach;
@@ -67,9 +67,9 @@ class HistoricalIDRUSDStrategyTest {
         Object result = strategy.fetchData();
 
         assertNotNull(result);
-        assertTrue(result instanceof HistoricalDataResponse);
+        assertTrue(result instanceof FrankfurterTimeSeriesResponse);
 
-        HistoricalDataResponse response = (HistoricalDataResponse) result;
+        FrankfurterTimeSeriesResponse response = (FrankfurterTimeSeriesResponse) result;
         assertEquals("IDR", response.getBase());
         assertEquals("2024-01-01", response.getStartDate());
         assertEquals("2024-01-05", response.getEndDate());
