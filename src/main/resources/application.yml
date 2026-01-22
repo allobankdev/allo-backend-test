@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: idr-rate-aggregator
+
+server:
+  port: 8080
+  error:
+    include-message: always
+    include-binding-errors: always
+
+# Frankfurter API Configuration
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+    timeout:
+      connect: 5000
+      read: 10000
+    historical:
+      start-date: 2024-01-01
+      end-date: 2024-01-05
+
+# Personalization - Replace with your GitHub username
+app:
+  github-username: boysimbolon
+  
+logging:
+  level:
+    com.allobank: DEBUG
+    org.springframework.web: INFO
