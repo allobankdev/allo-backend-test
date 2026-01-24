@@ -1,17 +1,20 @@
 package com.sdewa.IdrRateAggregator.services.impl;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import com.sdewa.IdrRateAggregator.dtoes.HistoricalIdrUsdResponse;
+import com.sdewa.IdrRateAggregator.dtoes.HistoricalIdrUsdResponseRecord;
 import com.sdewa.IdrRateAggregator.services.IDRDataFetcher;
 
 @Service
-public class HistoricalIdrUsdFetcher implements IDRDataFetcher<HistoricalIdrUsdResponse> {
+public class HistoricalIdrUsdFetcher implements IDRDataFetcher<List<HistoricalIdrUsdResponseRecord>> {
     private final WebClient webClient;
 
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -26,36 +29,47 @@ public class HistoricalIdrUsdFetcher implements IDRDataFetcher<HistoricalIdrUsdR
     }
 
     @Override
-    public HistoricalIdrUsdResponse fetchData() {
+    public List<HistoricalIdrUsdResponseRecord> fetchData() {
         String uri = generateTimeRageUri();
 
         HistoricalIdrUsdResponse response = webClient.get()
                 .uri(uri)
                 .retrieve()
                 .bodyToMono(HistoricalIdrUsdResponse.class)
-                .block(); // block since we only need it once at startup
+                .block();
 
         if (response == null) {
             throw new RuntimeException("Failed to fetch historical IDR → USD rates");
         }
+        List<HistoricalIdrUsdResponseRecord> resultList = response.getRates().entrySet().stream()
+                .flatMap((x) -> {
+                    var value = x.getValue();
+                    return value.entrySet().stream()
+                            .map((y) -> {
+                                return HistoricalIdrUsdResponseRecord.builder()
+                                        .date(x.getKey())
+                                        .currency(y.getKey())
+                                        .rates(new BigDecimal(y.getValue()))
+                                        .amount(response.getAmount())
+                                        .base(response.getBase())
+                                        .startDate(response.getStartDate())
+                                        .endDate(response.getEndDate())
+                                        .build();
+                            });
+                }).toList();
 
-        return response;
+        return resultList;
     }
 
-    private String generateTimeRageUri(){
-      // Get current date
+    private String generateTimeRageUri() {
         LocalDate now = LocalDate.now();
 
-        // Get previous month
         YearMonth prevMonth = YearMonth.from(now.minusMonths(1));
 
-        // First date of previous month
         LocalDate firstDay = prevMonth.atDay(1);
 
-        // Last date of previous month
         LocalDate lastDay = prevMonth.atEndOfMonth();
 
-        // Format as yyyy-MM-dd..yyyy-MM-dd?from=IDR&to=USD
         String result = String.format("%s..%s?from=IDR&to=USD",
                 firstDay.format(FORMATTER),
                 lastDay.format(FORMATTER));
