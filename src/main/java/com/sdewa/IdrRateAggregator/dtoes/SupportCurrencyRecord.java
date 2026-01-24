@@ -1,6 +1,5 @@
 package com.sdewa.IdrRateAggregator.dtoes;
 
-import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +10,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class SupportCurrency {
-    private Map<String, String> supportCurrency;
+public class SupportCurrencyRecord {
+   private String currency;
+   private String country;
     
 }
