@@ -13,10 +13,10 @@ import java.util.List;
 @SpringBootTest
 public class StartupDataLoaderTest {
 
-      @Autowired
+    @Autowired
     private AppDataStore dataStore;
-    
-      @Test
+
+    @Test
     void testDataIsLoadedAtStartup() {
         Object latest = dataStore.get("latest_idr_rates");
         assertThat(latest).isNotNull();
@@ -28,7 +28,7 @@ public class StartupDataLoaderTest {
         assertThat(currencies).isNotNull();
 
         assertThat(latest).isInstanceOfAny(List.class);
-        assertThat(historical).isInstanceOfAny(List.class); 
-        assertThat(currencies).isInstanceOfAny(List.class); 
+        assertThat(historical).isInstanceOfAny(List.class);
+        assertThat(currencies).isInstanceOfAny(List.class);
     }
 }
