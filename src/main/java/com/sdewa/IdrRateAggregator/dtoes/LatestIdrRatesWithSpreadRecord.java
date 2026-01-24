@@ -1,6 +1,6 @@
 package com.sdewa.IdrRateAggregator.dtoes;
 
-import java.util.Map;
+import java.math.BigDecimal;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class LatestIdrRatesWithSpread {
-    private double amount;
+public class LatestIdrRatesWithSpreadRecord {
+    private Double amount;
     private String base;
     private String date;
-    private Map<String, Double> rates;
-    private double usdBuySpreadIdr;
+    private String countryCode;
+    private BigDecimal rates;
+    private Double usdBuySpreadIdr;
 }
