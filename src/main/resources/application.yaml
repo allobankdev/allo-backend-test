@@ -1,0 +1,13 @@
+spring: 
+  application:
+    name: IdrRateAggregator
+
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+
+
+server: 
+  ports:
+  - name:  Port Name
+    port:  8080
