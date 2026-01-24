@@ -1,12 +1,14 @@
 package com.sdewa.IdrRateAggregator.controllers;
 
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.sdewa.IdrRateAggregator.dtoes.CommonResponse;
 import com.sdewa.IdrRateAggregator.services.AppDataStore;
 
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,15 @@ public class FinanceController {
         if (data == null) {
             throw new ResourceNotFoundException("Resource not found: " + resourceType);
         }
-        return ResponseEntity.ok(data);
+
+        String message = String.format("%s data record",
+                resourceType);
+
+        return ResponseEntity.ok(
+                CommonResponse.builder()
+                        .status(HttpStatus.OK)
+                        .data(data)
+                        .message(message)
+                        .build());
     }
 }
