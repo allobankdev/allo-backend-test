@@ -1,0 +1,23 @@
+app:
+  # Digunakan untuk kalkulasi Spread Factor
+  github-username: "hendwunga"
+  frankfurter:
+    base-url: "https://api.frankfurter.app"
+    # Batas waktu koneksi agar aplikasi tidak 'hang' jika API luar lambat
+    connect-timeout-ms: 5000
+    read-timeout-ms: 5000
+
+server:
+  port: 8080
+  error:
+    # Menghindari membocorkan detail stack trace ke user luar (security best practice)
+    include-message: always
+    include-stacktrace: never
+
+logging:
+  level:
+    root: INFO
+    # Memudahkan debugging proses penarikan data Anda
+    com.hend.backend: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
