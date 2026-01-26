@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: backendtest
+config:
+  base-currency: "IDR"
+  base-url: "https://api.frankfurter.app/"
+  timeout-ms: 5000
+  github-username: "chnh16"
