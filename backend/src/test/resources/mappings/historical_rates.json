@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPathPattern": "/2024-.*"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "body": "{\"amount\":1,\"base\":\"IDR\",\"start_date\":\"2024-01-01\",\"end_date\":\"2024-01-05\",\"rates\":{\"2024-01-01\":{\"USD\":0.000064}}}"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/latest"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "body": "{\"amount\":1,\"base\":\"IDR\",\"rates\":{\"USD\":0.000064}}"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "request": {
+    "method": "GET",
+    "urlPath": "/currencies"
+  },
+  "response": {
+    "status": 200,
+    "headers": { "Content-Type": "application/json" },
+    "body": "{\"USD\":\"United States Dollar\",\"IDR\":\"Indonesian Rupiah\"}"
+  }
+}
