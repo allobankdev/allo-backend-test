@@ -1,139 +1,415 @@
 # Allo Bank Backend Developer Take-Home Test
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
+![WireMock](https://img.shields.io/badge/WireMock-Testing-8A2BE2?style=for-the-badge)
+![Strategy Pattern](https://img.shields.io/badge/Design-Strategy_Pattern-blue?style=for-the-badge)
+
+---
+**Candidate:** Hendrikus Yohanes Wunga  
+**Position Applied:** Backend Developer (Technical Assessment)  
+**GitHub:** ```hendwunga```
+
+## Objektif Proyek
+
+Proyek ini adalah REST API berbasis Spring Boot yang siap produksi untuk mengagregasi data keuangan Rupiah (IDR) dari API publik Frankfurter. Proyek ini mendemonstrasikan konsep Spring tingkat lanjut, kejelasan arsitektur melalui *design patterns*, dan manajemen data *in-memory* yang *thread-safe*.
+
+---
+
+## Rasional Arsitektur
+
+### 1. Strategy Pattern (Polimorfisme)
+
+Alih-alih menggunakan blok kondisional (`if-else` atau `switch`) pada lapisan *service*, proyek ini menerapkan **Strategy Design Pattern**.
+
+* **Open/Closed Principle:** Sumber data baru dapat ditambahkan dengan membuat kelas strategi baru tanpa mengubah *controller*.
+* **Resolusi Dinamis:** *Controller* menentukan strategi yang sesuai saat *runtime* menggunakan pencarian berbasis *Map* yang diinjeksi oleh Spring (`Map<String, IDRDataFetcher>`).
+
+### 2. Client Factory (Implementasi FactoryBean)
+
+Instans `WebClient` dikelola melalui kelas kustom `WebClientFactoryBean` yang mengimplementasikan `FactoryBean<T>` milik Spring.
+
+* **Enkapsulasi:** Memusatkan konfigurasi infrastruktur (base URL, *timeout*, *header*).
+* **Konfigurasi Bersih:** Pendekatan ini lebih unggul dibandingkan `@Bean` standar untuk pembuatan objek yang kompleks dan abstraksi infrastruktur.
 
-Thank you for applying to our team! This take-home test is designed to evaluate your practical skills in building **production-ready** Spring Boot applications within a finance domain, focusing on architectural patterns and complex data handling.
+### 3. Ingesti Data saat Startup (ApplicationRunner)
+
+Data ditarik **tepat satu kali** saat aplikasi dijalankan menggunakan `ApplicationRunner` dan disimpan dalam penyimpanan *in-memory*.
 
-## 📝 Objective
+* **Siklus Hidup Terprediksi:** Memastikan *context* aplikasi telah sepenuhnya siap sebelum eksekusi, sehingga lebih aman dibandingkan `@PostConstruct`.
+* **Immutability (Imutabilitas):** Penyimpanan menggunakan `ConcurrentHashMap` dan dibungkus dalam tampilan `unmodifiableMap` setelah pemuatan data selesai untuk menjamin integritas data selama aplikasi berjalan.
+
+---
+## Architecture Diagram
 
-Your task is to create a single Spring Boot REST API endpoint capable of aggregating data from multiple, distinct resources provided by the public, keyless **Frankfurter Exchange Rate API**. The primary focus is on handling Indonesian Rupiah (IDR) data.
+Diagram berikut menggambarkan alur data dan interaksi antar komponen utama dalam sistem, mulai dari proses inisialisasi saat startup hingga penyajian data melalui REST API.
 
-The focus of this test is not just functional correctness, but demonstrating clean code, advanced Spring concepts, thread-safe design, and architectural clarity.
+                          ┌──────────────────────────┐
+                          │  Frankfurter Public API  │
+                          │  (/latest, /currencies,  │
+                          │   /2024-01-01..05)       │
+                          └──────────────▲───────────┘
+                                         │
+                                         │ HTTP (WebClient)
+                                         │
+                         ┌───────────────┴───────────────┐
+                         │   WebClientFactoryBean         │
+                         │  (creates configured client)  │
+                         └───────────────▲───────────────┘
+                                         │
+         ┌───────────────────────────────┴───────────────────────────────┐
+         │                         Strategies                                │
+         │  ┌────────────────────┐ ┌────────────────────┐ ┌────────────┐ │   |
+         │  │ LatestIdrRates      │ │ HistoricalIdrUsd    │ │ Currencies │   │
+         │  │ Strategy            │ │ Strategy            │ │ Strategy   │   │
+         │  └───────────▲────────┘ └───────────▲────────┘ └──────▲───────┘   │
+         │              │                       │                  │         │
+         └──────────────┼───────────────────────┼──────────────────┼─────────┘
+                        │                       │                  │
+                        │ used by               │                  │
+                        ▼                       ▼                  ▼
+                 ┌────────────────────────────────────────────────────────┐
+                 │                    ApplicationRunner                   │
+                 │         (fetches all resources at startup)             │
+                 └───────────────────────────▲────────────────────────────┘
+                                             │
+                                             │ stores
+                                             ▼
+                              ┌─────────────────────────────┐
+                              │     FinanceDataStorage      │
+                              │ (ConcurrentHashMap + lock)  │
+                              └──────────────▲──────────────┘
+                                             │
+                                             │ reads
+                                             ▼
+                                ┌────────────────────────┐
+                                │     REST Controller    │
+                                │ /api/finance/data/{x}  │
+                                └────────────────────────┘
 
-## I. Core Task: The Polymorphic API
+---
 
-### 1. External API Integration (Frankfurter API)
+## Kalkulasi Spread yang Dipersonalisasi
 
-* **Base URL (Public):** `https://api.frankfurter.app/`.
+Kalkulasi ini diterapkan pada resource `latest_idr_rates` untuk menghasilkan field tambahan bernama `USD_BuySpread_IDR`.
 
-* You must integrate with three distinct data resources to enforce the architectural pattern:
+### Parameter Dasar
 
-   1.  `/latest?base=IDR` (The latest rates relative to IDR)
+- **GitHub Username:** `hendwunga`
 
-   2.  **Historical Data:** Query a specific, small time series (e.g., `/2024-01-01..2024-01-05?from=IDR&to=USD`). **Note:** *Use the date range provided in this example unless a different range is communicated separately.*
+### Langkah Perhitungan
 
-   3.  `/currencies` (The list of all supported currency symbols)
+1. **Konversi username ke nilai ASCII**
 
-### 2. Internal API Endpoint
+     Setiap karakter pada username dikonversi ke nilai ASCII:
+    ```bash
+    h(104) + e(101) + n(110) + d(100) + w(119) + u(117) + n(110) + g(103) + a(97) = 951
+    ```
+2. **Hitung Spread Factor**
+    ```bash
+    Spread Factor = (Total % 1000) / 100000.0
+    = 951 / 100000
+    = 0.00951
+    ```
+  
+    > Catatan: Nilai ini dapat berubah saat runtime apabila sistem mendeteksi username yang berbeda dari environment.
 
-You must expose **one single endpoint** in your application: ```GET /api/finance/data/{resourceType}```
+3. **Hitung nilai USD Buy Spread terhadap IDR**
+    ```bash
+    USD_BuySpread_IDR = (1 / Rate_USD) × (1 + Spread Factor)
+    ```
 
-Where `{resourceType}` can be one of the three strings: `latest_idr_rates`, `historical_idr_usd`, or `supported_currencies`.
 
-### 3. Required Functionality & Business Logic
+---
 
-* **Resource Handling:** Your service must correctly map the three incoming `resourceType` values to the correct data fetching strategies.
+## Cakupan Pengujian
 
-* **Data Load:** All three resources should be fetched from the external API.
+### Unit Tests
 
-* **Data Transformation (Latest IDR Rates only) - Unique Calculation:** For the **`latest_idr_rates`** resource, you must calculate and include a new field, `"USD_BuySpread_IDR"`. This is the Rupiah selling rate to USD after applying a banking spread/margin.
+* **Strategy Tests:** Memvalidasi transformasi data, kalkulasi *spread*, dan *mocking* API eksternal untuk semua implementasi strategi.
+* **Spread Calculator Test:** Memastikan jumlah ASCII dan derivasi faktor dilakukan dengan akurat.
 
-  **The Spread Factor Must Be Unique :**
+### Integration Tests
 
-   1.  **Input:** Your GitHub username (e.g., `johndoe47`).
-   2.  **Calculation:** Calculate the sum of the Unicode (ASCII) values of all characters in your lowercase GitHub username string.
-   3.  **Spread Factor Derivation:** `Spread Factor = (Sum of Unicode Values % 1000) / 100000.0`
-       *(This will yield a unique factor between 0.00000 and 0.00999, ensuring a personalized result.)*
+* **Startup Data Initialization Test (WireMock-based):**
+  Menggunakan **WireMock** untuk mensimulasikan seluruh endpoint Frankfurter API (`/latest`, `/currencies`, `/{date-range}`), sehingga:
 
-  **Final Formula:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)` (where `Rate_USD` is the value from the API when `base=IDR`).
+    - Aplikasi **tidak melakukan HTTP call ke internet** saat testing.
+    - Proses `ApplicationRunner` dapat diuji secara end-to-end (client → strategy → storage).
+    - Data dipastikan **berhasil dimuat sekali saat startup** dan tersimpan di `FinanceDataStorage`.
+    - Test bersifat **deterministik, cepat, dan bebas flakiness jaringan**.
 
-* **Other Resources:** The `historical_idr_usd` and `supported_currencies` resources can return their data with minimal transformation, but the final output must be a unified JSON array of results.
+  Test ini memverifikasi bahwa ketiga resource berikut tersedia sebelum aplikasi siap melayani request:
 
-## II. Architectural Constraints
+    - `latest_idr_rates`
+    - `historical_idr_usd`
+    - `supported_currencies`
 
-Meeting the core task is only one part of the solution. The following constraints must be strictly adhered to and will be heavily weighted during evaluation:
+---
 
-### Constraint A: The Strategy Pattern
+## Memulai (Getting Started)
 
-The logic for handling the three different resources (`latest_idr_rates`, `historical_idr_usd`, `supported_currencies`) must be implemented using the **Strategy Design Pattern**.
+Aplikasi ini menggunakan **Maven Wrapper**, sehingga Anda tidak perlu menginstal Maven secara manual. Cukup pastikan **Java 17** sudah terpasang.
 
-1.  Define a clear **Strategy Interface** (e.g., `IDRDataFetcher`).
+### 1. Clone Repository
 
-2.  Implement **three concrete strategy classes** (one for each resource).
+Pastikan Git sudah terinstal, lalu jalankan:
 
-3.  The main `Controller` should dynamically select the correct strategy implementation using a map-based lookup injected by Spring, avoiding any manual `if/else` or `switch` logic in the controller layer.
+  ```bash
+  git clone https://github.com/hendwunga/allo-backend-test.git
+  cd allo-backend-test
+  
+  
+  # Checkout ke branch hasil pengerjaan technical test
+  git checkout feat/idr-rate-aggregator
+  ```
+  > Catatan: Implementasi technical test berada pada branch `feat/idr-rate-aggregator`.
 
-### Constraint B: Client Factory Bean
+### 2. Prasyarat
 
-The instance of your chosen external API client (`WebClient` or `RestTemplate`) **must be defined and created within a custom implementation of Spring's `FactoryBean<T>` interface**.
+* **Java:** 17 (LTS)
+* **Sistem Operasi:** Linux, Windows, atau macOS
 
-* This `FactoryBean` should be responsible for externalizing the API Base URL via `@Value` or `@ConfigurationProperties` and applying any initial configuration (e.g., timeouts, shared headers).
+### 3. Build & Run (Instruksi Lintas Platform)
 
-* ***You may not define the client as a simple `@Bean` in a `@Configuration` class.***
+#### **Di Linux / macOS:**
 
-### Constraint C: Startup Data Runner & Immutability
+Buka terminal dan jalankan:
 
-The aggregated data for **ALL three resources** must be fetched **exactly once on application startup** and loaded into an in-memory store.
+```bash
+# Menjalankan Testing
+./mvnw clean test
 
-1.  Use a Spring Boot **`ApplicationRunner`** or **`CommandLineRunner`** component to initiate the data fetching process.
+# Menjalankan Aplikasi
+./mvnw spring-boot:run
 
-2.  The API endpoint (`GET /api/finance/data/{resourceType}`) must serve the data from this **in-memory store**, not by making a new call to the external API on every request.
+```
 
-3.  The in-memory storage mechanism (e.g., a service holding the data) must be designed to be **thread-safe** and ensure the data is **immutable** once the `ApplicationRunner` has finished loading it.
+#### **Di Windows (Command Prompt / PowerShell):**
 
-## III. Production Readiness & Deliverables
+Buka CMD atau PowerShell di folder proyek dan jalankan:
 
-Your final solution must demonstrate production quality through code, testing, and communication.
+```bash
+# Menjalankan Testing
+mvnw.cmd clean test
 
-### 1. Robustness & Best Practices
+# Menjalankan Aplikasi
+mvnw.cmd spring-boot:run
 
-* Graceful **Error Handling** for network failures or 4xx/5xx responses from the external API.
+```
 
-* Proper use of **Configuration Properties** (e.g., `application.yml`) for external service URLs.
+---
+## Konfigurasi Aplikasi (`application.yml`)
 
-* Clear separation of concerns (Controller, Service, Model/DTO, etc.).
+Aplikasi ini menggunakan konfigurasi terpusat melalui file `application.yml`.
 
-### 2. Testing
-
-* **Unit Tests** for all three `IDRDataFetcher` strategy implementations, ensuring data calculation and transformation logic is covered (using mock clients for external calls).
-
-* **Integration Tests** to verify the `ApplicationRunner` successfully initializes and loads the data into the in-memory store before the application context is ready.
-
-### 3. Documentation
-
-A clear `README.md` is mandatory. It must include:
-
-* **Setup/Run Instructions:** Clear steps to clone, build, and run the application and tests.
-
-* **Endpoint Usage:** Example cURL commands to test the three different resource types.
-
-* **Personalization Note:** Clearly state your GitHub username and show the exact **Spread Factor** (e.g., `0.00765`) calculated by your function.
-
-* ---
-
-* ### 🛠️ Architectural Rationale
-
-  This section should contain a brief, but detailed, explanation answering the following questions:
-
-   1.  **Polymorphism Justification:** Explain *why* the Strategy Pattern was used over a simpler conditional block in the service layer for handling the multi-resource endpoint. Discuss the benefits in terms of **extensibility** and **maintainability**.
-
-   2.  **Client Factory:** Explain the specific role and benefit of using a **`FactoryBean`** to construct the external API client. Why is this preferable to defining the client using a standard `@Bean` method in this scenario?
-
-   3.  **Startup Runner Choice:** Justify the choice of using an `ApplicationRunner` (or `CommandLineRunner`) for the initial data ingestion over a simpler `@PostConstruct` method.
-
-## IV. Submission & Review Process
-
-1.  **Fork** this repository.
-
-2.  Implement your solution on a dedicated feature branch (e.g., `feat/idr-rate-aggregator`).
-
-3.  When complete, submit your solution via a **Pull Request (PR)** back to the main repository.
-4.  Please complete the form to submit your technical test: [Click Here](https://forms.gle/nZKQ2EjTCPfAKHog7)
-
-**Your PR will be evaluated on the following:**
-
-* **Commit History:** Clean, atomic, and descriptive commit messages (e.g., "feat: Implement IDR latest rates strategy," "fix: Correctly calculate IDR spread in tests").
-
-* **PR Description:** The description must clearly summarize the solution and **must contain the full answers** to the three "Architectural Rationale" questions from Section III.
-
-* **Code Review Readiness:** The code should be well-structured and ready for immediate review.
-
-Good luck!
+### Contoh Konfigurasi Default
+
+```yaml
+app:
+  # Digunakan untuk kalkulasi Spread Factor
+  github-username: "hendwunga"
+
+  frankfurter:
+    # Base URL API eksternal Frankfurter
+    base-url: "https://api.frankfurter.app"
+
+    # Batas waktu koneksi agar aplikasi tidak hang jika API eksternal lambat
+    connect-timeout-ms: 5000
+    read-timeout-ms: 5000
+
+server:
+  port: 8080
+  error:
+    # Hindari membocorkan detail stack trace ke client (best practice keamanan)
+    include-message: always
+    include-stacktrace: never
+
+logging:
+  level:
+    root: INFO
+    # Logging detail proses fetch data startup
+    com.hend.backend: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+```
+```md
+> Semua konfigurasi dapat dioverride menggunakan environment variable untuk kebutuhan deployment.
+```
+---
+
+## Penggunaan API
+
+**Endpoint:** `GET /api/finance/data/{resourceType}`
+
+| Resource Type | Deskripsi | Sumber Data (Frankfurter) |
+| --- | --- | --- |
+| `latest_idr_rates` | Kurs terbaru + kalkulasi **USD Buy Spread**. | `/latest?base=IDR` |
+| `historical_idr_usd` | Data histori IDR ke USD untuk **01-01-2024 s/d 05-01-2024**. | `/2024-01-01..2024-01-05` |
+| `supported_currencies` | Daftar semua **simbol mata uang** yang didukung. | `/currencies` |
+
+### Perintah cURL:
+
+```bash
+curl http://localhost:8080/api/finance/data/latest_idr_rates
+curl http://localhost:8080/api/finance/data/historical_idr_usd
+curl http://localhost:8080/api/finance/data/supported_currencies
+```
+
+---
+
+## Response API
+
+### 1. Latest IDR Rates + Spread
+
+**Request**
+
+```http
+GET http://localhost:8080/api/finance/data/latest_idr_rates
+```
+
+**Response**
+
+```json
+{
+  "originalData": {
+    "amount": 1.0,
+    "base": "IDR",
+    "date": "2026-01-26",
+    "rates": {
+      "AUD": 8.6E-5,
+      "BRL": 3.2E-4,
+      "CAD": 8.2E-5,
+      "CHF": 4.6E-5,
+      "CNY": 4.1E-4,
+      "CZK": 0.00122,
+      "DKK": 3.8E-4,
+      "EUR": 5.0E-5,
+      "GBP": 4.4E-5,
+      "HKD": 4.6E-4,
+      "HUF": 0.01923,
+      "ILS": 1.9E-4,
+      "INR": 0.00547,
+      "ISK": 0.00732,
+      "JPY": 0.00919,
+      "KRW": 0.08629,
+      "MXN": 0.00104,
+      "MYR": 2.4E-4,
+      "NOK": 5.8E-4,
+      "NZD": 1.0E-4,
+      "PHP": 0.00353,
+      "PLN": 2.1E-4,
+      "RON": 2.6E-4,
+      "SEK": 5.4E-4,
+      "SGD": 7.6E-5,
+      "THB": 0.00186,
+      "TRY": 0.00259,
+      "USD": 6.0E-5,
+      "ZAR": 9.6E-4
+    }
+  },
+  "usdBuySpreadIdr": 16682.833333333332,
+  "spreadFactor": 9.7E-4
+}
+```
+
+---
+
+### 2. Historical IDR → USD
+
+**Request**
+
+```http
+GET http://localhost:8080/api/finance/data/historical_idr_usd
+```
+
+**Response**
+
+```json
+{
+  "amount": 1.0,
+  "base": "IDR",
+  "start_date": "2023-12-29",
+  "end_date": "2024-01-05",
+  "rates": {
+    "2023-12-29": { "USD": 6.5E-5 },
+    "2024-01-02": { "USD": 6.4E-5 },
+    "2024-01-03": { "USD": 6.4E-5 },
+    "2024-01-04": { "USD": 6.4E-5 },
+    "2024-01-05": { "USD": 6.4E-5 }
+  }
+}
+```
+
+---
+
+### 3. Supported Currencies
+
+**Request**
+
+```http
+GET http://localhost:8080/api/finance/data/supported_currencies
+```
+
+**Response**
+
+```json
+{
+  "AUD": "Australian Dollar",
+  "BRL": "Brazilian Real",
+  "CAD": "Canadian Dollar",
+  "CHF": "Swiss Franc",
+  "CNY": "Chinese Renminbi Yuan",
+  "CZK": "Czech Koruna",
+  "DKK": "Danish Krone",
+  "EUR": "Euro",
+  "GBP": "British Pound",
+  "HKD": "Hong Kong Dollar",
+  "HUF": "Hungarian Forint",
+  "IDR": "Indonesian Rupiah",
+  "ILS": "Israeli New Sheqel",
+  "INR": "Indian Rupee",
+  "ISK": "Icelandic Króna",
+  "JPY": "Japanese Yen",
+  "KRW": "South Korean Won",
+  "MXN": "Mexican Peso",
+  "MYR": "Malaysian Ringgit",
+  "NOK": "Norwegian Krone",
+  "NZD": "New Zealand Dollar",
+  "PHP": "Philippine Peso",
+  "PLN": "Polish Złoty",
+  "RON": "Romanian Leu",
+  "SEK": "Swedish Krona",
+  "SGD": "Singapore Dollar",
+  "THB": "Thai Baht",
+  "TRY": "Turkish Lira",
+  "USD": "United States Dollar",
+  "ZAR": "South African Rand"
+}
+```
+
+---
+
+## Error Handling
+
+API ini dirancang dengan mekanisme error handling terpusat menggunakan Spring `@ControllerAdvice`.
+
+Jenis error yang dikembalikan:
+
+| HTTP Status                   | Kondisi |
+|-------------------------------|----------|
+| **404 Not Found**             | `resourceType` tidak dikenal atau tidak terdaftar pada strategy map |
+| **502 Service Unavailable**   | Gagal mengambil data dari Frankfurter API saat startup |
+| **500 Internal Server Error** | Kesalahan internal yang tidak terduga |
+
+Contoh response error:
+
+```json
+{
+  "timestamp": "2026-01-27T07:49:53.491534609Z",
+  "message": "Resource not found: Resource type 'latest_idr_rate' is not supported.",
+  "error": "NOT_FOUND",
+  "status": 404
+}
+```
+---
