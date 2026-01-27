@@ -13,7 +13,7 @@ public class SpreadCalculator {
         String username=githubUsername.toLowerCase();
         int sum=0;
         for(char c:username.toCharArray()){
-            sum=+(int)c;
+            sum+=(int)c;
         }
         // Rumus: (Sum % 1000) / 100000.0
         return (sum % 1000) / 100000.0;
