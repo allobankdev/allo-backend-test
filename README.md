@@ -162,6 +162,7 @@ Pastikan Git sudah terinstal, lalu jalankan:
   
   # Checkout ke branch hasil pengerjaan technical test
   git checkout feat/idr-rate-aggregator
+  cd backend
   ```
   > Catatan: Implementasi technical test berada pada branch `feat/idr-rate-aggregator`.
 
