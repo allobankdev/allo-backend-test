@@ -1,8 +1,14 @@
 # Allo Bank Backend Developer Take-Home Test
+![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F?style=for-the-badge&logo=springboot&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-Build-C71A36?style=for-the-badge&logo=apachemaven&logoColor=white)
+![WireMock](https://img.shields.io/badge/WireMock-Testing-8A2BE2?style=for-the-badge)
+![Strategy Pattern](https://img.shields.io/badge/Design-Strategy_Pattern-blue?style=for-the-badge)
 
-**Kandidat:** Hendro Wunga (GitHub: `hendwunga`)
-
-**Posisi:** Backend Developer – Technical Test
+---
+**Candidate:** Hendrikus Yohanes Wunga  
+**Position Applied:** Backend Developer (Technical Assessment)  
+**GitHub:** ```hendwunga```
 
 ## Objektif Proyek
 
@@ -85,17 +91,151 @@ Diagram berikut menggambarkan alur data dan interaksi antar komponen utama dalam
 
 ## Kalkulasi Spread yang Dipersonalisasi
 
-Diterapkan pada *resource* `latest_idr_rates` untuk menghasilkan kolom `USD_BuySpread_IDR`.
+Kalkulasi ini diterapkan pada resource `latest_idr_rates` untuk menghasilkan field tambahan bernama `USD_BuySpread_IDR`.
 
-* **GitHub Username:** `hendwunga`
-* **Logika Kalkulasi:**
-* Jumlah nilai ASCII: `h(104)+e(101)+n(110)+d(100)+w(119)+u(117)+n(110)+g(103)+a(97) = 951`
-* **Rumus Spread Factor:** `(Total % 1000) / 100000.0`
-* **Hasil Faktor:** `0.00951` (Nilai saat *runtime* mungkin menyesuaikan berdasarkan deteksi *username* lingkungan sistem).
+### Parameter Dasar
+
+- **GitHub Username:** `hendwunga`
+
+### Langkah Perhitungan
+
+1. **Konversi username ke nilai ASCII**
+
+     Setiap karakter pada username dikonversi ke nilai ASCII:
+    ```bash
+    h(104) + e(101) + n(110) + d(100) + w(119) + u(117) + n(110) + g(103) + a(97) = 951
+    ```
+2. **Hitung Spread Factor**
+    ```bash
+    Spread Factor = (Total % 1000) / 100000.0
+    = 951 / 100000
+    = 0.00951
+    ```
+  
+    > Catatan: Nilai ini dapat berubah saat runtime apabila sistem mendeteksi username yang berbeda dari environment.
+
+3. **Hitung nilai USD Buy Spread terhadap IDR**
+    ```bash
+    USD_BuySpread_IDR = (1 / Rate_USD) × (1 + Spread Factor)
+    ```
 
 
-* **Rumus Akhir:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)`
+---
 
+## Cakupan Pengujian
+
+### Unit Tests
+
+* **Strategy Tests:** Memvalidasi transformasi data, kalkulasi *spread*, dan *mocking* API eksternal untuk semua implementasi strategi.
+* **Spread Calculator Test:** Memastikan jumlah ASCII dan derivasi faktor dilakukan dengan akurat.
+
+### Integration Tests
+
+* **Startup Data Initialization Test (WireMock-based):**
+  Menggunakan **WireMock** untuk mensimulasikan seluruh endpoint Frankfurter API (`/latest`, `/currencies`, `/{date-range}`), sehingga:
+
+    - Aplikasi **tidak melakukan HTTP call ke internet** saat testing.
+    - Proses `ApplicationRunner` dapat diuji secara end-to-end (client → strategy → storage).
+    - Data dipastikan **berhasil dimuat sekali saat startup** dan tersimpan di `FinanceDataStorage`.
+    - Test bersifat **deterministik, cepat, dan bebas flakiness jaringan**.
+
+  Test ini memverifikasi bahwa ketiga resource berikut tersedia sebelum aplikasi siap melayani request:
+
+    - `latest_idr_rates`
+    - `historical_idr_usd`
+    - `supported_currencies`
+
+---
+
+## Memulai (Getting Started)
+
+Aplikasi ini menggunakan **Maven Wrapper**, sehingga Anda tidak perlu menginstal Maven secara manual. Cukup pastikan **Java 17** sudah terpasang.
+
+### 1. Clone Repository
+
+Pastikan Git sudah terinstal, lalu jalankan:
+
+  ```bash
+  git clone https://github.com/hendwunga/allo-backend-test.git
+  cd allo-backend-test
+  
+  
+  # Checkout ke branch hasil pengerjaan technical test
+  git checkout feat/idr-rate-aggregator
+  ```
+  > Catatan: Implementasi technical test berada pada branch `feat/idr-rate-aggregator`.
+
+### 2. Prasyarat
+
+* **Java:** 17 (LTS)
+* **Sistem Operasi:** Linux, Windows, atau macOS
+
+### 3. Build & Run (Instruksi Lintas Platform)
+
+#### **Di Linux / macOS:**
+
+Buka terminal dan jalankan:
+
+```bash
+# Menjalankan Testing
+./mvnw clean test
+
+# Menjalankan Aplikasi
+./mvnw spring-boot:run
+
+```
+
+#### **Di Windows (Command Prompt / PowerShell):**
+
+Buka CMD atau PowerShell di folder proyek dan jalankan:
+
+```bash
+# Menjalankan Testing
+mvnw.cmd clean test
+
+# Menjalankan Aplikasi
+mvnw.cmd spring-boot:run
+
+```
+
+---
+## Konfigurasi Aplikasi (`application.yml`)
+
+Aplikasi ini menggunakan konfigurasi terpusat melalui file `application.yml`.
+
+### Contoh Konfigurasi Default
+
+```yaml
+app:
+  # Digunakan untuk kalkulasi Spread Factor
+  github-username: "hendwunga"
+
+  frankfurter:
+    # Base URL API eksternal Frankfurter
+    base-url: "https://api.frankfurter.app"
+
+    # Batas waktu koneksi agar aplikasi tidak hang jika API eksternal lambat
+    connect-timeout-ms: 5000
+    read-timeout-ms: 5000
+
+server:
+  port: 8080
+  error:
+    # Hindari membocorkan detail stack trace ke client (best practice keamanan)
+    include-message: always
+    include-stacktrace: never
+
+logging:
+  level:
+    root: INFO
+    # Logging detail proses fetch data startup
+    com.hend.backend: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+```
+```md
+> Semua konfigurasi dapat dioverride menggunakan environment variable untuk kebutuhan deployment.
+```
 ---
 
 ## Penggunaan API
@@ -256,10 +396,10 @@ API ini dirancang dengan mekanisme error handling terpusat menggunakan Spring `@
 
 Jenis error yang dikembalikan:
 
-| HTTP Status | Kondisi |
-|-------------|----------|
-| **404 Not Found** | `resourceType` tidak dikenal atau tidak terdaftar pada strategy map |
-| **503 Service Unavailable** | Gagal mengambil data dari Frankfurter API saat startup |
+| HTTP Status                   | Kondisi |
+|-------------------------------|----------|
+| **404 Not Found**             | `resourceType` tidak dikenal atau tidak terdaftar pada strategy map |
+| **502 Service Unavailable**   | Gagal mengambil data dari Frankfurter API saat startup |
 | **500 Internal Server Error** | Kesalahan internal yang tidak terduga |
 
 Contoh response error:
@@ -271,77 +411,5 @@ Contoh response error:
   "error": "NOT_FOUND",
   "status": 404
 }
-```
-
----
-
-## Cakupan Pengujian
-
-### Unit Tests
-
-* **Strategy Tests:** Memvalidasi transformasi data, kalkulasi *spread*, dan *mocking* API eksternal untuk semua implementasi strategi.
-* **Spread Calculator Test:** Memastikan jumlah ASCII dan derivasi faktor dilakukan dengan akurat.
-
-### Integration Tests
-
-* **Startup Data Initialization Test (WireMock-based):**
-  Menggunakan **WireMock** untuk mensimulasikan seluruh endpoint Frankfurter API (`/latest`, `/currencies`, `/{date-range}`), sehingga:
-
-    - Aplikasi **tidak melakukan HTTP call ke internet** saat testing.
-    - Proses `ApplicationRunner` dapat diuji secara end-to-end (client → strategy → storage).
-    - Data dipastikan **berhasil dimuat sekali saat startup** dan tersimpan di `FinanceDataStorage`.
-    - Test bersifat **deterministik, cepat, dan bebas flakiness jaringan**.
-
-  Test ini memverifikasi bahwa ketiga resource berikut tersedia sebelum aplikasi siap melayani request:
-
-    - `latest_idr_rates`
-    - `historical_idr_usd`
-    - `supported_currencies`
-
----
-
-## Memulai (Getting Started)
-
-Aplikasi ini menggunakan **Maven Wrapper**, sehingga Anda tidak perlu menginstal Maven secara manual. Cukup pastikan **Java 17** sudah terpasang.
-
-### 1. Clone Repository
-
-Pastikan Git sudah terinstal, lalu jalankan:
-
-```bash
-git clone https://github.com/hendwunga/allo-backend-test.git
-cd allo-backend-test
-```
-### 2. Prasyarat
-
-* **Java:** 17 (LTS)
-* **Sistem Operasi:** Linux, Windows, atau macOS
-
-### 3. Build & Run (Instruksi Lintas Platform)
-
-#### **Di Linux / macOS:**
-
-Buka terminal dan jalankan:
-
-```bash
-# Menjalankan Testing
-./mvnw clean test
-
-# Menjalankan Aplikasi
-./mvnw spring-boot:run
-
-```
-
-#### **Di Windows (Command Prompt / PowerShell):**
-
-Buka CMD atau PowerShell di folder proyek dan jalankan:
-
-```bash
-# Menjalankan Testing
-mvnw.cmd clean test
-
-# Menjalankan Aplikasi
-mvnw.cmd spring-boot:run
-
 ```
 ---
