@@ -137,3 +137,196 @@ A clear `README.md` is mandatory. It must include:
 * **Code Review Readiness:** The code should be well-structured and ready for immediate review.
 
 Good luck!
+
+---
+
+## Panduan Penggunaan (Setelah Clone)
+
+### Quick Start
+
+```bash
+git clone <your-fork-url>
+cd allo-backend-test
+./mvnw spring-boot:run
+```
+
+Jalankan test:
+```bash
+./mvnw test
+```
+
+Aplikasi berjalan di port `8080` dan hanya mengambil data Frankfurter sekali saat startup.
+
+### Setup
+
+Pastikan Java 17+ terpasang. Lalu jalankan:
+
+```bash
+./mvnw clean package
+```
+
+### Run Aplikasi
+
+```bash
+./mvnw spring-boot:run
+```
+
+Atau jalankan file jar hasil build:
+
+```bash
+java -jar target/finance-aggregator-0.0.1-SNAPSHOT.jar
+```
+
+### Konfigurasi
+
+Defaults live in `src/main/resources/application.yaml`:
+
+```yaml
+frankfurter:
+  base-url: "https://api.frankfurter.app"
+  github-username: "agilnurdiansah29"
+  timeouts:
+    connect-ms: 2000
+    response-ms: 4000
+
+finance:
+  historical:
+    start-date: "2024-01-01"
+    end-date: "2024-01-05"
+    from: "IDR"
+    to: "USD"
+```
+
+### Tes API (cURL)
+
+```bash
+curl http://localhost:8080/api/finance/data/latest_idr_rates
+curl http://localhost:8080/api/finance/data/historical_idr_usd
+curl http://localhost:8080/api/finance/data/supported_currencies
+```
+
+### Ringkasan Endpoint
+
+| Endpoint | Description |
+| --- | --- |
+| `GET /api/finance/data/latest_idr_rates` | Latest IDR rates with `USD_BuySpread_IDR` applied. |
+| `GET /api/finance/data/historical_idr_usd` | Historical IDR→USD series for the configured date range (filtered). |
+| `GET /api/finance/data/supported_currencies` | List of supported currencies from Frankfurter. |
+
+### Contoh Response Sukses
+
+`latest_idr_rates`
+```json
+{
+  "success": true,
+  "message": "Request processed successfully",
+  "data": [
+    {
+      "resourceType": "latest_idr_rates",
+      "data": {
+        "amount": 1.0,
+        "base": "IDR",
+        "date": "2026-01-28",
+        "rates": {
+          "USD": 0.000060,
+          "EUR": 0.000050
+        },
+        "USD_BuySpread_IDR": 16764.8333333334
+      }
+    }
+  ],
+  "timestamp": "2026-01-29T06:00:00"
+}
+```
+
+`historical_idr_usd` (sudah difilter sesuai range)
+```json
+{
+  "success": true,
+  "message": "Request processed successfully",
+  "data": [
+    {
+      "resourceType": "historical_idr_usd",
+      "data": {
+        "amount": 1.0,
+        "base": "IDR",
+        "start_date": "2024-01-01",
+        "end_date": "2024-01-05",
+        "rates": {
+          "2024-01-02": { "USD": 0.000064 },
+          "2024-01-03": { "USD": 0.000064 }
+        }
+      }
+    }
+  ],
+  "timestamp": "2026-01-29T06:00:00"
+}
+```
+
+`supported_currencies`
+```json
+{
+  "success": true,
+  "message": "Request processed successfully",
+  "data": [
+    {
+      "resourceType": "supported_currencies",
+      "data": {
+        "USD": "United States Dollar",
+        "IDR": "Indonesian Rupiah"
+      }
+    }
+  ],
+  "timestamp": "2026-01-29T06:00:00"
+}
+```
+
+### Contoh Response Error
+
+Invalid resource type (`404`):
+```json
+{
+  "success": false,
+  "message": "Request failed",
+  "error": "Unknown resourceType: foo",
+  "timestamp": "2026-01-29T06:00:00"
+}
+```
+
+External API issue (`502`):
+```json
+{
+  "success": false,
+  "message": "Request failed",
+  "error": "Frankfurter API error: 502",
+  "timestamp": "2026-01-29T06:00:00"
+}
+```
+
+### Struktur Project
+
+- `config` — configuration properties and WebClient FactoryBean
+- `controller` — REST endpoint `/api/finance/data/{resourceType}`
+- `strategy` — three fetcher strategies for each resource type
+- `service` — Frankfurter client, spread calculation, in‑memory store
+- `dto` — response DTOs
+- `model` — external API response models
+- `runner` — ApplicationRunner that loads data at startup
+- `exception` — custom exceptions and global error handler
+
+### Catatan Historical Data
+
+Frankfurter kadang mengembalikan tanggal di luar range (biasanya karena hari kerja terdekat).
+Di sini response historical **difilter** supaya hanya tanggal dalam range
+`finance.historical.range` yang dikembalikan.
+
+### Catatan Personalisasi
+
+- GitHub username: `agilnurdiansah29`
+- Spread factor: `0.00589`
+
+### Alasan Arsitektur
+
+1. **Strategy Pattern:** Saya pisahkan tiap resource ke class strategi sendiri supaya controller tetap bersih dan mudah dikembangkan. Kalau ada resource baru, cukup tambah satu strategi baru tanpa mengubah controller.
+2. **FactoryBean Client:** Pembuatan WebClient disatukan di `FactoryBean` agar konfigurasi base URL dan timeout konsisten, dan lifecycle client-nya jelas di Spring.
+3. **ApplicationRunner:** Dipakai supaya proses loading berjalan setelah context siap, lebih aman dibanding `@PostConstruct` yang dieksekusi saat bean dibuat.

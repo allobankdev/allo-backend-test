@@ -1,0 +1,16 @@
+server:
+  port: 8080
+
+frankfurter:
+  base-url: "https://api.frankfurter.app"
+  github-username: "agilnurdiansah29"
+  timeouts:
+    connect-ms: 2000
+    response-ms: 4000
+
+finance:
+  historical:
+    start-date: "2024-01-01"
+    end-date: "2024-01-05"
+    from: "IDR"
+    to: "USD"

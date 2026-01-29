@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.allobank.financeaggregator.controller.FinanceDataControllerIntegrationTest
+-------------------------------------------------------------------------------
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.056 s -- in com.allobank.financeaggregator.controller.FinanceDataControllerIntegrationTest
