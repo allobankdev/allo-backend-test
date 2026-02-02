@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: allobank
+
+app:
+  github:
+    username: journalvian-dev
