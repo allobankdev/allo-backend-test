@@ -1,0 +1,12 @@
+/allo-test/.gitattributes
+/.idea/allo-backend-test.iml
+/allo-test/src/test/java/com/example/allotest/AlloTestApplicationTests.java
+/.idea/compiler.xml
+/.idea/encodings.xml
+/.idea/jarRepositories.xml
+/allo-test/.mvn/wrapper/maven-wrapper.properties
+/.idea/misc.xml
+/.idea/modules.xml
+/allo-test/mvnw
+/allo-test/mvnw.cmd
+/.idea/vcs.xml

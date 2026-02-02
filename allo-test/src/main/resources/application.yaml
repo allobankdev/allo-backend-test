@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: allo-test
+
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+
+github:
+  username: Dhanuaji
