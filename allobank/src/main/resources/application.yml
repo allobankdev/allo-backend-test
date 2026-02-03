@@ -5,3 +5,6 @@ spring:
 app:
   github:
     username: journalvian-dev
+
+frankfurter:
+  base-url: https://api.frankfurter.app
