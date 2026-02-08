@@ -1,7 +1,7 @@
 package com.allobank.test.strategy;
 
 import com.allobank.test.config.FrankfurterProperties;
-import com.allobank.test.model.dto.FrankfurterResponse;
+import com.allobank.test.dto.FrankfurterResponse;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
