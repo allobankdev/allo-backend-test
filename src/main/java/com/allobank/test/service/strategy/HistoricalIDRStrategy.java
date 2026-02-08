@@ -1,6 +1,7 @@
 package com.allobank.test.service.strategy;
 
-import com.allobank.test.dto.ExchangeRateResponse;
+import java.util.Map;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -20,6 +21,6 @@ public class HistoricalIDRStrategy implements IDRDataFetcher {
 
   @Override
   public Object fetchData() {
-    return restTemplate.getForObject("/2024-01-01..2024-01-05?from=IDR&to=USD", ExchangeRateResponse.class);
+    return restTemplate.getForObject("/2024-01-01..2024-01-05?from=IDR&to=USD", Map.class);
   }
 }
