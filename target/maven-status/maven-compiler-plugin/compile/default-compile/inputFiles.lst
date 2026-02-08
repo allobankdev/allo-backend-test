@@ -1,0 +1,14 @@
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/service/FinanceService.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/strategy/IdrDataFetcher.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/dto/FrankfurterResponse.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/strategy/SupportedCurrenciesStrategy.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/strategy/LatestIdrRatesStrategy.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/config/FrankfurterClientFactory.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/repository/FinanceDataRepository.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/runner/DataWarmupRunner.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/exception/GlobalExceptionHandler.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/strategy/HistoricalIdrUsdStrategy.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/config/FrankfurterProperties.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/AlloBackendTestApplication.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/controller/FinanceController.java
+/Users/aldobuarlele/Documents/Project/Java/allo-backend-test/src/main/java/com/allobank/test/config/SpreadFactorConfig.java

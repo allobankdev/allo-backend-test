@@ -1,0 +1,15 @@
+com/allobank/test/controller/FinanceController.class
+com/allobank/test/strategy/IdrDataFetcher.class
+com/allobank/test/config/FrankfurterClientFactory.class
+com/allobank/test/strategy/LatestIdrRatesStrategy.class
+com/allobank/test/strategy/SupportedCurrenciesStrategy.class
+com/allobank/test/dto/FrankfurterResponse.class
+com/allobank/test/repository/FinanceDataRepository.class
+com/allobank/test/config/FrankfurterProperties.class
+com/allobank/test/exception/GlobalExceptionHandler.class
+com/allobank/test/service/FinanceService.class
+com/allobank/test/runner/DataWarmupRunner.class
+com/allobank/test/config/SpreadFactorConfig.class
+com/allobank/test/strategy/HistoricalIdrUsdStrategy.class
+com/allobank/test/AlloBackendTestApplication.class
+com/allobank/test/config/FrankfurterProperties$Endpoints.class

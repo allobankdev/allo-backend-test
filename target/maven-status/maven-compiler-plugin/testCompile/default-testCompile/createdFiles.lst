@@ -1,0 +1,6 @@
+com/allobank/test/runner/DataWarmupRunnerTest.class
+com/allobank/test/controller/FinanceControllerTest.class
+com/allobank/test/strategy/SupportedCurrenciesStrategyTest.class
+com/allobank/test/strategy/HistoricalIdrUsdStrategyTest.class
+com/allobank/test/strategy/LatestIdrRatesStrategyTest.class
+com/allobank/test/service/FinanceServiceTest.class
