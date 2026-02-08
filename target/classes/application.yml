@@ -1,0 +1,6 @@
+external:
+  api:
+    frankfurter:
+      base-url: https://api.frankfurter.app
+      connect-timeout: 5000
+      read-timeout: 5000
