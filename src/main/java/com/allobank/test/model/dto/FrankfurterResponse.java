@@ -1,4 +1,4 @@
-package com.allobank.test.dto;
+package com.allobank.test.model.dto;
 
 import lombok.Data;
 import java.util.Map;
