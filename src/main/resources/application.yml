@@ -1,7 +1,18 @@
 spring:
   application:
     name: allo-backend-test
+  jackson:
+    generator:
+      write-bigdecimal-as-plain: true
 
 server:
   port: ${SERVER_PORT:8070}
 
+api:
+  client:
+    base-url: https://api.frankfurter.app/
+    connection-timeout: 10000
+    read-timeout: 10000
+    headers:
+      accept: application/json
+      content-type: application/json
