@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: allo-backend-test
+
+server:
+  port: ${SERVER_PORT:8070}
+
