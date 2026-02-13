@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: allo-technical-test
+
+server:
+  port: 8081
+
+external:
+  frankfurter:
+    base-url: https://api.frankfurter.app
+    endpoints:
+      latest: /latest?base=IDR
+#      historical: /2026-02-01..2026-02-13?from=IDR&to=USD
+      historical: //2024-01-01..2024-01-05?from=IDR&to=USD
+
+      currencies: /currencies
+    timeout:
+      connect: 5000
+      read: 5000
+
+github:
+  username: ariefw96
