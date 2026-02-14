@@ -25,8 +25,24 @@ public class HistoricalIDRUSDService extends AbstractFinancialStrategy {
 
     @Override
     protected Object transform(JsonNode node) {
-        // RED PHASE: Returning a standard mutable nested HashMap.
-        // This will fail the "Deep Immutability" assertion in the test.
-        return new HashMap<String, Map<String, BigDecimal>>();
+        Map<String, Map<String, BigDecimal>> outerMap = new HashMap<>();
+
+        JsonNode ratesNode = node.path("rates");
+
+        ratesNode.fields().forEachRemaining(dateEntry -> {
+            String date = dateEntry.getKey();
+            Map<String, BigDecimal> dailyRates = new HashMap<>();
+
+            dateEntry.getValue().fields().forEachRemaining(currencyEntry -> {
+                dailyRates.put(
+                        currencyEntry.getKey(),
+                        new BigDecimal(currencyEntry.getValue().asText())
+                );
+            });
+
+            outerMap.put(date, Map.copyOf(dailyRates));
+        });
+
+        return Map.copyOf(outerMap);
     }
 }
