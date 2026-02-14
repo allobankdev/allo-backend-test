@@ -9,6 +9,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,21 +29,29 @@ public class FinanceSystemIntegrationTest {
         assertTrue(dataStore.isInitialized(), "System failed to seal data store on startup");
 
         // 2. Test 'latest_idr_rates'
-        ResponseEntity<Object> latestResponse = restTemplate.getForEntity("/api/finance/latest_idr_rates", Object.class);
+        // Use List.class to match the Unified JSON Array requirement
+        ResponseEntity<List> latestResponse = restTemplate.getForEntity("/api/finance/data/latest_idr_rates", List.class);
         assertEquals(HttpStatus.OK, latestResponse.getStatusCode());
+        assertNotNull(latestResponse.getBody());
+        assertFalse(latestResponse.getBody().isEmpty());
 
         // 3. Test 'supported_currencies'
-        ResponseEntity<Map> currencyResponse = restTemplate.getForEntity("/api/finance/supported_currencies", Map.class);
+        ResponseEntity<List> currencyResponse = restTemplate.getForEntity("/api/finance/data/supported_currencies", List.class);
         assertEquals(HttpStatus.OK, currencyResponse.getStatusCode());
-        assertTrue(currencyResponse.getBody().containsKey("USD"));
+        assertNotNull(currencyResponse.getBody());
 
-        // 4.  Test 'historical_idr_usd'
-        ResponseEntity<Map> historicalResponse = restTemplate.getForEntity("/api/finance/historical_idr_usd", Map.class);
+        // Cast the first element to a Map to check keys
+        Map<String, Object> currencyMap = (Map<String, Object>) currencyResponse.getBody().get(0);
+        assertTrue(currencyMap.containsKey("USD"), "Supported currencies should contain USD");
 
+        // 4. Test 'historical_idr_usd'
+        ResponseEntity<List> historicalResponse = restTemplate.getForEntity("/api/finance/data/historical_idr_usd", List.class);
         assertEquals(HttpStatus.OK, historicalResponse.getStatusCode());
         assertNotNull(historicalResponse.getBody());
+        assertFalse(historicalResponse.getBody().isEmpty());
 
-        assertTrue(historicalResponse.getBody().containsKey("2023-12-29"),
-                "Historical data for 2023-12-29 is missing");
+        // Cast the first element to a Map to check the date
+        Map<String, Object> historicalMap = (Map<String, Object>) historicalResponse.getBody().get(0);
+        assertTrue(historicalMap.containsKey("2023-12-29"), "Historical data for 2023-12-29 is missing");
     }
 }

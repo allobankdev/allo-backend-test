@@ -31,10 +31,9 @@ public class FinanceControllerTest {
 
         when(dataStore.get(resourceKey)).thenReturn(mockData);
 
-        mockMvc.perform(get("/api/finance/" + resourceKey))
+        mockMvc.perform(get("/api/finance/data/" + resourceKey))
                 .andExpect(status().isOk())
-                // This will FAIL (RED) because we return 501 Not Implemented
-                .andExpect(jsonPath("$.base").value("IDR"));
+                .andExpect(jsonPath("$[0].base").value("IDR"));
     }
 
     @Test
@@ -42,7 +41,7 @@ public class FinanceControllerTest {
     void shouldReturn404ForUnknownResource() throws Exception {
         when(dataStore.get("invalid")).thenReturn(null);
 
-        mockMvc.perform(get("/api/finance/invalid"))
+        mockMvc.perform(get("/api/finance/data/invalid"))
                 .andExpect(status().isNotFound());
     }
 }

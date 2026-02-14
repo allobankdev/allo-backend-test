@@ -30,7 +30,7 @@ class LatestIDRRateServiceTest {
         // Requirements:
         // 1. Sum ASCII of "cory-work-tech" = 1406
         // 2. 1406 % 1000 = 406
-        // 3. 432 / 100000.0 = 0.00406
+        // 3. 406 / 100000.0 = 0.00406
         BigDecimal expectedFactor = new BigDecimal("0.00406");
 
         // Act
