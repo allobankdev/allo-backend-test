@@ -1,13 +1,13 @@
 package cory.sakti.Financial.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import cory.sakti.Financial.dto.IDRRateData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import tools.jackson.databind.JsonNode;
-import tools.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.JsonNode;
 
 import java.math.BigDecimal;
 
