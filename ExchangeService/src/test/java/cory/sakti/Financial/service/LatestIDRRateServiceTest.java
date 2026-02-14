@@ -23,14 +23,6 @@ class LatestIDRRateServiceTest {
     void setUp() {
         strategy = new LatestIDRRateService(githubUser);
     }
-    public BigDecimal calculateSpreadFactor(String username) {
-        return BigDecimal.ZERO;
-    }
-
-    public BigDecimal calculateBuySpread(BigDecimal usdRate, BigDecimal factor) {
-        return BigDecimal.ZERO;
-    }
-
 
     @Test
     @DisplayName("Verify ASCII Spread Factor logic for specific username")
@@ -42,7 +34,7 @@ class LatestIDRRateServiceTest {
         BigDecimal expectedFactor = new BigDecimal("0.00406");
 
         // Act
-        BigDecimal actualFactor = calculateSpreadFactor("cory-work-tech");
+        BigDecimal actualFactor = strategy.calculateSpreadFactor("cory-work-tech");
 
         // Assert Fails because method returns BigDecimal.ZERO)
         assertEquals(0, expectedFactor.compareTo(actualFactor),
@@ -56,9 +48,9 @@ class LatestIDRRateServiceTest {
         BigDecimal rate = new BigDecimal("0.000064");
         BigDecimal factor = new BigDecimal("0.00406");
 
-        // (1 / 0.000064) * 1.00406 = 15692.5
-        BigDecimal expected = new BigDecimal("15692.5");
-        BigDecimal actual = calculateBuySpread(rate, factor);
+        // (1 / 0.000064) * 1.00406 = 15688.4375
+        BigDecimal expected = new BigDecimal("15688.4375");
+        BigDecimal actual = strategy.calculateBuySpread(rate, factor);
 
         // This will fail because skeleton returns ZERO
         assertEquals(0, expected.compareTo(actual), "Financial math incorrect");
@@ -75,13 +67,13 @@ class LatestIDRRateServiceTest {
         // Act
         IDRRateData result = (IDRRateData) strategy.transform(node);
 
-        // (1 / 0.000064) * 1.00432 = 15692.5
-        BigDecimal expectedBuySpread = new BigDecimal("15692.5");
+        // (1 / 0.000064) * 1.00406 = 15688.4375
+        BigDecimal expectedBuySpread = new BigDecimal("15688.4375");
 
         // Assert
         assertAll("Strategy Logic and Immutability",
                 () -> assertEquals(0, expectedBuySpread.compareTo(result.usdBuySpreadIdr()), "Math mismatch"),
-                () -> assertEquals(0, new BigDecimal("0.00432").compareTo(result.spreadFactorUsed())),
+                () -> assertEquals(0, new BigDecimal("0.00406").compareTo(result.spreadFactorUsed())),
                 () ->assertThrows(UnsupportedOperationException.class, () ->
                         result.rates().put("EUR", BigDecimal.ONE), "Data must be immutable")
         );
