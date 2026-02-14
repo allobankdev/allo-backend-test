@@ -11,6 +11,9 @@ public class InMemoryDataStoreService {
     private boolean initialized = false;
 
     public void put(String key, Object value) {
+        if (initialized) {
+            throw new IllegalStateException("Store is sealed. Cannot modify data after startup.");
+        }
         storage.put(key, value);
     }
 
