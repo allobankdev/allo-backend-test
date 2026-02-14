@@ -20,7 +20,7 @@ To fulfill the requirement of serving data without live network calls, a `DataIn
 ### 3. Custom Spread Factor Calculation
 The "Latest IDR Rates" endpoint includes a custom field `usd_buy_spread_idr` calculated based on the developer's GitHub username ASCII values.
 
-**Calculation for `LuthfiAryarizki`**:
+**Calculation for `luthfiaryaa`**:
 * **ASCII Sum**: 1515.
 * **Spread Factor**: $(1515 \pmod{1000}) / 100000.0 = 0.00515$.
 * **Formula**: $BuySpread = (1 / RateUSD) \times (1 + SpreadFactor)$.
