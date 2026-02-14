@@ -5,3 +5,5 @@ spring:
 app:
   github:
     username: cory-work-tech
+  api:
+    base-url: https://api.frankfurter.app/

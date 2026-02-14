@@ -24,7 +24,7 @@ public class FrankfurterClientFactoryBeanTest {
         assertNotNull(restTemplate, "RestTemplate bean must be present");
 
         // Verify it's created
-        Object factoryBean = context.getBean("&FrankfurterClientFactoryBean");
+        Object factoryBean = context.getBean("&frankfurterClientFactoryBean");
         assertTrue(factoryBean instanceof FactoryBean, "Must be a FactoryBean implementation");
     }
 }
