@@ -7,7 +7,6 @@ import com.allo.test.utils.SpreadCalculator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import tools.jackson.databind.ObjectMapper;
 
 @Slf4j
 @Component
@@ -20,13 +19,11 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
 
     private final FrankfurterCacheService cacheService;
     private final FrankfurterClient frankfurterClient;
-    private final ObjectMapper mapper;
 
     public LatestIdrRatesFetcher(FrankfurterCacheService cacheService,
-                                 FrankfurterClient frankfurterClient, ObjectMapper mapper) {
+                                 FrankfurterClient frankfurterClient) {
         this.cacheService = cacheService;
         this.frankfurterClient = frankfurterClient;
-        this.mapper = mapper;
     }
 
     @Override

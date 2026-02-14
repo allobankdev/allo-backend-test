@@ -16,12 +16,12 @@ import java.util.Map;
 @Service
 public class FrankfurterClient {
 
-    private final RestTemplate restTemplate;
+    private final RestTemplate frankfurtRestTemplate;
     private final FrankfurterProperties properties;
 
-    public FrankfurterClient(RestTemplate restTemplate,
+    public FrankfurterClient(RestTemplate frankfurtRestTemplate,
                              FrankfurterProperties properties) {
-        this.restTemplate = restTemplate;
+        this.frankfurtRestTemplate = frankfurtRestTemplate;
         this.properties = properties;
     }
 
@@ -49,11 +49,11 @@ public class FrankfurterClient {
 
 
     private <T> T executeApi(String endpoint, ParameterizedTypeReference<T> responseType) {
-        String fullUrl = properties.getBaseUrl().concat(endpoint);
+//        String fullUrl = properties.getBaseUrl().concat(endpoint);
 
         try {
-            return restTemplate.exchange(
-                    fullUrl,
+            return frankfurtRestTemplate.exchange(
+                    endpoint,
                     HttpMethod.GET,
                     null,
                     responseType
@@ -61,7 +61,7 @@ public class FrankfurterClient {
 
         } catch (RestClientException e) {
 
-            log.error("Gagal memanggil API Frankfurter di URL: {}. Error: {}", fullUrl, e.getMessage());
+            log.error("Gagal memanggil API Frankfurter di URL: {}. Error: {}", endpoint, e.getMessage());
 
             throw new RuntimeException("Terjadi kesalahan saat komunikasi dengan Third Party API", e);
         }

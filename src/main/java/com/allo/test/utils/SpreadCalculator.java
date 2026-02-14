@@ -36,7 +36,7 @@ public class SpreadCalculator {
                 .remainder(THOUSAND)
                 .divide(HUNDRED_THOUSAND, MC);
 
-        System.out.println("Spread factor for github username "+username+" is "+spreadFactor);
+//        System.out.println("Spread factor for github username "+username+" is "+spreadFactor);
 
 
         BigDecimal invertedRate = ONE.divide(rateUsd, MC);
