@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.util.HashMap;
+import java.util.Map;
 
 @Service("supported_currencies")
 public class SupportedCurrenciesService extends AbstractFinancialStrategy {
@@ -17,7 +18,12 @@ public class SupportedCurrenciesService extends AbstractFinancialStrategy {
 
     @Override
     protected Object transform(JsonNode node) {
-        // RED: Returning a mutable HashMap to fail the immutability check
-        return new HashMap<String, String>();
+        Map<String, String> currencies = new HashMap<>();
+
+        node.fields().forEachRemaining(entry -> {
+            currencies.put(entry.getKey(), entry.getValue().asText());
+        });
+
+        return Map.copyOf(currencies);
     }
 }
