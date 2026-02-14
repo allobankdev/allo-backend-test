@@ -41,5 +41,19 @@ class LatestIDRRateServiceTest {
                 "Spread factor must match the ASCII sum requirement precisely");
     }
 
+    @Test
+    @DisplayName("Calculate Buy Spread using (1/rate) * (1+factor)")
+    void shouldCalculateBuySpread() {
+        //assuming rate, $1 = IDR 15625, 1/15625=0.000064
+        BigDecimal rate = new BigDecimal("0.000064");
+        BigDecimal factor = new BigDecimal("0.00406");
+
+        // (1 / 0.000064) * 1.00406 = 15692.5
+        BigDecimal expected = new BigDecimal("15692.5");
+        BigDecimal actual = calculateBuySpread(rate, factor);
+
+        // This will fail because skeleton returns ZERO
+        assertEquals(0, expected.compareTo(actual), "Financial math incorrect");
+    }
 
 }
