@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
 import java.util.Map;
 
 @RestController
@@ -18,7 +19,7 @@ public class FinanceController {
     private final InMemoryDataStoreService dataStore;
 
 
-    @GetMapping("/{resource}")
+    @GetMapping("data/{resource}")
     public ResponseEntity<Object> getFinancialData(@PathVariable String resource) {
         // ATOMIC GREEN: Dynamic lookup from our sealed store
         Object data = dataStore.get(resource);
@@ -29,6 +30,6 @@ public class FinanceController {
                     .body(Map.of("error", "Resource '" + resource + "' not found or not initialized."));
         }
 
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok(Collections.singletonList(data));
     }
 }
