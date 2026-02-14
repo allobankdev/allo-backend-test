@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/finance")
 @RequiredArgsConstructor
@@ -18,7 +20,15 @@ public class FinanceController {
 
     @GetMapping("/{resource}")
     public ResponseEntity<Object> getFinancialData(@PathVariable String resource) {
-        // RED PHASE: No lookup logic implemented yet.
-        return ResponseEntity.status(HttpStatus.NOT_IMPLEMENTED).build();
+        // ATOMIC GREEN: Dynamic lookup from our sealed store
+        Object data = dataStore.get(resource);
+
+        // Handle missing resource (Constraint: Graceful Error Handling)
+        if (data == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Map.of("error", "Resource '" + resource + "' not found or not initialized."));
+        }
+
+        return ResponseEntity.ok(data);
     }
 }
