@@ -1,10 +1,13 @@
 package cory.sakti.Financial.service;
 
+import cory.sakti.Financial.dto.IDRRateData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import tools.jackson.databind.JsonNode;
+import tools.jackson.databind.ObjectMapper;
 
 import java.math.BigDecimal;
 
@@ -13,8 +16,13 @@ import static org.junit.jupiter.api.Assertions.*;
 @ExtendWith(MockitoExtension.class)
 class LatestIDRRateServiceTest {
 
+    private LatestIDRRateService strategy;
     private final String githubUser = "cory-work-tech";
 
+    @BeforeEach
+    void setUp() {
+        strategy = new LatestIDRRateService(githubUser);
+    }
     public BigDecimal calculateSpreadFactor(String username) {
         return BigDecimal.ZERO;
     }
@@ -54,6 +62,29 @@ class LatestIDRRateServiceTest {
 
         // This will fail because skeleton returns ZERO
         assertEquals(0, expected.compareTo(actual), "Financial math incorrect");
+    }
+
+
+    @Test
+    @DisplayName("Should calculate precise spread and return immutable record")
+    void latestStrategy_ShouldCalculateCorrectly() throws Exception {
+        // Arrange
+        String json = "{\"base\":\"IDR\",\"date\":\"2026-02-14\",\"rates\":{\"USD\":0.000064}}";
+        JsonNode node = new ObjectMapper().readTree(json);
+
+        // Act
+        IDRRateData result = (IDRRateData) strategy.transform(node);
+
+        // (1 / 0.000064) * 1.00432 = 15692.5
+        BigDecimal expectedBuySpread = new BigDecimal("15692.5");
+
+        // Assert
+        assertAll("Strategy Logic and Immutability",
+                () -> assertEquals(0, expectedBuySpread.compareTo(result.usdBuySpreadIdr()), "Math mismatch"),
+                () -> assertEquals(0, new BigDecimal("0.00432").compareTo(result.spreadFactorUsed())),
+                () ->assertThrows(UnsupportedOperationException.class, () ->
+                        result.rates().put("EUR", BigDecimal.ONE), "Data must be immutable")
+        );
     }
 
 }
