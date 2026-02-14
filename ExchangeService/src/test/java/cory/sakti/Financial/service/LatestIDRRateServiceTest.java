@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import com.fasterxml.jackson.databind.JsonNode;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -44,16 +45,20 @@ class LatestIDRRateServiceTest {
     @Test
     @DisplayName("Calculate Buy Spread using (1/rate) * (1+factor)")
     void shouldCalculateBuySpread() {
-        //assuming rate, $1 = IDR 15625, 1/15625=0.000064
-        BigDecimal rate = new BigDecimal("0.000064");
+        //from api frankfurt, 14/02/2026
+        BigDecimal rate = new BigDecimal("0.000059");
         BigDecimal factor = new BigDecimal("0.00406");
 
-        // (1 / 0.000064) * 1.00406 = 15688.4375
-        BigDecimal expected = new BigDecimal("15688.4375");
+        // (1 / 0.000059) * 1.00406 = 17017.9661016949...
+        // result to be around 17017.9661
+        BigDecimal expected = new BigDecimal("17017.9661");
         BigDecimal actual = strategy.calculateBuySpread(rate, factor);
 
         // This will fail because skeleton returns ZERO
-        assertEquals(0, expected.compareTo(actual), "Financial math incorrect");
+        // Compare with a precision of 4 decimal places to avoid floating point noise
+        assertEquals(0, expected.setScale(4, RoundingMode.HALF_UP)
+                        .compareTo(actual.setScale(4, RoundingMode.HALF_UP)),
+                "The calculation must match the real-world Frankfurter API rate logic");
     }
 
 
