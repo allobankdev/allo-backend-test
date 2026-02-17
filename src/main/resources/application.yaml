@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: frankfurter
+
+external:
+  frankfurter:
+    base-url: https://api.frankfurter.app
+
