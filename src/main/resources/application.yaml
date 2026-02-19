@@ -1,0 +1,34 @@
+spring:
+  application:
+    name: finance-service
+
+server:
+  port: 8080
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  github-username: dhimaspanji
+
+handling.error:
+  prefix: FNC
+  service-code: 10
+
+  common:
+    prefix: GNR
+    service-code: 0
+
+    mappings:
+      "[java.lang.Exception]":
+        status: INTERNAL_SERVER_ERROR
+        error-desc: GENERAL_FAULT_MSG
+        error-code: 999
+
+      "[jakarta.validation.ConstraintViolationException]":
+        status: BAD_REQUEST
+        error-desc: INVALID_REQUEST_ARG
+        error-code: 900
+
+      "[org.springframework.web.HttpRequestMethodNotSupportedException]":
+        status: METHOD_NOT_ALLOWED
+        error-desc: METHOD_NOT_ALLOWED
+        error-code: 998
