@@ -1,0 +1,14 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+idr-rate-aggregator,com.allobank.aggregator.controller,FinanceController,15,35,1,3,1,9,3,3,2,2
+idr-rate-aggregator,com.allobank.aggregator.service,FinanceDataStore,0,30,0,2,0,8,0,5,0,4
+idr-rate-aggregator,com.allobank.aggregator,AllobankIdrAggregatorApplication,8,0,0,0,3,0,2,0,2,0
+idr-rate-aggregator,com.allobank.aggregator.dto,FinanceDataDto,0,9,0,0,0,1,0,1,0,1
+idr-rate-aggregator,com.allobank.aggregator.dto,LatestRatesResponse,0,12,0,0,0,1,0,1,0,1
+idr-rate-aggregator,com.allobank.aggregator.dto,HistoricalRatesResponse,0,6,0,0,0,1,0,1,0,1
+idr-rate-aggregator,com.allobank.aggregator.util,SpreadCalculator,0,39,0,4,0,7,0,3,0,1
+idr-rate-aggregator,com.allobank.aggregator.strategy,LatestIdrRatesFetcher,5,183,4,10,1,35,4,10,0,7
+idr-rate-aggregator,com.allobank.aggregator.strategy,SupportedCurrenciesFetcher,0,65,1,3,0,14,1,7,0,6
+idr-rate-aggregator,com.allobank.aggregator.strategy,HistoricalIdrUsdFetcher,5,94,2,4,1,19,2,8,0,7
+idr-rate-aggregator,com.allobank.aggregator.config,FrankfurterWebClientFactoryBean,0,39,0,0,0,14,0,4,0,4
+idr-rate-aggregator,com.allobank.aggregator.config,FrankfurterProperties,0,20,0,0,0,6,0,5,0,5
+idr-rate-aggregator,com.allobank.aggregator.runner,FinanceDataLoader,0,83,0,2,0,19,0,4,0,3
