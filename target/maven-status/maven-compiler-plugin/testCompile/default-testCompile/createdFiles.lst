@@ -1,0 +1,10 @@
+com/allobank/aggregator/strategy/SupportedCurrenciesFetcherTest.class
+com/allobank/aggregator/controller/FinanceControllerTest.class
+com/allobank/aggregator/config/FrankfurterWebClientFactoryBeanTest.class
+com/allobank/aggregator/strategy/HistoricalIdrUsdFetcherTest.class
+com/allobank/aggregator/runner/FinanceDataLoaderTest$1.class
+com/allobank/aggregator/strategy/LatestIdrRatesFetcherTest.class
+com/allobank/aggregator/runner/FinanceDataLoaderTest$DummyFetcher.class
+com/allobank/aggregator/runner/FinanceDataLoaderTest.class
+com/allobank/aggregator/service/FinanceDataStoreTest.class
+com/allobank/aggregator/util/SpreadCalculatorTest.class

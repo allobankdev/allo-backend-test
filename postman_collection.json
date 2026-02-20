@@ -1,0 +1,184 @@
+{
+	"info": {
+		"_postman_id": "c0677ca7-afe8-49aa-94c9-88e9392eb43b",
+		"name": "AlloBank IDR Rate Aggregator API",
+		"description": "Postman collection for Allo Bank Backend Developer Take-Home Test API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "8730469",
+		"_collection_link": "https://lunar-meteor-785578.postman.co/workspace/Team-Workspace~abe8dd2c-8134-4b61-8d34-5b32cd9f48b0/collection/8730469-c0677ca7-afe8-49aa-94c9-88e9392eb43b?action=share&source=collection_link&creator=8730469"
+	},
+	"item": [
+		{
+			"name": "Get Latest IDR Rates",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/finance/data/latest_idr_rates",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"latest_idr_rates"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Latest IDR Rates",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/finance/data/latest_idr_rates",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"finance",
+								"data",
+								"latest_idr_rates"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "865"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"resourceType\": \"latest_idr_rates\",\n    \"payload\": {\n        \"date\": \"2025-11-21\",\n        \"rates\": {\n            \"CHF\": {\n                \"rate\": 0.000048\n            },\n            \"MXN\": {\n                \"rate\": 0.0011\n            },\n            \"ZAR\": {\n                \"rate\": 0.00104\n            },\n            \"INR\": {\n                \"rate\": 0.00536\n            },\n            \"CNY\": {\n                \"rate\": 0.00043\n            },\n            \"THB\": {\n                \"rate\": 0.00194\n            },\n            \"AUD\": {\n                \"rate\": 0.000093\n            },\n            \"ILS\": {\n                \"rate\": 0.0002\n            },\n            \"KRW\": {\n                \"rate\": 0.08819\n            },\n            \"JPY\": {\n                \"rate\": 0.00938\n            },\n            \"PLN\": {\n                \"rate\": 0.00022\n            },\n            \"GBP\": {\n                \"rate\": 0.000046\n            },\n            \"HUF\": {\n                \"rate\": 0.01991\n            },\n            \"PHP\": {\n                \"rate\": 0.00352\n            },\n            \"TRY\": {\n                \"rate\": 0.00254\n            },\n            \"HKD\": {\n                \"rate\": 0.00047\n            },\n            \"ISK\": {\n                \"rate\": 0.00764\n            },\n            \"EUR\": {\n                \"rate\": 0.000052\n            },\n            \"DKK\": {\n                \"rate\": 0.00039\n            },\n            \"CAD\": {\n                \"rate\": 0.000084\n            },\n            \"MYR\": {\n                \"rate\": 0.00025\n            },\n            \"USD\": {\n                \"rate\": 0.00006,\n                \"spreadFactor\": \"0.00473\",\n                \"USD_BuySpread_IDR\": 16745.5\n            },\n            \"BGN\": {\n                \"rate\": 0.0001\n            },\n            \"NOK\": {\n                \"rate\": 0.00061\n            },\n            \"RON\": {\n                \"rate\": 0.00026\n            },\n            \"SGD\": {\n                \"rate\": 0.000078\n            },\n            \"CZK\": {\n                \"rate\": 0.00126\n            },\n            \"SEK\": {\n                \"rate\": 0.00057\n            },\n            \"NZD\": {\n                \"rate\": 0.00011\n            },\n            \"BRL\": {\n                \"rate\": 0.00032\n            }\n        },\n        \"base\": \"IDR\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Historical IDR to USD",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/finance/data/historical_idr_usd",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"historical_idr_usd"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Historical IDR to USD",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/finance/data/historical_idr_usd",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"finance",
+								"data",
+								"historical_idr_usd"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "242"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"resourceType\": \"historical_idr_usd\",\n    \"payload\": {\n        \"rates\": {\n            \"2023-12-29\": {\n                \"USD\": 0.000065\n            },\n            \"2024-01-02\": {\n                \"USD\": 0.000064\n            },\n            \"2024-01-03\": {\n                \"USD\": 0.000064\n            },\n            \"2024-01-04\": {\n                \"USD\": 0.000064\n            },\n            \"2024-01-05\": {\n                \"USD\": 0.000064\n            }\n        },\n        \"range\": \"2024-01-01..2024-01-05\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Supported Currencies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseURL}}/api/finance/data/supported_currencies",
+					"host": [
+						"{{baseURL}}"
+					],
+					"path": [
+						"api",
+						"finance",
+						"data",
+						"supported_currencies"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Supported Currencies",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseURL}}/api/finance/data/supported_currencies",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"api",
+								"finance",
+								"data",
+								"supported_currencies"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "790"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"resourceType\": \"supported_currencies\",\n    \"payload\": {\n        \"currencies\": {\n            \"AUD\": \"Australian Dollar\",\n            \"BGN\": \"Bulgarian Lev\",\n            \"BRL\": \"Brazilian Real\",\n            \"CAD\": \"Canadian Dollar\",\n            \"CHF\": \"Swiss Franc\",\n            \"CNY\": \"Chinese Renminbi Yuan\",\n            \"CZK\": \"Czech Koruna\",\n            \"DKK\": \"Danish Krone\",\n            \"EUR\": \"Euro\",\n            \"GBP\": \"British Pound\",\n            \"HKD\": \"Hong Kong Dollar\",\n            \"HUF\": \"Hungarian Forint\",\n            \"IDR\": \"Indonesian Rupiah\",\n            \"ILS\": \"Israeli New Sheqel\",\n            \"INR\": \"Indian Rupee\",\n            \"ISK\": \"Icelandic Króna\",\n            \"JPY\": \"Japanese Yen\",\n            \"KRW\": \"South Korean Won\",\n            \"MXN\": \"Mexican Peso\",\n            \"MYR\": \"Malaysian Ringgit\",\n            \"NOK\": \"Norwegian Krone\",\n            \"NZD\": \"New Zealand Dollar\",\n            \"PHP\": \"Philippine Peso\",\n            \"PLN\": \"Polish Złoty\",\n            \"RON\": \"Romanian Leu\",\n            \"SEK\": \"Swedish Krona\",\n            \"SGD\": \"Singapore Dollar\",\n            \"THB\": \"Thai Baht\",\n            \"TRY\": \"Turkish Lira\",\n            \"USD\": \"United States Dollar\",\n            \"ZAR\": \"South African Rand\"\n        }\n    }\n}"
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseURL",
+			"value": "",
+			"type": "default"
+		}
+	]
+}

@@ -1,0 +1,14 @@
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/dto/FinanceDataDto.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/runner/FinanceDataLoader.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/config/FrankfurterWebClientFactoryBean.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/config/FrankfurterProperties.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/service/FinanceDataStore.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/controller/FinanceController.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/AllobankIdrAggregatorApplication.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/strategy/LatestIdrRatesFetcher.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/dto/LatestRatesResponse.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/strategy/IDRDataFetcher.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/dto/HistoricalRatesResponse.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/util/SpreadCalculator.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/strategy/HistoricalIdrUsdFetcher.java
+/Users/hafidhalmarogi/Documents/PROJECT TEST/allo-backend-test/src/main/java/com/allobank/aggregator/strategy/SupportedCurrenciesFetcher.java

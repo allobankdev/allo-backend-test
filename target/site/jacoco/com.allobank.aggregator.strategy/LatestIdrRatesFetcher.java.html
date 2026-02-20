@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LatestIdrRatesFetcher.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">idr-rate-aggregator</a> &gt; <a href="index.source.html" class="el_package">com.allobank.aggregator.strategy</a> &gt; <span class="el_source">LatestIdrRatesFetcher.java</span></div><h1>LatestIdrRatesFetcher.java</h1><pre class="source lang-java linenums">package com.allobank.aggregator.strategy;
+
+import com.allobank.aggregator.dto.FinanceDataDto;
+import com.allobank.aggregator.dto.LatestRatesResponse;
+import com.allobank.aggregator.util.SpreadCalculator;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+import org.springframework.web.reactive.function.client.WebClient;
+
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.util.HashMap;
+import java.util.Map;
+
+@Component
+@Qualifier(&quot;latest_idr_rates&quot;)
+public class LatestIdrRatesFetcher implements IDRDataFetcher {
+
+    private final WebClient webClient;
+    private final String githubUsername;
+
+<span class="fc" id="L23">    public LatestIdrRatesFetcher(WebClient webClient, @Value(&quot;${app.github.username}&quot;) String githubUsername) {</span>
+<span class="fc" id="L24">        this.webClient = webClient;</span>
+<span class="fc" id="L25">        this.githubUsername = githubUsername;</span>
+<span class="fc" id="L26">    }</span>
+
+    @Override
+    public String resourceKey() {
+<span class="fc" id="L30">        return &quot;latest_idr_rates&quot;;</span>
+    }
+
+    @Override
+    public FinanceDataDto fetch() {
+<span class="fc" id="L35">        LatestRatesResponse resp = webClient.get()</span>
+<span class="fc" id="L36">                .uri(uriBuilder -&gt; uriBuilder.path(&quot;/latest&quot;).queryParam(&quot;base&quot;, &quot;IDR&quot;).build())</span>
+<span class="fc" id="L37">                .retrieve()</span>
+<span class="pc bpc" id="L38" title="1 of 4 branches missed.">                .onStatus(s -&gt; s.is4xxClientError() || s.is5xxServerError(),</span>
+<span class="fc" id="L39">                        clientResponse -&gt; clientResponse.createException().flatMap(ex -&gt; reactor.core.publisher.Mono.error(new RuntimeException(&quot;Frankfurter returned error: &quot; + clientResponse.statusCode()))))</span>
+<span class="fc" id="L40">                .bodyToMono(LatestRatesResponse.class)</span>
+<span class="fc" id="L41">                .block();</span>
+
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (resp == null) {</span>
+<span class="nc" id="L44">            throw new RuntimeException(&quot;Empty latest response from Frankfurter&quot;);</span>
+        }
+
+<span class="fc" id="L47">        Map&lt;String, Object&gt; out = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L48">        out.put(&quot;base&quot;, resp.base());</span>
+<span class="fc" id="L49">        out.put(&quot;date&quot;, resp.date());</span>
+
+<span class="fc" id="L51">        Map&lt;String, BigDecimal&gt; rates = resp.rates();</span>
+<span class="fc" id="L52">        Map&lt;String, Object&gt; ratesWithExtra = new HashMap&lt;&gt;();</span>
+
+<span class="fc" id="L54">        double spreadFactor = SpreadCalculator.computeSpreadFactor(githubUsername);</span>
+
+<span class="fc bfc" id="L56" title="All 2 branches covered.">        for (var entry : rates.entrySet()) {</span>
+<span class="fc" id="L57">            String currency = entry.getKey();</span>
+<span class="fc" id="L58">            BigDecimal rate = entry.getValue();</span>
+<span class="fc" id="L59">            Map&lt;String, Object&gt; detail = new HashMap&lt;&gt;();</span>
+<span class="fc" id="L60">            detail.put(&quot;rate&quot;, rate);</span>
+
+<span class="fc bfc" id="L62" title="All 2 branches covered.">            if (&quot;USD&quot;.equalsIgnoreCase(currency)) {</span>
+<span class="fc" id="L63">                BigDecimal usdBuySpreadIdr = BigDecimal.ZERO;</span>
+<span class="pc bpc" id="L64" title="2 of 4 branches missed.">                if (rate != null &amp;&amp; rate.compareTo(BigDecimal.ZERO) &gt; 0) {</span>
+<span class="fc" id="L65">                    BigDecimal inv = BigDecimal.ONE.divide(rate, MathContext.DECIMAL128);</span>
+<span class="fc" id="L66">                    usdBuySpreadIdr = inv.multiply(BigDecimal.valueOf(1.0 + spreadFactor), MathContext.DECIMAL128);</span>
+                }
+<span class="fc" id="L68">                detail.put(&quot;USD_BuySpread_IDR&quot;, usdBuySpreadIdr);</span>
+<span class="fc" id="L69">                detail.put(&quot;spreadFactor&quot;, String.format(&quot;%.5f&quot;, spreadFactor));</span>
+            }
+
+<span class="fc" id="L72">            ratesWithExtra.put(currency, detail);</span>
+<span class="fc" id="L73">        }</span>
+
+<span class="fc" id="L75">        out.put(&quot;rates&quot;, ratesWithExtra);</span>
+<span class="fc" id="L76">        return new FinanceDataDto(resourceKey(), out);</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.10.202304240956</span></div></body></html>
