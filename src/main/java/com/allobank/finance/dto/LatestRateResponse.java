@@ -10,6 +10,6 @@ public class LatestRateResponse {
 
     private String baseCurrency;
     private String date;
-    private Map<String, BigDecimal> rate;
+    private Map<String, BigDecimal> rates;
     private double usdSpreadIdr;
 }

@@ -4,6 +4,7 @@ import com.allobank.finance.service.InMemoryFinanceStore;
 import com.allobank.finance.strategy.IDRDataFetcher;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
