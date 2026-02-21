@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: finance
+
+finance:
+  base-url: https://api.frankfurter.app
+  github-username: ahmadshiddiqi
