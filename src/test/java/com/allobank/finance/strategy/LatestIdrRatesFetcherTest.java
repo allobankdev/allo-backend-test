@@ -37,7 +37,7 @@ public class LatestIdrRatesFetcherTest {
         LatestRateResponse latestRateResponse = new LatestRateResponse();
         latestRateResponse.setBaseCurrency("IDR");
         latestRateResponse.setDate("2025-03-03");
-        latestRateResponse.setRate(Map.of("USD", BigDecimal.valueOf(0.000064)));
+        latestRateResponse.setRates(Map.of("USD", BigDecimal.valueOf(0.000064)));
 
         when(frankfurterClient.getLatestIdrRates()).thenReturn(latestRateResponse);
 

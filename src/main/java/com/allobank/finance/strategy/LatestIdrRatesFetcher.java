@@ -6,8 +6,6 @@ import com.allobank.finance.dto.LatestRateResponse;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 public class LatestIdrRatesFetcher implements IDRDataFetcher {
@@ -28,7 +26,7 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
 
         LatestRateResponse latestRateResponse = frankfurterClient.getLatestIdrRates();
 
-        BigDecimal usdRate = latestRateResponse.getRate().get("USD");
+        BigDecimal usdRate = latestRateResponse.getRates().get("USD");
 
         double spreadFactor = calculateSpread(financeProperties.getGithubUsername());
 
@@ -38,7 +36,7 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
 
         result.setBaseCurrency(latestRateResponse.getBaseCurrency());
         result.setDate(latestRateResponse.getDate());
-        result.setRate(latestRateResponse.getRate());
+        result.setRates(latestRateResponse.getRates());
         result.setUsdSpreadIdr(usdAfterSpread);
 
         return result;
