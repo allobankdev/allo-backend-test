@@ -6,9 +6,10 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 @Data
-public class ExchangeRateResponse {
+public class LatestRateResponse {
 
     private String baseCurrency;
     private String date;
     private Map<String, BigDecimal> rate;
+    private double usdSpreadIdr;
 }

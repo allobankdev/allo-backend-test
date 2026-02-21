@@ -2,7 +2,7 @@ package com.allobank.finance.strategy;
 
 import com.allobank.finance.client.FrankfurterClient;
 import com.allobank.finance.config.FinanceProperties;
-import com.allobank.finance.dto.ExchangeRateResponse;
+import com.allobank.finance.dto.LatestRateResponse;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -26,19 +26,20 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
 
     public Object fetch() {
 
-        ExchangeRateResponse exchangeRateResponse = frankfurterClient.getLatestIdrRates();
+        LatestRateResponse latestRateResponse = frankfurterClient.getLatestIdrRates();
 
-        BigDecimal usdRate = exchangeRateResponse.getRate().get("USD");
+        BigDecimal usdRate = latestRateResponse.getRate().get("USD");
 
         double spreadFactor = calculateSpread(financeProperties.getGithubUsername());
 
         double usdAfterSpread = (1 / usdRate.doubleValue()) * (1 + spreadFactor);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("baseCurrency", exchangeRateResponse.getBaseCurrency());
-        result.put("date", exchangeRateResponse.getDate());
-        result.put("rate", exchangeRateResponse.getRate());
-        result.put("USD_Spread_IDR", usdAfterSpread);
+        LatestRateResponse result = new LatestRateResponse();
+
+        result.setBaseCurrency(latestRateResponse.getBaseCurrency());
+        result.setDate(latestRateResponse.getDate());
+        result.setRate(latestRateResponse.getRate());
+        result.setUsdSpreadIdr(usdAfterSpread);
 
         return result;
     }

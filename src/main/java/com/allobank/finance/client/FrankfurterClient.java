@@ -1,6 +1,6 @@
 package com.allobank.finance.client;
 
-import com.allobank.finance.dto.ExchangeRateResponse;
+import com.allobank.finance.dto.LatestRateResponse;
 import com.allobank.finance.dto.HistoricalResponse;
 import com.allobank.finance.exception.ExternalApiException;
 import org.springframework.core.ParameterizedTypeReference;
@@ -17,12 +17,12 @@ public class FrankfurterClient {
         this.webClient = webClient;
     }
 
-    public ExchangeRateResponse getLatestIdrRates() {
+    public LatestRateResponse getLatestIdrRates() {
         try {
             return webClient.get()
                     .uri("/latest?base=IDR")
                     .retrieve()
-                    .bodyToMono(ExchangeRateResponse.class)
+                    .bodyToMono(LatestRateResponse.class)
                     .block();
         } catch (WebClientResponseException ex) {
             throw new RuntimeException(
