@@ -6,27 +6,34 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Component
-public class FinanceDataInitializer implements ApplicationRunner {
+public class FinanceDataLoader implements ApplicationRunner {
     private final List<IDRDataFetcher> fetchers;
     private final InMemoryFinanceStore inMemoryFinanceStore;
 
-    public FinanceDataInitializer(List<IDRDataFetcher> fetchers, InMemoryFinanceStore financeStore) {
+    public FinanceDataLoader(List<IDRDataFetcher> fetchers, InMemoryFinanceStore financeStore) {
         this.fetchers = fetchers;
         this.inMemoryFinanceStore = financeStore;
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
-        Map<String, Object> loaded = fetchers.stream()
-                .collect(Collectors.toMap(
-                        IDRDataFetcher::getResourceType,
-                        IDRDataFetcher::fetch
-                ));
-        inMemoryFinanceStore.init(loaded);
+    public void run(ApplicationArguments args) {
+
+        Map<String, Object> dataMap = new HashMap<>();
+
+        for (IDRDataFetcher fetcher : fetchers) {
+            dataMap.put(
+                    fetcher.getResourceType(),
+                    fetcher.fetch()
+            );
+        }
+
+        inMemoryFinanceStore.init(dataMap);
+
+        System.out.println("Finance data loaded");
     }
 }

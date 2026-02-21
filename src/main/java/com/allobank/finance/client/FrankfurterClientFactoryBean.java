@@ -14,7 +14,10 @@ public class FrankfurterClientFactoryBean implements FactoryBean<FrankfurterClie
 
     @Override
     public FrankfurterClient getObject() throws Exception {
-        WebClient webClient = WebClient.builder().baseUrl(financeProperties.getBaseUrl()).build();
+        WebClient webClient = WebClient
+                .builder()
+                .baseUrl(financeProperties.getBaseUrl())
+                .build();
 
         return new FrankfurterClient(webClient);
     }

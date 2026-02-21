@@ -4,4 +4,9 @@ spring:
 
 finance:
   base-url: https://api.frankfurter.app
-  github-username: ahmadshiddiqi
+  github-username: ahmad-shiddiqi
+  refresh-interval-ms: 300000
+
+logging:
+  pattern:
+    level: "%5p [${spring.application.name:},%X{traceId}]"
