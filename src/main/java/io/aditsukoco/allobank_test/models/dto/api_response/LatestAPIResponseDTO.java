@@ -1,4 +1,4 @@
-package io.aditsukoco.allobank_test.models.dto;
+package io.aditsukoco.allobank_test.models.dto.api_response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;

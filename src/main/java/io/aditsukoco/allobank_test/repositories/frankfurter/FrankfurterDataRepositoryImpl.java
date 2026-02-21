@@ -1,7 +1,7 @@
-package io.aditsukoco.allobank_test.repositories;
+package io.aditsukoco.allobank_test.repositories.frankfurter;
 
-import io.aditsukoco.allobank_test.clients.FrankfurterHTTPClientInterface;
-import io.aditsukoco.allobank_test.models.dto.LatestAPIResponseDTO;
+import io.aditsukoco.allobank_test.clients.frankfurter.FrankfurterHTTPClientInterface;
+import io.aditsukoco.allobank_test.models.dto.api_response.LatestAPIResponseDTO;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -12,16 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 @Setter
 @RequiredArgsConstructor
 public class FrankfurterDataRepositoryImpl implements FrankfurterDataRepositoryInterface {
-
     // Deps
     @Autowired
-    private final FrankfurterHTTPClientInterface frankfurterHTTPClientInterface;
+    protected final FrankfurterHTTPClientInterface frankfurterHTTPClientInterface;
 
     // Memories
     private LatestAPIResponseDTO latestResponseData;
 
     @PostConstruct
     private void init() {
+        System.out.println("POST CONSTRUCT FRNAKFURTER DATA REPOSITORY");
         LatestAPIResponseDTO data = frankfurterHTTPClientInterface.fetchLatest(1, "IDR", "USD");
         this.setLatestResponseData(data);
     }

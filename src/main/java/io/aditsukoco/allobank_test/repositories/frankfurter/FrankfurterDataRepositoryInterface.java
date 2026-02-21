@@ -1,6 +1,6 @@
-package io.aditsukoco.allobank_test.repositories;
+package io.aditsukoco.allobank_test.repositories.frankfurter;
 
-import io.aditsukoco.allobank_test.models.dto.LatestAPIResponseDTO;
+import io.aditsukoco.allobank_test.models.dto.api_response.LatestAPIResponseDTO;
 
 
 public interface FrankfurterDataRepositoryInterface {

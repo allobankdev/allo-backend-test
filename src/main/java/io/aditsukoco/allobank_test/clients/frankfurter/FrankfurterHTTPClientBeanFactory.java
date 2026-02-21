@@ -1,17 +1,19 @@
-package io.aditsukoco.allobank_test.clients;
+package io.aditsukoco.allobank_test.clients.frankfurter;
 
-import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-@NoArgsConstructor
 public class FrankfurterHTTPClientBeanFactory implements FactoryBean<FrankfurterHTTPClientInterface> {
+    @Value("${frankfurter.base_url}")
+    private String frankfurterBaseUrl;
 
     @Override
     public @Nullable FrankfurterHTTPClientInterface getObject() throws Exception {
-        return new FrankfurterHTTPClientImpl();
+        return new FrankfurterHTTPClientImpl(frankfurterBaseUrl);
     }
 
     @Override
