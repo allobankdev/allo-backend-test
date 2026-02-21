@@ -46,9 +46,6 @@ public class FinanceDataLoaderIntegrationTest {
     @Autowired
     private InMemoryFinanceStore inMemoryFinanceStore;
 
-    @Autowired
-    private FinanceDataLoader financeDataLoader;
-
     @Test
     void loadDataOnStartup() {
 

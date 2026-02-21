@@ -3,6 +3,8 @@ package com.allobank.finance.client;
 import com.allobank.finance.dto.LatestRateResponse;
 import com.allobank.finance.dto.HistoricalResponse;
 import com.allobank.finance.exception.ExternalApiException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -12,6 +14,8 @@ import java.util.Map;
 public class FrankfurterClient {
 
     private final WebClient webClient;
+
+    private static final Logger LOG = LoggerFactory.getLogger(FrankfurterClient.class);
 
     public FrankfurterClient(WebClient webClient) {
         this.webClient = webClient;
@@ -25,12 +29,23 @@ public class FrankfurterClient {
                     .bodyToMono(LatestRateResponse.class)
                     .block();
         } catch (WebClientResponseException ex) {
-            throw new RuntimeException(
-                    "Error External API: " + ex.getStatusCode()
+
+            LOG.error("Frankfurter API returned an error status {} with body {}",
+                    ex.getStatusCode(),
+                    ex.getResponseBodyAsString(),
+                    ex);
+
+            throw new ExternalApiException(
+                    "Error External API: ",
+                    ex.getStatusCode().value()
             );
         } catch (Exception ex) {
+
+            LOG.error("Unexpected error occurred while calling API: ", ex);
+
             throw new ExternalApiException(
-                    "Failed to call API: ", 500
+                    "Failed to call API: ",
+                    503
             );
         }
 
@@ -44,12 +59,23 @@ public class FrankfurterClient {
                     .bodyToMono(HistoricalResponse.class)
                     .block();
         } catch (WebClientResponseException ex) {
-            throw new RuntimeException(
-                    "Error External API: " + ex.getStatusCode()
+
+            LOG.error("Frankfurter API returned an error status {} with body {}",
+                    ex.getStatusCode(),
+                    ex.getResponseBodyAsString(),
+                    ex);
+
+            throw new ExternalApiException(
+                    "Error External API",
+                    ex.getStatusCode().value()
             );
         } catch (Exception ex) {
+
+            LOG.error("Unexpected error occurred while calling API: ", ex);
+
             throw new ExternalApiException(
-                    "Failed to call API: ", 500
+                    "Failed to call API: ",
+                    503
             );
         }
 
@@ -63,12 +89,23 @@ public class FrankfurterClient {
                     .bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {})
                     .block();
         } catch (WebClientResponseException ex) {
-            throw new RuntimeException(
-                    "Error External API: " + ex.getStatusCode()
+
+            LOG.error("Frankfurter API returned an error status {} with body {}",
+                    ex.getStatusCode(),
+                    ex.getResponseBodyAsString(),
+                    ex);
+
+            throw new ExternalApiException(
+                    "Error External API",
+                    ex.getStatusCode().value()
             );
         } catch (Exception ex) {
+
+            LOG.error("Unexpected error occurred while calling API: ", ex);
+
             throw new ExternalApiException(
-                    "Failed to call API: ", 500
+                    "Failed to call API: ",
+                    503
             );
         }
 

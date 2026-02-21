@@ -8,5 +8,8 @@ finance:
   refresh-interval-ms: 300000
 
 logging:
+  level:
+    root: INFO
+    com.myusername.finance: DEBUG
   pattern:
-    level: "%5p [${spring.application.name:},%X{traceId}]"
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId}] %-5level %logger{36} - %msg%n"

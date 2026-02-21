@@ -1,12 +1,12 @@
 package com.allobank.finance.config;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.validation.annotation.Validated;
 
+@Validated
 @ConfigurationProperties(prefix = "finance")
-@Getter
-@Setter
+@Data
 public class FinanceProperties {
     private String baseUrl;
     private String githubUsername;
