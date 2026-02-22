@@ -34,16 +34,14 @@ public class AllobankTestApplicationRunnerIT {
         when(frankfurterHTTPClient.fetchLatest(1, "IDR", "USD")).thenReturn(latestAPIResponse);
 
         HistoricalDataAPIResponseDTO historicalDataAPIResponse = HistoricalDataAPIResponseDTO.builder().build();
-        when(frankfurterHTTPClient.fetchHistorical("IDR", "USD", "2024-01-01", "2024-01-05")).thenReturn(historicalDataAPIResponse);
+        when(frankfurterHTTPClient.fetchHistorical("IDR", "USD", "2024-01-01", "2024-01-05"))
+                .thenReturn(historicalDataAPIResponse);
 
         Map<String, String> currenciesAPIResponse = new HashMap<>();
         when(frankfurterHTTPClient.fetchCurrencies()).thenReturn(currenciesAPIResponse);
 
         // run main function
         allobankTestApplicationRunner.run(new DefaultApplicationArguments());
-
-        // thread sleep for 5 seconds to accommodate the asynchronous running
-        Thread.sleep(2500);
 
         verify(frankfurterDataRepository, atLeastOnce()).setLatestResponseData(latestAPIResponse);
         verify(frankfurterDataRepository, atLeastOnce()).setHistoricalResponseData(historicalDataAPIResponse);
