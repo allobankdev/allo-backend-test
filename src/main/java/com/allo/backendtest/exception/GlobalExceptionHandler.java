@@ -11,4 +11,14 @@ public class GlobalExceptionHandler {
         return ResponseEntity.internalServerError()
                 .body("Internal error: " + ex.getMessage());
     }
+
+    @ExceptionHandler(UnknownResourceException.class)
+    public ResponseEntity<String> handleUnknown(UnknownResourceException ex) {
+        return ResponseEntity.status(404).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(IllegalStateException.class)
+    public ResponseEntity<String> handleIllegalState(IllegalStateException ex) {
+        return ResponseEntity.status(500).body(ex.getMessage());
+    }
 }
