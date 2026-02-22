@@ -2,6 +2,7 @@ package com.allobank.finnance.allobankfinance.service.storage;
 
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.Map;
 
 @Component
@@ -9,17 +10,11 @@ public class FinanceStorage {
 
     private Map<String, Object> data;
 
-    public synchronized void setData(Map<String, Object> loadedData) {
+    public synchronized void initialize(Map<String, Object> newData) {
         if (this.data != null) {
-            throw new IllegalStateException("Data already initialized");
+            throw new IllegalStateException("Storage already initialized");
         }
-        this.data = Map.copyOf(loadedData);
+        this.data = Collections.unmodifiableMap(newData);
     }
-
-    public Map<String, Object> getData() {
-        if (data == null) {
-            throw new IllegalStateException("Data not initialized yet");
-        }
-        return data;
-    }
+    
 }
