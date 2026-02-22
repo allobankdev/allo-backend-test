@@ -27,4 +27,7 @@ public class FinanceDataStore {
         }
         return snapshot.getOrDefault(key, List.of());
     }
+    public boolean contains(String key) {
+        return snapshot != null && snapshot.containsKey(key);
+    }
 }
