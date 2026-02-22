@@ -1,5 +1,6 @@
 package com.allobank.finnance.allobankfinance.service;
 
+import com.allobank.finnance.allobankfinance.config.OtherProperties;
 import com.allobank.finnance.allobankfinance.dto.FinanceRequestDto;
 import com.allobank.finnance.allobankfinance.dto.frankfurter.LatestRatesResponse;
 import com.allobank.finnance.allobankfinance.integration.FrankfurterIntegrationService;
@@ -12,7 +13,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.test.util.ReflectionTestUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -24,22 +24,22 @@ public class LatestIdrRatesServiceImplTest {
     @Mock
     private FrankfurterIntegrationService frankfurterService;
 
+    @Mock
+    private OtherProperties otherProperties;
+
     private LatestIdrRatesServiceImpl service;
 
     @BeforeEach
     void setUp() {
-        service = new LatestIdrRatesServiceImpl(frankfurterService);
+        otherProperties = new OtherProperties();
+        otherProperties.setGithubUsername("herdiansyah5197");
+        service = new LatestIdrRatesServiceImpl(frankfurterService,otherProperties);
 
-        // Inject @Value manually
-        ReflectionTestUtils.setField(
-                service,
-                "githubUsername",
-                "herdiansyah5197"
-        );
     }
 
     @Test
     void shouldCalculateUsdBuySpreadIdrCorrectly() {
+
         // given
         BigDecimal usdRate = new BigDecimal("1.1617");
 
@@ -53,7 +53,7 @@ public class LatestIdrRatesServiceImplTest {
                 .thenReturn(mockResponse);
 
         // when
-        Object result = service.fetchData(new FinanceRequestDto());
+        BigDecimal result = (BigDecimal) service.fetchData(new FinanceRequestDto());
 
         // then
         BigDecimal spreadFactor =
@@ -64,10 +64,10 @@ public class LatestIdrRatesServiceImplTest {
                         .divide(usdRate, 10, RoundingMode.HALF_UP)
                         .multiply(BigDecimal.ONE.add(spreadFactor));
 
-        AssertionsForClassTypes.assertThat((BigDecimal) result)
+        AssertionsForClassTypes.assertThat(result)
                 .isEqualByComparingTo(expected);
 
-        Mockito.verify(frankfurterService, Mockito.times(1))
+        Mockito.verify(frankfurterService)
                 .getLatestUsdRates("IDR");
     }
 }

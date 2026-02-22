@@ -1,5 +1,6 @@
 package com.allobank.finnance.allobankfinance.service.impl;
 
+import com.allobank.finnance.allobankfinance.config.OtherProperties;
 import com.allobank.finnance.allobankfinance.constant.Currency;
 import com.allobank.finnance.allobankfinance.constant.ResourceTypeConstant;
 import com.allobank.finnance.allobankfinance.dto.FinanceRequestDto;
@@ -17,13 +18,12 @@ import java.math.RoundingMode;
 public class LatestIdrRatesServiceImpl implements FinanceDataStrategy {
 
     private final FrankfurterIntegrationService frankfurterService;
+    private final OtherProperties otherProperties;
 
-    public LatestIdrRatesServiceImpl(FrankfurterIntegrationService frankfurterService) {
+    public LatestIdrRatesServiceImpl(FrankfurterIntegrationService frankfurterService, OtherProperties otherProperties) {
         this.frankfurterService = frankfurterService;
+        this.otherProperties = otherProperties;
     }
-
-    @Value("${github.username}")
-    private String githubUsername;
 
 
     @Override
@@ -35,7 +35,7 @@ public class LatestIdrRatesServiceImpl implements FinanceDataStrategy {
     public Object fetchData(FinanceRequestDto financeRequestDto) {
         var rates = frankfurterService.getLatestUsdRates(Currency.IDR.name());
         BigDecimal rateUsd = rates.getRates().get("USD");
-        BigDecimal spreadFactor = SpreadFactorCalculatorUtil.calculateSpreadFactor(githubUsername);
+        BigDecimal spreadFactor = SpreadFactorCalculatorUtil.calculateSpreadFactor(otherProperties.getGithubUsername());
         return BigDecimal.ONE
                 .divide(rateUsd, 10, RoundingMode.HALF_UP)
                 .multiply(

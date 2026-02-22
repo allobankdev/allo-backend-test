@@ -5,7 +5,6 @@ import com.allobank.finnance.allobankfinance.constant.ResourceTypeConstant;
 import com.allobank.finnance.allobankfinance.dto.FinanceRequestDto;
 import com.allobank.finnance.allobankfinance.integration.FrankfurterIntegrationService;
 import com.allobank.finnance.allobankfinance.service.strategy.FinanceDataStrategy;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 @Service

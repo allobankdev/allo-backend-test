@@ -17,5 +17,5 @@ external:
     read-timeout: 5000
 
 # githubusername
-github:
-  username: herdiansyah5197
+app:
+  github-username: herdiansyah5197
