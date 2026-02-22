@@ -10,6 +10,6 @@ finance:
 logging:
   level:
     root: INFO
-    com.myusername.finance: DEBUG
+    com.allobank.finance: DEBUG
   pattern:
     console: "%d{yyyy-MM-dd HH:mm:ss} [%X{traceId}] %-5level %logger{36} - %msg%n"

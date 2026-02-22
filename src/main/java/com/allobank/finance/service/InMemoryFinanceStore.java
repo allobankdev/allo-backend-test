@@ -1,9 +1,9 @@
 package com.allobank.finance.service;
 
+import com.allobank.finance.exception.InvalidResourceException;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
-import java.util.Objects;
 
 @Service
 public class InMemoryFinanceStore {
@@ -14,6 +14,11 @@ public class InMemoryFinanceStore {
     }
 
     public Object getData(String key) {
+
+        if(!data.containsKey(key)){
+            throw new InvalidResourceException(key);
+        }
+
         return data.get(key);
     }
 }

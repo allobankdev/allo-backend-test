@@ -1,41 +1,40 @@
 package com.allobank.finance.exception;
 
+import com.allobank.finance.dto.ErrorResponse;
 import org.slf4j.MDC;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
-import java.util.Map;
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ExternalApiException.class)
-    public ResponseEntity<?> handleExternalException(ExternalApiException e) {
+    public ResponseEntity<ErrorResponse> handleExternalException(ExternalApiException e) {
 
-        String traceId = MDC.get("traceId");
-
-        return ResponseEntity
-                .status(e.getStatusCode())
-                .body(Map.of(
-                "timestamp", Instant.now(),
-                "traceId", traceId,
-                "error", e.getMessage()
-        ));
+        return buildResponse(e.getStatusCode(), e.getMessage());
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<?> handleGeneral() {
+    public ResponseEntity<ErrorResponse> handleGeneral(Exception e) {
 
-        String traceId = MDC.get("traceId");
+        return buildResponse(500, e.getMessage());
+    }
 
-        return ResponseEntity
-                .internalServerError()
-                .body(Map.of(
-                        "timestamp", Instant.now(),
-                        "traceId", traceId,
-                        "error", "Unexpected error"
-                ));
+    @ExceptionHandler(InvalidResourceException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidResourceException(InvalidResourceException e) {
+        return buildResponse(400, e.getMessage());
+    }
+
+    private ResponseEntity<ErrorResponse> buildResponse(int status, String message) {
+        ErrorResponse error = new ErrorResponse(
+                Instant.now(),
+                MDC.get("traceId"),
+                status,
+                message
+        );
+        return ResponseEntity.status(status).body(error);
     }
 }
