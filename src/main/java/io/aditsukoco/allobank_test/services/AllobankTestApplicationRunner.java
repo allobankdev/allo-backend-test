@@ -10,6 +10,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @Slf4j
@@ -32,6 +33,11 @@ public class AllobankTestApplicationRunner implements ApplicationRunner {
         HistoricalDataAPIResponseDTO apiResponseHistoricalData = frankfurterHTTPClient.fetchHistorical("IDR", "USD", "2024-01-01", "2024-01-05");
         frankfurterDataRepository.setHistoricalResponseData(apiResponseHistoricalData);
         log.info("Finished fetching and storing historical data");
+
+        // populate currencies data
+        Map<String, String> apiResponseCurrenciesData = frankfurterHTTPClient.fetchCurrencies();
+        frankfurterDataRepository.setCurrencies(apiResponseCurrenciesData);
+        log.info("Finished fetching and storing currencies data");
 
     }
 }

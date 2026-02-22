@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Component
 public class FinanceDataFetchStrategyFactory {
-    private Map<ResourceTypeEnum, FinanceDataFetchStrategyInterface> resourceTypeToStrategy;
+    private final Map<ResourceTypeEnum, FinanceDataFetchStrategyInterface> resourceTypeToStrategy;
 
     public FinanceDataFetchStrategyFactory(
             FrankfurterDataRepositoryInterface frankfurterDataRepository,
@@ -22,6 +22,7 @@ public class FinanceDataFetchStrategyFactory {
 
         resourceTypeToDataFetchStrategyMap.put(ResourceTypeEnum.LatestIDRRates, new FetchLatestDataStrategy(frankfurterDataRepository, spreadFactorDataRepository));
         resourceTypeToDataFetchStrategyMap.put(ResourceTypeEnum.HistoricalIDRUSD, new FetchHistoricalDataStrategy(frankfurterDataRepository));
+        resourceTypeToDataFetchStrategyMap.put(ResourceTypeEnum.SupportedCurrencies, new FetchCurrenciesDataStrategy(frankfurterDataRepository));
 
         this.resourceTypeToStrategy = resourceTypeToDataFetchStrategyMap;
     }

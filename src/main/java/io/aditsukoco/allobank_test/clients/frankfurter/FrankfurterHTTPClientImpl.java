@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientException;
 
+import java.util.Map;
+
 @Slf4j
 @RequiredArgsConstructor
 public class FrankfurterHTTPClientImpl implements FrankfurterHTTPClientInterface {
@@ -32,6 +34,15 @@ public class FrankfurterHTTPClientImpl implements FrankfurterHTTPClientInterface
                 .uri(uri)
                 .retrieve()
                 .body(HistoricalDataAPIResponseDTO.class);
+    }
+
+    @Override
+    public Map<String, String> fetchCurrencies() throws RestClientException {
+        String uri = "/currencies";
+        return restClient.get()
+                .uri(uri)
+                .retrieve()
+                .body(Map.class);
     }
 
 }

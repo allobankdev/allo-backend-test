@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Map;
+
 @Getter
 @Setter
 @RequiredArgsConstructor
@@ -19,4 +21,5 @@ public class FrankfurterDataRepositoryImpl implements FrankfurterDataRepositoryI
     // Memories
     private LatestAPIResponseDTO latestResponseData;
     private HistoricalDataAPIResponseDTO historicalResponseData;
+    private Map<String, String> currencies;
 }
