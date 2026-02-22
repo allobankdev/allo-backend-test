@@ -1,11 +1,13 @@
 package io.aditsukoco.allobank_test.models.dto.api_response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.Map;
 
 @Getter
+@Builder
 public class LatestAPIResponseDTO {
 
     @JsonProperty("amount")
