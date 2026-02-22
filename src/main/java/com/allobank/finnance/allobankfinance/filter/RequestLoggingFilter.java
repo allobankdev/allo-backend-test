@@ -17,9 +17,15 @@ import java.nio.charset.StandardCharsets;
 public class RequestLoggingFilter extends OncePerRequestFilter {
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) {
+    protected void doFilterInternal(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    FilterChain filterChain)
+            throws ServletException, IOException {
 
         long start = System.currentTimeMillis();
+
+        ContentCachingResponseWrapper wrappedResponse =
+                new ContentCachingResponseWrapper(response);
 
         try {
             log.info("======================================");
@@ -28,28 +34,26 @@ public class RequestLoggingFilter extends OncePerRequestFilter {
                     request.getRequestURI()
             );
 
-            filterChain.doFilter(request, response);
+            filterChain.doFilter(request, wrappedResponse);
 
-
-        } catch (ServletException | IOException e) {
-            throw new RuntimeException(e);
         } finally {
-            String responseBody = logResponse(wrapResponse(response));
-            log.info("responseBody:{}", responseBody);
-            log.info("=======================================");
+
+            String responseBody = new String(
+                    wrappedResponse.getContentAsByteArray(),
+                    StandardCharsets.UTF_8
+            );
+
+            log.info("responseBody: {}", responseBody);
+
             long duration = System.currentTimeMillis() - start;
             log.info("Response sent: status={}, duration={} ms",
-                    response.getStatus(),
+                    wrappedResponse.getStatus(),
                     duration
             );
+
+            log.info("======================================");
+
+            wrappedResponse.copyBodyToResponse();
         }
-    }
-
-    private String logResponse(ContentCachingResponseWrapper response) {
-        return new String(response.getContentAsByteArray(), StandardCharsets.UTF_8);
-    }
-
-    private static ContentCachingResponseWrapper wrapResponse(HttpServletResponse response) {
-        return response instanceof ContentCachingResponseWrapper ? (ContentCachingResponseWrapper) response : new ContentCachingResponseWrapper(response);
     }
 }
