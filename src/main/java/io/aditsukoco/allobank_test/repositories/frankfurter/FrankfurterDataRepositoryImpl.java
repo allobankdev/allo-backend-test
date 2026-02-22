@@ -18,11 +18,4 @@ public class FrankfurterDataRepositoryImpl implements FrankfurterDataRepositoryI
 
     // Memories
     private LatestAPIResponseDTO latestResponseData;
-
-    @PostConstruct
-    private void init() {
-        System.out.println("POST CONSTRUCT FRNAKFURTER DATA REPOSITORY");
-        LatestAPIResponseDTO data = frankfurterHTTPClientInterface.fetchLatest(1, "IDR", "USD");
-        this.setLatestResponseData(data);
-    }
 }
