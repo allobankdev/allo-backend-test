@@ -1,6 +1,7 @@
 package io.aditsukoco.allobank_test.repositories.frankfurter;
 
 import io.aditsukoco.allobank_test.clients.frankfurter.FrankfurterHTTPClientInterface;
+import io.aditsukoco.allobank_test.models.dto.api_response.HistoricalDataAPIResponseDTO;
 import io.aditsukoco.allobank_test.models.dto.api_response.LatestAPIResponseDTO;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -17,4 +18,5 @@ public class FrankfurterDataRepositoryImpl implements FrankfurterDataRepositoryI
 
     // Memories
     private LatestAPIResponseDTO latestResponseData;
+    private HistoricalDataAPIResponseDTO historicalResponseData;
 }

@@ -18,11 +18,12 @@ public class FinanceDataFetchStrategyFactory {
             FrankfurterDataRepositoryInterface frankfurterDataRepository,
             SpreadFactorDataRepositoryInterface spreadFactorDataRepository) {
 
-        Map<ResourceTypeEnum, FinanceDataFetchStrategyInterface> newMap = new HashMap<>();
+        Map<ResourceTypeEnum, FinanceDataFetchStrategyInterface> resourceTypeToDataFetchStrategyMap = new HashMap<>();
 
-        newMap.put(ResourceTypeEnum.LatestIDRRates, new FetchLatestDataStrategy(frankfurterDataRepository, spreadFactorDataRepository));
+        resourceTypeToDataFetchStrategyMap.put(ResourceTypeEnum.LatestIDRRates, new FetchLatestDataStrategy(frankfurterDataRepository, spreadFactorDataRepository));
+        resourceTypeToDataFetchStrategyMap.put(ResourceTypeEnum.HistoricalIDRUSD, new FetchHistoricalDataStrategy(frankfurterDataRepository));
 
-        this.resourceTypeToStrategy = newMap;
+        this.resourceTypeToStrategy = resourceTypeToDataFetchStrategyMap;
     }
 
     public FinanceDataFetchStrategyInterface getStrategy(ResourceTypeEnum resourceType) {

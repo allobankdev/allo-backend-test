@@ -1,6 +1,7 @@
 package io.aditsukoco.allobank_test.services;
 
 import io.aditsukoco.allobank_test.clients.frankfurter.FrankfurterHTTPClientInterface;
+import io.aditsukoco.allobank_test.models.dto.api_response.HistoricalDataAPIResponseDTO;
 import io.aditsukoco.allobank_test.models.dto.api_response.LatestAPIResponseDTO;
 import io.aditsukoco.allobank_test.repositories.frankfurter.FrankfurterDataRepositoryInterface;
 import lombok.RequiredArgsConstructor;
@@ -23,12 +24,14 @@ public class AllobankTestApplicationRunner implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
 
         // populate latest response data
-        CompletableFuture<Void> latestDataFuture = CompletableFuture.runAsync(() -> {
-            LatestAPIResponseDTO apiResponseLatestData = frankfurterHTTPClient.fetchLatest(1, "IDR", "USD");
-            frankfurterDataRepository.setLatestResponseData(apiResponseLatestData);
-            log.info("Finished fetching and storing latest data");
-        });
+        LatestAPIResponseDTO apiResponseLatestData = frankfurterHTTPClient.fetchLatest(1, "IDR", "USD");
+        frankfurterDataRepository.setLatestResponseData(apiResponseLatestData);
+        log.info("Finished fetching and storing latest data");
 
-        CompletableFuture.allOf(latestDataFuture);
+        // populate historical response data
+        HistoricalDataAPIResponseDTO apiResponseHistoricalData = frankfurterHTTPClient.fetchHistorical("IDR", "USD", "2024-01-01", "2024-01-05");
+        frankfurterDataRepository.setHistoricalResponseData(apiResponseHistoricalData);
+        log.info("Finished fetching and storing historical data");
+
     }
 }
