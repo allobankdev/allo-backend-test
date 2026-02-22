@@ -14,8 +14,7 @@ import java.util.stream.Collectors;
 @Component("historical_idr_usd")
 public class HistoricalIdrUsdFetcher implements IDRDataFetcher {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(HistoricalIdrUsdFetcher.class);
+    private static final Logger log = LoggerFactory.getLogger(HistoricalIdrUsdFetcher.class);
 
     private final WebClient webClient;
 
@@ -31,24 +30,14 @@ public class HistoricalIdrUsdFetcher implements IDRDataFetcher {
     @Override
     public List<Object> fetchAndTransform() {
 
-        log.info("Fetching historical IDR-USD data...");
+        log.info("Fetching historical IDR to USD rates...");
 
         HistoricalResponse response =
                 webClient.get()
                         .uri("/2024-01-01..2024-01-05?from=IDR&to=USD")
                         .retrieve()
-                        .onStatus(status -> status.is4xxClientError(),
-                                res -> res.bodyToMono(String.class)
-                                        .map(body -> new RuntimeException("Client error: " + body)))
-                        .onStatus(status -> status.is5xxServerError(),
-                                res -> res.bodyToMono(String.class)
-                                        .map(body -> new RuntimeException("Server error: " + body)))
                         .bodyToMono(HistoricalResponse.class)
                         .block(Duration.ofSeconds(5));
-
-        if (response == null || response.rates() == null) {
-            throw new IllegalStateException("Failed to fetch historical data");
-        }
 
         return response.rates()
                 .entrySet()

@@ -7,6 +7,9 @@ public class SpreadCalculator {
 
     public static BigDecimal calculateSpreadFactor(String username) {
 
+        if (username == null || username.isBlank()) {
+            throw new IllegalArgumentException("GitHub username must not be null");
+        }
         int sum = username.toLowerCase()
                 .chars()
                 .sum();

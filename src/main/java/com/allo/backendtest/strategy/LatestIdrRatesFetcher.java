@@ -21,11 +21,14 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
 
     private final WebClient webClient;
 
-    @Value("${frankfurter.github-username}")
-    private String githubUsername;
+    private final String githubUsername;
 
-    public LatestIdrRatesFetcher(WebClient webClient) {
+    public LatestIdrRatesFetcher(
+            WebClient webClient,
+            @Value("${frankfurter.github-username}") String githubUsername) {
+
         this.webClient = webClient;
+        this.githubUsername = githubUsername;
     }
 
     @Override
