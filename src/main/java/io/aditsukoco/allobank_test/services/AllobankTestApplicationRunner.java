@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClientException;
 
 import java.util.Map;
-import java.util.concurrent.CompletableFuture;
 
 @Slf4j
 @Component
@@ -24,9 +23,9 @@ public class AllobankTestApplicationRunner implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        CompletableFuture.runAsync(this::populateLatestResponseData);
-        CompletableFuture.runAsync(this::populateHistoricalResponseData);
-        CompletableFuture.runAsync(this::populateCurrenciesResponseData);
+        populateLatestResponseData();
+        populateHistoricalResponseData();
+        populateCurrenciesResponseData();
     }
 
     private void populateLatestResponseData() {
@@ -68,7 +67,6 @@ public class AllobankTestApplicationRunner implements ApplicationRunner {
             }
 
             if (!isFailed) break;
-
 
             try {
                 Thread.sleep(5000);
