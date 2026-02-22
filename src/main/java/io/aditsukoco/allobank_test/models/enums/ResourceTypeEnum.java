@@ -8,18 +8,13 @@ public enum ResourceTypeEnum {
     HistoricalIDRUSD("historical_idr_usd"),
     SupportedCurrencies("supported_currencies");
 
-    public final String label;
+    private String value;
 
-    ResourceTypeEnum(String label) {
-        this.label = label;
+    ResourceTypeEnum(String value) {
+        this.value = value;
     }
 
-    public static ResourceTypeEnum stringToEnum(String label) throws BadRequestRestException {
-        for (ResourceTypeEnum e : values()) {
-            if (java.util.Objects.equals(e.label, label)) {
-                return e;
-            }
-        }
-        throw new BadRequestRestException("unknown value \"" + label + "\" for ResourceTypeEnum");
+    public String getValue() {
+        return this.value;
     }
 }

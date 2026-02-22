@@ -18,10 +18,9 @@ public class FinanceControllerImpl implements FinanceControllerInterface {
 
     @Override
     @GetMapping("/api/finance/data/{resourceType}")
-    public ResponseEntity<?> getFinanceData(@PathVariable(name = "resourceType") String resourceType) {
+    public ResponseEntity<?> getFinanceData(@PathVariable(name = "resourceType") ResourceTypeEnum resourceType) {
         try {
-            ResourceTypeEnum resourceTypeEnum = ResourceTypeEnum.stringToEnum(resourceType);
-            Object res = financeService.getFinanceData(resourceTypeEnum);
+            Object res = financeService.getFinanceData(resourceType);
             return ResponseEntity.ok().body(res);
         } catch (BaseRestException e) {
             return e.toResponseEntity();

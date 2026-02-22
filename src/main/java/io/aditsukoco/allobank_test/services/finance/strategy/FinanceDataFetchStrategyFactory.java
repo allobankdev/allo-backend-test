@@ -29,7 +29,7 @@ public class FinanceDataFetchStrategyFactory {
         try {
             return this.resourceTypeToStrategy.get(resourceType);
         } catch (ClassCastException e) {
-            throw new BadRequestRestException("unknown resource type \""+resourceType.label+"\"");
+            throw new BadRequestRestException("unknown resource type \""+resourceType.name()+"\"");
         }
     }
 
