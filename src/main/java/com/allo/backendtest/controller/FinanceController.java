@@ -1,6 +1,7 @@
 package com.allo.backendtest.controller;
 
 
+import com.allo.backendtest.exception.UnknownResourceException;
 import com.allo.backendtest.store.FinanceDataStore;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,12 +22,10 @@ public class FinanceController {
     public ResponseEntity<List<Object>> getData(
             @PathVariable String resourceType) {
 
-        List<Object> data = store.get(resourceType);
-
-        if (data.isEmpty()) {
-            return ResponseEntity.badRequest().build();
+        if (!store.contains(resourceType)) {
+            throw new UnknownResourceException(resourceType);
         }
 
-        return ResponseEntity.ok(data);
+        return ResponseEntity.ok(store.get(resourceType));
     }
 }
