@@ -1,4 +1,4 @@
-package com.allobank.finnance.allobankfinance.service;
+package com.allobank.finnance.allobankfinance.service.impl;
 
 import com.allobank.finnance.allobankfinance.constant.ResourceTypeConstant;
 import com.allobank.finnance.allobankfinance.dto.FinanceRequestDto;
