@@ -8,6 +8,6 @@ import java.util.Map;
 @Data
 public class HistoricalResponse {
 
-    private String baseCurrency;
-    private Map<String, Map<String, BigDecimal>> rate;
+    private String base;
+    private Map<String, Map<String, BigDecimal>> rates;
 }

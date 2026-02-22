@@ -35,7 +35,7 @@ public class LatestIdrRatesFetcherTest {
         when(financeProperties.getGithubUsername()).thenReturn(githubUsername);
 
         LatestRateResponse latestRateResponse = new LatestRateResponse();
-        latestRateResponse.setBaseCurrency("IDR");
+        latestRateResponse.setBase("IDR");
         latestRateResponse.setDate("2025-03-03");
         latestRateResponse.setRates(Map.of("USD", BigDecimal.valueOf(0.000064)));
 

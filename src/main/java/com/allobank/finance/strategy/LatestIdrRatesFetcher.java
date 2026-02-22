@@ -34,7 +34,7 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
 
         LatestRateResponse result = new LatestRateResponse();
 
-        result.setBaseCurrency(latestRateResponse.getBaseCurrency());
+        result.setBase(latestRateResponse.getBase());
         result.setDate(latestRateResponse.getDate());
         result.setRates(latestRateResponse.getRates());
         result.setUsdSpreadIdr(usdAfterSpread);

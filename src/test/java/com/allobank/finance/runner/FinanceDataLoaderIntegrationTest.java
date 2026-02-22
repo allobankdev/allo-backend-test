@@ -26,12 +26,12 @@ public class FinanceDataLoaderIntegrationTest {
             FrankfurterClient mock = Mockito.mock(FrankfurterClient.class);
 
             LatestRateResponse exchange =  new LatestRateResponse();
-            exchange.setBaseCurrency("IDR");
+            exchange.setBase("IDR");
             exchange.setDate("2024-01-01");
             exchange.setRates(Map.of("USD", BigDecimal.valueOf(0.000059)));
 
             HistoricalResponse historical =  new HistoricalResponse();
-            historical.setBaseCurrency("IDR");
+            historical.setBase("IDR");
 
             Map<String, String> currencies = Map.of("USD", "United States Dollar");
 

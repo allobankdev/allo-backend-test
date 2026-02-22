@@ -26,7 +26,7 @@ public class HistoricalFetcherTest {
 
         // GIVEN
         HistoricalResponse historicalResponse = new HistoricalResponse();
-        historicalResponse.setBaseCurrency("IDR");
+        historicalResponse.setBase("IDR");
 
         when(frankfurterClient.getHistoricalIdrUsd()).thenReturn(historicalResponse);
 
