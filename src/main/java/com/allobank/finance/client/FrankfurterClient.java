@@ -30,13 +30,12 @@ public class FrankfurterClient {
                     .block();
         } catch (WebClientResponseException ex) {
 
-            LOG.error("Frankfurter API returned an error status {} with body {}",
-                    ex.getStatusCode(),
-                    ex.getResponseBodyAsString(),
-                    ex);
+//            LOG.error("Frankfurter API returned an error status {} with body {}",
+//                    ex.getStatusCode(),
+//                    ex.getResponseBodyAsString());
 
             throw new ExternalApiException(
-                    "Error External API: ",
+                    ex.getMessage(),
                     ex.getStatusCode().value()
             );
         } catch (Exception ex) {
@@ -60,13 +59,12 @@ public class FrankfurterClient {
                     .block();
         } catch (WebClientResponseException ex) {
 
-            LOG.error("Frankfurter API returned an error status {} with body {}",
-                    ex.getStatusCode(),
-                    ex.getResponseBodyAsString(),
-                    ex);
+//            LOG.error("Frankfurter API returned an error status {} with body {}",
+//                    ex.getStatusCode(),
+//                    ex.getResponseBodyAsString());
 
             throw new ExternalApiException(
-                    "Error External API",
+                    ex.getMessage(),
                     ex.getStatusCode().value()
             );
         } catch (Exception ex) {
@@ -90,13 +88,12 @@ public class FrankfurterClient {
                     .block();
         } catch (WebClientResponseException ex) {
 
-            LOG.error("Frankfurter API returned an error status {} with body {}",
-                    ex.getStatusCode(),
-                    ex.getResponseBodyAsString(),
-                    ex);
+//            LOG.error("Frankfurter API returned an error status {} with body {}",
+//                    ex.getStatusCode(),
+//                    ex.getResponseBodyAsString());
 
             throw new ExternalApiException(
-                    "Error External API",
+                    ex.getMessage(),
                     ex.getStatusCode().value()
             );
         } catch (Exception ex) {

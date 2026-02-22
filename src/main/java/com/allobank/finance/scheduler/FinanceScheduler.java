@@ -1,5 +1,6 @@
 package com.allobank.finance.scheduler;
 
+import com.allobank.finance.exception.ExternalApiException;
 import com.allobank.finance.service.InMemoryFinanceStore;
 import com.allobank.finance.strategy.IDRDataFetcher;
 import org.slf4j.Logger;
@@ -24,26 +25,37 @@ public class FinanceScheduler {
         this.inMemoryFinanceStore = inMemoryFinanceStore;
     }
 
-    @Scheduled(fixedRateString = "${finance.refresh-interval-ms:300000}")
+    @Scheduled(fixedRateString = "${finance.refresh-interval-ms:300000}",
+            initialDelayString = "${finance.refresh-initial-delay-ms:300000}")
     public void refresh() {
 
         LOG.info("Refreshing finance data");
 
-        try {
-            Map<String, Object> dataMap = new HashMap<>();
+        Map<String, Object> dataMap = new HashMap<>();
 
-            for(IDRDataFetcher fetcher : fetchers) {
-                dataMap.put(
-                        fetcher.getResourceType(),
-                        fetcher.fetch()
-                );
+        for (IDRDataFetcher fetcher : fetchers) {
+
+            try {
+                Object result = fetcher.fetch();
+                dataMap.put(fetcher.getResourceType(), result);
+
+                LOG.info("Refreshed resourceType{}", fetcher.getResourceType());
+
+            } catch (ExternalApiException ex) {
+
+                LOG.warn("Failed to refresh data for resourceType{} | status={}", fetcher.getResourceType(), ex.getStatusCode());
+
+            } catch (Exception ex) {
+
+                LOG.error("Unexpected error while refreshing data for resourceType{}", fetcher.getResourceType(), ex);
             }
+        }
 
+        if (!dataMap.isEmpty()) {
             inMemoryFinanceStore.init(dataMap);
-
-            LOG.info("Finance data refreshed");
-        } catch (Exception ex) {
-            LOG.error("Error occurred while refreshing finance data!", ex);
+            LOG.info("Successfully refreshed data for {} resources", dataMap.size());
+        } else {
+            LOG.warn("Finance data refreshed but no resources were updated");
         }
 
 
