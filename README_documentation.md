@@ -30,8 +30,9 @@ spring.application.name=allobank-finance
 server.servlet.context-path=/api/finance
 server.port=8080
 
-base.url.frankfurter=https://api.frankfurter.dev/v1
-url.latest.base=${base.url.frankfurter}/latest
-url.currencies=${base.url.frankfurter}/currencies
-
-github.username=herdiansyah5197
+external.frankfurter.base-url: https://api.frankfurter.dev/v1
+external.frankfurter.endpoints.latest:${external.frankfurter.base-url}/latest
+external.frankfurter.endpoints.currencies:${external.frankfurter.base-url}/currencies
+external.frankfurter.connect-timeout: 5000
+external.frankfurter.read-timeout: 5000
+app.github-username: herdiansyah5197
