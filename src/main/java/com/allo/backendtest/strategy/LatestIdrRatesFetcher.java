@@ -42,6 +42,12 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
                 webClient.get()
                         .uri("/latest?base=IDR")
                         .retrieve()
+                        .onStatus(status -> status.is4xxClientError(),
+                                res -> res.bodyToMono(String.class)
+                                        .map(body -> new RuntimeException("Client error: " + body)))
+                        .onStatus(status -> status.is5xxServerError(),
+                                res -> res.bodyToMono(String.class)
+                                        .map(body -> new RuntimeException("Server error: " + body)))
                         .bodyToMono(LatestRatesResponse.class)
                         .block(Duration.ofSeconds(5));
 
