@@ -1,6 +1,5 @@
 package io.aditsukoco.allobank_test.controllers.finance;
 
-import io.aditsukoco.allobank_test.exceptions.BadRequestRestException;
 import io.aditsukoco.allobank_test.exceptions.BaseRestException;
 import io.aditsukoco.allobank_test.models.enums.ResourceTypeEnum;
 import io.aditsukoco.allobank_test.services.finance.FinanceServiceInterface;

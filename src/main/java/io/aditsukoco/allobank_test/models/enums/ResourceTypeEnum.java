@@ -1,7 +1,6 @@
 package io.aditsukoco.allobank_test.models.enums;
 
 import io.aditsukoco.allobank_test.exceptions.BadRequestRestException;
-import io.aditsukoco.allobank_test.exceptions.BaseRestException;
 
 public enum ResourceTypeEnum {
     //latest_idr_rates, historical_idr_usd, or supported_currencies

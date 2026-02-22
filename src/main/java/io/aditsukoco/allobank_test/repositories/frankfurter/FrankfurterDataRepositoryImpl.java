@@ -2,7 +2,6 @@ package io.aditsukoco.allobank_test.repositories.frankfurter;
 
 import io.aditsukoco.allobank_test.clients.frankfurter.FrankfurterHTTPClientInterface;
 import io.aditsukoco.allobank_test.models.dto.api_response.LatestAPIResponseDTO;
-import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;

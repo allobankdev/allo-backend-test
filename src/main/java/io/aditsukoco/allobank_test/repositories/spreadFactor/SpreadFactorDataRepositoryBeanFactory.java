@@ -1,6 +1,5 @@
 package io.aditsukoco.allobank_test.repositories.spreadFactor;
 
-import lombok.RequiredArgsConstructor;
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.annotation.Value;
