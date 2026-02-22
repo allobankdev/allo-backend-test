@@ -11,11 +11,20 @@ base:
   url:
     frankfurter: https://api.frankfurter.dev/v1
 
-# frankfurter
+
 url:
   lattes:
     base: ${base.url.frankfurter}/latest
   currencies: ${base.url.frankfurter}/currencies
+
+# frankfurter
+external:
+  frankfurter:
+    base-url: https://api.frankfurter.dev/v1
+    latest-url: ${external.frankfurter.base-url}/latest
+    currencies-url: ${external.frankfurter.base-url}/currencies
+    connect-timeout: 5000
+    read-timeout: 5000
 
 # githubusername
 github:
