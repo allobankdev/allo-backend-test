@@ -38,7 +38,7 @@ class SupportedCurrenciesFetcherTest {
         var result = fetcher.fetchAndTransform();
 
         assertNotNull(result);
-        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
 
         Map<String, String> first =
                 (Map<String, String>) result.get(0);

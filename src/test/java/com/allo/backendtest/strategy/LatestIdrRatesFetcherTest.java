@@ -7,8 +7,13 @@ import org.springframework.web.reactive.function.client.ExchangeFunction;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 
 class LatestIdrRatesFetcherTest {
 
@@ -45,6 +50,31 @@ class LatestIdrRatesFetcherTest {
         var result = fetcher.fetchAndTransform();
 
         assertNotNull(result);
-        assertFalse(result.isEmpty());
+        assertEquals(1, result.size());
+
+        Map<String, Object> first =
+                (Map<String, Object>) result.get(0);
+
+        assertEquals("USD", first.get("currency"));
+
+        BigDecimal rate = (BigDecimal) first.get("rate");
+        assertEquals(BigDecimal.valueOf(15000.0), rate);
+
+        BigDecimal spread =
+                (BigDecimal) first.get("USD_BuySpread_IDR");
+
+        assertNotNull(spread);
+
+        // Expected spread:
+        // SpreadFactor = 0.00318
+        // (1 / 15000) * (1 + 0.00318)
+
+        BigDecimal expected = BigDecimal.ONE
+                .divide(BigDecimal.valueOf(15000.0), 8, RoundingMode.HALF_UP)
+                .multiply(BigDecimal.ONE.add(
+                        BigDecimal.valueOf(0.00318)
+                ));
+
+        assertEquals(0, expected.compareTo(spread));
     }
 }
