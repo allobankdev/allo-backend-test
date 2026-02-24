@@ -2,7 +2,6 @@ package com.test.frankfurterexchangerate.service.implement;
 
 import com.test.frankfurterexchangerate.dto.FrankfurterLatestDto;
 import com.test.frankfurterexchangerate.service.IDRDataFetcher;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
