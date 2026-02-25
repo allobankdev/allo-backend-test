@@ -1,7 +1,7 @@
 package com.allobank.finance.strategy;
 
-import com.allobank.finance.config.FinanceApiProperties;
 import com.allobank.finance.client.model.LatestRate;
+import com.allobank.finance.config.FinanceApiProperties;
 import com.allobank.finance.model.LatestRateData;
 import com.allobank.finance.support.SpreadCalculator;
 import lombok.RequiredArgsConstructor;
@@ -12,8 +12,6 @@ import org.springframework.web.client.RestClient;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @Component
