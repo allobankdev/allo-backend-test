@@ -1,21 +1,26 @@
 package com.allobank.finance.service;
 
+import com.allobank.finance.config.AppProperties;
 import com.allobank.finance.dto.FinanceDataResponse;
 import com.allobank.finance.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FinanceDataServiceTest {
 
     private FinanceDataStore financeDataStore;
     private FinanceDataService financeDataService;
+    private AppProperties appProperties;
+
 
     @BeforeEach
     void setUp() {
         financeDataStore = new FinanceDataStore();
-        financeDataService = new FinanceDataService(financeDataStore);
+        appProperties = new AppProperties();
+        financeDataService = new FinanceDataService (financeDataStore, appProperties);
     }
 
     @Test
