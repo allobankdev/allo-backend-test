@@ -6,6 +6,8 @@ import com.allobank.finance.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
@@ -15,12 +17,14 @@ class FinanceDataServiceTest {
     private FinanceDataService financeDataService;
     private AppProperties appProperties;
 
-
     @BeforeEach
     void setUp() {
         financeDataStore = new FinanceDataStore();
         appProperties = new AppProperties();
-        financeDataService = new FinanceDataService (financeDataStore, appProperties);
+        appProperties.setValidResourceTypes(
+                List.of("latest_idr_rates", "historical_idr_usd", "supported_currencies")
+        );
+        financeDataService = new FinanceDataService(financeDataStore, appProperties);
     }
 
     @Test
@@ -29,7 +33,6 @@ class FinanceDataServiceTest {
                 .resourceType("latest_idr_rates")
                 .fetchedAt("2024-01-05T08:00:00Z")
                 .build();
-
         financeDataStore.put("latest_idr_rates", response);
 
         FinanceDataResponse result = financeDataService.getByResourceType("latest_idr_rates");
