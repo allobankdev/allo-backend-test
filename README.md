@@ -5,6 +5,7 @@ Spring Boot application for aggregating Indonesian Rupiah (IDR) exchange rate da
 ## Quick Start
 
 ### Prerequisites
+
 - Java 17+ (Java 21 recommended)
 - Maven 3.6+
 
@@ -52,6 +53,7 @@ curl http://localhost:8080/api/finance/data/supported_currencies
 **GitHub Username:** `manzoy`
 
 **Spread Factor Calculation:**
+
 ```
 m(109) + a(97) + n(110) + z(122) + o(111) + y(121) = 670
 Spread Factor = (670 % 1000) / 100000.0 = 0.00670
@@ -79,6 +81,7 @@ com.allobank.finance/
 ### Key Patterns
 
 **Strategy Pattern:** `IDRDataFetcher` interface with 3 implementations
+
 - `LatestIDRRatesFetcher` - Latest rates + spread calculation
 - `HistoricalIDRUSDFetcher` - Historical IDR-USD data
 - `SupportedCurrenciesFetcher` - Currency list
@@ -103,6 +106,52 @@ finance:
     username: manzoy
 ```
 
+## Architectural Rationale
+
+### 1. Polymorphism Justification: Strategy Pattern vs Conditional Logic
+
+The Strategy Pattern was chosen for extensibility and maintainability:
+
+- Open/Closed Principle: Adding new resource types only requires creating a new strategy class—no modification to
+  existing code
+- Separation of Concerns: Each strategy encapsulates its own logic (API calls, transformations, spread calculations) in
+  isolated classes
+- Testability: Strategies can be unit tested independently without complex conditional mocking
+- Scalability: The controller remains clean with map-based lookup. With conditionals, adding more resource types would
+  lead to unmaintainable nested if/else blocks
+
+Example: Adding a fourth resource type requires only a new @Component implementing IDRDataFetcher, automatically
+registered via Spring DI.
+
+### 2. Client Factory: FactoryBean vs Standard @Bean
+
+FactoryBean provides better encapsulation and lifecycle control:
+
+- Configuration Isolation: All client construction logic (base URL, timeouts, request factory) lives in a dedicated
+  component
+- Lifecycle Hooks: Explicit control via `getObject()`, `isSingleton()`, and `getObjectType()`
+- Single Responsibility: Configuration classes focus on property binding; client construction has its own component
+- Reusability: Easy to create additional FactoryBeans for other external APIs without cluttering configuration classes
+
+A standard `@Bean` method would mix client construction with configuration, violating SRP and making the code harder to
+maintain as the application grows.
+
+### 3. Startup Runner Choice: ApplicationRunner vs @PostConstruct
+
+ApplicationRunner ensures proper initialization timing and fail-fast behavior:
+
+- Lifecycle Guarantee: Runs after the full Spring context is initialized, ensuring all beans (registry, cache,
+  RestClient) are ready
+- Fail-Fast: Throws checked exceptions that prevent application startup if data fetching fails—avoiding invalid runtime
+  state
+- Application-Level Scope: Clearly signals this is an app initialization task, not bean construction
+- Extensibility: Access to ApplicationArguments allows future CLI flags (e.g., --skip-init for testing)
+
+With `@PostConstruct,` initialization happens during bean creation, risking partially initialized state if dependencies
+aren't ready or if fetching fails silently.
+
+---
+
 ## Tech Stack
 
 - Spring Boot 3.5.9
@@ -122,6 +171,7 @@ finance:
 ```
 
 **Coverage:**
+
 - Unit tests for all strategies
 - Cache thread-safety tests
 - Integration test for ApplicationRunner + full context
