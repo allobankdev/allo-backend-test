@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: allo-finance-api
+
+server:
+  port: 8080
+
+finance:
+  api:
+    base-url: https://api.frankfurter.app
+    connect-timeout: 5000
+    read-timeout: 600000
+  github:
+    username: manzoy
