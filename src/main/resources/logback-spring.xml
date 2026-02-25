@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+
+    <!-- ══════════════════════════════════════════════
+         PROPERTI GLOBAL
+    ══════════════════════════════════════════════ -->
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name" defaultValue="finance"/>
+    <springProperty scope="context" name="LOG_DIR"  source="logging.file.path"       defaultValue="logs"/>
+
+    <property name="LOG_PATTERN_CONSOLE" value="%d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n"/>
+    <property name="LOG_PATTERN_FILE"    value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+
+    <!-- ══════════════════════════════════════════════
+         APPENDER: CONSOLE — minimal, hanya startup + WARN/ERROR
+    ══════════════════════════════════════════════ -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN_CONSOLE}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <!-- Hanya WARN ke atas yang lolos ke konsol -->
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <!-- CONSOLE khusus pasang-startup — INFO diizinkan untuk logger startup Spring -->
+    <appender name="CONSOLE_STARTUP" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LOG_PATTERN_CONSOLE}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+    </appender>
+
+    <!-- ══════════════════════════════════════════════
+         APPENDER: FILE UTAMA (finance.log) — semua INFO
+    ══════════════════════════════════════════════ -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${APP_NAME}.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN_FILE}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/archived/${APP_NAME}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- ══════════════════════════════════════════════
+         APPENDER: FILE ERROR (finance-error.log) — WARN/ERROR saja
+    ══════════════════════════════════════════════ -->
+    <appender name="ERROR_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_DIR}/${APP_NAME}-error.log</file>
+        <encoder>
+            <pattern>${LOG_PATTERN_FILE}</pattern>
+            <charset>UTF-8</charset>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_DIR}/archived/${APP_NAME}-error.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>30</maxHistory>
+            <totalSizeCap>200MB</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+    </appender>
+
+    <!-- ASYNC wrappers -->
+    <appender name="ASYNC_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>512</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="FILE"/>
+    </appender>
+
+    <appender name="ASYNC_ERROR_FILE" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>256</queueSize>
+        <discardingThreshold>0</discardingThreshold>
+        <appender-ref ref="ERROR_FILE"/>
+    </appender>
+
+    <!-- ══════════════════════════════════════════════
+         LOGGER: Kode aplikasi kita
+         → INFO masuk ke FILE saja (tidak ke konsol)
+    ══════════════════════════════════════════════ -->
+    <logger name="com.allobank.finance" level="INFO" additivity="false">
+        <appender-ref ref="ASYNC_FILE"/>
+        <appender-ref ref="ASYNC_ERROR_FILE"/>
+    </logger>
+
+    <!-- ══════════════════════════════════════════════
+         LOGGER: Spring Boot startup messages
+         → tampil di konsol (Starting, Started, port, dll)
+    ══════════════════════════════════════════════ -->
+    <logger name="org.springframework.boot.StartupInfoLogger" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE_STARTUP"/>
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+
+    <logger name="org.springframework.boot.web.embedded.tomcat" level="INFO" additivity="false">
+        <appender-ref ref="CONSOLE_STARTUP"/>
+        <appender-ref ref="ASYNC_FILE"/>
+    </logger>
+
+    <!-- ══════════════════════════════════════════════
+         LOGGER: Library lain → WARN saja
+    ══════════════════════════════════════════════ -->
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="reactor.netty"       level="WARN"/>
+    <logger name="io.netty"            level="WARN"/>
+    <logger name="okhttp3"             level="WARN"/>
+
+    <!-- ══════════════════════════════════════════════
+         ROOT — fallback: WARN ke konsol + file
+    ══════════════════════════════════════════════ -->
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="ASYNC_FILE"/>
+        <appender-ref ref="ASYNC_ERROR_FILE"/>
+    </root>
+
+</configuration>
