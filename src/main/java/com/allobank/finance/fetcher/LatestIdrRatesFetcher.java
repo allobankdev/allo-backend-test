@@ -33,7 +33,7 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
                     .uri("/latest?base=IDR")
                     .retrieve()
                     .bodyToMono(FrankfurterDto.LatestRatesResponse.class)
-                    .timeout(Duration.ofSeconds(60))
+                    .timeout(Duration.ofSeconds(180))
                     .block();
 
             if (response == null || response.getRates() == null) {

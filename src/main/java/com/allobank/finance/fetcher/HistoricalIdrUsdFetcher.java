@@ -30,7 +30,7 @@ public class HistoricalIdrUsdFetcher implements IDRDataFetcher {
                     .uri(HISTORICAL_URI)
                     .retrieve()
                     .bodyToMono(FrankfurterDto.HistoricalRatesResponse.class)
-                    .timeout(Duration.ofSeconds(60))
+                    .timeout(Duration.ofSeconds(180))
                     .block();
 
             if (response == null) {

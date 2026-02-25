@@ -32,7 +32,7 @@ public class SupportedCurrenciesFetcher implements IDRDataFetcher {
                     .uri("/currencies")
                     .retrieve()
                     .bodyToMono(String.class)
-                    .timeout(Duration.ofSeconds(60))
+                    .timeout(Duration.ofSeconds(180))
                     .block();
 
             if (rawJson == null || rawJson.isBlank()) {
