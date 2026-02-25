@@ -1,0 +1,50 @@
+package com.allobank.finance.service;
+
+import com.allobank.finance.config.AppProperties;
+import com.allobank.finance.dto.FinanceDataResponse;
+import com.allobank.finance.exception.ResourceNotFoundException;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+
+class FinanceDataServiceTest {
+
+    private FinanceDataStore financeDataStore;
+    private FinanceDataService financeDataService;
+    private AppProperties appProperties;
+
+    @BeforeEach
+    void setUp() {
+        financeDataStore = new FinanceDataStore();
+        appProperties = new AppProperties();
+        appProperties.setValidResourceTypes(
+                List.of("latest_idr_rates", "historical_idr_usd", "supported_currencies")
+        );
+        financeDataService = new FinanceDataService(financeDataStore, appProperties);
+    }
+
+    @Test
+    void getByResourceType_shouldReturnStoredData() {
+        FinanceDataResponse response = FinanceDataResponse.builder()
+                .resourceType("latest_idr_rates")
+                .fetchedAt("2024-01-05T08:00:00Z")
+                .build();
+        financeDataStore.put("latest_idr_rates", response);
+
+        FinanceDataResponse result = financeDataService.getByResourceType("latest_idr_rates");
+
+        assertThat(result).isNotNull();
+        assertThat(result.getResourceType()).isEqualTo("latest_idr_rates");
+    }
+
+    @Test
+    void getByResourceType_unknownKey_shouldThrowResourceNotFoundException() {
+        assertThatThrownBy(() -> financeDataService.getByResourceType("unknown"))
+                .isInstanceOf(ResourceNotFoundException.class)
+                .hasMessageContaining("unknown");
+    }
+}
