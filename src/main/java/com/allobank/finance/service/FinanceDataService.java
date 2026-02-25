@@ -1,5 +1,6 @@
 package com.allobank.finance.service;
 
+import com.allobank.finance.config.AppProperties;
 import com.allobank.finance.dto.FinanceDataResponse;
 import com.allobank.finance.exception.ResourceNotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -12,9 +13,17 @@ import org.springframework.stereotype.Service;
 public class FinanceDataService {
 
     private final FinanceDataStore financeDataStore;
+    private final AppProperties appProperties;
 
     public FinanceDataResponse getByResourceType(String resourceType) {
         log.debug("Serving request for resource type: {}", resourceType);
+
+        if (!appProperties.getValidResourceTypes().contains(resourceType)) {
+            throw new ResourceNotFoundException(
+                    "Resource type '" + resourceType + "' not found. " +
+                            "Valid types are: " + String.join(", ", appProperties.getValidResourceTypes())
+            );
+        }
 
         FinanceDataResponse response = financeDataStore.get(resourceType);
         if (response == null) {
