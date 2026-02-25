@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.allobank.financeaggregator.FinanceAggregatorApplicationTests
--------------------------------------------------------------------------------
-Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 1.476 s -- in com.allobank.financeaggregator.FinanceAggregatorApplicationTests

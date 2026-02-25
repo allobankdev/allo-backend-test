@@ -1,6 +1,7 @@
 package com.allobank.financeaggregator.controller;
 
 import com.allobank.financeaggregator.dto.ApiResponse;
+import com.allobank.financeaggregator.exception.ResourceNotFoundException;
 import com.allobank.financeaggregator.model.FinanceDataItem;
 import com.allobank.financeaggregator.service.FinanceDataStore;
 import com.allobank.financeaggregator.strategy.IDRDataFetcher;
@@ -25,6 +26,8 @@ public class FinanceDataController {
 
     @GetMapping("/{resourceType}")
     public ApiResponse<List<FinanceDataItem<?>>> getData(@PathVariable String resourceType) {
+        IDRDataFetcher fetcher = java.util.Optional.ofNullable(strategies.get(resourceType))
+                .orElseThrow(() -> new ResourceNotFoundException("Unknown resourceType: " + resourceType));
         return ApiResponse.success(dataStore.get(resourceType));
     }
 }
