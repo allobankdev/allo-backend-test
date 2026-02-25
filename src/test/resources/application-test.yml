@@ -1,0 +1,22 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb;DB_CLOSE_DELAY=-1
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+frankfurter:
+  base-url: http://localhost:9999
+  connect-timeout-ms: 10000
+  read-timeout-ms: 15000
+
+app:
+  github-username: thaufaniqbal
+
+logging:
+  level:
+    com.allobank.finance: DEBUG
