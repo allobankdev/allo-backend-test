@@ -10,13 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-/**
- * Single entry-point that exposes the aggregated IDR exchange-rate summary.
- *
- * <p>Returning {@link Mono} keeps the Netty/Tomcat thread free while the
- * non-blocking WebClient calls are in-flight, enabling high concurrency
- * with minimal thread overhead.</p>
- */
 @Slf4j
 @RestController
 @RequestMapping("/api")
@@ -24,7 +17,7 @@ import reactor.core.publisher.Mono;
 public class ExchangeRateController {
 
     private final ExchangeRateAggregatorService aggregatorService;
-    
+
     @GetMapping(value = "/idr-summary", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<IdrSummaryResponse> getIdrSummary() {
         log.info("Received request for IDR summary");

@@ -2,10 +2,6 @@ package com.api.allorestapi.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 
-/**
- * Represents the three valid {resourceType} path values accepted by
- * GET /api/finance/data/{resourceType}.
- */
 public enum ResourceType {
 
     LATEST_IDR_RATES("latest_idr_rates"),
