@@ -1,0 +1,15 @@
+### GET request to example server
+GET https://api.frankfurter.app/latest?base=IDR
+Accept: application/json
+
+###
+### GET request to example server
+GET https://api.frankfurter.app/2024-01-01..2024-01-05?from=IDR&to=USD
+Accept: application/json
+
+###
+### GET request to example server
+GET https://api.frankfurter.app/currencies
+Accept: application/json
+
+###
