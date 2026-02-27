@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: IDR Rate Aggregator
+  web:
+    resources:
+      add-mappings: false
+
+server:
+  port: 8080
+
+external:
+  connect-timeout-ms: 10000
+  response-timeout-ms: 10000
+  frankfurter:
+    base-url: https://api.frankfurter.app
+
+github:
+  username: hosea-adrianus
