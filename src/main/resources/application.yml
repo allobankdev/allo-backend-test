@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: finance-service
+
+server:
+  port: 8080
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  connect-timeout-ms: 3000
+  response-timeout-ms: 5000
+  retry:
+    count: 3
+    delay-ms: 2000
+  resources:
+    latest:
+      base: IDR
+      currency: USD
+    historical:
+      range: 2024-01-01..2024-01-05
+      from: IDR
+      to: USD
+
+github:
+  username: "habibullahdm"
