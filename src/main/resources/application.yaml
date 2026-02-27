@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: ApiIntegration
+
+external:
+  frankfurter:
+    base-url: https://api.frankfurter.app
+    connect-timeout-millis: 3000
+    read-timeout-millis: 5000
+    user-agent: ApiIntegration/1.0
+
+app:
+  github-username: AmriGIT
