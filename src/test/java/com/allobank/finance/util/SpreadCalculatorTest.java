@@ -8,12 +8,12 @@ class SpreadCalculatorTest {
 
     @Test
     void calculateUsdBuySpread_shouldReturnCorrectValue() {
-        double rateUsd = 15000.0;
+        double rateUsd = 0.00006;
         String githubUsername = "hosea-adrianus";
 
-        double expected = 0.000066952;
+        double expected = 16738.000000000004;
         double actual = SpreadCalculator.calculateUsdBuySpread(rateUsd, githubUsername);
 
-        assertEquals(expected, actual, 0.000000001);
+        assertEquals(expected, actual);
     }
 }
