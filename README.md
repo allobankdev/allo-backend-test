@@ -134,20 +134,39 @@ curl -X GET "http://localhost:8080/api/finance/data/supported_currencies"
 
 # Personalization Note
 
-**GitHub Username:**
-hosea-adrianus
+**GitHub Username:**  
+`hosea-adrianus`
 
-**Rate USD:**
-0.00006
+**Rate USD:**  
+`0.00006`
 
-**Calculated Spread Factor:**
+**Calculated Spread Factor:**  
+`16738.0`
 
-```
-16738.000000000004
-```
+## Calculation Steps
 
-The spread factor is calculated from the USD exchange rate returned by the Frankfurter API using the business logic implemented in this application.
-
+1. **Sum ASCII values of GitHub username:**
+    ```
+   hosea-adrianus
+   h=104, o=111, s=115, e=101, a=97, -=45
+   a=97, d=100, r=114, i=105, a=97, n=110, u=117, s=115
+   Sum = 104 + 111 + 115 + 101 + 97 + 45 + 97 + 100 + 114 + 105 + 97 + 110 + 117 + 115 = 1428
+   ```
+2. **Compute spread modifier:**
+   ```
+   spread = (sum % 1000) / 100000
+   spread = (1428 % 1000) / 100000
+   spread = 428 / 100000
+   spread = 0.00428
+    ```
+3. **Calculate final Spread Factor using USD rate:**
+    ```
+    Spread Factor = (1 / rateUsd) * (1 + spread)
+    = (1 / 0.00006) * (1 + 0.00428)
+    ≈ 16666.6667 * 1.00428
+    ≈ 16738.0
+    ```
+   
 ---
 
 # Architectural Rationale
