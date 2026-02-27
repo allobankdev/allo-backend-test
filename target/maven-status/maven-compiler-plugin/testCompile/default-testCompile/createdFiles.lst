@@ -1,0 +1,6 @@
+com/example/finance/strategy/SupportedCurrenciesFetcherTest.class
+com/example/finance/config/DataLoaderRunnerIntegrationTest.class
+com/example/finance/config/DataLoaderRunnerIntegrationTest$MockRestTemplateConfig.class
+com/example/finance/strategy/HistoricalIdrUsdFetcherTest.class
+com/example/finance/FinanceApiApplicationTests.class
+com/example/finance/strategy/LatestIdrRatesFetcherTest.class
