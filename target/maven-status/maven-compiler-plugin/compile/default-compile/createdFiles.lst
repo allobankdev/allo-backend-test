@@ -1,0 +1,9 @@
+com/example/finance/strategy/IDRDataFetcher.class
+com/example/finance/controller/FinanceController.class
+com/example/finance/strategy/SupportedCurrenciesFetcher.class
+com/example/finance/config/DataLoaderRunner.class
+com/example/finance/strategy/LatestIdrRatesFetcher.class
+com/example/finance/strategy/HistoricalIdrUsdFetcher.class
+com/example/finance/service/FinanceDataService.class
+com/example/finance/config/RestTemplateFactoryBean.class
+com/example/finance/FinanceApiApplication.class

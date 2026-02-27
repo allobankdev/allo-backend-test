@@ -1,0 +1,9 @@
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/FinanceApiApplication.java
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/config/DataLoaderRunner.java
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/config/RestTemplateFactoryBean.java
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/controller/FinanceController.java
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/service/FinanceDataService.java
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/strategy/HistoricalIdrUsdFetcher.java
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/strategy/IDRDataFetcher.java
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/strategy/LatestIdrRatesFetcher.java
+/home/far19a/projects/jobseeking-test/allo-backend-test/backend_test/src/main/java/com/example/finance/strategy/SupportedCurrenciesFetcher.java
