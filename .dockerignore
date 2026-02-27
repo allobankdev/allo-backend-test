@@ -1,0 +1,28 @@
+# Build output
+**/target/
+
+# Git
+**/.git/
+
+# Documentation
+**/*.md
+
+# Docker Compose
+**/docker-compose.yml
+
+# IDE files
+*.iml
+*.ipr
+*.iws
+/.idea/
+
+# Logs and temporary files
+*.log
+*.tmp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files (local only)
+.env
