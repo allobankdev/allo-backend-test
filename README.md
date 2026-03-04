@@ -8,6 +8,15 @@ Your task is to create a single Spring Boot REST API endpoint capable of aggrega
 
 The focus of this test is not just functional correctness, but demonstrating clean code, advanced Spring concepts, thread-safe design, and architectural clarity.
 
+## How to Run
+
+mvn clean install
+mvn spring-boot:run
+
+## Run Tests
+
+mvn test
+
 ## I. Core Task: The Polymorphic API
 
 ### 1. External API Integration (Frankfurter API)
