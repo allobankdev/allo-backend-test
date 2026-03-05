@@ -21,5 +21,26 @@ A production-ready Spring Boot application that aggregates and serves IDR exchan
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/yourusername/finance-api.git
-   cd finance-api
+   git clone https://github.com/ignatiusdillwyn/allo-backend-test.git
+   
+2. Run the application 
+   Run DemoApplicationTests.java
+
+3. Run the test
+   Run CurrenciesStrategyTest.java
+   Run HistoricalRatesStrategyTest.java
+   Run LatestRatesStrategyTest.java
+
+
+## Enpoint Usage cURL
+
+1. curl --location 'http://localhost:8080/api/finance/data/supported_currencies'
+2. curl --location 'http://localhost:8080/api/finance/data/historical_idr_usd'
+3. curl --location 'http://localhost:8080/api/finance/data/latest_idr_rates'
+
+## Spread Factor 
+"USD_BuySpread_IDR": 16959.32203,
+
+## Github Username
+   ignatiusdillwyn
+   

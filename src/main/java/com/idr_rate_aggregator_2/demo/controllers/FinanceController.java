@@ -116,3 +116,32 @@ public class FinanceController {
         private final boolean initialized;
     }
 }
+
+//package com.finance.api.controller;
+//
+//import com.finance.api.service.FinanceDataService;
+//import com.finance.api.strategy.IDRDataFetcher;
+//import org.springframework.beans.factory.annotation.Autowired;
+//import org.springframework.http.ResponseEntity;
+//import org.springframework.web.bind.annotation.*;
+//
+//@RestController
+//@RequestMapping("/api/finance/data")
+//public class FinanceController {
+//
+//    @Autowired
+//    private FinanceDataService financeDataService;
+//
+//    @GetMapping("/{resourceType}")
+//    public ResponseEntity<?> getFinanceData(@PathVariable String resourceType) {
+//
+//        // ✅ TANPA if/else atau switch!
+//        // Langsung ambil strategi dari Map berdasarkan resourceType
+//        IDRDataFetcher strategy = financeDataService.getStrategy(resourceType);
+//
+//        // Eksekusi strategi yang dipilih
+//        Object data = strategy.fetchData();
+//
+//        return ResponseEntity.ok(data);
+//    }
+//}
