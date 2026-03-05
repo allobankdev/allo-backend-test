@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+frankfurter:
+  base-url: https://api.frankfurter.dev/v1
+  timeout: 5000
+  historical:
+    start: 2024-01-01   
+    end: 2024-01-05      
+    from: IDR
+    to: USD
+
+app:
+  github-username: ${GITHUB_USERNAME:alhuzsyam}
