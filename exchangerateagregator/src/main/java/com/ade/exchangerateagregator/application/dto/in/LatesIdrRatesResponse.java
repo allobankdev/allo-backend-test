@@ -1,4 +1,4 @@
-package com.ade.exchangerateagregator.application.dto;
+package com.ade.exchangerateagregator.application.dto.in;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,10 +13,10 @@ import java.util.Map;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class HistoricalResponse implements FinanceBaseResponse{
+public class LatesIdrRatesResponse implements FinanceBaseResponse {
     private BigDecimal amount;
     private String baseCurrency;
-    private String startDate;
-    private String endDate;
-    private Map<String,Map<String, BigDecimal>> rates = new HashMap<>();
+    private String date;
+    private Map<String, BigDecimal> rates = new HashMap<>();
+    private String USD_BuySpread_IDR;
 }
