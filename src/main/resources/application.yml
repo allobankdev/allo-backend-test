@@ -1,0 +1,13 @@
+server:
+  port: 8081
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  historical:
+    from: "2024-01-01"
+    to: "2024-01-05"
+  connect-timeout-ms: 5000
+  read-timeout-ms: 10000
+
+spread:
+  github-username: patarebenezer

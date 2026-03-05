@@ -1,0 +1,14 @@
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/FinanceApplication.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/config/FrankfurterProperties.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/config/StrategyConfig.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/config/WebClientFactoryBean.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/controller/FinanceDataController.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/controller/GlobalExceptionHandler.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/model/FinanceDataResponse.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/runner/FinanceDataApplicationRunner.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/service/FinanceDataService.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/service/InMemoryFinanceStore.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/strategy/HistoricalIDRUSDStrategy.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/strategy/IDRDataFetcher.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/strategy/LatestIDRRatesStrategy.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/main/java/com/allobank/finance/strategy/SupportedCurrenciesStrategy.java

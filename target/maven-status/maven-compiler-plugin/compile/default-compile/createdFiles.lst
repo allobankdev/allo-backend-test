@@ -1,0 +1,16 @@
+com/allobank/finance/service/InMemoryFinanceStore.class
+com/allobank/finance/config/WebClientFactoryBean.class
+com/allobank/finance/FinanceApplication.class
+com/allobank/finance/config/FrankfurterProperties.class
+com/allobank/finance/controller/FinanceDataController.class
+com/allobank/finance/service/FinanceDataService.class
+com/allobank/finance/strategy/SupportedCurrenciesStrategy.class
+com/allobank/finance/strategy/HistoricalIDRUSDStrategy.class
+com/allobank/finance/runner/FinanceDataApplicationRunner.class
+com/allobank/finance/config/StrategyConfig.class
+com/allobank/finance/model/FinanceDataResponse.class
+com/allobank/finance/model/FinanceDataResponse$FinanceDataResponseBuilder.class
+com/allobank/finance/strategy/IDRDataFetcher.class
+com/allobank/finance/controller/GlobalExceptionHandler.class
+com/allobank/finance/strategy/LatestIDRRatesStrategy.class
+com/allobank/finance/config/FrankfurterProperties$Historical.class
