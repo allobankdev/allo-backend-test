@@ -23,8 +23,6 @@ Endpoint Usage:
 
 Personalization Note: 
 
-GitHub username : ifane-dev
-
 Spread Factor: 0.00834
 
 
