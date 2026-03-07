@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: allo-backend-test
+  jackson:
+    deserialization:
+      use-big-decimal-for-floats: true
+    generator:
+      write-bigdecimal-as-plain: true
+
+server:
+  port: 8080
+
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+    connect-timeout: 5s
+    read-timeout: 10s

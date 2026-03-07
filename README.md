@@ -1,139 +1,424 @@
-# Allo Bank Backend Developer Take-Home Test
+# Allo Bank — IDR/USD Finance Data API
 
-Thank you for applying to our team! This take-home test is designed to evaluate your practical skills in building **production-ready** Spring Boot applications within a finance domain, focusing on architectural patterns and complex data handling.
+A Spring Boot REST API that fetches Indonesian Rupiah (IDR) exchange rate data from the [Frankfurter API](https://www.frankfurter.app/). It pulls **latest rates**, **historical data**, and **supported currencies** on startup, caches them in memory, and serves them through a single unified endpoint.
 
-## 📝 Objective
+---
 
-Your task is to create a single Spring Boot REST API endpoint capable of aggregating data from multiple, distinct resources provided by the public, keyless **Frankfurter Exchange Rate API**. The primary focus is on handling Indonesian Rupiah (IDR) data.
+## Personalization
 
-The focus of this test is not just functional correctness, but demonstrating clean code, advanced Spring concepts, thread-safe design, and architectural clarity.
+| Field            | Value                                                        |
+| ---------------- | ------------------------------------------------------------ |
+| GitHub Username  | `yoelngl`                                                    |
+| Unicode Sum      | y(121) + o(111) + e(101) + l(108) + n(110) + g(103) + l(108) = **762** |
+| Spread Factor    | (762 % 1000) / 100000.0 = **0.00762**                       |
 
-## I. Core Task: The Polymorphic API
+---
 
-### 1. External API Integration (Frankfurter API)
+## Prerequisites
 
-* **Base URL (Public):** `https://api.frankfurter.app/`.
+Before you start, make sure you have the following installed on your machine:
 
-* You must integrate with three distinct data resources to enforce the architectural pattern:
+- **Java 17** — this project requires Java 17 or later. You can check your version by running:
 
-   1.  `/latest?base=IDR` (The latest rates relative to IDR)
+  ```bash
+  java -version
+  ```
 
-   2.  **Historical Data:** Query a specific, small time series (e.g., `/2024-01-01..2024-01-05?from=IDR&to=USD`). **Note:** *Use the date range provided in this example unless a different range is communicated separately.*
+  If it doesn't say version 17, you can install it using [SDKMAN](https://sdkman.io/):
 
-   3.  `/currencies` (The list of all supported currency symbols)
+  ```bash
+  curl -s "https://get.sdkman.io" | bash
+  source "$HOME/.sdkman/bin/sdkman-init.sh"
+  sdk install java 17.0.0-tem
+  sdk use java 17.0.0-tem
+  ```
 
-### 2. Internal API Endpoint
+- **Git** — to clone the repository.
 
-You must expose **one single endpoint** in your application: ```GET /api/finance/data/{resourceType}```
+- **Postman** (optional) — to test the API endpoints interactively. You can also use `curl` from your terminal.
 
-Where `{resourceType}` can be one of the three strings: `latest_idr_rates`, `historical_idr_usd`, or `supported_currencies`.
+That's all you need. The project ships with Gradle Wrapper, so you don't need to install Gradle separately.
 
-### 3. Required Functionality & Business Logic
+---
 
-* **Resource Handling:** Your service must correctly map the three incoming `resourceType` values to the correct data fetching strategies.
+## Installation & Setup
 
-* **Data Load:** All three resources should be fetched from the external API.
+**Step 1 — Clone the repository**
 
-* **Data Transformation (Latest IDR Rates only) - Unique Calculation:** For the **`latest_idr_rates`** resource, you must calculate and include a new field, `"USD_BuySpread_IDR"`. This is the Rupiah selling rate to USD after applying a banking spread/margin.
+```bash
+git clone https://github.com/yoelngl/allo-backend-test.git
+cd allo-backend-test
+```
 
-  **The Spread Factor Must Be Unique :**
+**Step 2 — Make sure you're using Java 17**
 
-   1.  **Input:** Your GitHub username (e.g., `johndoe47`).
-   2.  **Calculation:** Calculate the sum of the Unicode (ASCII) values of all characters in your lowercase GitHub username string.
-   3.  **Spread Factor Derivation:** `Spread Factor = (Sum of Unicode Values % 1000) / 100000.0`
-       *(This will yield a unique factor between 0.00000 and 0.00999, ensuring a personalized result.)*
+If you installed Java through SDKMAN:
 
-  **Final Formula:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)` (where `Rate_USD` is the value from the API when `base=IDR`).
+```bash
+sdk use java 17.0.0-tem
+```
 
-* **Other Resources:** The `historical_idr_usd` and `supported_currencies` resources can return their data with minimal transformation, but the final output must be a unified JSON array of results.
+Verify it:
 
-## II. Architectural Constraints
+```bash
+java -version
+# Should show: openjdk version "17..."
+```
 
-Meeting the core task is only one part of the solution. The following constraints must be strictly adhered to and will be heavily weighted during evaluation:
+**Step 3 — Build the project**
 
-### Constraint A: The Strategy Pattern
+On Linux or Mac:
 
-The logic for handling the three different resources (`latest_idr_rates`, `historical_idr_usd`, `supported_currencies`) must be implemented using the **Strategy Design Pattern**.
+```bash
+./gradlew clean build
+```
 
-1.  Define a clear **Strategy Interface** (e.g., `IDRDataFetcher`).
+On Windows:
 
-2.  Implement **three concrete strategy classes** (one for each resource).
+```bash
+gradlew.bat clean build
+```
 
-3.  The main `Controller` should dynamically select the correct strategy implementation using a map-based lookup injected by Spring, avoiding any manual `if/else` or `switch` logic in the controller layer.
+This will compile the code, run all the tests, and produce a runnable JAR. You should see `BUILD SUCCESSFUL` at the end.
 
-### Constraint B: Client Factory Bean
+**Step 4 — Start the application**
 
-The instance of your chosen external API client (`WebClient` or `RestTemplate`) **must be defined and created within a custom implementation of Spring's `FactoryBean<T>` interface**.
+```bash
+./gradlew bootRun
+```
 
-* This `FactoryBean` should be responsible for externalizing the API Base URL via `@Value` or `@ConfigurationProperties` and applying any initial configuration (e.g., timeouts, shared headers).
+Wait until you see something like:
 
-* ***You may not define the client as a simple `@Bean` in a `@Configuration` class.***
+```
+Started Application in 2.x seconds
+```
 
-### Constraint C: Startup Data Runner & Immutability
+The app is now running at **http://localhost:8080**. On startup, it automatically fetches all three data resources from the Frankfurter API and caches them in memory.
 
-The aggregated data for **ALL three resources** must be fetched **exactly once on application startup** and loaded into an in-memory store.
+---
 
-1.  Use a Spring Boot **`ApplicationRunner`** or **`CommandLineRunner`** component to initiate the data fetching process.
+## API Endpoint
 
-2.  The API endpoint (`GET /api/finance/data/{resourceType}`) must serve the data from this **in-memory store**, not by making a new call to the external API on every request.
-
-3.  The in-memory storage mechanism (e.g., a service holding the data) must be designed to be **thread-safe** and ensure the data is **immutable** once the `ApplicationRunner` has finished loading it.
-
-## III. Production Readiness & Deliverables
-
-Your final solution must demonstrate production quality through code, testing, and communication.
-
-### 1. Robustness & Best Practices
-
-* Graceful **Error Handling** for network failures or 4xx/5xx responses from the external API.
-
-* Proper use of **Configuration Properties** (e.g., `application.yml`) for external service URLs.
-
-* Clear separation of concerns (Controller, Service, Model/DTO, etc.).
-
-### 2. Testing
-
-* **Unit Tests** for all three `IDRDataFetcher` strategy implementations, ensuring data calculation and transformation logic is covered (using mock clients for external calls).
-
-* **Integration Tests** to verify the `ApplicationRunner` successfully initializes and loads the data into the in-memory store before the application context is ready.
-
-### 3. Documentation
-
-A clear `README.md` is mandatory. It must include:
-
-* **Setup/Run Instructions:** Clear steps to clone, build, and run the application and tests.
-
-* **Endpoint Usage:** Example cURL commands to test the three different resource types.
-
-* **Personalization Note:** Clearly state your GitHub username and show the exact **Spread Factor** (e.g., `0.00765`) calculated by your function.
-
-* ---
-
-* ### 🛠️ Architectural Rationale
-
-  This section should contain a brief, but detailed, explanation answering the following questions:
-
-   1.  **Polymorphism Justification:** Explain *why* the Strategy Pattern was used over a simpler conditional block in the service layer for handling the multi-resource endpoint. Discuss the benefits in terms of **extensibility** and **maintainability**.
-
-   2.  **Client Factory:** Explain the specific role and benefit of using a **`FactoryBean`** to construct the external API client. Why is this preferable to defining the client using a standard `@Bean` method in this scenario?
-
-   3.  **Startup Runner Choice:** Justify the choice of using an `ApplicationRunner` (or `CommandLineRunner`) for the initial data ingestion over a simpler `@PostConstruct` method.
-
-## IV. Submission & Review Process
-
-1.  **Fork** this repository.
-
-2.  Implement your solution on a dedicated feature branch (e.g., `feat/idr-rate-aggregator`).
-
-3.  When complete, submit your solution via a **Pull Request (PR)** back to the main repository.
-4.  Please complete the form to submit your technical test: [Click Here](https://forms.gle/nZKQ2EjTCPfAKHog7)
-
-**Your PR will be evaluated on the following:**
-
-* **Commit History:** Clean, atomic, and descriptive commit messages (e.g., "feat: Implement IDR latest rates strategy," "fix: Correctly calculate IDR spread in tests").
-
-* **PR Description:** The description must clearly summarize the solution and **must contain the full answers** to the three "Architectural Rationale" questions from Section III.
-
-* **Code Review Readiness:** The code should be well-structured and ready for immediate review.
-
-Good luck!
+There is one endpoint:
+
+```
+GET /api/finance/data/{resourceType}
+```
+
+Where `{resourceType}` is one of:
+
+| Resource Type         | What it returns                                              |
+| --------------------- | ------------------------------------------------------------ |
+| `latest_idr_rates`    | Latest exchange rates with base IDR, including the calculated `USD_BuySpread_IDR` field |
+| `historical_idr_usd`  | Historical IDR to USD rates (default range: 2024-01-01 to 2024-01-05) |
+| `supported_currencies`| Full list of currencies supported by the Frankfurter API     |
+
+The `historical_idr_usd` endpoint also accepts optional query parameters to fetch a custom date range:
+
+```
+GET /api/finance/data/historical_idr_usd?startDate=2024-06-01&endDate=2024-06-30
+```
+
+---
+
+## Testing with Postman
+
+Here's how to test each endpoint step by step using Postman.
+
+### 1. Get Latest IDR Rates
+
+1. Open Postman and click **New Request**
+2. Set the method to **GET**
+3. Enter this URL:
+   ```
+   http://localhost:8080/api/finance/data/latest_idr_rates
+   ```
+4. Click **Send**
+5. You should get a `200 OK` response with a JSON body like this:
+
+```json
+[
+  {
+    "resourceType": "latest_idr_rates",
+    "data": {
+      "amount": 1,
+      "base": "IDR",
+      "date": "2026-03-06",
+      "rates": {
+        "AUD": 0.000097,
+        "USD": 0.000061,
+        "EUR": 0.000057
+      },
+      "USD_BuySpread_IDR": 16502.46,
+      "spread_factor": 0.00762,
+      "github_username": "yoelngl"
+    }
+  }
+]
+```
+
+Notice that `USD_BuySpread_IDR` is the calculated selling rate using the personal spread factor.
+
+### 2. Get Historical IDR/USD Rates (Default Range)
+
+1. Create a new GET request in Postman
+2. Enter this URL:
+   ```
+   http://localhost:8080/api/finance/data/historical_idr_usd
+   ```
+3. Click **Send**
+4. You should get a response like:
+
+```json
+[
+  {
+    "resourceType": "historical_idr_usd",
+    "data": {
+      "amount": 1,
+      "base": "IDR",
+      "start_date": "2024-01-01",
+      "end_date": "2024-01-05",
+      "rates": {
+        "2024-01-02": { "USD": 0.000065 },
+        "2024-01-03": { "USD": 0.000064 },
+        "2024-01-04": { "USD": 0.000064 },
+        "2024-01-05": { "USD": 0.000064 }
+      }
+    }
+  }
+]
+```
+
+### 3. Get Historical IDR/USD Rates (Custom Range)
+
+1. Create a new GET request in Postman
+2. Enter this URL:
+   ```
+   http://localhost:8080/api/finance/data/historical_idr_usd?startDate=2024-06-01&endDate=2024-06-30
+   ```
+   Or, in Postman, go to the **Params** tab and add:
+   - Key: `startDate`, Value: `2024-06-01`
+   - Key: `endDate`, Value: `2024-06-30`
+3. Click **Send**
+4. You'll get historical rates for June 2024 (weekdays only — markets are closed on weekends/holidays)
+
+### 4. Get Supported Currencies
+
+1. Create a new GET request in Postman
+2. Enter this URL:
+   ```
+   http://localhost:8080/api/finance/data/supported_currencies
+   ```
+3. Click **Send**
+4. You'll see a list of all available currency codes:
+
+```json
+[
+  {
+    "resourceType": "supported_currencies",
+    "data": {
+      "AUD": "Australian Dollar",
+      "BGN": "Bulgarian Lev",
+      "BRL": "Brazilian Real",
+      "IDR": "Indonesian Rupiah",
+      "USD": "United States Dollar"
+    }
+  }
+]
+```
+
+### 5. Unknown Resource Type (Error Case)
+
+1. Try:
+   ```
+   http://localhost:8080/api/finance/data/something_invalid
+   ```
+2. You'll get a `404 Not Found`:
+
+```json
+{
+  "error": "Unknown resource type: something_invalid"
+}
+```
+
+---
+
+## Testing with cURL
+
+If you prefer the terminal over Postman:
+
+```bash
+# Latest IDR rates
+curl http://localhost:8080/api/finance/data/latest_idr_rates
+
+# Historical IDR/USD (default range)
+curl http://localhost:8080/api/finance/data/historical_idr_usd
+
+# Historical IDR/USD (custom range)
+curl "http://localhost:8080/api/finance/data/historical_idr_usd?startDate=2024-06-01&endDate=2024-06-30"
+
+# Supported currencies
+curl http://localhost:8080/api/finance/data/supported_currencies
+
+# Unknown type (should return 404)
+curl http://localhost:8080/api/finance/data/unknown
+```
+
+To get nicely formatted output, pipe through `jq`:
+
+```bash
+curl -s http://localhost:8080/api/finance/data/latest_idr_rates | jq .
+```
+
+---
+
+## Running the Tests
+
+This project has both **unit tests** and **integration tests**. All of them run automatically during the build, but you can also run them separately.
+
+### Run All Tests
+
+```bash
+./gradlew test
+```
+
+This will execute every test and show `BUILD SUCCESSFUL` if they all pass.
+
+### What Each Test File Does
+
+| Test File | Type | What It Tests |
+| --------- | ---- | ------------- |
+| `LatestIDRRatesFetcherTest` | Unit | Spread factor calculation, enriched data with `USD_BuySpread_IDR`, error handling for null/failed responses |
+| `HistoricalIDRUSDFetcherTest` | Unit | Default date range fetch, custom date range via `fetchByRange()`, error handling |
+| `SupportedCurrenciesFetcherTest` | Unit | Currency map parsing, error handling |
+| `FinanceDataControllerTest` | Unit | Controller returns correct HTTP status for valid types (200), unknown types (404), uninitialized store (503), and date range parameters |
+| `DataLoadIntegrationTest` | Integration | Verifies the `ApplicationRunner` loads all three resources on startup, store is initialized, and all endpoints return 200 |
+| `ApplicationTests` | Integration | Spring context loads successfully |
+
+### Run a Specific Test Class
+
+If you want to run just one test file:
+
+```bash
+./gradlew test --tests "com.allo.strategy.LatestIDRRatesFetcherTest"
+./gradlew test --tests "com.allo.strategy.HistoricalIDRUSDFetcherTest"
+./gradlew test --tests "com.allo.strategy.SupportedCurrenciesFetcherTest"
+./gradlew test --tests "com.allo.controller.FinanceDataControllerTest"
+./gradlew test --tests "com.allo.integration.DataLoadIntegrationTest"
+```
+
+### View the Test Report
+
+After running tests, Gradle generates an HTML report at:
+
+```
+build/reports/tests/test/index.html
+```
+
+Open it in your browser to see a detailed breakdown of passed/failed tests.
+
+---
+
+## Project Structure
+
+```
+src/main/java/com/allo/
+├── Application.java                  → Entry point
+├── client/
+│   └── RestTemplateFactoryBean.java  → Creates RestTemplate via FactoryBean
+├── config/
+│   └── FrankfurterApiProperties.java → Externalised API config (URL, timeouts)
+├── controller/
+│   └── FinanceDataController.java    → Single REST endpoint
+├── dto/
+│   └── FinanceResourceResponse.java  → Unified response record
+├── exception/
+│   ├── DataNotLoadedException.java   → 503 when store not ready
+│   ├── ExternalApiException.java     → Wraps Frankfurter API failures
+│   ├── GlobalExceptionHandler.java   → Maps exceptions to HTTP statuses
+│   └── ResourceNotFoundException.java→ 404 for unknown resource types
+├── runner/
+│   └── DataLoadRunner.java           → ApplicationRunner that loads data on startup
+├── service/
+│   └── FinanceDataService.java       → Routes requests to cached store or live fetch
+├── store/
+│   └── FinanceDataStore.java         → Thread-safe, immutable in-memory cache
+└── strategy/
+    ├── IDRFetcher.java               → Strategy interface
+    ├── LatestIDRRatesFetcher.java    → Fetches /latest?base=IDR + spread calc
+    ├── HistoricalIDRUSDFetcher.java  → Fetches historical IDR/USD time series
+    └── SupportedCurrenciesFetcher.java → Fetches /currencies
+
+src/test/java/com/allo/
+├── ApplicationTests.java
+├── controller/
+│   └── FinanceDataControllerTest.java
+├── integration/
+│   └── DataLoadIntegrationTest.java
+└── strategy/
+    ├── LatestIDRRatesFetcherTest.java
+    ├── HistoricalIDRUSDFetcherTest.java
+    └── SupportedCurrenciesFetcherTest.java
+```
+
+---
+
+## Configuration
+
+All external settings live in `src/main/resources/application.yml`:
+
+```yaml
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+    connect-timeout: 5s
+    read-timeout: 10s
+```
+
+You can override these via environment variables:
+
+```bash
+FRANKFURTER_API_BASE_URL=https://api.frankfurter.app ./gradlew bootRun
+```
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+| ------- | -------- |
+| `Gradle requires JVM 17 or later` | Switch to Java 17: `sdk use java 17.0.0-tem` |
+| `Connection refused` on localhost:8080 | Make sure the app is running (`./gradlew bootRun`) |
+| Response shows empty data | The Frankfurter API might be temporarily down — try again in a minute |
+| Historical dates return no rates | Weekends and holidays have no market data — use weekday ranges |
+| `BUILD FAILED` during `./gradlew build` | Check `java -version` is 17, and that you have internet access (needed to download dependencies) |
+
+---
+
+## Architectural Rationale
+
+### 1. Why the Strategy Pattern?
+
+Instead of writing `if/else` or `switch` blocks in the service layer to handle different resource types, each resource type gets its own dedicated fetcher class that implements the `IDRFetcher` interface. This means:
+
+- **Adding a new resource** is as simple as creating a new class that implements `IDRFetcher` — no existing code needs to change.
+- **Each strategy is independently testable** with its own unit test file and mocked dependencies.
+- **The controller stays clean** — it just does a map lookup by name, with zero conditional logic.
+
+Spring automatically collects all `IDRFetcher` beans into a map keyed by their component name, so wiring is entirely handled by the framework.
+
+### 2. Why FactoryBean for RestTemplate?
+
+A `FactoryBean<RestTemplate>` gives us full control over how the `RestTemplate` instance is built — injecting the base URL, connect timeout, and read timeout from `@ConfigurationProperties` — while still registering the result as a regular Spring bean. This is preferable to a plain `@Bean` method because:
+
+- The **creation logic is encapsulated** in its own component, separate from configuration classes.
+- It naturally supports the single-responsibility principle — the factory only cares about building the HTTP client.
+- Spring treats the produced `RestTemplate` as a first-class bean, injectable anywhere without extra wiring.
+
+### 3. Why ApplicationRunner over @PostConstruct?
+
+`ApplicationRunner` runs **after the entire Spring context is fully initialized**, which means all beans (including the `RestTemplate` from the `FactoryBean`) are guaranteed to be ready. In contrast, `@PostConstruct` runs during bean initialization, when other beans may not yet be fully wired. Additionally:
+
+- `ApplicationRunner` gives access to application arguments if needed.
+- It provides a clear, single entry point for startup logic that's easy to find and debug.
+- Failure in the runner prevents the application from starting, which is the desired behavior — if we can't load data, the app shouldn't serve stale or empty responses.
