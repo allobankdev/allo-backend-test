@@ -1,0 +1,101 @@
+{
+  "info": {
+    "_postman_id": "allo-bank-api-collection",
+    "name": "Allo Bank Finance API",
+    "description": "Postman collection for testing the Allo Bank Finance Data Aggregation API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Latest IDR Rates",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/finance/data/latest_idr_rates",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "finance",
+            "data",
+            "latest_idr_rates"
+          ]
+        },
+        "description": "Fetches the latest IDR exchange rates with USD_BuySpread_IDR calculation.\n\nThis endpoint returns:\n- base: The base currency (IDR)\n- date: The date of the rates\n- rates: Object containing all exchange rates\n  - USD_BuySpread_IDR: The Rupiah selling rate to USD with banking spread applied"
+      },
+      "response": []
+    },
+    {
+      "name": "Historical IDR to USD (2024-01-01..2024-01-05)",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/finance/data/historical_idr_usd",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "finance",
+            "data",
+            "historical_idr_usd"
+          ]
+        },
+        "description": "Fetches historical IDR to USD exchange rates for the period 2024-01-01 to 2024-01-05.\n\nThis endpoint returns:\n- base: The base currency (IDR)\n- start_date: Start of the time series\n- end_date: End of the time series\n- rates: Map of dates to USD rates"
+      },
+      "response": []
+    },
+    {
+      "name": "Supported Currencies",
+      "request": {
+        "method": "GET",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "http://localhost:8080/api/finance/data/supported_currencies",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8080",
+          "path": [
+            "api",
+            "finance",
+            "data",
+            "supported_currencies"
+          ]
+        },
+        "description": "Fetches the list of all supported currencies and their full names.\n\nThis endpoint returns a map of currency codes to their full names.\nExample: { \"USD\": \"United States Dollar\", \"EUR\": \"Euro\", ... }"
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+}
