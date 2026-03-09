@@ -1,0 +1,48 @@
+### IDE Specific ###
+.sts4-cache
+.classpath
+.project
+.settings
+.factorypath
+.idea/
+*.iml
+*.iws
+.vscode/
+bin/
+out/
+
+### Build Tools ###
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+# If you don't want to check in the Maven Wrapper
+# .mvn/wrapper/maven-wrapper.jar
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+### Logs and Temp ###
+*.log
+logs/
+temp/
+tmp/
+
+### OS Specific ###
+.DS_Store
+Thumbs.db
+
+### Local Configuration ###
+# Ignore local environment files (contains secrets/DB passwords)
+.env
+.env.local
+application-local.properties
+application-local.yml
