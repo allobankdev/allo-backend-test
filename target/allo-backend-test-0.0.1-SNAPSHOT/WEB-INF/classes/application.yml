@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: allo-backend-test
+
+server:
+  port: 8080
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  latest-path: /latest?base=IDR
+  historical-path: /2024-01-01..2024-01-05?from=IDR&to=USD
+  currencies-path: /currencies
+  connect-timeout: 3s
+  read-timeout: 5s
+
+app:
+  github-username: yourgithubusername

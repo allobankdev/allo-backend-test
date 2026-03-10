@@ -1,0 +1,55 @@
+{
+  "groups": [
+    {
+      "name": "app",
+      "type": "com.allo.bank.config.AppProperties",
+      "sourceType": "com.allo.bank.config.AppProperties"
+    },
+    {
+      "name": "frankfurter",
+      "type": "com.allo.bank.config.FrankfurterProperties",
+      "sourceType": "com.allo.bank.config.FrankfurterProperties"
+    }
+  ],
+  "properties": [
+    {
+      "name": "app.github-username",
+      "type": "java.lang.String",
+      "sourceType": "com.allo.bank.config.AppProperties"
+    },
+    {
+      "name": "frankfurter.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.allo.bank.config.FrankfurterProperties"
+    },
+    {
+      "name": "frankfurter.connect-timeout",
+      "type": "java.time.Duration",
+      "sourceType": "com.allo.bank.config.FrankfurterProperties"
+    },
+    {
+      "name": "frankfurter.currencies-path",
+      "type": "java.lang.String",
+      "sourceType": "com.allo.bank.config.FrankfurterProperties"
+    },
+    {
+      "name": "frankfurter.historical-path",
+      "type": "java.lang.String",
+      "sourceType": "com.allo.bank.config.FrankfurterProperties"
+    },
+    {
+      "name": "frankfurter.latest-path",
+      "type": "java.lang.String",
+      "sourceType": "com.allo.bank.config.FrankfurterProperties"
+    },
+    {
+      "name": "frankfurter.read-timeout",
+      "type": "java.time.Duration",
+      "sourceType": "com.allo.bank.config.FrankfurterProperties"
+    }
+  ],
+  "hints": [],
+  "ignored": {
+    "properties": []
+  }
+}

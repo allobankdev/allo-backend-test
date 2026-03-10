@@ -1,0 +1,6 @@
+com\allo\bank\integration\StartupDataLoaderIntegrationTest.class
+com\allo\bank\integration\StartupDataLoaderIntegrationTest$TestConfig.class
+com\allo\bank\strategy\HistoricalIdrUsdFetcherTest.class
+com\allo\bank\strategy\SupportedCurrenciesFetcherTest.class
+com\allo\bank\integration\StartupDataLoaderIntegrationTest$StubFrankfurterClient.class
+com\allo\bank\strategy\LatestIdrRatesFetcherTest.class
