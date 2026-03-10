@@ -1,5 +1,112 @@
 # Allo Bank Backend Developer Take-Home Test
 
+## Suggested Implementation Breakdown
+
+### Stage 1: Bootstrap Project
+
+1. Create Spring Boot 3 + Java 17 project with Maven packaging `war`.
+2. Add base dependencies: web, validation, test.
+3. Define configuration in `application.yml` for Frankfurter endpoints and GitHub username.
+
+### Stage 2: Build Architecture Contracts
+
+1. Create `IDRDataFetcher` as the Strategy contract.
+2. Create three concrete strategies:
+   - `LatestIdrRatesFetcher`
+   - `HistoricalIdrUsdFetcher`
+   - `SupportedCurrenciesFetcher`
+3. Create `FrankfurterClient` as a thin wrapper around the external API client.
+4. Build the HTTP client with a custom `FactoryBean<RestClient>`.
+
+### Stage 3: Build In-Memory Read Model
+
+1. Create `InMemoryFinanceDataStore` with immutable replacement semantics.
+2. Create `StartupDataLoader` using `ApplicationRunner`.
+3. Load all resources exactly once during startup and store them in memory.
+
+### Stage 4: Expose the API
+
+1. Create `FinanceDataController` with `GET /api/finance/data/{resourceType}`.
+2. Route resource access through service lookup without `if/else` in the controller.
+3. Return the cached in-memory data only.
+
+### Stage 5: Harden for Review
+
+1. Add global exception handling.
+2. Add unit tests for the three strategy classes.
+3. Add startup-loading integration test.
+4. Update README with setup, curl examples, GitHub spread factor, and architecture rationale.
+
+## Final Architecture Design
+
+### Main Flow
+
+1. Application starts.
+2. Spring creates the Frankfurter `RestClient` via `FrankfurterClientFactoryBean`.
+3. `StartupDataLoader` runs once and calls all `IDRDataFetcher` implementations.
+4. Each strategy fetches its external resource and transforms it into a unified response item.
+5. `InMemoryFinanceDataStore` stores the full result as immutable data.
+6. `FinanceDataController` serves `GET /api/finance/data/{resourceType}` from memory.
+
+### Package Structure
+
+```text
+src/main/java/com/allo/bank
+├── config
+├── client
+├── controller
+├── dto
+├── exception
+├── service
+│   └── store
+├── strategy
+└── util
+```
+
+### Design Notes
+
+- `strategy`: mandatory because the test explicitly evaluates polymorphism and resource-specific behavior.
+- `FactoryBean`: mandatory because the test forbids declaring the API client as a simple `@Bean`.
+- `ApplicationRunner`: better fit than `@PostConstruct` because startup orchestration is clearer and easier to test.
+- `InMemoryFinanceDataStore`: uses atomic replacement so reads stay safe after initialization.
+
+## Current Skeleton Status
+
+The repository now includes:
+
+- Maven `war` project setup
+- Swagger/OpenAPI via springdoc
+- Spring Boot main application and servlet initializer
+- configuration properties
+- custom `FactoryBean<RestClient>`
+- Frankfurter API client wrapper
+- strategy contract and three implementations
+- startup data loader
+- immutable in-memory data store
+- controller and exception handler
+- spread factor calculator
+- unit test skeletons and startup integration test
+
+## API Documentation
+
+When the application is running locally:
+
+- Swagger UI: `http://localhost:8900/swagger-ui/index.html`
+- OpenAPI JSON: `http://localhost:8900/v3/api-docs`
+
+Technical flow documentation is available at [docs/TECHNICAL_FLOW.md](/mnt/d/fando/allo-backend-test/docs/TECHNICAL_FLOW.md).
+PlantUML flow diagram is available at [docs/CONTROLLER_TO_END_FLOW.puml](/mnt/d/fando/allo-backend-test/docs/CONTROLLER_TO_END_FLOW.puml).
+API positive scenarios are available at [docs/API_POSITIVE_TEST_SCENARIOS.md](/mnt/d/fando/allo-backend-test/docs/API_POSITIVE_TEST_SCENARIOS.md).
+API negative scenarios are available at [docs/API_NEGATIVE_TEST_SCENARIOS.md](/mnt/d/fando/allo-backend-test/docs/API_NEGATIVE_TEST_SCENARIOS.md).
+
+## Recommended Next Build Order
+
+1. Finish response DTO shape so all three endpoints return a clearly unified JSON array.
+2. Refine transformation for `latest_idr_rates`, especially precision and field naming.
+3. Add logging around startup load.
+4. Add README examples and real GitHub spread factor.
+5. Run tests and fix any serialization or startup issues.
+
 Thank you for applying to our team! This take-home test is designed to evaluate your practical skills in building **production-ready** Spring Boot applications within a finance domain, focusing on architectural patterns and complex data handling.
 
 ## 📝 Objective
