@@ -14,9 +14,7 @@ public class FinanceController {
     private final FinanceService financeService;
 
     @GetMapping("/{resourceType}")
-    public Mono<ResponseEntity<FinanceData>> getData(@PathVariable String resourceType) {
-        return financeService.getDataFromStore(resourceType)
-                .map(ResponseEntity::ok)
-                .onErrorReturn(ResponseEntity.badRequest().build());
+    public Mono<FinanceData> getData(@PathVariable String resourceType) {
+        return financeService.getDataFromStore(resourceType);
     }
 }
