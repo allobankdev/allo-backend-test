@@ -8,6 +8,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,6 +29,7 @@ public class FinanceService {
                     return FinanceData.builder()
                             .resourceType(resourceType)
                             .data(dataStore.getLatestIdrRates())
+                            .timestamp(LocalDate.now())
                             .build();
                 case "historical_idr_usd":
                     return FinanceData.builder()
