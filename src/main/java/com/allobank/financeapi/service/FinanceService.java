@@ -35,11 +35,13 @@ public class FinanceService {
                     return FinanceData.builder()
                             .resourceType(resourceType)
                             .data(dataStore.getHistoricalIdrUsd())
+                            .timestamp(LocalDate.now())
                             .build();
                 case "supported_currencies":
                     return FinanceData.builder()
                             .resourceType(resourceType)
                             .data(dataStore.getSupportedCurrencies())
+                            .timestamp(LocalDate.now())
                             .build();
                 default:
                     throw new IllegalArgumentException("Unsupported resource type: " + resourceType);
