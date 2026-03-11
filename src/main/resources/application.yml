@@ -1,0 +1,9 @@
+frankfurter:
+  base-url: https://api.frankfurter.app
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: allo-idr-rates
