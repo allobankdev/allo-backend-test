@@ -1,0 +1,8 @@
+frankfurter:
+  base-url: https://api.frankfurter.app
+  historical:
+    start-date: 2024-01-01
+    end-date: 2024-01-05
+
+spread:
+  github-username: DoniOctopus
