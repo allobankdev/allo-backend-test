@@ -144,6 +144,12 @@ Good luck!
 **GitHub:** @elvianavictoria  
 **Spread Factor:** 0.00601 (dari username: elvianavictoria, ASCII sum: 1601)
 
+### Test Endpoints
+```bash
+curl http://localhost:8080/api/finance/data/latest_idr_rates
+curl http://localhost:8080/api/finance/data/historical_idr_usd
+curl http://localhost:8080/api/finance/data/supported_currencies
+
 ### How to Run
 ```bash
 mvn spring-boot:run
