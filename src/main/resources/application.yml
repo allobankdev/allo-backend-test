@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: elvi-exchange-api
+
+server:
+  port: 8080
+
+app:
+  frankfurter:
+    base-url: https://api.frankfurter.app
+    connect-timeout: 5s
+    read-timeout: 10s
+    github-username: elvianavictoria
+
+logging:
+  level:
+    com.allobank.financeapi: DEBUG

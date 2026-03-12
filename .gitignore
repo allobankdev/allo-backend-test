@@ -1,0 +1,30 @@
+# Default ignored files
+/shelf/
+/.idea/workspace.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+
+
+# Compiled files
+target/
+*.class
+
+# IDE - IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+.settings/
+.classpath
+.project
+.sts4-cache/
+
+# VS Code
+.vscode/
+
+# Logs
+logs/
+*.log
+
+# Other
+.DS_Store
