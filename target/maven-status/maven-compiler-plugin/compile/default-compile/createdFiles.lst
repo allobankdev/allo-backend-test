@@ -1,1 +1,12 @@
+com\allobank\allobackendtest\strategy\IDRDataFetcher.class
 com\allobank\allobackendtest\AlloBackendTestApplication.class
+com\allobank\allobackendtest\config\WebClientFactoryBean.class
+com\allobank\allobackendtest\service\DataStoreService.class
+com\allobank\allobackendtest\controller\RateController.class
+com\allobank\allobackendtest\util\SpreadFactorCalculator.class
+com\allobank\allobackendtest\runner\DataInitializerRunner.class
+com\allobank\allobackendtest\strategy\impl\LatestRatesStrategy.class
+com\allobank\allobackendtest\strategy\impl\HistoricalRatesStrategy.class
+com\allobank\allobackendtest\strategy\impl\SupportedCurrenciesStrategy.class
+com\allobank\allobackendtest\exception\GlobalExceptionHandler.class
+com\allobank\allobackendtest\exception\ExternalServiceException.class

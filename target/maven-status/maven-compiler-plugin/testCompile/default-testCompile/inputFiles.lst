@@ -1,1 +1,4 @@
 C:\Users\900571\self-project\spring\allo-backend-test\src\test\java\com\allobank\allobackendtest\AlloBackendTestApplicationTests.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\test\java\com\allobank\allobackendtest\strategy\HistoricalRatesStrategyTest.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\test\java\com\allobank\allobackendtest\strategy\LatestRatesStrategyTest.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\test\java\com\allobank\allobackendtest\strategy\SupportedCurrenciesStrategyTest.java
