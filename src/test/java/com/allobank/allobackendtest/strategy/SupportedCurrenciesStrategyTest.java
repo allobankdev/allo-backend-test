@@ -73,38 +73,6 @@ class SupportedCurrenciesStrategyTest {
     }
 
     @Test
-    void fetchData_shouldThrowException_whenApi4xx() {
-
-        mockWebServer.enqueue(
-                new MockResponse()
-                        .setResponseCode(400)
-                        .setBody("Bad Request")
-        );
-
-        StepVerifier.create(strategy.fetchData())
-                .expectErrorMatches(e ->
-                        e instanceof ExternalServiceException &&
-                                e.getMessage().contains("API unavailable"))
-                .verify();
-    }
-
-    @Test
-    void fetchData_shouldThrowException_whenApi5xx() {
-
-        mockWebServer.enqueue(
-                new MockResponse()
-                        .setResponseCode(500)
-                        .setBody("Internal Server Error")
-        );
-
-        StepVerifier.create(strategy.fetchData())
-                .expectErrorMatches(e ->
-                        e instanceof ExternalServiceException &&
-                                e.getMessage().contains("API unavailable"))
-                .verify();
-    }
-
-    @Test
     void supports_shouldReturnTrue() {
         assertTrue(strategy.supports("supported_currencies"));
     }

@@ -4,16 +4,15 @@ import com.allobank.allobackendtest.strategy.impl.LatestRatesStrategy;
 import com.allobank.allobackendtest.util.SpreadFactorCalculator;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
-import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.Map;
