@@ -13,7 +13,6 @@ import java.util.Map;
 
 @Component("historical_idr_usd")
 @RequiredArgsConstructor
-@Slf4j
 public class HistoricalRatesStrategy implements IDRDataFetcher {
     private final WebClient webClient;
     @Override
