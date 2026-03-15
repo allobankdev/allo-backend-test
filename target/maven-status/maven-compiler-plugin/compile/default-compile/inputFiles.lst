@@ -1,0 +1,12 @@
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\AlloBackendTestApplication.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\config\WebClientFactoryBean.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\controller\RateController.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\exception\ExternalServiceException.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\exception\GlobalExceptionHandler.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\runner\DataInitializerRunner.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\service\DataStoreService.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\strategy\IDRDataFetcher.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\strategy\impl\HistoricalRatesStrategy.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\strategy\impl\LatestRatesStrategy.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\strategy\impl\SupportedCurrenciesStrategy.java
+C:\Users\900571\self-project\spring\allo-backend-test\src\main\java\com\allobank\allobackendtest\util\SpreadFactorCalculator.java

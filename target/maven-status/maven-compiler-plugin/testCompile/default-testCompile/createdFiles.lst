@@ -1,0 +1,5 @@
+com\allobank\allobackendtest\AlloBackendTestApplicationTests.class
+com\allobank\allobackendtest\config\WebClientTestConfig.class
+com\allobank\allobackendtest\strategy\SupportedCurrenciesStrategyTest.class
+com\allobank\allobackendtest\strategy\LatestRatesStrategyTest.class
+com\allobank\allobackendtest\strategy\HistoricalRatesStrategyTest.class
