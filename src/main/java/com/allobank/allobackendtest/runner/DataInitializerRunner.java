@@ -28,21 +28,30 @@ public class DataInitializerRunner implements ApplicationRunner {
                 "supported_currencies"
         );
 
-        Flux.fromIterable(resourceTypes)
-                .flatMap(type -> {
-                    IDRDataFetcher strategy = strategies.stream()
-                            .filter(s -> s.supports(type))
-                            .findFirst()
-                            .orElseThrow(() -> new RuntimeException("No strategy found for: " + type));
+        try {
 
-                    return strategy.fetchData()
-                            .doOnNext(data -> {
-                                dataStoreService.storeData(type, data);
-                                log.info("Successfully fetched and stored data for: {}", type);
-                            });
-                })
-                .doOnComplete(() -> log.info("Initial data fetch completed."))
-                .doOnError(e -> log.error("Error during initial data fetch", e))
-                .subscribe();
+            Flux.fromIterable(resourceTypes)
+                    .flatMap(type -> {
+                        IDRDataFetcher strategy = strategies.stream()
+                                .filter(s -> s.supports(type))
+                                .findFirst()
+                                .orElseThrow(() -> new RuntimeException("No strategy found for: " + type));
+
+                        return strategy.fetchData()
+                                .doOnNext(data -> {
+                                    dataStoreService.storeData(type, data);
+                                    log.info("Successfully fetched and stored data for: {}", type);
+                                });
+                    })
+                    .then()
+                    .block();
+
+            log.info("Initial data fetch completed.");
+
+        } catch (Exception ex) {
+
+            log.error("Initial data fetch failed", ex.getMessage());
+            throw new IllegalStateException("Application startup failed due to data loading error", ex.getCause());
+        }
     }
 }
