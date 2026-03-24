@@ -20,14 +20,14 @@ public class FinanceController {
         this.externalApiService = externalApiService;
     }
 
-    @GetMapping("/resourceType")
+    @GetMapping("/{resourceType}")
     public Object getData(
             @PathVariable String resourceType){
         return financeService.getData(resourceType);
     }
-
-    @GetMapping("/test")
-    public String testApi() {
-        return externalApiService.testCall();
-    }
+//
+//    @GetMapping("/test")
+//    public String testApi() {
+//        return externalApiService.testCall();
+//    }
 }
