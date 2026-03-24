@@ -17,13 +17,28 @@ public class GlobalExceptionHandler {
         this.financeDataService = financeDataService;
     }
 
+    @ExceptionHandler(ResourceTypeNotSupportedException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public Map<String, Object> handleResourceTypeNotSupported(ResourceTypeNotSupportedException exception) {
+        return Map.of(
+                "error", "Bad Request",
+                "message", exception.getMessage(),
+                "supportedResourceTypes", financeDataService.supportedResourceTypes());
+    }
+
+    @ExceptionHandler(DataNotInitializedException.class)
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public Map<String, Object> handleDataNotInitialized(DataNotInitializedException exception) {
+        return Map.of(
+                "error", "Service Unavailable",
+                "message", exception.getMessage());
+    }
+
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Map<String, Object> handleIllegalArgument(IllegalArgumentException exception) {
         return Map.of(
                 "error", "Bad Request",
-                "message", exception.getMessage(),
-                "supportedResourceTypes", financeDataService.supportedResourceTypes()
-        );
+                "message", exception.getMessage());
     }
 }
