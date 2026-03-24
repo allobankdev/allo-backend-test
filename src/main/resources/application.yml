@@ -16,3 +16,4 @@ frankfurter:
 finance:
   preload:
     enabled: true
+    fail-fast: false
