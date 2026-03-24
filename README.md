@@ -100,7 +100,7 @@ frankfurter:
   api:
     base-url: https://api.frankfurter.app
     historical-range: 2024-01-01..2024-01-05
-    github-username: intikom
+    github-username: joniheri
     connect-timeout-millis: 5000
     read-timeout-millis: 5000
 ```

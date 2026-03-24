@@ -100,7 +100,7 @@ frankfurter:
   api:
     base-url: https://api.frankfurter.app
     historical-range: 2024-01-01..2024-01-05
-    github-username: intikom
+    github-username: joniheri
     connect-timeout-millis: 5000
     read-timeout-millis: 5000
 ```
@@ -108,6 +108,18 @@ frankfurter:
 Ubah `github-username` jika diperlukan; nilai spread factor akan otomatis mengikuti nilai tersebut.
 
 ## Keterangan Tambahan (Update Belakangan)
+
+Untuk akses dokumentasi Swagger UI di browser (saat aplikasi sudah jalan):
+
+```text
+http://localhost:8080/swagger-ui/index.html
+```
+
+Endpoint raw OpenAPI JSON:
+
+```text
+http://localhost:8080/v3/api-docs
+```
 
 Untuk menjalankan test sekaligus membuat laporan coverage:
 
