@@ -44,12 +44,13 @@ public class FrankfurterClient {
 
         Map<String, Object> result = new LinkedHashMap<>();
         result.put("base", response.get("base"));
+        result.put("EUR", 1);
         result.put("date", response.get("date"));
         result.put("rates", enrichedRates);
         return result;
     }
 
-    public List<Map<String, Object>> fetchHistoricalIdrUsd() {
+    public Map<String, Object> fetchHistoricalIdrUsd() {
         String url = properties.getBaseUrl() + "/" + properties.getHistoricalRange() + "?from=USD&to=IDR";
         Map<String, Object> response = getMap(url);
 
@@ -57,7 +58,7 @@ public class FrankfurterClient {
         Map<String, Map<String, Object>> ratesByDate = (Map<String, Map<String, Object>>) response.getOrDefault("rates",
                 Map.of());
 
-        return ratesByDate.entrySet().stream()
+        List<Map<String, Object>> history = ratesByDate.entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .map(entry -> {
                     BigDecimal idrPerUsd = toBigDecimal(entry.getValue().get("IDR"));
@@ -66,6 +67,13 @@ public class FrankfurterClient {
                             "idr_per_usd", idrPerUsd);
                 })
                 .toList();
+
+        Map<String, Object> result = new LinkedHashMap<>();
+        result.put("base", "USD");
+        result.put("USD", 1);
+        result.put("quote", "IDR");
+        result.put("rates", history);
+        return result;
     }
 
     public Map<String, String> fetchSupportedCurrencies() {
