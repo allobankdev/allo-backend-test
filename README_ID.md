@@ -106,3 +106,17 @@ frankfurter:
 ```
 
 Ubah `github-username` jika diperlukan; nilai spread factor akan otomatis mengikuti nilai tersebut.
+
+## Keterangan Tambahan (Update Belakangan)
+
+Untuk menjalankan test sekaligus membuat laporan coverage:
+
+```bash
+mvn test jacoco:report
+```
+
+Laporan coverage HTML akan tersedia di:
+
+```text
+target/site/jacoco/index.html
+```
