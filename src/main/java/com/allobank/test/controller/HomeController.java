@@ -14,8 +14,6 @@ public class HomeController {
                 "app", "allo-backend-test",
                 "message", "Service is running",
                 "endpoints", Map.of(
-                        "finance_data", "/api/finance/data/{resourceType}"
-                )
-        );
+                        "finance_data", "/api/finance/data/{resourceType}"));
     }
 }
