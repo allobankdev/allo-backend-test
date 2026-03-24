@@ -3,11 +3,13 @@ com\allo\test\service\ExternalApiService.class
 com\allo\test\strategy\HistoricalRatesFetcher.class
 com\allo\test\strategy\CurrencyFetcher.class
 com\allo\test\service\SpreadCalculator.class
+com\allo\test\runner\DataLoaderRunner.class
 com\allo\test\controller\FinanceController.class
-com\allo\test\dto\CurrencyResponse.class
 com\allo\test\strategy\LatestRatesFetcher.class
 com\allo\test\service\ExternalApiService$2.class
+com\allo\test\dto\LatestRatesResult.class
 com\allo\test\config\WebClientFactoryBean.class
+com\allo\test\service\InMemoryDataStore.class
 com\allo\test\strategy\IDRDataFetcher.class
 com\allo\test\dto\LatestRatesResponse.class
 com\allo\test\service\FinanceService.class

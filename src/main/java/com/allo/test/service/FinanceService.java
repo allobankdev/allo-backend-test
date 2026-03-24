@@ -9,23 +9,18 @@ import java.util.stream.Collectors;
 
 @Service
 public class FinanceService {
-
-    private final Map<String , IDRDataFetcher> strategyMap;
-    public FinanceService(List<IDRDataFetcher> fetchers) {
-        this.strategyMap = fetchers.stream()
-                .collect(Collectors.toMap(
-                        IDRDataFetcher::getResourceType,
-                        f -> f
-                ));
+    private final InMemoryDataStore dataStore;
+    public FinanceService(InMemoryDataStore dataStore) {
+        this.dataStore = dataStore;
     }
 
     public List<Object> getData(String resourceType) {
-        IDRDataFetcher fetcher = strategyMap.get(resourceType);
+        List<Object> data = dataStore.get(resourceType);
 
-        if (fetcher == null) {
-            throw new RuntimeException("Invalid resource type");
+        if (data == null) {
+            throw new RuntimeException("Resource not found");
         }
 
-        return fetcher.fetchData();
+        return data;
     }
 }

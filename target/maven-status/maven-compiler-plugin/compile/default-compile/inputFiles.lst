@@ -1,11 +1,13 @@
 C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\config\WebClientFactoryBean.java
 C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\strategy\CurrencyFetcher.java
-C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\strategy\IDRDataFetcher.java
-C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\dto\CurrencyResponse.java
 C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\FinanceApiApplication.java
-C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\service\ExternalApiService.java
 C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\strategy\LatestRatesFetcher.java
 C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\dto\LatestRatesResponse.java
+C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\service\InMemoryDataStore.java
+C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\strategy\IDRDataFetcher.java
+C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\dto\LatestRatesResult.java
+C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\service\ExternalApiService.java
+C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\runner\DataLoaderRunner.java
 C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\strategy\HistoricalRatesFetcher.java
 C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\controller\FinanceController.java
 C:\Users\YX07W\Downloads\allo-backend-test\src\main\java\com\allo\test\service\FinanceService.java
