@@ -1,0 +1,106 @@
+{
+  "info": {
+    "_postman_id": "b87cfb30-c8c9-4a8e-b8dc-6ab777b8f001",
+    "name": "Allo Backend Test API",
+    "description": "Collection for testing /api/finance/data/{resourceType} endpoints.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080"
+    }
+  ],
+  "item": [
+    {
+      "name": "Home",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": []
+        }
+      }
+    },
+    {
+      "name": "Finance - latest_idr_rates",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/finance/data/latest_idr_rates",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "finance",
+            "data",
+            "latest_idr_rates"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Finance - historical_idr_usd",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/finance/data/historical_idr_usd",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "finance",
+            "data",
+            "historical_idr_usd"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Finance - supported_currencies",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/finance/data/supported_currencies",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "finance",
+            "data",
+            "supported_currencies"
+          ]
+        }
+      }
+    },
+    {
+      "name": "Finance - invalid resourceType (expect 400)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "{{baseUrl}}/api/finance/data/invalid_type",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "api",
+            "finance",
+            "data",
+            "invalid_type"
+          ]
+        }
+      }
+    }
+  ]
+}
