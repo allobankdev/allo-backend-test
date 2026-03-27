@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: finance
+
+server:
+  port: 8080
+
+
+app:
+  github-username: 'nico-nico-nii'
+  preload:
+    attempt: 3
+    backoff: 3000
+  data-source:
+    api-url: https://api.frankfurter.app
+    connect-timeout: 5000
+    read-timeout: 10000
