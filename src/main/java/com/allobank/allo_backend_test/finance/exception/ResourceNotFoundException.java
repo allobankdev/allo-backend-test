@@ -1,5 +1,9 @@
 package com.allobank.allo_backend_test.finance.exception;
 
-public class ResourceNotFoundException extends RuntimeException {
-    public ResourceNotFoundException(String message) { super(message); }
+import org.springframework.http.HttpStatus;
+
+public class ResourceNotFoundException extends AppException {
+    public ResourceNotFoundException(String message) {
+        super(message, HttpStatus.NOT_FOUND, "resource not supported");
+    }
 }
