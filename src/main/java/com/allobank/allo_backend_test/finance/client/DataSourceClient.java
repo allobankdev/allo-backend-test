@@ -1,5 +1,7 @@
 package com.allobank.allo_backend_test.finance.client;
 
+import com.allobank.allo_backend_test.finance.model.dto.HistoricalRatesDto;
+import com.allobank.allo_backend_test.finance.model.dto.LatestRateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,24 +17,24 @@ public class DataSourceClient {
 
     private final RestClient restClient;
 
-    public Map<String, Object> getLatestRates(String base) {
+    public LatestRateDto getLatestRates(String base) {
         return restClient.get()
                 .uri(u -> u.path("/latest").queryParam("base", base).build())
                 .retrieve()
-                .body(new ParameterizedTypeReference<>() {});
+                .body(LatestRateDto.class);
     }
 
-    public Map<String, Object> getHistoricalRates(String startDate, String endDate, String from, String to) {
+    public HistoricalRatesDto getHistoricalRates(String startDate, String endDate, String from, String to) {
         return restClient.get()
                 .uri(u -> u.path("/{range}")
                         .queryParam("from", from)
                         .queryParam("to", to)
                         .build(startDate + ".." + endDate))
                 .retrieve()
-                .body(new ParameterizedTypeReference<>() {});
+                .body(HistoricalRatesDto.class);
     }
 
-    public Map<String, Object> getCurrencies() {
+    public Map<String, String> getCurrencies() {
         return restClient.get()
                 .uri("/currencies")
                 .retrieve()

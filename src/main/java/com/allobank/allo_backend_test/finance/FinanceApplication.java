@@ -14,18 +14,6 @@ public class FinanceApplication {
 
 		AppConfig appConfig = context.getBean(AppConfig.class);
 		System.out.println("App Config: " + appConfig);
-
-
-		DataSourceClient client = context.getBean(DataSourceClient.class);
-
-		System.out.println("r");
-		System.out.println(client.getLatestRates("IDR"));
-
-		System.out.println("hist");
-		System.out.println(client.getHistoricalRates("2024-01-01", "2024-01-05", "IDR", "USD"));
-
-		System.out.println("curr");
-		System.out.println(client.getCurrencies());
 	}
 
 }
