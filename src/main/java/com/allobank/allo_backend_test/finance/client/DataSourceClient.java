@@ -1,7 +1,5 @@
 package com.allobank.allo_backend_test.finance.client;
 
-import com.allobank.allo_backend_test.finance.model.dto.HistoricalRatesDto;
-import com.allobank.allo_backend_test.finance.model.dto.LatestRateDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,30 +12,23 @@ import java.util.Map;
 @Component
 @RequiredArgsConstructor
 public class DataSourceClient {
-
     private final RestClient restClient;
 
-    public LatestRateDto getLatestRates(String base) {
+    public <T> T get(String path, Class<T> responseType) {
         return restClient.get()
-                .uri(u -> u.path("/latest").queryParam("base", base).build())
+                .uri(path)
                 .retrieve()
-                .body(LatestRateDto.class);
+                .body(responseType);
     }
 
-    public HistoricalRatesDto getHistoricalRates(String startDate, String endDate, String from, String to) {
+    public <T> T getWithParams(String path, Map<String, String> params, Class<T> responseType) {
         return restClient.get()
-                .uri(u -> u.path("/{range}")
-                        .queryParam("from", from)
-                        .queryParam("to", to)
-                        .build(startDate + ".." + endDate))
+                .uri(u -> {
+                    var builder = u.path(path);
+                    params.forEach(builder::queryParam);
+                    return builder.build();
+                })
                 .retrieve()
-                .body(HistoricalRatesDto.class);
-    }
-
-    public Map<String, String> getCurrencies() {
-        return restClient.get()
-                .uri("/currencies")
-                .retrieve()
-                .body(new ParameterizedTypeReference<>() {});
+                .body(responseType);
     }
 }

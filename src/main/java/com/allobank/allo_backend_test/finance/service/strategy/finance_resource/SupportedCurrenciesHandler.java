@@ -3,6 +3,7 @@ package com.allobank.allo_backend_test.finance.service.strategy.finance_resource
 import com.allobank.allo_backend_test.finance.client.DataSourceClient;
 import com.allobank.allo_backend_test.finance.model.CurrenciesModel;
 import com.allobank.allo_backend_test.finance.model.FinanceResource;
+import com.allobank.allo_backend_test.finance.model.dto.CurrenciesDto;
 import com.allobank.allo_backend_test.finance.repository.FinanceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +24,7 @@ public class SupportedCurrenciesHandler extends AbstractFinanceResourceHandler {
 
     @Override
     public FinanceResource fetch() {
-        var dto = client.getCurrencies();
+        CurrenciesDto dto = client.get("/currencies", CurrenciesDto.class);
         CurrenciesModel model = new CurrenciesModel(dto);
         repository.put(resourceType(), model);
         return model;
