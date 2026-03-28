@@ -16,6 +16,6 @@ app:
     attempt: 3
     backoff: 3000
   data-source:
-    api-url: https://api.frankfurter.appa
+    api-url: https://api.frankfurter.app
     connect-timeout: 5000
     read-timeout: 10000

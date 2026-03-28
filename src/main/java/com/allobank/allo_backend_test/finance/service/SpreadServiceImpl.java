@@ -16,7 +16,9 @@ public class SpreadServiceImpl implements SpreadService {
         log.info("username: '{}'", config.getGithubUsername());
         String username = config.getGithubUsername();
         int sum = username.toLowerCase().chars().sum();
+        log.info("sum: '{}'", sum);
         this.spreadFactor = (sum % 1000) / 100000.0;
+        log.info("spreadfactor: '{}'", String.format("%.7f", spreadFactor));
     }
 
     @Override
