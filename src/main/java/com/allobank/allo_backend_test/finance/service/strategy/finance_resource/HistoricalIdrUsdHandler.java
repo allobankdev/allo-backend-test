@@ -13,10 +13,11 @@ import java.util.Map;
 @Component
 public class HistoricalIdrUsdHandler extends AbstractFinanceResourceHandler {
 
-    @Autowired private DataSourceClient client;
+    private final DataSourceClient client;
 
-    public HistoricalIdrUsdHandler(FinanceRepository repository) {
+    public HistoricalIdrUsdHandler(FinanceRepository repository, DataSourceClient client) {
         super(repository);
+        this.client = client;
     }
 
     @Override

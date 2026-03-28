@@ -11,10 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class SupportedCurrenciesHandler extends AbstractFinanceResourceHandler {
 
-    @Autowired private DataSourceClient client;
+    private final DataSourceClient client;
 
-    public SupportedCurrenciesHandler(FinanceRepository repository) {
+    public SupportedCurrenciesHandler(FinanceRepository repository, DataSourceClient client) {
         super(repository);
+        this.client = client;
     }
 
     @Override

@@ -1,13 +1,16 @@
 package com.allobank.allo_backend_test.finance.service;
 
+import com.allobank.allo_backend_test.finance.MockDataSourceClient;
 import com.allobank.allo_backend_test.finance.config.AppConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
+@Import(MockDataSourceClient.class)
 class SpreadServiceIT {
 
     @Autowired

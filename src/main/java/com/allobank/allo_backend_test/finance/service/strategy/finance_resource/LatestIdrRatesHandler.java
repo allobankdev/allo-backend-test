@@ -14,11 +14,13 @@ import java.util.Map;
 @Component
 public class LatestIdrRatesHandler extends AbstractFinanceResourceHandler {
 
-    @Autowired private DataSourceClient client;
-    @Autowired private SpreadService spreadService;
+    private final DataSourceClient client;
+    private final SpreadService spreadService;
 
-    public LatestIdrRatesHandler(FinanceRepository repository) {
+    public LatestIdrRatesHandler(FinanceRepository repository, DataSourceClient client, SpreadService spreadService) {
         super(repository);
+        this.client = client;
+        this.spreadService = spreadService;
     }
 
     @Override
