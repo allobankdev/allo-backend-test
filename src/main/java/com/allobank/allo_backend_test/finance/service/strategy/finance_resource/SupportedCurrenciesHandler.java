@@ -4,15 +4,17 @@ import com.allobank.allo_backend_test.finance.client.DataSourceClient;
 import com.allobank.allo_backend_test.finance.model.CurrenciesModel;
 import com.allobank.allo_backend_test.finance.model.FinanceResource;
 import com.allobank.allo_backend_test.finance.repository.FinanceRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
-public class SupportedCurrenciesHandler implements FinanceResourceHandler {
+public class SupportedCurrenciesHandler extends AbstractFinanceResourceHandler {
 
-    private final DataSourceClient client;
-    private final FinanceRepository repository;
+    @Autowired private DataSourceClient client;
+
+    public SupportedCurrenciesHandler(FinanceRepository repository) {
+        super(repository);
+    }
 
     @Override
     public String resourceType() {
@@ -25,10 +27,5 @@ public class SupportedCurrenciesHandler implements FinanceResourceHandler {
         CurrenciesModel model = new CurrenciesModel(dto);
         repository.put(resourceType(), model);
         return model;
-    }
-
-    @Override
-    public FinanceResource get() {
-        return repository.get(resourceType());
     }
 }

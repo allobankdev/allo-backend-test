@@ -4,15 +4,17 @@ import com.allobank.allo_backend_test.finance.client.DataSourceClient;
 import com.allobank.allo_backend_test.finance.model.FinanceResource;
 import com.allobank.allo_backend_test.finance.model.HistoricalRatesModel;
 import com.allobank.allo_backend_test.finance.repository.FinanceRepository;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor
-public class HistoricalIdrUsdHandler implements FinanceResourceHandler {
+public class HistoricalIdrUsdHandler extends AbstractFinanceResourceHandler {
 
-    private final DataSourceClient client;
-    private final FinanceRepository repository;
+    @Autowired private DataSourceClient client;
+
+    public HistoricalIdrUsdHandler(FinanceRepository repository) {
+        super(repository);
+    }
 
     @Override
     public String resourceType() {
@@ -26,10 +28,5 @@ public class HistoricalIdrUsdHandler implements FinanceResourceHandler {
                 dto.amount(), dto.base(), dto.startDate(), dto.endDate(), dto.rates());
         repository.put(resourceType(), model);
         return model;
-    }
-
-    @Override
-    public FinanceResource get() {
-        return repository.get(resourceType());
     }
 }

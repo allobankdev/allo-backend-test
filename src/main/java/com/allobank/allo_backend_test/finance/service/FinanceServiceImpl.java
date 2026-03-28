@@ -13,9 +13,7 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class FinanceServiceImpl implements FinanceService {
-
     private final FinanceResourceRegistry registry;
-    private final FinanceRepository repository;
 
     @Override
     public FinanceResource fetchByResourceType(String resourceType) {
@@ -31,11 +29,6 @@ public class FinanceServiceImpl implements FinanceService {
         FinanceResourceHandler handler = registry.get(resourceType);
         if (handler == null) {
             throw new ResourceNotSupportedException("ResourceNotSupportedException: " + resourceType);
-        }
-
-        var data = repository.getData();
-        if (data == null || data.isEmpty()) {
-            throw new ServiceUnavailableException("ServiceUnavailableException");
         }
 
         FinanceResource resource = handler.get();
