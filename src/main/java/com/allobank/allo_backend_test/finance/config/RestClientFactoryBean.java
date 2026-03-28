@@ -1,20 +1,20 @@
 package com.allobank.allo_backend_test.finance.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
-@Configuration
+@Component
 @RequiredArgsConstructor
-public class RestClientConfig {
+public class RestClientFactoryBean implements FactoryBean<RestClient> {
 
     private final AppConfig appConfig;
 
-    @Bean
-    public RestClient restClient() {
+    @Override
+    public RestClient getObject() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(appConfig.getDataSource().getConnectTimeout());
         factory.setReadTimeout(appConfig.getDataSource().getReadTimeout());
@@ -24,5 +24,10 @@ public class RestClientConfig {
                 .requestFactory(factory)
                 .defaultHeader(HttpHeaders.ACCEPT, "application/json")
                 .build();
+    }
+
+    @Override
+    public Class<?> getObjectType() {
+        return RestClient.class;
     }
 }

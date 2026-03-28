@@ -1,6 +1,5 @@
 package com.allobank.allo_backend_test.finance;
 
-import com.allobank.allo_backend_test.finance.client.DataSourceClient;
 import com.allobank.allo_backend_test.finance.config.AppConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
