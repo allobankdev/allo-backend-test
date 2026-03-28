@@ -1,6 +1,7 @@
 package com.allobank.allo_backend_test.finance.runner;
 
 import com.allobank.allo_backend_test.finance.config.AppConfig;
+import com.allobank.allo_backend_test.finance.repository.FinanceRepository;
 import com.allobank.allo_backend_test.finance.service.FinanceService;
 import com.allobank.allo_backend_test.finance.service.strategy.FinanceResourceRegistry;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +18,7 @@ public class PreloadData implements ApplicationRunner {
     private final FinanceService financeService;
     private final FinanceResourceRegistry registry;
     private final AppConfig appConfig;
+    private final FinanceRepository repository;
 
     @Override
     public void run(ApplicationArguments args) {
@@ -36,6 +38,8 @@ public class PreloadData implements ApplicationRunner {
                 log.info("Preloaded success: {}", resourceType);
             }
         }
+
+        repository.lock();
 
         log.info("Finance data preload complete.");
     }

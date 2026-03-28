@@ -8,4 +8,5 @@ public interface FinanceRepository {
     void put(String resourceType, FinanceResource resource);
     FinanceResource get(String resourceType);
     Map<String, FinanceResource> getData();
+    void lock();
 }
