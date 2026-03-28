@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: finance
+  mvc:
+    favicon:
+      enabled: false
+
+
+server:
+  port: 8080
+
+
+app:
+  github-username: 'Zidan-Kharisma-Sakana'
+  preload:
+    attempt: 3
+    backoff: 3000
+  data-source:
+    api-url: https://api.frankfurter.app
+    connect-timeout: 5000
+    read-timeout: 10000
