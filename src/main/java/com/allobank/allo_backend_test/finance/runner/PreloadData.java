@@ -1,5 +1,6 @@
 package com.allobank.allo_backend_test.finance.runner;
 
+import com.allobank.allo_backend_test.finance.config.AppConfig;
 import com.allobank.allo_backend_test.finance.service.FinanceService;
 import com.allobank.allo_backend_test.finance.service.strategy.FinanceResourceRegistry;
 import lombok.RequiredArgsConstructor;
@@ -15,14 +16,27 @@ public class PreloadData implements ApplicationRunner {
 
     private final FinanceService financeService;
     private final FinanceResourceRegistry registry;
+    private final AppConfig appConfig;
 
     @Override
     public void run(ApplicationArguments args) {
-        log.info("finance data preload");
+        log.info("finance data preload...");
+
+        RetryPolicy retryPolicy = new RetryPolicy(
+                appConfig.getPreload().getAttempt(),
+                appConfig.getPreload().getBackoff()
+        );
+
         for (String resourceType : registry.getHandlerMap().keySet()) {
-            financeService.fetchByResourceType(resourceType);
-            log.info("Preloaded: {}", resourceType);
+            boolean success = retryPolicy.execute(resourceType, () -> financeService.fetchByResourceType(resourceType));
+
+            if (!success) {
+                log.error("All attempts exhausted '{}'. Failing silently.", resourceType);
+            } else {
+                log.info("Preloaded success: {}", resourceType);
+            }
         }
+
         log.info("Finance data preload complete.");
     }
 }
