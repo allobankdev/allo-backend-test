@@ -9,10 +9,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 public class FinanceApplication {
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(FinanceApplication.class, args);
-
-		AppConfig appConfig = context.getBean(AppConfig.class);
-		System.out.println("App Config: " + appConfig);
+		SpringApplication.run(FinanceApplication.class, args);
 	}
 
 }
