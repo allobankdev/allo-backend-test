@@ -13,8 +13,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class CurrenciesStrategy implements IdrDataFetcher {
 
     private static final Logger log = LoggerFactory.getLogger(CurrenciesStrategy.class);
+
     @Autowired
-    private WebClient webClient;
+    public WebClient webClient;
 
     @Override
     public String getResourceType() {

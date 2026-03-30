@@ -12,8 +12,9 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class TimeseriesRatesStrategy implements IdrDataFetcher {
 
     private static final Logger log = LoggerFactory.getLogger(TimeseriesRatesStrategy.class);
+
     @Autowired
-    private WebClient webClient;
+    public WebClient webClient;
 
     @Override
     public String getResourceType() {

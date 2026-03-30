@@ -13,7 +13,7 @@ public class LatestRatesStrategy implements IdrDataFetcher {
 
     private static final Logger log = LoggerFactory.getLogger(LatestRatesStrategy.class);
     @Autowired
-    private WebClient webClient;
+    public WebClient webClient;
 
     @Override
     public String getResourceType() {
