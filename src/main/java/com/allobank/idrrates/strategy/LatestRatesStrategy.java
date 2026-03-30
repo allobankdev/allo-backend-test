@@ -27,7 +27,14 @@ public class LatestRatesStrategy implements IdrDataFetcher {
         return webClient.get()
                 .uri("/latest?base=IDR")
                 .retrieve()
+                .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .map(body -> new RuntimeException(
+                                        "External API error:" + clientResponse.statusCode() + " - " + body
+                                )))
                 .bodyToMono(LatestRatesDTO.class)
+                .onErrorMap(Exception.class,
+                        ex -> new RuntimeException("Failed to fetch latest IDR rates", ex))
                 .block();
     }
 }

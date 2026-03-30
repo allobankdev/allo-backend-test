@@ -28,9 +28,13 @@ public class DataInitializer implements ApplicationRunner {
     public void run(ApplicationArguments args) throws Exception {
         log.info("Starting data initialization...");
         for (IdrDataFetcher fetcher : fetchers) {
-            log.info("Fetching data for resource type: {}", fetcher.getResourceType());
-            Object data = fetcher.fetchData();
-            dataStore.put(fetcher.getResourceType(), data);
+            try {
+                log.info("Fetching data for resource type: {}", fetcher.getResourceType());
+                Object data = fetcher.fetchData();
+                dataStore.put(fetcher.getResourceType(), data);
+            } catch (Exception e) {
+                log.error("Failed to fetch data for resource type: {} - {}", fetcher.getResourceType(), e.getMessage());
+            }
         }
         dataStore.markInitialized();
         log.info("Data initialization complete");

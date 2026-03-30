@@ -26,7 +26,14 @@ public class TimeseriesRatesStrategy implements IdrDataFetcher {
         return webClient.get()
                 .uri("/2026-01-01..2026-02-01?from=IDR&to=USD")
                 .retrieve()
+                .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .map(body -> new RuntimeException(
+                                        "External API error:" + clientResponse.statusCode() + " - " + body
+                                )))
                 .bodyToMono(TimeseriesRatesDTO.class)
+                .onErrorMap(Exception.class,
+                        ex -> new RuntimeException("Failed to fetch latest IDR rates", ex))
                 .block();
     }
 }

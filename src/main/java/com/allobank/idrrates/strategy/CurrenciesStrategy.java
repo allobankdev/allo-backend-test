@@ -27,7 +27,14 @@ public class CurrenciesStrategy implements IdrDataFetcher {
         return webClient.get()
                 .uri("/currencies")
                 .retrieve()
+                .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
+                        clientResponse -> clientResponse.bodyToMono(String.class)
+                                .map(body -> new RuntimeException(
+                                        "External API error:" + clientResponse.statusCode() + " - " + body
+                                )))
                 .bodyToMono(CurrenciesDTO.class)
+                .onErrorMap(Exception.class,
+                        ex -> new RuntimeException("Failed to fetch latest IDR rates", ex))
                 .block();
     }
 }
