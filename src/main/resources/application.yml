@@ -1,0 +1,9 @@
+server:
+  port: 8080
+
+app:
+  github:
+    username: "tech-enthusiast-168"
+  frankfurter:
+    base-url: "https://api.frankfurter.app"
+    timeout-ms: 5000
