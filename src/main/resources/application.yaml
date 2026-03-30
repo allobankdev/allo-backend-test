@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: idr-rates
+
+frankfurter:
+  baseurl: https://api.frankfurter.dev/v1
+  timeout: 10 #In seconds
