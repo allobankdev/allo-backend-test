@@ -24,7 +24,7 @@ public class LatestRatesStrategy implements IdrDataFetcher {
     @Override
     public Object fetchData() {
         log.info("Fetching latest IDR rates from Frankfurter API");
-        return webClient.get()
+        LatestRatesDTO dto = webClient.get()
                 .uri("/latest?base=IDR")
                 .retrieve()
                 .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
@@ -36,5 +36,24 @@ public class LatestRatesStrategy implements IdrDataFetcher {
                 .onErrorMap(Exception.class,
                         ex -> new RuntimeException("Failed to fetch latest IDR rates", ex))
                 .block();
+
+        if (dto != null && dto.getRates() != null) {
+            Double rateUsd = dto.getRates().get("USD");
+            if (rateUsd != null && rateUsd != 0) {
+                double spreadFactor = calculateSpreadFactor("farizmr");
+                double usdBuySpreadIdr = (1.0 / rateUsd) * (1.0 + spreadFactor);
+                dto.setUsdBuySpreadIdr(usdBuySpreadIdr);
+                log.info("USD_BuySpread_IDR calculated: {}", usdBuySpreadIdr);
+            }
+        }
+
+        return dto;
+    }
+
+    private double calculateSpreadFactor(String githubUsername) {
+        int sum = githubUsername.toLowerCase()
+                .chars()
+                .sum();
+        return (sum % 1000) / 100_000.0;
     }
 }
