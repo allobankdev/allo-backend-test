@@ -25,7 +25,7 @@ public class LatestRatesStrategy implements IdrDataFetcher {
     public Object fetchData() {
         log.info("Fetching latest IDR rates from Frankfurter API");
         return webClient.get()
-                .uri("/rates/latest?base=IDR")
+                .uri("/latest?base=IDR")
                 .retrieve()
                 .bodyToMono(LatestRatesDTO.class)
                 .block();

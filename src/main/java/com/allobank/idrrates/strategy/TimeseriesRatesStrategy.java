@@ -24,7 +24,7 @@ public class TimeseriesRatesStrategy implements IdrDataFetcher {
     public Object fetchData() {
         log.info("Fetching historical IDR/USD rates from Frankfurter API");
         return webClient.get()
-                .uri("/rates/2026-01-01..2026-02-01?from=IDR&to=USD")
+                .uri("/2026-01-01..2026-02-01?from=IDR&to=USD")
                 .retrieve()
                 .bodyToMono(TimeseriesRatesDTO.class)
                 .block();
