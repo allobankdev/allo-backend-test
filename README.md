@@ -11,8 +11,8 @@ This project is the implemention of the Spring Boot REST API for the Allo Bank b
 
 ## Spread Factor Calculation Result
 - **Input:** `tech-enthusiast-168`
-- **Calculation:** Sum of ascii values is `1865`. `1865 % 1000 = 865`. `865 / 100000.0`
-- **Spread Factor Derived:** `0.00865`
+- **Calculation:** Sum of ascii values is `1765`. `1765 % 1000 = 765`. `765 / 100000.0`
+- **Spread Factor Derived:** `0.00765`
 
 ## Setup & Running
 Ensure you have Maven installed. Run the command below in the project root:

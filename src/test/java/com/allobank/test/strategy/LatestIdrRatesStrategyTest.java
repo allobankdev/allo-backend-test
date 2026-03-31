@@ -70,8 +70,8 @@ class LatestIdrRatesStrategyTest {
         Map<String, Object> ratesMap = (Map<String, Object>) result.get("rates");
         assertTrue(ratesMap.containsKey("USD_BuySpread_IDR"));
 
-        // USD_BuySpread_IDR = (1 / 0.000064) * (1 + 0.00865)
-        double expectedSpreadValue = (1 / 0.000064) * 1.00865;
+        // USD_BuySpread_IDR = (1 / 0.000064) * (1 + 0.00765)
+        double expectedSpreadValue = (1 / 0.000064) * 1.00765;
         double actualSpreadValue = (Double) ratesMap.get("USD_BuySpread_IDR");
 
         assertEquals(expectedSpreadValue, actualSpreadValue, 0.001);
