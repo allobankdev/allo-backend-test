@@ -126,6 +126,7 @@ A clear `README.md` is mandatory. It must include:
 2.  Implement your solution on a dedicated feature branch (e.g., `feat/idr-rate-aggregator`).
 
 3.  When complete, submit your solution via a **Pull Request (PR)** back to the main repository.
+4.  Please complete the form to submit your technical test: [Click Here](https://forms.gle/nZKQ2EjTCPfAKHog7)
 
 **Your PR will be evaluated on the following:**
 
