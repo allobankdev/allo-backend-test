@@ -5,6 +5,8 @@ import com.allo.test.model.dto.HistoricalRateDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +31,7 @@ public class HistoricalRatesFetcher implements IDRDataFetcher {
                 .map(entry -> 
                         new HistoricalRateDto(
                         entry.getKey(),
-                        entry.getValue().get("USD")
+                        entry.getValue().get("USD").setScale(10, RoundingMode.HALF_UP)
                 ))
                 .toList();
     }

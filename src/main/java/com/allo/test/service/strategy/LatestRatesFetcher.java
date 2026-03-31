@@ -6,6 +6,8 @@ import com.allo.test.util.SpreadCalculator;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.Map;
 
@@ -25,19 +27,22 @@ public class LatestRatesFetcher implements IDRDataFetcher {
     public List<LatestRateDto> fetch() {
 
         var response = client.getLatestRates();
-        double spread = spreadCalculator.getSpread();
+        BigDecimal spread = BigDecimal.valueOf(spreadCalculator.getSpread());
 
         return response.getRates().entrySet().stream()
                 .sorted(Map.Entry.comparingByKey())
                 .map(entry -> {
 
                     String currency = entry.getKey();
-                    Double rate = entry.getValue();
+                    BigDecimal rate = entry.getValue().setScale(10, RoundingMode.HALF_UP);
 
-                    Double usdBuyRate = null;
+                    BigDecimal usdBuyRate = null;
 
                     if ("USD".equals(currency)) {
-                        usdBuyRate = (1 / rate) * (1 + spread);
+                        usdBuyRate = BigDecimal.ONE
+                                .divide(rate, 10, RoundingMode.HALF_UP)
+                                .multiply(BigDecimal.ONE.add(spread))
+                                .setScale(10, RoundingMode.HALF_UP);
                     }
 
                     return new LatestRateDto(currency, rate, usdBuyRate);
