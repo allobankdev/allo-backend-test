@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: bs
+  main:
+    allow-bean-definition-overriding: true
+
+bs:
+  exchange-rate:
+    cacheName: cn
+    externalUrl: https://api.frankfurter.app
+    baseCurrency: IDR
+    targetCurrency: USD
+    personalName: bobbisetiawan
