@@ -1,0 +1,8 @@
+finance:
+  api:
+    base-url: https://api.frankfurter.app/
+    timeout: 5000
+
+logging:
+  level:
+    com.allobank.finance: DEBUG
