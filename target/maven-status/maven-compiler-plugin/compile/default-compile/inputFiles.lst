@@ -1,0 +1,10 @@
+D:\project\allo-backend-test\src\main\java\com\allo\finance\strategy\HistoricalFetcher.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\controller\FinanceController.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\FinanceApplication.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\store\DataStore.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\strategy\LatestFetcher.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\strategy\IDRDataFetcher.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\config\WebClientFactory.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\strategy\CurrencyFetcher.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\runner\DataLoader.java
+D:\project\allo-backend-test\src\main\java\com\allo\finance\config\JacksonConfig.java
