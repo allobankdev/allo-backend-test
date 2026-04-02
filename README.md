@@ -1,3 +1,83 @@
+<<<<<<< HEAD
+# Frankfurter Exchange Rate Aggregator
+    Frankfurter Exchange Rate Aggregator as part of Allobank Backend Developer test.
+
+## Personalization
+
+- **GitHub Username:** nflhm  
+- **Spread Factor Calculation**  
+  Sum of ASCII values of lowercase username:  
+  `n`=110, `f`=102, `l`=108, `h`=104, `m`=109  
+  Total = 110+102+108+104+109 = **533**  
+  Spread Factor = (533 % 1000) / 100000.0 = **0.00533**
+
+---
+
+## Prerequisites
+
+- **Java 21** (or later)
+- **Maven 3.6+**
+
+---
+
+## Setup & Run Instructions
+
+1. **Clone the repository**  
+    git clone https://github.com/nflhm/frankfurter-aggregator.git
+
+2. **Configure GitHub username**
+    Open src/main/resources/application.properties and set github.username value
+
+3. **Build the application**
+    Run the following command in cmd: mvn clean compile
+
+4. **Run the tests**
+    Run the following command in cmd: mvn test
+
+5. **Start the Application**
+    Run the following command in cmd: mvn spring-boot:run
+
+6. **Access the API**
+    The service runs on http://localhost:8080 with the following endpoint:
+###     1. Latest IDR rates (includes USD_BuySpread_IDR)
+        curl http://localhost:8080/api/finance/data/latest_idr_rates
+
+###     2. Historical IDR to USD rates
+        curl http://localhost:8080/api/finance/data/historical_idr_usd
+
+###     3. All supported currencies
+        curl http://localhost:8080/api/finance/data/supported_currencies
+
+---
+
+## Architectural Rationale
+1. **Polymorphism Justification – Strategy Pattern**
+    The application supports three distinct data sources (latest_idr_rates, historical_idr_usd, supported_currencies), each requiring different logic for fetching and transforming data. Using the Strategy Pattern encapsulates each variant in its own class, implementing a common interface (IDRDataFetcher). The controller selects the appropriate strategy via a map lookup (injected by Spring).
+    
+    Benefits:
+    Extensibility: Adding a new resource type only requires creating a new strategy class; no existing code needs modification.
+    Maintainability: Each strategy is isolated, making it easier to test, debug, and modify individual behaviors.
+    Avoids Conditional Logic: Eliminates the need for if-else or switch statements in the controller or service layer, keeping the code clean and reducing complexity.
+
+2. **Client Factory – Why FactoryBean?**
+    A custom FactoryBean<WebClient> is used to create the WebClient instance. This factory centralizes configuration (base URL, timeouts, headers) and can be reused across all strategies.
+    
+    Advantages over a standard @Bean method:
+    Encapsulation of Complex Setup: The FactoryBean can perform additional logic (e.g., validation, conditional configuration) that would otherwise clutter a simple @Bean definition.
+    Separation of Concerns: The factory bean is responsible only for client creation, keeping the configuration class clean.
+    Testability: The factory can be easily mocked or replaced with a test double, allowing unit tests to inject a custom WebClient.
+
+3. **Startup Runner – ApplicationRunner over @PostConstruct**
+    The initial data load is performed in an ApplicationRunner component.
+    
+    Why not @PostConstruct?
+    @PostConstruct runs before the application context is fully initialized; if any dependencies (e,g., WebClient) are not yet ready, the operation may fail.
+    ApplicationRunner guarantees that all beans are fully instantiated and the context is ready before execution.
+
+    Benefits:
+        Reliability: The data load happens after the entire application is ready, reducing the risk of missing dependencies.
+        Error Handling: Failures during data loading can be managed to prevent the application from starting with incomplete data (or to allow startup with graceful fallback).
+=======
 # Allo Bank Backend Developer Take-Home Test
 
 Thank you for applying to our team! This take-home test is designed to evaluate your practical skills in building **production-ready** Spring Boot applications within a finance domain, focusing on architectural patterns and complex data handling.
@@ -137,3 +217,4 @@ A clear `README.md` is mandatory. It must include:
 * **Code Review Readiness:** The code should be well-structured and ready for immediate review.
 
 Good luck!
+>>>>>>> upstream/main
