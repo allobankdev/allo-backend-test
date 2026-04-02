@@ -1,0 +1,38 @@
+{
+  "groups": [
+    {
+      "name": "frankfurter",
+      "type": "com.example.idrapi.config.FrankfurterProperties",
+      "sourceType": "com.example.idrapi.config.FrankfurterProperties"
+    },
+    {
+      "name": "frankfurter.historical",
+      "type": "com.example.idrapi.config.FrankfurterProperties$Historical",
+      "sourceType": "com.example.idrapi.config.FrankfurterProperties",
+      "sourceMethod": "getHistorical()"
+    }
+  ],
+  "properties": [
+    {
+      "name": "frankfurter.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.example.idrapi.config.FrankfurterProperties"
+    },
+    {
+      "name": "frankfurter.github-username",
+      "type": "java.lang.String",
+      "sourceType": "com.example.idrapi.config.FrankfurterProperties"
+    },
+    {
+      "name": "frankfurter.historical.end-date",
+      "type": "java.lang.String",
+      "sourceType": "com.example.idrapi.config.FrankfurterProperties$Historical"
+    },
+    {
+      "name": "frankfurter.historical.start-date",
+      "type": "java.lang.String",
+      "sourceType": "com.example.idrapi.config.FrankfurterProperties$Historical"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,13 @@
+frankfurter:
+  base-url: https://api.frankfurter.app
+  github-username: johndoe47
+  historical:
+    start-date: 2024-01-01
+    end-date: 2024-01-05
+
+server:
+  port: 8181
+
+logging:
+  level:
+    com.example.idrapi: DEBUG
