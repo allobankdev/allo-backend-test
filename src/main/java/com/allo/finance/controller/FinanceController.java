@@ -1,21 +1,26 @@
 package com.allo.finance.controller;
 
+import com.allo.finance.dto.ApiResponse;
 import com.allo.finance.store.DataStore;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/api/finance")
+@RequestMapping("/api/finance/data")
 public class FinanceController {
 
-    private final DataStore store;
+    private final DataStore dataStore;
 
-    public FinanceController(DataStore store){
-        this.store = store;
+    public FinanceController(DataStore dataStore) {
+        this.dataStore = dataStore;
     }
 
-    @GetMapping("/data/{type}")
-    public ResponseEntity<?> get(@PathVariable String type){
-        return ResponseEntity.ok(store.get(type));
+    @GetMapping("/{type}")
+    public List<ApiResponse> get(@PathVariable String type) {
+
+        Object data = dataStore.get(type);
+
+        return List.of(new ApiResponse(type, data));
     }
 }

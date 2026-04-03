@@ -8,6 +8,7 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -30,33 +31,40 @@ public class LatestRatesFetcher implements IDRDataFetcher {
     @Override
     public Object fetch() {
 
-        Map res = client.get()
-                .uri("/latest?base=IDR")
-                .retrieve()
-                .bodyToMono(Map.class)
-                .block();
+        try {
 
-        Map<String, Double> rates = (Map<String, Double>) res.get("rates");
+            Map res = client.get()
+                    .uri("/latest?base=IDR")
+                    .retrieve()
+                    .bodyToMono(Map.class)
+                    .timeout(Duration.ofSeconds(10))
+                    .block();
 
-        Map<String, Object> formattedRates = new LinkedHashMap<>();
-        rates.forEach((k, v) -> {
-            BigDecimal bd = new BigDecimal(v.toString());
-            formattedRates.put(k, bd);
-        });
+            if (res == null || res.get("rates") == null) {
+                throw new RuntimeException("Invalid response from API");
+            }
 
-        res.put("rates", formattedRates);
+            Map<String, Double> rates = (Map<String, Double>) res.get("rates");
 
-        double usd = rates.get("USD");
+            double usd = rates.get("USD");
 
-        double spread = spreadUtil.calculateSpread();
+            double spread = spreadUtil.calculateSpread();
 
-        double calc = (1 / usd) * (1 + spread);
+            double calc = (1 / usd) * (1 + spread);
 
-        BigDecimal spreadResult = new BigDecimal(calc)
-                                        .setScale(2, RoundingMode.HALF_UP);
+            BigDecimal result = BigDecimal.valueOf(calc)
+                    .setScale(2, RoundingMode.HALF_UP);
 
-        res.put("USD_BuySpread_IDR", spreadResult);
+            res.put("USD_BuySpread_IDR", result);
 
-        return res;
+            return res;
+
+        } catch (Exception e) {
+
+            return Map.of(
+                    "error", "Failed to fetch latest rates",
+                    "message", e.getMessage()
+            );
+        }
     }
 }

@@ -8,6 +8,7 @@ import org.mockito.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,8 +48,13 @@ class LatestRatesFetcherTest {
 
         double expected = (1 / 0.000065) * (1 + 0.001);
 
-        assertEquals(expected, result.get("USD_BuySpread_IDR"));
+        assertEquals(expected,
+            ((BigDecimal) result.get("USD_BuySpread_IDR")).doubleValue(),
+            0.01
+        );
 
         verify(webClient).get();
+        verify(uriSpec).uri(anyString());
+        verify(responseSpec).bodyToMono(any(Class.class));
     }
 }

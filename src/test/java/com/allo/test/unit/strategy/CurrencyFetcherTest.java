@@ -36,7 +36,6 @@ class CurrencyFetcherTest {
         when(uriSpec.uri(anyString())).thenReturn(headersSpec);
         when(headersSpec.retrieve()).thenReturn(responseSpec);
     
-        // 🔥 FIX FINAL
         when(responseSpec.bodyToMono(Mockito.any(Class.class)))
                 .thenReturn(Mono.just(mock));
     
@@ -46,5 +45,6 @@ class CurrencyFetcherTest {
     
         verify(webClient).get();
         verify(uriSpec).uri(anyString());
+        verify(responseSpec).bodyToMono(any(Class.class));
     }
 }
