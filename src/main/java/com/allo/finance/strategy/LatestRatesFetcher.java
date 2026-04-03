@@ -1,23 +1,25 @@
 package com.allo.finance.strategy;
 
+import com.allo.finance.util.SpreadUtil;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Service
-public class LatestFetcher implements IDRDataFetcher {
+public class LatestRatesFetcher implements IDRDataFetcher {
 
     private final WebClient client;
+    private final SpreadUtil spreadUtil;
 
-    @Value("${app.github-username}")
-    private String username;
-
-    public LatestFetcher(WebClient client) {
+    public LatestRatesFetcher(WebClient client, SpreadUtil spreadUtil) {
         this.client = client;
+        this.spreadUtil = spreadUtil;
     }
 
     @Override
@@ -46,12 +48,12 @@ public class LatestFetcher implements IDRDataFetcher {
 
         double usd = rates.get("USD");
 
-        int sum = username.chars().sum();
-        double spread = (sum % 1000) / 100000.0;
+        double spread = spreadUtil.calculateSpread();
 
         double calc = (1 / usd) * (1 + spread);
 
-        BigDecimal spreadResult = new BigDecimal(String.valueOf(calc));
+        BigDecimal spreadResult = new BigDecimal(calc)
+                                        .setScale(2, RoundingMode.HALF_UP);
 
         res.put("USD_BuySpread_IDR", spreadResult);
 
