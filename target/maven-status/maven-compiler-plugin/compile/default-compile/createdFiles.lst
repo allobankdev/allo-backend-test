@@ -1,0 +1,10 @@
+com\allo\finance\config\WebClientFactory.class
+com\allo\finance\strategy\LatestFetcher.class
+com\allo\finance\config\JacksonConfig.class
+com\allo\finance\store\DataStore.class
+com\allo\finance\strategy\HistoricalFetcher.class
+com\allo\finance\FinanceApplication.class
+com\allo\finance\strategy\CurrencyFetcher.class
+com\allo\finance\runner\DataLoader.class
+com\allo\finance\strategy\IDRDataFetcher.class
+com\allo\finance\controller\FinanceController.class

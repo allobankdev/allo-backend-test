@@ -1,0 +1,7 @@
+
+external:
+  api:
+    base-url: https://api.frankfurter.app
+
+github:
+  username: haidir
