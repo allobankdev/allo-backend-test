@@ -7,6 +7,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
@@ -27,6 +28,7 @@ public class LatestIdrRatesFetcherTest {
 
     @Test
     void shouldCalculateSpread() {
+        ReflectionTestUtils.setField(fetcher, "githubUsername", "rhayatod");
 
         Map<String, Object> mockResponse = Map.of(
                 "rates", Map.of(Const.USD, 0.000065)

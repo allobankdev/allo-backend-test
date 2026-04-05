@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Component
@@ -36,8 +37,9 @@ public class LatestIdrRatesFetcher implements IDRDataFetcher {
         double spreadFactor = calculateSpreadFactor(githubUsername);
         double usdBuySpread = (1 / rateUsd) * (1 + spreadFactor);
 
-        response.put("USD_BuySpread_IDR", usdBuySpread);
-        return response;
+        Map<String, Object> result = new HashMap<>(response);
+        result.put("USD_BuySpread_IDR", usdBuySpread);
+        return result;
     }
 
     private double calculateSpreadFactor(String username) {
