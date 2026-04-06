@@ -1,0 +1,9 @@
+flowchart TD
+    A[App Start] --> B[DataLoadRunner]
+    B --> C[Fetch Frankfurter API]
+    C --> D[Save to DataStoreService]
+    D --> E["Request GET /api/finance/data/{type}"]
+    E --> F[FinanceController]
+    F --> G[Select Strategy by type]
+    G --> H[Map to DTO]
+    H --> I[JSON Response]
