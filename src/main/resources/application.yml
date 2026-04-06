@@ -1,0 +1,22 @@
+server:
+  port: 8081
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  endpoints:
+    latest: /latest
+    historical: /2024-01-01..2024-01-05
+    currencies: /currencies
+  params:
+    base: IDR
+    from: IDR
+    to: USD
+
+app:
+  spread:
+    github-username: furqonfajri
+    factor: 0.00191
+
+spring:
+  application:
+    name: idr-rate-aggregator
