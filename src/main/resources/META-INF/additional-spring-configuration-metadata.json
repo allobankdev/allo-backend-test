@@ -1,0 +1,5 @@
+{"properties": [{
+  "name": "frankfurter.base-url",
+  "type": "java.lang.String",
+  "description": "A description for 'frankfurter.base-url'"
+}]}
