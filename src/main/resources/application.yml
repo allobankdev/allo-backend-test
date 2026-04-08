@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: api_finance_data
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  endpoints:
+    currencies: /currencies
+    latest: /latest
+    historical: /2024-01-01..2024-01-05
