@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -26,17 +27,14 @@ public class FinanceDataController {
     @GetMapping("/{resourceType}")
     @Operation(
             summary = "Get finance data by resource type",
-            description = "Supported resourceType: latest_idr_rates, historical_idr_usd, supported_currencies. Use other values to test invalid response (400)."
+            description = "Supported resourceType: latest_idr_rates, historical_idr_usd, supported_currencies. Response is a unified JSON array."
     )
     @ApiResponse(responseCode = "200", description = "Resource found")
     @ApiResponse(responseCode = "400", description = "Unsupported resource type")
-    public Map<String, Object> getFinanceData(
+    public List<Map<String, Object>> getFinanceData(
             @Parameter(description = "Type of finance resource. Examples: latest_idr_rates, historical_idr_usd, supported_currencies, invalid_type")
             @PathVariable String resourceType
     ) {
-        return Map.of(
-                "resourceType", resourceType,
-                "data", financeDataService.findByResourceType(resourceType)
-        );
+        return financeDataService.findByResourceType(resourceType);
     }
 }

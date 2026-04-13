@@ -4,6 +4,7 @@ import com.allobank.test.exception.DataNotInitializedException;
 import com.allobank.test.exception.ResourceTypeNotSupportedException;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -15,10 +16,10 @@ class FinanceDataStoreTest {
     void initializeOnceShouldKeepFirstValue() {
         FinanceDataStore store = new FinanceDataStore();
 
-        store.initializeOnce(Map.of("latest_idr_rates", "first"));
-        store.initializeOnce(Map.of("latest_idr_rates", "second"));
+        store.initializeOnce(Map.of("latest_idr_rates", List.of(Map.of("value", "first"))));
+        store.initializeOnce(Map.of("latest_idr_rates", List.of(Map.of("value", "second"))));
 
-        assertEquals("first", store.getByResourceType("latest_idr_rates"));
+        assertEquals(List.of(Map.of("value", "first")), store.getByResourceType("latest_idr_rates"));
     }
 
     @Test
@@ -31,8 +32,18 @@ class FinanceDataStoreTest {
     @Test
     void getByResourceTypeShouldThrowForUnsupportedResourceType() {
         FinanceDataStore store = new FinanceDataStore();
-        store.initializeOnce(Map.of("latest_idr_rates", Map.of("ok", true)));
+        store.initializeOnce(Map.of("latest_idr_rates", List.of(Map.of("ok", true))));
 
         assertThrows(ResourceTypeNotSupportedException.class, () -> store.getByResourceType("not_found"));
+    }
+
+    @Test
+    void storeValueShouldBeDeeplyImmutable() {
+        FinanceDataStore store = new FinanceDataStore();
+        store.initializeOnce(Map.of("latest_idr_rates", List.of(Map.of("base", "IDR"))));
+
+        List<Map<String, Object>> storedValue = store.getByResourceType("latest_idr_rates");
+        assertThrows(UnsupportedOperationException.class, () -> storedValue.add(Map.of()));
+        assertThrows(UnsupportedOperationException.class, () -> storedValue.get(0).put("x", "y"));
     }
 }

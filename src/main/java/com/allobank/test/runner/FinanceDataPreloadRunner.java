@@ -48,12 +48,13 @@ public class FinanceDataPreloadRunner implements ApplicationRunner {
                 }
                 String message = exception.getMessage() == null ? "Unknown upstream error" : exception.getMessage();
                 log.warn("Preload failed for resourceType='{}'. App will continue with fallback payload. Cause: {}", resourceType, message);
-                loadedData.put(resourceType, Map.of(
+                loadedData.put(resourceType, java.util.List.of(Map.of(
+                        "resourceType", resourceType,
                         "status", "unavailable",
                         "message", "Upstream source unavailable during preload",
                         "details", message,
                         "at", OffsetDateTime.now().toString()
-                ));
+                )));
             }
         }
         financeDataStore.initializeOnce(loadedData);
