@@ -50,7 +50,6 @@ public class FinanceDataStore {
         return Collections.unmodifiableMap(copied);
     }
 
-    @SuppressWarnings("unchecked")
     private static Object deepImmutableValue(Object value) {
         if (value instanceof Map<?, ?> mapValue) {
             Map<String, Object> nested = new LinkedHashMap<>();
