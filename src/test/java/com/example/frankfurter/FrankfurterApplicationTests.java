@@ -1,0 +1,13 @@
+package com.example.frankfurter;
+
+import org.junit.jupiter.api.Test;
+
+class FrankfurterApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+
+
+}
