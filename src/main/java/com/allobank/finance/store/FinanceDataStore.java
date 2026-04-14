@@ -1,8 +1,9 @@
-package com.allobank.test.store;
+package com.allobank.finance.store;
 
-import com.allobank.test.exception.DataNotInitializedException;
-import com.allobank.test.exception.ResourceTypeNotSupportedException;
 import org.springframework.stereotype.Component;
+
+import com.allobank.finance.exception.DataNotInitializedException;
+import com.allobank.finance.exception.ResourceTypeNotSupportedException;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;

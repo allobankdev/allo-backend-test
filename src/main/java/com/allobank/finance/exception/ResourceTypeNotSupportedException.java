@@ -1,4 +1,4 @@
-package com.allobank.test.exception;
+package com.allobank.finance.exception;
 
 public class ResourceTypeNotSupportedException extends RuntimeException {
 

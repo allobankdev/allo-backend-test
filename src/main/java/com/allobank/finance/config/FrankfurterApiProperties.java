@@ -1,4 +1,4 @@
-package com.allobank.test.config;
+package com.allobank.finance.config;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

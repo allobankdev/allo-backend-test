@@ -1,11 +1,12 @@
-package com.allobank.test.client;
+package com.allobank.finance.client;
 
-import com.allobank.test.config.FrankfurterApiProperties;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+
+import com.allobank.finance.config.FrankfurterApiProperties;
 
 import java.util.Map;
 
@@ -37,7 +38,7 @@ public class FrankfurterClient {
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {
-        });
+                });
         return response.getBody() == null ? Map.of() : response.getBody();
     }
 
@@ -47,7 +48,7 @@ public class FrankfurterClient {
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<>() {
-        });
+                });
         return response.getBody() == null ? Map.of() : response.getBody();
     }
 }

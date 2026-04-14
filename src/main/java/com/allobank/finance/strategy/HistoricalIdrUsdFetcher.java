@@ -1,7 +1,8 @@
-package com.allobank.test.strategy;
+package com.allobank.finance.strategy;
 
-import com.allobank.test.client.FrankfurterClient;
 import org.springframework.stereotype.Component;
+
+import com.allobank.finance.client.FrankfurterClient;
 
 import java.math.BigDecimal;
 import java.util.LinkedHashMap;
@@ -27,7 +28,8 @@ public class HistoricalIdrUsdFetcher implements IDRDataFetcher {
         Map<String, Object> rawResponse = frankfurterClient.fetchHistoricalIdrUsdRaw();
 
         @SuppressWarnings("unchecked")
-        Map<String, Map<String, Object>> ratesByDate = (Map<String, Map<String, Object>>) rawResponse.getOrDefault("rates",
+        Map<String, Map<String, Object>> ratesByDate = (Map<String, Map<String, Object>>) rawResponse.getOrDefault(
+                "rates",
                 Map.of());
 
         return ratesByDate.entrySet().stream()

@@ -1,14 +1,16 @@
 package com.allobank.test.service;
 
-import com.allobank.test.exception.ResourceTypeNotSupportedException;
-import com.allobank.test.store.FinanceDataStore;
-import com.allobank.test.strategy.IDRDataFetcher;
-import com.allobank.test.strategy.IDRDataFetcherRegistry;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import com.allobank.finance.exception.ResourceTypeNotSupportedException;
+import com.allobank.finance.service.FinanceDataService;
+import com.allobank.finance.store.FinanceDataStore;
+import com.allobank.finance.strategy.IDRDataFetcher;
+import com.allobank.finance.strategy.IDRDataFetcherRegistry;
 
 import java.util.ArrayList;
 import java.util.List;

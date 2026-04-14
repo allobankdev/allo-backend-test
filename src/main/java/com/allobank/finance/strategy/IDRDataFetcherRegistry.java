@@ -1,4 +1,4 @@
-package com.allobank.test.strategy;
+package com.allobank.finance.strategy;
 
 import org.springframework.stereotype.Component;
 

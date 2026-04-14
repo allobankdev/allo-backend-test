@@ -1,8 +1,10 @@
 package com.allobank.test.store;
 
-import com.allobank.test.exception.DataNotInitializedException;
-import com.allobank.test.exception.ResourceTypeNotSupportedException;
 import org.junit.jupiter.api.Test;
+
+import com.allobank.finance.exception.DataNotInitializedException;
+import com.allobank.finance.exception.ResourceTypeNotSupportedException;
+import com.allobank.finance.store.FinanceDataStore;
 
 import java.util.List;
 import java.util.Map;

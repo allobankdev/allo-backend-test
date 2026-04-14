@@ -1,4 +1,4 @@
-package com.allobank.test;
+package com.allobank.finance;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

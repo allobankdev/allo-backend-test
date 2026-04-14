@@ -1,8 +1,9 @@
-package com.allobank.test.strategy;
+package com.allobank.finance.strategy;
 
-import com.allobank.test.client.FrankfurterClient;
-import com.allobank.test.config.FrankfurterApiProperties;
 import org.springframework.stereotype.Component;
+
+import com.allobank.finance.client.FrankfurterClient;
+import com.allobank.finance.config.FrankfurterApiProperties;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

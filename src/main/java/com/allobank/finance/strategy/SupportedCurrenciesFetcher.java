@@ -1,7 +1,8 @@
-package com.allobank.test.strategy;
+package com.allobank.finance.strategy;
 
-import com.allobank.test.client.FrankfurterClient;
 import org.springframework.stereotype.Component;
+
+import com.allobank.finance.client.FrankfurterClient;
 
 import java.util.LinkedHashMap;
 import java.util.List;

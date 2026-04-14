@@ -1,4 +1,4 @@
-package com.allobank.test.config;
+package com.allobank.finance.config;
 
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;

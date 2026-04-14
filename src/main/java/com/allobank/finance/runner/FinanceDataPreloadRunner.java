@@ -1,8 +1,5 @@
-package com.allobank.test.runner;
+package com.allobank.finance.runner;
 
-import com.allobank.test.store.FinanceDataStore;
-import com.allobank.test.strategy.IDRDataFetcher;
-import com.allobank.test.strategy.IDRDataFetcherRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +7,10 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
+
+import com.allobank.finance.store.FinanceDataStore;
+import com.allobank.finance.strategy.IDRDataFetcher;
+import com.allobank.finance.strategy.IDRDataFetcherRegistry;
 
 import java.time.OffsetDateTime;
 import java.util.LinkedHashMap;
@@ -28,8 +29,7 @@ public class FinanceDataPreloadRunner implements ApplicationRunner {
     public FinanceDataPreloadRunner(
             IDRDataFetcherRegistry registry,
             FinanceDataStore financeDataStore,
-            @Value("${finance.preload.fail-fast:false}") boolean failFast
-    ) {
+            @Value("${finance.preload.fail-fast:false}") boolean failFast) {
         this.registry = registry;
         this.financeDataStore = financeDataStore;
         this.failFast = failFast;
@@ -47,14 +47,14 @@ public class FinanceDataPreloadRunner implements ApplicationRunner {
                     throw exception;
                 }
                 String message = exception.getMessage() == null ? "Unknown upstream error" : exception.getMessage();
-                log.warn("Preload failed for resourceType='{}'. App will continue with fallback payload. Cause: {}", resourceType, message);
+                log.warn("Preload failed for resourceType='{}'. App will continue with fallback payload. Cause: {}",
+                        resourceType, message);
                 loadedData.put(resourceType, java.util.List.of(Map.of(
                         "resourceType", resourceType,
                         "status", "unavailable",
                         "message", "Upstream source unavailable during preload",
                         "details", message,
-                        "at", OffsetDateTime.now().toString()
-                )));
+                        "at", OffsetDateTime.now().toString())));
             }
         }
         financeDataStore.initializeOnce(loadedData);

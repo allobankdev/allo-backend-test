@@ -1,9 +1,10 @@
-package com.allobank.test.service;
+package com.allobank.finance.service;
 
-import com.allobank.test.exception.ResourceTypeNotSupportedException;
-import com.allobank.test.store.FinanceDataStore;
-import com.allobank.test.strategy.IDRDataFetcherRegistry;
 import org.springframework.stereotype.Service;
+
+import com.allobank.finance.exception.ResourceTypeNotSupportedException;
+import com.allobank.finance.store.FinanceDataStore;
+import com.allobank.finance.strategy.IDRDataFetcherRegistry;
 
 import java.util.List;
 import java.util.Locale;

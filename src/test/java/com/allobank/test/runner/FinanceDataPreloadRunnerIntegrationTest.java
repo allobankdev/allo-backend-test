@@ -1,7 +1,5 @@
 package com.allobank.test.runner;
 
-import com.allobank.test.client.FrankfurterClient;
-import com.allobank.test.store.FinanceDataStore;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +8,9 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ActiveProfiles;
+
+import com.allobank.finance.client.FrankfurterClient;
+import com.allobank.finance.store.FinanceDataStore;
 
 import java.math.BigDecimal;
 import java.util.List;
