@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
 import org.springframework.test.context.ActiveProfiles;
 
+import com.allobank.finance.AlloBankTestApplication;
 import com.allobank.finance.client.FrankfurterClient;
 import com.allobank.finance.store.FinanceDataStore;
 
@@ -22,6 +23,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest(properties = {
         "finance.preload.enabled=true",
         "finance.preload.fail-fast=true"
+}, classes = {
+        AlloBankTestApplication.class,
+        FinanceDataPreloadRunnerIntegrationTest.StubFrankfurterClientConfiguration.class
 })
 @ActiveProfiles("test")
 class FinanceDataPreloadRunnerIntegrationTest {

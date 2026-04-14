@@ -4,6 +4,7 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.DefaultUriBuilderFactory;
 
 @Component
 public class RestTemplateFactoryBean implements FactoryBean<RestTemplate> {
@@ -19,7 +20,9 @@ public class RestTemplateFactoryBean implements FactoryBean<RestTemplate> {
         SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
         requestFactory.setConnectTimeout(properties.getConnectTimeoutMillis());
         requestFactory.setReadTimeout(properties.getReadTimeoutMillis());
-        return new RestTemplate(requestFactory);
+        RestTemplate restTemplate = new RestTemplate(requestFactory);
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(properties.getBaseUrl()));
+        return restTemplate;
     }
 
     @Override

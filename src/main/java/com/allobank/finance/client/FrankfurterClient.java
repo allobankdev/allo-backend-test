@@ -22,17 +22,17 @@ public class FrankfurterClient {
     }
 
     public Map<String, Object> fetchLatestIdrRatesRaw() {
-        String url = properties.getBaseUrl() + "/latest?base=IDR";
+        String url = "/latest?base=IDR";
         return getMap(url);
     }
 
     public Map<String, Object> fetchHistoricalIdrUsdRaw() {
-        String url = properties.getBaseUrl() + "/" + properties.getHistoricalRange() + "?from=IDR&to=USD";
+        String url = "/" + properties.getHistoricalRange() + "?from=IDR&to=USD";
         return getMap(url);
     }
 
     public Map<String, String> fetchSupportedCurrenciesRaw() {
-        String url = properties.getBaseUrl() + "/currencies";
+        String url = "/currencies";
         ResponseEntity<Map<String, String>> response = restTemplate.exchange(
                 url,
                 HttpMethod.GET,

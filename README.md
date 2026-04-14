@@ -92,6 +92,17 @@ For `latest_idr_rates`, custom field is calculated as:
 - `FinanceDataStore` uses `AtomicReference` and deep immutable copy to enforce thread safety and immutability after initialization.
 - API serves only from in-memory store after startup preload.
 
+## Architectural Rationale
+
+1. Polymorphism Justification (Strategy Pattern)
+The endpoint must serve three resource types with different upstream resources and transformation rules. Using `IDRDataFetcher` plus three concrete strategies keeps each behavior isolated and small. The controller/service layer only delegates by key through `IDRDataFetcherRegistry`, so adding a new resource type later only needs a new strategy class without touching existing branching logic. This improves extensibility and reduces regression risk when requirements grow.
+
+2. Client Factory Justification (`FactoryBean`)
+`RestTemplateFactoryBean` centralizes external client construction concerns: timeout setup and base URL wiring from `frankfurter.api.base-url`. The `RestTemplate` is configured with `DefaultUriBuilderFactory(baseUrl)`, so client code only uses relative paths (`/latest`, `/{range}`, `/currencies`). This keeps endpoint composition consistent and removes repeated base URL concatenation in business/client code.
+
+3. Startup Runner Choice (`ApplicationRunner`)
+`ApplicationRunner` is used so initial preload runs after Spring context and dependencies are fully ready, with clear startup lifecycle semantics and error handling options (`fail-fast`). Compared to `@PostConstruct`, runner-based initialization is easier to test, easier to control with properties, and cleaner for production startup orchestration.
+
 ## Error Handling
 
 - Unsupported resource type -> `400`
