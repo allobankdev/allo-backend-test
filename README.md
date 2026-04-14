@@ -18,13 +18,19 @@ git clone <your-repo-url>
 cd allobank-backend-test
 ```
 
-2. Run application:
+2. Build application:
+
+```bash
+mvn clean package
+```
+
+3. Run application:
 
 ```bash
 mvn spring-boot:run
 ```
 
-3. Run tests:
+4. Run tests:
 
 ```bash
 mvn test
