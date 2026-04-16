@@ -57,19 +57,6 @@ curl http://localhost:8080/api/finance/data/supported_currencies
 
 The endpoint serves data from an immutable in-memory store loaded once during application startup. It does not call the Frankfurter API during request handling.
 
-## Spread Factor
-
-Calculation:
-
-- Lowercase username: `misterjoko`
-- Unicode sum: `98 + 105 + 97 + 115 + 99 + 111 + 100 + 101 + 114 = 940`
-- Spread factor: `(940 % 1000) / 100000.0 = 0.00940`
-
-For `latest_idr_rates`, the service adds:
-
-```text
-USD_BuySpread_IDR = (1 / Rate_USD) * (1 + 0.00940)
-```
 
 ## Architecture
 
@@ -110,5 +97,4 @@ The test suite covers:
 - Latest IDR strategy transformation and personalized spread calculation.
 - Historical IDR/USD strategy path and date-row transformation.
 - Supported currencies strategy transformation.
-- Startup runner loading behavior and store immutability.
-
+- Startup runner loading behavior and store immutability
