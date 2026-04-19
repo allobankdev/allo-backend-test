@@ -35,7 +35,7 @@ public class SupportCurrencyStrategyTest {
     @Test
     void testSupportedCurrencies(){
         String mockApiJson = "{\"symbols\": {\"USD\": \"United States Dollar\", \"IDR\": \"Indonesian Rupiah\"}}";
-        mockServer.expect(requestTo(containsString("/symbols")))
+        mockServer.expect(requestTo(containsString("/currencies")))
                 .andRespond(withSuccess(mockApiJson, MediaType.APPLICATION_JSON));
 
         JSONObject result = strategy.fetchData(restClient);

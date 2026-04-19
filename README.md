@@ -14,13 +14,13 @@ This application provides foreign exchange (forex) rate information against IDR 
 #### How To Clone
 git clone `https://github.com/tiknopreno/allo-backend-test.git`
 cd allo-backend-test
-mvn clean install
+./mvnw clean install
 
 ### 3. Run the Application
-mvn spring-boot:run
+./mvnw spring-boot:run
 
 ### 4. Run Test
-mvn test
+./mvnw test
 
 ## II. Endpoint Usage (cURL Examples)
 ### 1. Latest IDR (Caculate with spread)
