@@ -1,6 +1,7 @@
 package com.allobankdev.exchangrate.service.strategy.impl;
 
 import com.allobankdev.exchangrate.client.ApiClient;
+import com.allobankdev.exchangrate.constant.ResourceType;
 import com.allobankdev.exchangrate.service.strategy.IdrDataFetcher;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import java.math.RoundingMode;
 @Service
 public class LatestIdrRatesFetcher implements IdrDataFetcher {
     private final ApiClient client;
-    private final static String TYPE = "latest_idr_rates";
     private final static BigDecimal DIVISOR = BigDecimal.valueOf(100000);
 
     @Value("${app.github.username}")
@@ -22,8 +22,8 @@ public class LatestIdrRatesFetcher implements IdrDataFetcher {
     }
 
     @Override
-    public String getType() {
-        return TYPE;
+    public ResourceType getType() {
+        return ResourceType.LATEST_RATES;
     }
 
     @Override

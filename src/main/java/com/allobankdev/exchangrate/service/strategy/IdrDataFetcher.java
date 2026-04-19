@@ -1,6 +1,8 @@
 package com.allobankdev.exchangrate.service.strategy;
 
+import com.allobankdev.exchangrate.constant.ResourceType;
+
 public interface IdrDataFetcher {
-    String getType();
+    ResourceType getType();
     Object fetch();
 }
