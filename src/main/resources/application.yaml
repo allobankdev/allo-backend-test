@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: allobackend
+
+api:
+  base-url: https://api.frankfurter.dev/v1
+
+app:
+    usernamegithub: teknopreno
