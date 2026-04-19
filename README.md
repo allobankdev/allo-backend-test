@@ -9,8 +9,8 @@ A Spring Boot application that aggregates exchange rate data for the Indonesian 
 ## 1. Clone the Project
 
 ```bash
-git clone -b feat/idr-rate-aggregator https://github.com/allobankdev/allo-backend-test.git
-cd allo-backend-test
+git clone -b feat/idr-rate-aggregator https://github.com/mikleo04/exchange-rate.git
+cd exchange-rate
 ```
 
 ## 2. Build the Project
