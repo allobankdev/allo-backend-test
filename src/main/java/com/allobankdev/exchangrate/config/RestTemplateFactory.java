@@ -12,12 +12,14 @@ import org.springframework.web.client.RestTemplate;
 public class RestTemplateFactory implements FactoryBean<RestTemplate> {
 
     @Override
-    public @Nullable RestTemplate getObject() throws Exception {
+    public @Nullable RestTemplate getObject() {
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory();
         factory.setConnectTimeout(5000);
         factory.setReadTimeout(5000);
 
         RestTemplate restTemplate = new RestTemplate(factory);
+        restTemplate.setErrorHandler(new ResTemplateErrorHandler());
+
         restTemplate.getInterceptors().add((request, body, execution) -> {
             request.getHeaders().add("Accept", "application/json");
             log.info("Outgoing request: {} {}", request.getMethod(), request.getURI());
