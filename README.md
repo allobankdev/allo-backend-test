@@ -1,139 +1,245 @@
-# Allo Bank Backend Developer Take-Home Test
+# 💱 IDR Rate Aggregator
 
-Thank you for applying to our team! This take-home test is designed to evaluate your practical skills in building **production-ready** Spring Boot applications within a finance domain, focusing on architectural patterns and complex data handling.
+A Spring Boot application that aggregates exchange rate data for the Indonesian Rupiah (IDR) from an external API. It provides endpoints to retrieve the latest IDR rates with a spread factor calculated based on the GitHub username, historical IDR to USD rates, and a list of all available currencies.
 
-## 📝 Objective
+---
 
-Your task is to create a single Spring Boot REST API endpoint capable of aggregating data from multiple, distinct resources provided by the public, keyless **Frankfurter Exchange Rate API**. The primary focus is on handling Indonesian Rupiah (IDR) data.
+# 🚀 Setup & Run
 
-The focus of this test is not just functional correctness, but demonstrating clean code, advanced Spring concepts, thread-safe design, and architectural clarity.
+## 1. Clone the Project
 
-## I. Core Task: The Polymorphic API
+```bash
+git clone -b feat/idr-rate-aggregator https://github.com/mikleo04/exchange-rate.git
+cd exchange-rate
+```
 
-### 1. External API Integration (Frankfurter API)
+## 2. Build the Project
 
-* **Base URL (Public):** `https://api.frankfurter.app/`.
+```bash
+mvn clean install
+```
 
-* You must integrate with three distinct data resources to enforce the architectural pattern:
+## 3. Run the Application
 
-   1.  `/latest?base=IDR` (The latest rates relative to IDR)
+```bash
+mvn spring-boot:run
+```
 
-   2.  **Historical Data:** Query a specific, small time series (e.g., `/2024-01-01..2024-01-05?from=IDR&to=USD`). **Note:** *Use the date range provided in this example unless a different range is communicated separately.*
+Application will run at:
 
-   3.  `/currencies` (The list of all supported currency symbols)
+```
+http://localhost:8080
+```
 
-### 2. Internal API Endpoint
+---
 
-You must expose **one single endpoint** in your application: ```GET /api/finance/data/{resourceType}```
+# 📡 API Endpoints
 
-Where `{resourceType}` can be one of the three strings: `latest_idr_rates`, `historical_idr_usd`, or `supported_currencies`.
+## Get Data by Type
 
-### 3. Required Functionality & Business Logic
+```
+GET /api/finance/data/{type}
+```
 
-* **Resource Handling:** Your service must correctly map the three incoming `resourceType` values to the correct data fetching strategies.
+### Example cURL
 
-* **Data Load:** All three resources should be fetched from the external API.
+```bash
+curl http://localhost:8080/api/finance/data/latest_idr
+```
 
-* **Data Transformation (Latest IDR Rates only) - Unique Calculation:** For the **`latest_idr_rates`** resource, you must calculate and include a new field, `"USD_BuySpread_IDR"`. This is the Rupiah selling rate to USD after applying a banking spread/margin.
+```bash
+curl http://localhost:8080/api/finance/data/historical_idr_usd
+```
 
-  **The Spread Factor Must Be Unique :**
+```bash
+curl http://localhost:8080/api/finance/data/currencies
+```
 
-   1.  **Input:** Your GitHub username (e.g., `johndoe47`).
-   2.  **Calculation:** Calculate the sum of the Unicode (ASCII) values of all characters in your lowercase GitHub username string.
-   3.  **Spread Factor Derivation:** `Spread Factor = (Sum of Unicode Values % 1000) / 100000.0`
-       *(This will yield a unique factor between 0.00000 and 0.00999, ensuring a personalized result.)*
+---
 
-  **Final Formula:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)` (where `Rate_USD` is the value from the API when `base=IDR`).
+# 📌 Example Responses
 
-* **Other Resources:** The `historical_idr_usd` and `supported_currencies` resources can return their data with minimal transformation, but the final output must be a unified JSON array of results.
+## ✅ Success
 
-## II. Architectural Constraints
+```json
+{
+  "base": "IDR",
+  "rates": {
+    "USD": 0.000058
+  }
+}
+```
 
-Meeting the core task is only one part of the solution. The following constraints must be strictly adhered to and will be heavily weighted during evaluation:
+## ❌ Not Found
 
-### Constraint A: The Strategy Pattern
+```json
+{
+  "timestamp": "2026-04-19T10:36:34.005Z",
+  "status": 404,
+  "error": "Not Found",
+  "path": "/api/finance/data/invalid"
+}
+```
 
-The logic for handling the three different resources (`latest_idr_rates`, `historical_idr_usd`, `supported_currencies`) must be implemented using the **Strategy Design Pattern**.
+---
 
-1.  Define a clear **Strategy Interface** (e.g., `IDRDataFetcher`).
+# 🧮 Spread Factor
 
-2.  Implement **three concrete strategy classes** (one for each resource).
+Spread is calculated using the formula:
 
-3.  The main `Controller` should dynamically select the correct strategy implementation using a map-based lookup injected by Spring, avoiding any manual `if/else` or `switch` logic in the controller layer.
+```
+spread = (sum of ASCII values of github username % 1000) / 100000
+```
 
-### Constraint B: Client Factory Bean
+---
 
-The instance of your chosen external API client (`WebClient` or `RestTemplate`) **must be defined and created within a custom implementation of Spring's `FactoryBean<T>` interface**.
+## 👤 GitHub Username
 
-* This `FactoryBean` should be responsible for externalizing the API Base URL via `@Value` or `@ConfigurationProperties` and applying any initial configuration (e.g., timeouts, shared headers).
+```
+mikleo04
+```
 
-* ***You may not define the client as a simple `@Bean` in a `@Configuration` class.***
+---
 
-### Constraint C: Startup Data Runner & Immutability
+## 🔍 Detailed Calculation
 
-The aggregated data for **ALL three resources** must be fetched **exactly once on application startup** and loaded into an in-memory store.
+### Step 1: Convert each character to ASCII
 
-1.  Use a Spring Boot **`ApplicationRunner`** or **`CommandLineRunner`** component to initiate the data fetching process.
+```
+m(109) + i(105) + k(107) + l(108) + e(101) + o(111) + 0(48) + 4(52)
+```
 
-2.  The API endpoint (`GET /api/finance/data/{resourceType}`) must serve the data from this **in-memory store**, not by making a new call to the external API on every request.
+### Step 2: Sum all values
 
-3.  The in-memory storage mechanism (e.g., a service holding the data) must be designed to be **thread-safe** and ensure the data is **immutable** once the `ApplicationRunner` has finished loading it.
+```
+Total = 741
+```
 
-## III. Production Readiness & Deliverables
+### Step 3: Apply formula
 
-Your final solution must demonstrate production quality through code, testing, and communication.
+```
+spread = (741 % 1000) / 100000
+       = 741 / 100000
+       = 0.00741
+```
 
-### 1. Robustness & Best Practices
+---
 
-* Graceful **Error Handling** for network failures or 4xx/5xx responses from the external API.
+## 🔢 Final Spread Result
 
-* Proper use of **Configuration Properties** (e.g., `application.yml`) for external service URLs.
+```
+0.00741 (~0.741%)
+```
 
-* Clear separation of concerns (Controller, Service, Model/DTO, etc.).
+---
 
-### 2. Testing
+# 🏗️ Architecture & Design Decisions
 
-* **Unit Tests** for all three `IDRDataFetcher` strategy implementations, ensuring data calculation and transformation logic is covered (using mock clients for external calls).
+---
 
-* **Integration Tests** to verify the `ApplicationRunner` successfully initializes and loads the data into the in-memory store before the application context is ready.
+## 🎯 Why Strategy Pattern?
 
-### 3. Documentation
+The Strategy Pattern is used to handle different resource types:
 
-A clear `README.md` is mandatory. It must include:
+* latest
+* historical
+* currencies
 
-* **Setup/Run Instructions:** Clear steps to clone, build, and run the application and tests.
+### ✅ Advantages:
 
-* **Endpoint Usage:** Example cURL commands to test the three different resource types.
+* Easy to extend with new resource types
+* Avoids complex conditional (`if/else`) logic
+* Promotes modular design
 
-* **Personalization Note:** Clearly state your GitHub username and show the exact **Spread Factor** (e.g., `0.00765`) calculated by your function.
+### ❌ Compared to if/else:
 
-* ---
+| Strategy Pattern | if/else               |
+| ---------------- | --------------------- |
+| Extensible       | Hard to extend        |
+| Clean structure  | Becomes messy quickly |
+| Maintainable     | Error-prone           |
 
-* ### 🛠️ Architectural Rationale
+👉 Focus: **extensibility & maintainability**
 
-  This section should contain a brief, but detailed, explanation answering the following questions:
+---
 
-   1.  **Polymorphism Justification:** Explain *why* the Strategy Pattern was used over a simpler conditional block in the service layer for handling the multi-resource endpoint. Discuss the benefits in terms of **extensibility** and **maintainability**.
+## 🏭 Why FactoryBean?
 
-   2.  **Client Factory:** Explain the specific role and benefit of using a **`FactoryBean`** to construct the external API client. Why is this preferable to defining the client using a standard `@Bean` method in this scenario?
+Used to create and configure the RestTemplate instance.
 
-   3.  **Startup Runner Choice:** Justify the choice of using an `ApplicationRunner` (or `CommandLineRunner`) for the initial data ingestion over a simpler `@PostConstruct` method.
+### ✅ Advantages:
 
-## IV. Submission & Review Process
+* Full control over object creation
+* Can encapsulate complex configuration (timeout, interceptor, retry)
+* More flexible than standard bean creation
 
-1.  **Fork** this repository.
+### ❌ Compared to `@Bean`:
 
-2.  Implement your solution on a dedicated feature branch (e.g., `feat/idr-rate-aggregator`).
+| FactoryBean                   | @Bean                 |
+| ----------------------------- | --------------------- |
+| More flexible                 | Simpler               |
+| Supports complex logic        | Limited               |
+| Better for advanced use cases | Good for simple cases |
 
-3.  When complete, submit your solution via a **Pull Request (PR)** back to the main repository.
-4.  Please complete the form to submit your technical test: [Click Here](https://forms.gle/nZKQ2EjTCPfAKHog7)
+---
 
-**Your PR will be evaluated on the following:**
+## ⚙️ Why ApplicationRunner?
 
-* **Commit History:** Clean, atomic, and descriptive commit messages (e.g., "feat: Implement IDR latest rates strategy," "fix: Correctly calculate IDR spread in tests").
+Used to load data from the external API during application startup.
 
-* **PR Description:** The description must clearly summarize the solution and **must contain the full answers** to the three "Architectural Rationale" questions from Section III.
+### ✅ Advantages:
 
-* **Code Review Readiness:** The code should be well-structured and ready for immediate review.
+* Executed after Spring context is fully initialized
+* Safe to use other beans
+* Ideal for startup logic
 
-Good luck!
+### ❌ Compared to `@PostConstruct`:
+
+| ApplicationRunner          | @PostConstruct                 |
+| -------------------------- | ------------------------------ |
+| Context fully ready        | Context not fully ready        |
+| Safer for dependencies     | Risky                          |
+| Suitable for startup logic | Only for simple initialization |
+
+---
+
+# 🧪 Testing
+
+This project includes:
+
+* Unit Tests (Service, Client, DataStore)
+* Integration Tests:
+
+  * External API test
+  * ApplicationRunner startup test
+
+Run all tests:
+
+```bash
+mvn test
+```
+
+---
+
+# 📦 Tech Stack
+
+* Java 17
+* Spring Boot
+* RestTemplate
+* JUnit 5
+* Mockito
+
+---
+
+# 📌 Notes
+
+* Uses public API: https://api.frankfurter.app
+* Data is stored in-memory
+* No database is used
+* Includes retry mechanism and error handling for external API calls
+
+---
+
+# 👨‍💻 Author
+
+GitHub: https://github.com/mikleo04
