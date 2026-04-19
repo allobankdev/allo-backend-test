@@ -2,8 +2,10 @@ package com.allobankdev.exchangrate.config;
 
 import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
+@Component
 public class RestTemplateFactory implements FactoryBean<RestTemplate> {
 
     @Override
