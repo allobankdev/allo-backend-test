@@ -1,8 +1,11 @@
 package com.allobankdev.exchangrate.service.store;
 
+import com.allobankdev.exchangrate.execption.NotFoundException;
+import org.apache.coyote.BadRequestException;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Service
@@ -14,6 +17,7 @@ public class DataStore {
     }
 
     public Object get(String key) {
-       return store.get(key);
+        return Optional.ofNullable(store.get(key)).orElseThrow(
+                () -> new NotFoundException("Resource type"));
     }
 }
