@@ -1,27 +1,28 @@
 package id.allobank.exchangerate.service;
 
-import id.allobank.exchangerate.strategy.IDRDataFetcher;
+import id.allobank.exchangerate.exception.ApiException;
+import id.allobank.exchangerate.store.InMemoryDataStore;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
 @Service
+@RequiredArgsConstructor
 public class FinanceService {
 
-    private final Map<String, IDRDataFetcher> strategyMap;
+    private final InMemoryDataStore store;
 
-    public FinanceService(List<IDRDataFetcher> strategies){
-        this.strategyMap = strategies.stream()
-                .collect(Collectors.toMap(IDRDataFetcher::getType, s -> s));
-    }
+    public Object getData(String type) {
 
-    public Object getData(String type){
-        IDRDataFetcher strategy = strategyMap.get(type);
-        if(strategy == null){
-            throw new RuntimeException("Invalid resourceType");
+        if (type == null || type.isBlank()) {
+            throw new ApiException("resourceType cannot be empty");
         }
-        return strategy.fetch();
+
+        Object data = store.get(type);
+
+        if (data == null) {
+            throw new ApiException("Invalid resourceType");
+        }
+
+        return data;
     }
 }

@@ -1,6 +1,7 @@
 package id.allobank.exchangerate.strategy;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -22,7 +23,7 @@ public class CurrencyStrategy implements IDRDataFetcher {
         return webClient.get()
                 .uri("/currencies")
                 .retrieve()
-                .bodyToMono(Map.class)
+                .bodyToMono(new ParameterizedTypeReference<Map<String, String>>() {})
                 .block();
     }
 }

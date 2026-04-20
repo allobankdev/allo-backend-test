@@ -10,7 +10,7 @@ import java.util.Map;
 public class InMemoryDataStore {
     private Map<String, Object> data = Map.of();
 
-    public synchronized void setData(Map<String, Object> newData) {
+    public synchronized void setAll(Map<String, Object> newData) {
         this.data = Collections.unmodifiableMap(new HashMap<>(newData));
     }
 
