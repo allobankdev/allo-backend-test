@@ -1,0 +1,22 @@
+app:
+  github-username: ${APP_GITHUB_USERNAME:WahidinAlambiyah}
+
+external:
+  frankfurter:
+    base-url: ${EXTERNAL_API_BASE_URL:https://api.frankfurter.dev/v1}
+    timeout:
+      connect-ms: 5000
+      response-ms: 5000
+      read-sec: 5
+      write-sec: 5
+
+server:
+  port: 8125
+
+spring:
+  application:
+    admin:
+      enabled: true
+    name: exchangerate
+    config:
+      import: optional:file:.env[.properties]

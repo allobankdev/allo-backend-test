@@ -1,0 +1,79 @@
+# ========================
+# Build
+# ========================
+/target/
+/build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# ========================
+# Logs
+# ========================
+*.log
+logs/
+
+# ========================
+# Temporary files
+# ========================
+*.tmp
+*.temp
+*.swp
+*.bak
+
+# ========================
+# OS files
+# ========================
+.DS_Store
+Thumbs.db
+
+# ========================
+# IDE - IntelliJ IDEA
+# ========================
+.idea/
+*.iws
+*.iml
+*.ipr
+out/
+
+# ========================
+# IDE - Eclipse
+# ========================
+.project
+.classpath
+.settings/
+bin/
+
+# ========================
+# IDE - VS Code
+# ========================
+.vscode/
+
+# ========================
+# Java
+# ========================
+*.class
+
+# ========================
+# Spring Boot
+# ========================
+/application.properties
+/application.yml
+/application-*.yml
+/application-*.properties
+
+# ========================
+# Maven
+# ========================
+.mvn/wrapper/maven-wrapper.jar
+
+# ========================
+# Gradle
+# ========================
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ========================
+# Environment
+# ========================
+.env
+.env.*
