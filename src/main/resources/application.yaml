@@ -1,5 +1,5 @@
 app:
-  github-username: ${APP_GITHUB_USERNAME:deafultuser}
+  github-username: ${APP_GITHUB_USERNAME:WahidinAlambiyah}
 
 frankfurter:
   base-url: ${EXTERNAL_API_BASE_URL:https://api.frankfurter.dev/v1}
