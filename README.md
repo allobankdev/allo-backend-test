@@ -16,11 +16,11 @@ The focus of this test is not just functional correctness, but demonstrating cle
 
 * You must integrate with three distinct data resources to enforce the architectural pattern:
 
-   1.  `/latest?base=IDR` (The latest rates relative to IDR)
+    1.  `/latest?base=IDR` (The latest rates relative to IDR)
 
-   2.  **Historical Data:** Query a specific, small time series (e.g., `/2024-01-01..2024-01-05?from=IDR&to=USD`). **Note:** *Use the date range provided in this example unless a different range is communicated separately.*
+    2.  **Historical Data:** Query a specific, small time series (e.g., `/2024-01-01..2024-01-05?from=IDR&to=USD`). **Note:** *Use the date range provided in this example unless a different range is communicated separately.*
 
-   3.  `/currencies` (The list of all supported currency symbols)
+    3.  `/currencies` (The list of all supported currency symbols)
 
 ### 2. Internal API Endpoint
 
@@ -38,10 +38,10 @@ Where `{resourceType}` can be one of the three strings: `latest_idr_rates`, `his
 
   **The Spread Factor Must Be Unique :**
 
-   1.  **Input:** Your GitHub username (e.g., `johndoe47`).
-   2.  **Calculation:** Calculate the sum of the Unicode (ASCII) values of all characters in your lowercase GitHub username string.
-   3.  **Spread Factor Derivation:** `Spread Factor = (Sum of Unicode Values % 1000) / 100000.0`
-       *(This will yield a unique factor between 0.00000 and 0.00999, ensuring a personalized result.)*
+    1.  **Input:** Your GitHub username (e.g., `johndoe47`).
+    2.  **Calculation:** Calculate the sum of the Unicode (ASCII) values of all characters in your lowercase GitHub username string.
+    3.  **Spread Factor Derivation:** `Spread Factor = (Sum of Unicode Values % 1000) / 100000.0`
+        *(This will yield a unique factor between 0.00000 and 0.00999, ensuring a personalized result.)*
 
   **Final Formula:** `USD_BuySpread_IDR = (1 / Rate_USD) * (1 + Spread Factor)` (where `Rate_USD` is the value from the API when `base=IDR`).
 
@@ -113,11 +113,11 @@ A clear `README.md` is mandatory. It must include:
 
   This section should contain a brief, but detailed, explanation answering the following questions:
 
-   1.  **Polymorphism Justification:** Explain *why* the Strategy Pattern was used over a simpler conditional block in the service layer for handling the multi-resource endpoint. Discuss the benefits in terms of **extensibility** and **maintainability**.
+    1.  **Polymorphism Justification:** Explain *why* the Strategy Pattern was used over a simpler conditional block in the service layer for handling the multi-resource endpoint. Discuss the benefits in terms of **extensibility** and **maintainability**.
 
-   2.  **Client Factory:** Explain the specific role and benefit of using a **`FactoryBean`** to construct the external API client. Why is this preferable to defining the client using a standard `@Bean` method in this scenario?
+    2.  **Client Factory:** Explain the specific role and benefit of using a **`FactoryBean`** to construct the external API client. Why is this preferable to defining the client using a standard `@Bean` method in this scenario?
 
-   3.  **Startup Runner Choice:** Justify the choice of using an `ApplicationRunner` (or `CommandLineRunner`) for the initial data ingestion over a simpler `@PostConstruct` method.
+    3.  **Startup Runner Choice:** Justify the choice of using an `ApplicationRunner` (or `CommandLineRunner`) for the initial data ingestion over a simpler `@PostConstruct` method.
 
 ## IV. Submission & Review Process
 

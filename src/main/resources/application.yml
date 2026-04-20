@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: backendtest
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+    timeout-ms: 5000
+    historical:
+      start-date: "2026-01-01"
+      end-date: "2026-01-05"
+spread:
+  github-username: erlanggariansyah
