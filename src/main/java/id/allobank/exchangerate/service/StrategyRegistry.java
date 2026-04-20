@@ -5,6 +5,7 @@ import id.allobank.exchangerate.strategy.IDRDataFetcher;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -26,5 +27,9 @@ public class StrategyRegistry {
         }
 
         return strategy;
+    }
+
+    public Set<String> getSupportedTypes() {
+        return strategies.keySet();
     }
 }

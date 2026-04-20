@@ -15,7 +15,7 @@ public class FinanceService {
     private final InMemoryDataStore store;
     private final StrategyRegistry strategyRegistry;
 
-    public Object getData(String type) {
+    public List<Map<String, Object>> getData(String type) {
 
         strategyRegistry.get(type);
 
