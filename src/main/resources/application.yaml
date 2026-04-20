@@ -1,3 +1,9 @@
+app:
+  github-username: ${APP_GITHUB_USERNAME:deafultuser}
+
+frankfurter:
+  base-url: ${EXTERNAL_API_BASE_URL:https://api.frankfurter.dev/v1}
+
 server:
   port: 8125
 
