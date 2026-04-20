@@ -1,0 +1,10 @@
+server:
+  port: 8125
+
+spring:
+  application:
+    admin:
+      enabled: true
+    name: exchangerate
+    config:
+      import: optional:file:.env[.properties]
