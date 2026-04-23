@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: allobank-finance
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api/finance
+
+# frankfurter
+external:
+  frankfurter:
+    base-url: https://api.frankfurter.dev/v1
+    latest-url: ${external.frankfurter.base-url}/latest
+    currencies-url: ${external.frankfurter.base-url}/currencies
+    connect-timeout: 5000
+    read-timeout: 5000
+
+# githubusername
+app:
+  github-username: herdiansyah5197
