@@ -1,4 +1,4 @@
-# Finance Data Aggregator API
+# Frankfurter Data Aggregator API
 
 A production-ready Spring Boot Reactive API that aggregates and transforms currency exchange data from the public Frankfurter API.
 
