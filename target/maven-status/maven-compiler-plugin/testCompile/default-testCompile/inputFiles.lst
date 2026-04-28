@@ -1,0 +1,5 @@
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/test/java/com/allobank/finance/FinanceApplicationTests.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/test/java/com/allobank/finance/integration/FinanceDataApplicationRunnerIntegrationTest.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/test/java/com/allobank/finance/strategy/HistoricalIDRUSDStrategyTest.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/test/java/com/allobank/finance/strategy/LatestIDRRatesStrategyTest.java
+/Users/patarebenezer/Documents/coding/springboot/allo-backend-test/src/test/java/com/allobank/finance/strategy/SupportedCurrenciesStrategyTest.java

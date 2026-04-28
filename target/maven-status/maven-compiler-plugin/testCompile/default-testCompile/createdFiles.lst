@@ -1,0 +1,5 @@
+com/allobank/finance/strategy/LatestIDRRatesStrategyTest.class
+com/allobank/finance/strategy/HistoricalIDRUSDStrategyTest.class
+com/allobank/finance/integration/FinanceDataApplicationRunnerIntegrationTest.class
+com/allobank/finance/FinanceApplicationTests.class
+com/allobank/finance/strategy/SupportedCurrenciesStrategyTest.class
