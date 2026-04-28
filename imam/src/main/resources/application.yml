@@ -1,0 +1,8 @@
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+
+logging:
+  level:
+    root: INFO
+    org.imam.allo: DEBUG
