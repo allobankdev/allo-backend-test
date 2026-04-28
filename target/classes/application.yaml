@@ -1,0 +1,16 @@
+server:
+  port: 8082
+
+external:
+  api:
+    frankfurter:
+      url: https://api.frankfurter.app
+
+github:
+  username: Ekosusanto05
+
+logging:
+  level:
+    com.finance.aggregator: DEBUG
+    org.springframework.web: DEBUG
+    org.springframework.boot: INFO
