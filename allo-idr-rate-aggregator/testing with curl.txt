@@ -1,0 +1,60 @@
+Microsoft Windows [Version 10.0.26200.7623]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\joko_>curl -v http://localhost:9093/api/finance/data/latest_idr_rates
+* Host localhost:9093 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:9093...
+* Established connection to localhost (::1 port 9093) from ::1 port 63683
+* using HTTP/1.x
+> GET /api/finance/data/latest_idr_rates HTTP/1.1
+> Host: localhost:9093
+> User-Agent: curl/8.16.0
+> Accept: */*
+>
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Content-Type: application/json
+< Content-Length: 450
+<
+[{"rates":{"AUD":8.8E-5,"BRL":3.2E-4,"CAD":8.2E-5,"CHF":4.7E-5,"CNY":4.1E-4,"CZK":0.00124,"DKK":3.8E-4,"EUR":5.1E-5,"GBP":4.4E-5,"HKD":4.6E-4,"HUF":0.01963,"ILS":1.9E-4,"INR":0.00534,"ISK":0.00744,"JPY":0.00938,"KRW":0.0869,"MXN":0.00105,"MYR":2.4E-4,"NOK":6.0E-4,"NZD":1.0E-4,"PHP":0.00352,"PLN":2.1E-4,"RON":2.6E-4,"SEK":5.4E-4,"SGD":7.6E-5,"THB":0.00186,"TRY":0.00256,"USD":5.9E-5,"ZAR":9.7E-4},"base":"IDR","USD_BuySpread_IDR":16999.32203389831}]* Connection #0 to host localhost:9093 left intact
+
+C:\Users\joko_>curl -v http://localhost:9093/api/finance/data/historical_idr_usd
+* Host localhost:9093 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:9093...
+* Established connection to localhost (::1 port 9093) from ::1 port 63818
+* using HTTP/1.x
+> GET /api/finance/data/historical_idr_usd HTTP/1.1
+> Host: localhost:9093
+> User-Agent: curl/8.16.0
+> Accept: */*
+>
+< HTTP/1.1 200 OK
+< Content-Type: application/json
+< Content-Length: 229
+<
+[{"amount":1.0,"base":"IDR","start_date":"2023-12-29","end_date":"2024-01-05","rates":{"2023-12-29":{"USD":6.5E-5},"2024-01-02":{"USD":6.4E-5},"2024-01-03":{"USD":6.4E-5},"2024-01-04":{"USD":6.4E-5},"2024-01-05":{"USD":6.4E-5}}}]* Connection #0 to host localhost:9093 left intact
+
+C:\Users\joko_>curl -v http://localhost:9093/api/finance/data/supported_currencies
+* Host localhost:9093 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:9093...
+* Established connection to localhost (::1 port 9093) from ::1 port 63953
+* using HTTP/1.x
+> GET /api/finance/data/supported_currencies HTTP/1.1
+> Host: localhost:9093
+> User-Agent: curl/8.16.0
+> Accept: */*
+>
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Content-Type: application/json
+< Content-Length: 1183
+<
+[{"code":"AUD","name":"Australian Dollar"},{"code":"BRL","name":"Brazilian Real"},{"code":"CAD","name":"Canadian Dollar"},{"code":"CHF","name":"Swiss Franc"},{"code":"CNY","name":"Chinese Renminbi Yuan"},{"code":"CZK","name":"Czech Koruna"},{"code":"DKK","name":"Danish Krone"},{"code":"EUR","name":"Euro"},{"code":"GBP","name":"British Pound"},{"code":"HKD","name":"Hong Kong Dollar"},{"code":"HUF","name":"Hungarian Forint"},{"code":"IDR","name":"Indonesian Rupiah"},{"code":"ILS","name":"Israeli New Sheqel"},{"code":"INR","name":"Indian Rupee"},{"code":"ISK","name":"Icelandic Króna"},{"code":"JPY","name":"Japanese Yen"},{"code":"KRW","name":"South Korean Won"},{"code":"MXN","name":"Mexican Peso"},{"code":"MYR","name":"Malaysian Ringgit"},{"code":"NOK","name":"Norwegian Krone"},{"code":"NZD","name":"New Zealand Dollar"},{"code":"PHP","name":"Philippine Peso"},{"code":"PLN","name":"Polish Złoty"},{"code":"RON","name":"Romanian Leu"},{"code":"SEK","name":"Swedish Krona"},{"code":"SGD","name":"Singapore Dollar"},{"code":"THB","name":"Thai Baht"},{"code":"TRY","name":"Turkish Lira"},{"code":"USD","name":"United States Dollar"},{"code":"ZAR","name":"South African Rand"}]* Connection #0 to host localhost:9093 left intact
+
+C:\Users\joko_>
