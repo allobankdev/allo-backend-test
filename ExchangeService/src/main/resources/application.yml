@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Exchange Service
+
+app:
+  github:
+    username: cory-work-tech
+  api:
+    base-url: https://api.frankfurter.app/
