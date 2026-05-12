@@ -1,0 +1,233 @@
+openapi: 3.0.1
+
+info:
+  title: Split Bill API
+  description: |
+    REST API for managing shared expenses
+    and optimized settlements.
+
+    Features:
+    - Create groups
+    - Add expenses
+    - Equal split calculation
+    - Settlement optimization
+    - Service charge calculation
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:4110
+    description: Local Server
+
+tags:
+  - name: Group API
+  - name: Expense API
+  - name: Settlement API
+
+paths:
+
+  /api/groups:
+
+    post:
+      tags:
+        - Group API
+
+      summary: Create bill group
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/CreateGroupRequest'
+
+      responses:
+
+        '200':
+          description: Group created successfully
+
+  /api/groups/{groupId}:
+
+    get:
+      tags:
+        - Group API
+
+      summary: Get group detail
+
+      parameters:
+
+        - name: groupId
+          in: path
+          required: true
+
+          schema:
+            type: integer
+            format: int64
+
+      responses:
+
+        '200':
+          description: Group detail retrieved
+
+  /api/groups/{groupId}/expenses:
+
+    post:
+      tags:
+        - Expense API
+
+      summary: Add expense to group
+
+      parameters:
+
+        - name: groupId
+          in: path
+          required: true
+
+          schema:
+            type: integer
+            format: int64
+
+      requestBody:
+        required: true
+
+        content:
+          application/json:
+
+            schema:
+              $ref: '#/components/schemas/AddExpenseRequest'
+
+      responses:
+
+        '200':
+          description: Expense added successfully
+
+  /api/groups/{groupId}/settlement:
+
+    get:
+      tags:
+        - Settlement API
+
+      summary: Get settlement summary
+
+      parameters:
+
+        - name: groupId
+          in: path
+          required: true
+
+          schema:
+            type: integer
+            format: int64
+
+      responses:
+
+        '200':
+          description: Settlement retrieved successfully
+
+components:
+
+  schemas:
+
+    CreateGroupRequest:
+
+      type: object
+
+      properties:
+
+        name:
+          type: string
+          example: Bali Trip
+
+        participants:
+          type: array
+
+          items:
+            type: string
+
+          example:
+            - Joko
+            - Budi
+            - Sinta
+
+    AddExpenseRequest:
+
+      type: object
+
+      properties:
+
+        description:
+          type: string
+          example: Dinner
+
+        amount:
+          type: number
+          format: decimal
+          example: 300000
+
+        paidBy:
+          type: integer
+          format: int64
+          example: 1
+
+        splitStrategy:
+          type: string
+
+          enum:
+            - EQUAL
+            - PERCENTAGE
+            - EXACT_AMOUNT
+
+        participantIds:
+          type: array
+
+          items:
+            type: integer
+            format: int64
+
+          example:
+            - 1
+            - 2
+            - 3
+
+    SettlementResponse:
+
+      type: object
+
+      properties:
+
+        groupId:
+          type: integer
+
+        groupName:
+          type: string
+
+        totalExpense:
+          type: number
+
+        serviceChargePct:
+          type: integer
+
+        serviceChargeAmount:
+          type: number
+
+        transactions:
+          type: array
+
+          items:
+            $ref: '#/components/schemas/Transaction'
+
+    Transaction:
+
+      type: object
+
+      properties:
+
+        from:
+          type: string
+
+        to:
+          type: string
+
+        amount:
+          type: number
