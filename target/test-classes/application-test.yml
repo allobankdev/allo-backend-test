@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: allo-backend-test-test
+
+frankfurter:
+  api:
+    base-url: https://api.frankfurter.app
+    connect-timeout: 5000
+    read-timeout: 10000
+    historical:
+      start-date: 2024-01-01
+      end-date: 2024-01-05
+      from-currency: IDR
+      to-currency: USD
+
+github:
+  username: testuser
+
+server:
+  port: 0
+
+logging:
+  level:
+    com.allobank: DEBUG
+

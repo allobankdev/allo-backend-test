@@ -1,0 +1,17 @@
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\strategy\impl\LatestIdrRatesStrategy.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\AlloBackendTestApplication.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\config\WebClientConfig.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\service\InMemoryDataStore.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\dto\HistoricalRatesResponse.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\config\FrankfurterApiProperties.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\dto\LatestRatesResponse.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\strategy\impl\HistoricalIdrUsdStrategy.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\controller\FinanceDataController.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\exception\GlobalExceptionHandler.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\factory\WebClientFactoryBean.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\strategy\impl\SupportedCurrenciesStrategy.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\runner\DataInitializationRunner.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\util\SpreadCalculator.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\dto\ApiErrorResponse.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\dto\CurrenciesResponse.java
+D:\TestTech\allo-backend-test\src\main\java\com\allobank\strategy\IDRDataFetcher.java

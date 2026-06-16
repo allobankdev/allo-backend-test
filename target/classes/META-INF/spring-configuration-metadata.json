@@ -1,0 +1,53 @@
+{
+  "groups": [
+    {
+      "name": "frankfurter.api",
+      "type": "com.allobank.config.FrankfurterApiProperties",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties"
+    },
+    {
+      "name": "frankfurter.api.historical",
+      "type": "com.allobank.config.FrankfurterApiProperties$Historical",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties",
+      "sourceMethod": "public com.allobank.config.FrankfurterApiProperties.Historical getHistorical() "
+    }
+  ],
+  "properties": [
+    {
+      "name": "frankfurter.api.base-url",
+      "type": "java.lang.String",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties"
+    },
+    {
+      "name": "frankfurter.api.connect-timeout",
+      "type": "java.time.Duration",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties"
+    },
+    {
+      "name": "frankfurter.api.historical.end-date",
+      "type": "java.lang.String",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties$Historical"
+    },
+    {
+      "name": "frankfurter.api.historical.from-currency",
+      "type": "java.lang.String",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties$Historical"
+    },
+    {
+      "name": "frankfurter.api.historical.start-date",
+      "type": "java.lang.String",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties$Historical"
+    },
+    {
+      "name": "frankfurter.api.historical.to-currency",
+      "type": "java.lang.String",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties$Historical"
+    },
+    {
+      "name": "frankfurter.api.read-timeout",
+      "type": "java.time.Duration",
+      "sourceType": "com.allobank.config.FrankfurterApiProperties"
+    }
+  ],
+  "hints": []
+}
