@@ -1,0 +1,6 @@
+server:
+  port: 8080
+
+external:
+  api:
+    base-url: https://api.frankfurter.app
