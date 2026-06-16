@@ -114,3 +114,62 @@ There is no wrong answer. We ask this because it tells us more about how you thi
 We review every submission before the interview. The interview will include questions directly about your code — be ready to walk through it and extend it live.
 
 Good luck!
+
+
+# Solution Overview
+
+This section describes my implementation for the Allo Bank Backend Developer Take-Home Test.
+
+The application is built using Spring Boot and follows a clean, layered architecture
+with a strong emphasis on extensibility, testability, and production readiness.
+
+## Setup & Run Instructions
+
+### Prerequisites
+- Java 17+
+- Maven 3+
+
+### Clone Repository
+```bash
+git clone <your-fork-repo-url>
+cd <project-folder>
+
+### Run Application
+./mvnw spring-boot:run
+
+### Run Tests
+./mvnw clean test
+
+### API Usage Examples
+# Latest IDR Rates
+curl http://localhost:8080/api/finance/data/latest_idr_rates
+
+# Historical IDR to USD
+curl http://localhost:8080/api/finance/data/historical_idr_usd
+
+# Supported Currencies
+curl http://localhost:8080/api/finance/data/supported_currencies
+
+### Architectural Rationale
+#1. Why Strategy Pattern?
+The Strategy Pattern is used to encapsulate each resource type
+(latest IDR rates, historical IDR-USD data, supported currencies)
+into independent components.
+
+This avoids conditional logic and makes the system easily extensible
+without modifying existing code.
+
+# 2. Why use FactoryBean for API Client?
+The FactoryBean is used to centralize the construction and configuration
+of the external API client.
+
+This allows external configuration via application.yml and avoids
+duplicated setup logic across the application.
+
+# 3. Why ApplicationRunner?
+ApplicationRunner guarantees that all required data is fetched
+once at application startup and stored in an immutable, thread-safe
+in-memory store.
+
+This ensures consistent responses and avoids unnecessary calls
+to external APIs during runtime.
