@@ -1,0 +1,18 @@
+app:
+  api:
+    base-url: https://api.frankfurter.app
+    historical:
+      start-date: 2024-01-01
+      end-date: 2024-01-05
+      from-currency: IDR
+      to-currency: USD
+  github:
+    username: andityadimas
+
+
+server:
+  port: 8080
+
+spring:
+  main:
+    banner-mode: off
