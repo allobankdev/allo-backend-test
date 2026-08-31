@@ -1,116 +1,150 @@
-# Allo Bank Backend Developer Take-Home Test
+# Allo Bank Split Bill REST API
 
-Welcome, and thank you for your interest in joining Allo Bank Engineering!
-
-This challenge is intentionally open-ended. There is no skeleton, no guided steps, and no single correct answer. We want to see how you think, how you structure a solution, and what you consider important in production-grade code.
+A production-grade **Spring Boot 3 REST API** built for the **Allo Bank Engineering Take-Home Challenge**. This solution helps groups of people manage shared expenses, record debt settlements, and compute optimized, fair pelunasan breakdown (minimizing total transaction count).
 
 ---
 
-## The Challenge: Split Bill API
+## Technical Features
 
-Build a **Spring Boot REST API** that helps a group of people manage shared expenses and calculate who owes whom at the end.
-
-Think of a real scenario: a group trip, a team lunch, a shared apartment. People take turns paying for things, and at the end someone needs to figure out the fairest way to settle up.
-
-**Your API should, at minimum, support:**
-
-1. Creating a bill group with a name and a list of participants
-2. Adding expenses to a group — who paid, how much, and who it was for
-3. Retrieving a settlement summary — a clear breakdown of who owes whom and how much
-
-Everything else is up to you.
+- **Java 17 / 21 & Spring Boot 3.3.3**
+- **Strict Monetary Handling**: All monetary amounts use `BigDecimal` with 2 decimal places (`RoundingMode.HALF_UP`) and explicit zero-sum conservation.
+- **Dynamic Personalization Service Charge**: Automatically computes `service_charge_pct` and `service_charge_amount` based on the candidate's GitHub username ASCII sum.
+- **Debt Simplification Algorithm**: Greedy optimization algorithm pairing maximum debtors with maximum creditors to minimize the total number of transactions required to settle all debts.
+- **Multiple Split Strategies**: Supports `EQUAL` split, `EXACT` amount split, and `PERCENTAGE` split.
+- **Direct Settlement Payment Recording**: Endpoint to record payments between participants to settle balances.
+- **Multi-Stage Dockerfile**: Fast and lightweight container builds on port `4110`.
+- **Interactive OpenAPI / Swagger UI**: Built-in interactive API documentation at `/swagger-ui.html`.
 
 ---
 
-## Technical Requirements
+## Personalization Details
 
-These are non-negotiable:
-
-- **Java 17+**, **Spring Boot**, **Maven**
-- **`BigDecimal`** for all monetary values — no `float` or `double`
-- **A `Dockerfile`** using a multi-stage build (see `Dockerfile.template` in this repo)
-- At least **one unit test** covering your settlement calculation logic
-- A **`README.md`** in your submission with:
-  - How to build and run your project
-  - Example `curl` commands for each endpoint
-  - Your **GitHub username** and your calculated **service charge** value (see Personalization section below)
-  - Answer to the submission question (see below)
+- **GitHub Username**: `resa-rm`
+- **ASCII Calculation**:
+  - `r` (114) + `e` (101) + `s` (115) + `a` (97) + `-` (45) + `r` (114) + `m` (109) = **695**
+- **Calculated `service_charge_pct`**: `695 % 10` = **`5`** (**5%**)
+- *Note*: This value is dynamically calculated in code via `PersonalizationService` and included in every settlement summary response.
 
 ---
 
-## Personalization
-
-Every settlement response must include two additional fields: `service_charge_pct` and `service_charge_amount`.
-
-The `service_charge_pct` is unique to you and is calculated as follows:
-
-1. Take your GitHub username in **lowercase**
-2. Sum the Unicode (ASCII) values of all characters
-3. `service_charge_pct = (sum % 10)` — this gives a value between 0 and 9 (representing a percentage)
-
-**Example:** GitHub username `johndoe47`
-- Unicode sum: `106+111+104+110+100+111+101+52+55` = `850`
-- `service_charge_pct = 850 % 10` = **0** (0%)
-
-The `service_charge_amount` is this percentage applied to the total group expenses.
-
-Include both fields in your settlement response. This value must be computed in code — do not hardcode it.
-
----
-
-## Show Your Skills
-
-The minimum requirements get you through the door. What you build beyond that is how you stand out.
-
-Some directions to explore — pick what interests you, or invent your own:
-
-- **Multiple split strategies** — equal split, split by percentage, split by exact amount per person
-- **Settlement optimization** — minimize the total number of transactions needed to settle all debts
-- **Payment recording** — mark a debt as paid and update outstanding balances
-- **Expense categories** — tag expenses (food, transport, accommodation) and show per-category summaries
-- **Audit trail** — track when expenses and payments were added
-
-There is no bonus point checklist. We are looking at the quality of what you choose to build, not the quantity.
-
----
-
-## Submission Question
-
-In your `README.md`, answer the following in a short paragraph (3–5 sentences):
+## Submission Question Answer
 
 > **"What was the hardest design decision you made while building this, and what trade-off did you accept?"**
 
-There is no wrong answer. We ask this because it tells us more about how you think than the code itself.
+> The hardest design decision was balancing fractional expense precision using `BigDecimal` with a deterministic, zero-sum debt simplification algorithm. When dividing non-divisible amounts (such as $100 split 3 ways), fractional rounding drift can cause subtle balance discrepancies across participants. I accepted the trade-off of deterministically allocating any fractional rounding remainder to the primary split participant, preserving strict zero-sum balance conservation across the group while enabling an efficient $O(N \log N)$ greedy debt minimization process.
 
 ---
 
-## Submission Process
+## How to Build & Run
 
-1. **Create a private GitHub repository** for your solution
-2. **Add `allobankdev` as a collaborator** (Settings → Collaborators → Add people)
-3. **Include a `Dockerfile`** in the root of your project (see `Dockerfile.template`)
-4. **Submit via the form:** [Click Here](https://forms.gle/nZKQ2EjTCPfAKHog7)
+### Method 1: Running with Maven Wrapper (Local)
 
-   The form will ask for:
-   - Your full name and contact details
-   - Your private GitHub repository URL
-   - Your GitHub username (for personalization verification)
+1. Make sure Java 17+ is installed.
+2. Build and run unit tests:
+   ```bash
+   ./mvnw clean test
+   ```
+3. Start the application:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+   The application will start on **`http://localhost:4110`**.
 
-> Do not open a Pull Request to this repository. Submissions are private.
+### Method 2: Running with Docker
+
+1. Build the Docker image:
+   ```bash
+   docker build -t allo-split-bill .
+   ```
+2. Run the container:
+   ```bash
+   docker run -p 4110:4110 allo-split-bill
+   ```
+   The API is accessible at **`http://localhost:4110`**.
 
 ---
 
-## What We Look For
+## Interactive Swagger UI
 
-| Area | What it signals |
-|---|---|
-| Data modeling | How you think about domain entities and relationships |
-| API design | Clarity, consistency, and REST conventions |
-| Monetary handling | Awareness of precision issues in financial systems |
-| Code structure | Separation of concerns, readability, maintainability |
-| Testing | What you consider worth testing and why |
-| Submission answer | Genuine engagement with the problem |
+Once the application is running, open your browser and navigate to:
+👉 **`http://localhost:4110/swagger-ui.html`** or **`http://localhost:4110/h2-console`**
 
-We review every submission before the interview. The interview will include questions directly about your code — be ready to walk through it and extend it live.
+---
 
-Good luck!
+## Example `curl` Commands
+
+### 1. Create a Bill Group
+```bash
+curl -X POST http://localhost:4110/api/v1/groups \
+  -H "Content-Type: application/json" \
+  -d '{
+    "name": "Liburan Bali",
+    "participants": ["Resa", "Budi", "Siti"]
+  }'
+```
+
+### 2. Get Group Details
+```bash
+curl -X GET http://localhost:4110/api/v1/groups/1
+```
+
+### 3. List All Groups
+```bash
+curl -X GET http://localhost:4110/api/v1/groups
+```
+
+### 4. Add Expense (Equal Split Example)
+```bash
+curl -X POST http://localhost:4110/api/v1/groups/1/expenses \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "Makan Siang Resto",
+    "totalAmount": 300.00,
+    "paidByParticipantId": 1,
+    "splitType": "EQUAL"
+  }'
+```
+
+### 5. Add Expense (Percentage Split Example)
+```bash
+curl -X POST http://localhost:4110/api/v1/groups/1/expenses \
+  -H "Content-Type: application/json" \
+  -d '{
+    "description": "Sewa Mobil",
+    "totalAmount": 200.00,
+    "paidByParticipantId": 2,
+    "splitType": "PERCENTAGE",
+    "splits": [
+      {"participantId": 1, "percentage": 50.00},
+      {"participantId": 2, "percentage": 25.00},
+      {"participantId": 3, "percentage": 25.00}
+    ]
+  }'
+```
+
+### 6. List Expenses in Group
+```bash
+curl -X GET http://localhost:4110/api/v1/groups/1/expenses
+```
+
+### 7. Get Settlement Summary (Breakdown & Service Charge)
+```bash
+curl -X GET http://localhost:4110/api/v1/groups/1/settlement
+```
+
+### 8. Record a Direct Settlement Payment
+```bash
+curl -X POST http://localhost:4110/api/v1/groups/1/payments \
+  -H "Content-Type: application/json" \
+  -d '{
+    "fromParticipantId": 3,
+    "toParticipantId": 1,
+    "amount": 100.00,
+    "notes": "Pelunasan via Transfer Bank"
+  }'
+```
+
+### 9. List Recorded Payments
+```bash
+curl -X GET http://localhost:4110/api/v1/groups/1/payments
+```

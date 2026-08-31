@@ -1,0 +1,21 @@
+package com.allobank.splitbill.dto.request;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
+
+import java.util.List;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class CreateGroupRequest {
+
+    @NotBlank(message = "Group name is required")
+    private String name;
+
+    @NotEmpty(message = "At least one participant name is required")
+    private List<String> participants;
+}
