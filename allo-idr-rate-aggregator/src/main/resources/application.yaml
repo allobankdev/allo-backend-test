@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: allo-idr-rate-aggregator
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/finance_db
+
+server:
+  port: 9093
+
+frankfurter:
+  base-url: https://api.frankfurter.app
+  timeout-ms: 3000
