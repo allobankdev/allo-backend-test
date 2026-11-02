@@ -1,3 +1,5 @@
+RIZKI JULIANSYAH
+089627550979
 # Allo Split Bill API
 
 A REST API for managing shared expenses. Users have global `@username` identities, can join multiple groups, split expenses in several ways, view bills across groups, and record payments in an immutable ledger.
