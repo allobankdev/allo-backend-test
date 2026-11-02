@@ -1,116 +1,179 @@
-# Allo Bank Backend Developer Take-Home Test
+# Allo Split Bill API
 
-Welcome, and thank you for your interest in joining Allo Bank Engineering!
+A REST API for managing shared expenses. Users have global `@username` identities, can join multiple groups, split expenses in several ways, view bills across groups, and record payments in an immutable ledger.
 
-This challenge is intentionally open-ended. There is no skeleton, no guided steps, and no single correct answer. We want to see how you think, how you structure a solution, and what you consider important in production-grade code.
+## Features
 
----
+- Global users and group memberships.
+- Equal, exact, and percentage expense splits, including subsets of group members.
+- No tax, exclusive tax, or inclusive tax, with cent-level reconciliation.
+- Deterministic settlement balances and suggested transfers.
+- Append-only payment ledger with reversal entries.
+- Personal bills dashboard grouped by currency.
+- H2 file database, request validation, consistent JSON errors, OpenAPI/Swagger UI, and Docker.
 
-## The Challenge: Split Bill API
+## Requirements
 
-Build a **Spring Boot REST API** that helps a group of people manage shared expenses and calculate who owes whom at the end.
+- Java 21 or later.
+- Docker is optional.
+- Maven is not required separately; the Maven Wrapper downloads the project Maven version.
 
-Think of a real scenario: a group trip, a team lunch, a shared apartment. People take turns paying for things, and at the end someone needs to figure out the fairest way to settle up.
+## Run locally
 
-**Your API should, at minimum, support:**
+```powershell
+# Windows PowerShell
+.\mvnw.cmd spring-boot:run
+```
 
-1. Creating a bill group with a name and a list of participants
-2. Adding expenses to a group — who paid, how much, and who it was for
-3. Retrieving a settlement summary — a clear breakdown of who owes whom and how much
+```bash
+# Linux/macOS
+./mvnw spring-boot:run
+```
 
-Everything else is up to you.
+The API listens at `http://localhost:4110`.
 
----
+- Swagger UI: `http://localhost:4110/swagger-ui.html`
+- OpenAPI JSON: `http://localhost:4110/v3/api-docs`
 
-## Technical Requirements
+The local H2 database is stored in `data/` and persists between runs. Stop the application before removing that folder to reset the database. The application creates or upgrades the schema at startup.
 
-These are non-negotiable:
+## Build and test
 
-- **Java 17+**, **Spring Boot**, **Maven**
-- **`BigDecimal`** for all monetary values — no `float` or `double`
-- **A `Dockerfile`** using a multi-stage build (see `Dockerfile.template` in this repo)
-- At least **one unit test** covering your settlement calculation logic
-- A **`README.md`** in your submission with:
-  - How to build and run your project
-  - Example `curl` commands for each endpoint
-  - Your **GitHub username** and your calculated **service charge** value (see Personalization section below)
-  - Answer to the submission question (see below)
+```powershell
+.\mvnw.cmd clean verify
+```
 
----
+```bash
+./mvnw clean verify
+```
 
-## Personalization
+## Run with Docker
 
-Every settlement response must include two additional fields: `service_charge_pct` and `service_charge_amount`.
+```bash
+docker build -t allo-split-bill .
+docker run --rm -p 4110:4110 allo-split-bill
+```
 
-The `service_charge_pct` is unique to you and is calculated as follows:
+## Configuration
 
-1. Take your GitHub username in **lowercase**
-2. Sum the Unicode (ASCII) values of all characters
-3. `service_charge_pct = (sum % 10)` — this gives a value between 0 and 9 (representing a percentage)
+`src/main/resources/application.properties` is Spring Boot's application configuration file. It sets the server port, database connection, JSON naming style, and H2 console path. Database credentials and the JDBC URL can be overridden with environment variables; the `${VARIABLE:default}` syntax means “use this environment variable, or use the value after `:` if it is unset.” The `app.github-username` setting controls the username used to calculate the service charge.
 
-**Example:** GitHub username `johndoe47`
-- Unicode sum: `106+111+104+110+100+111+101+52+55` = `850`
-- `service_charge_pct = 850 % 10` = **0** (0%)
+| Environment variable | Default | Purpose |
+| --- | --- | --- |
+| `DATABASE_URL` | `jdbc:h2:file:./data/splitbill;DB_CLOSE_ON_EXIT=FALSE` | JDBC URL |
+| `DATABASE_USERNAME` | `sa` | Database username |
+| `DATABASE_PASSWORD` | empty | Database password |
+| `GITHUB_USERNAME` | `KIJESHOES` | Username used to calculate the service charge |
 
-The `service_charge_amount` is this percentage applied to the total group expenses.
+## API examples
 
-Include both fields in your settlement response. This value must be computed in code — do not hardcode it.
+Set the base URL in Bash:
 
----
+```bash
+BASE_URL=http://localhost:4110
+```
 
-## Show Your Skills
+Create a user. The username must start with `@`. Both `displayName` (shown by Swagger UI) and `display_name` are accepted.
 
-The minimum requirements get you through the door. What you build beyond that is how you stand out.
+```bash
+curl -i -X POST "$BASE_URL/api/users" \
+  -H "Content-Type: application/json" \
+  -d '{"username":"@ayu","displayName":"Ayu"}'
+```
 
-Some directions to explore — pick what interests you, or invent your own:
+Get a user and their bills:
 
-- **Multiple split strategies** — equal split, split by percentage, split by exact amount per person
-- **Settlement optimization** — minimize the total number of transactions needed to settle all debts
-- **Payment recording** — mark a debt as paid and update outstanding balances
-- **Expense categories** — tag expenses (food, transport, accommodation) and show per-category summaries
-- **Audit trail** — track when expenses and payments were added
+```bash
+curl "$BASE_URL/api/users/@ayu"
+curl "$BASE_URL/api/users/@ayu/bills"
+```
 
-There is no bonus point checklist. We are looking at the quality of what you choose to build, not the quantity.
+Create a group using previously created users:
 
----
+```bash
+curl -i -X POST "$BASE_URL/api/groups" \
+  -H "Content-Type: application/json" \
+  -d '{"name":"Bandung trip","currency":"IDR","participants":["@ayu","@bima"]}'
+```
 
-## Submission Question
+Use the returned `group_id` in the following requests. `GET /api/groups/{group_id}` returns the group's members and their usernames, which are used to select people in expense and payment requests.
 
-In your `README.md`, answer the following in a short paragraph (3–5 sentences):
+```bash
+# Get group details
+curl "$BASE_URL/api/groups/GROUP_ID"
 
-> **"What was the hardest design decision you made while building this, and what trade-off did you accept?"**
+# Record an expense and split it equally across every group member
+curl -i -X POST "$BASE_URL/api/groups/GROUP_ID/expenses" \
+  -H "Content-Type: application/json" \
+  -d '{"description":"Dinner","amount":150000,"paid_by":"@ayu","split_type":"EQUAL"}'
 
-There is no wrong answer. We ask this because it tells us more about how you think than the code itself.
+# Record an expense split equally only between selected usernames
+curl -i -X POST "$BASE_URL/api/groups/GROUP_ID/expenses" \
+  -H "Content-Type: application/json" \
+  -d '{"description":"Taxi","amount":60000,"paid_by":"@ayu","split_type":"EQUAL","split_between":["@ayu","@bima"]}'
 
----
+# Assign exact portions using usernames
+curl -i -X POST "$BASE_URL/api/groups/GROUP_ID/expenses" \
+  -H "Content-Type: application/json" \
+  -d '{"description":"Dinner","amount":150000,"paid_by":"@ayu","split_type":"EXACT","shares":[{"username":"@ayu","amount":100000},{"username":"@bima","amount":50000}]}'
 
-## Submission Process
+# List expenses and get one expense
+curl "$BASE_URL/api/groups/GROUP_ID/expenses"
+curl "$BASE_URL/api/groups/GROUP_ID/expenses/EXPENSE_ID"
 
-1. **Create a private GitHub repository** for your solution
-2. **Add `allobankdev` as a collaborator** (Settings → Collaborators → Add people)
-3. **Include a `Dockerfile`** in the root of your project (see `Dockerfile.template`)
-4. **Submit via the form:** [Click Here](https://forms.gle/kFrPQZ3hf9aQ1CfB9)
+# Get settlement
+curl "$BASE_URL/api/groups/GROUP_ID/settlement"
 
-   The form will ask for:
-   - Your full name and contact details
-   - Your private GitHub repository URL
-   - Your GitHub username (for personalization verification)
+# Record a payment between group members
+curl -i -X POST "$BASE_URL/api/groups/GROUP_ID/payments" \
+  -H "Content-Type: application/json" \
+  -d '{"payer":"@bima","receiver":"@ayu","amount":50000}'
 
-> Do not open a Pull Request to this repository. Submissions are private.
+# List payments and reverse one payment
+curl "$BASE_URL/api/groups/GROUP_ID/payments"
+curl -i -X POST "$BASE_URL/api/groups/GROUP_ID/payments/PAYMENT_ID/reversal" \
+  -H "Content-Type: application/json"
+```
 
----
+The full API contract is also available at `http://localhost:4110/v3/api-docs` when the application is running.
 
-## What We Look For
+`split_between` is optional and applies only to `EQUAL` splits. Omit it to split across the whole group. Use `shares` with `EXACT` or `PERCENTAGE` when members owe different amounts. `paid_by`, `split_between`, each `shares[].username`, `payer`, and `receiver` accept group usernames.
 
-| Area | What it signals |
-|---|---|
-| Data modeling | How you think about domain entities and relationships |
-| API design | Clarity, consistency, and REST conventions |
-| Monetary handling | Awareness of precision issues in financial systems |
-| Code structure | Separation of concerns, readability, maintainability |
-| Testing | What you consider worth testing and why |
-| Submission answer | Genuine engagement with the problem |
+## Money and settlement rules
 
-We review every submission before the interview. The interview will include questions directly about your code — be ready to walk through it and extend it live.
+- Monetary calculations use `BigDecimal` with two decimal places.
+- Exclusive tax is added to the input amount; inclusive tax is extracted from it.
+- Remainder cents are assigned deterministically so shares equal the expense total.
+- Active payments reduce the outstanding debt between payer and receiver.
+- Reversals add a compensating ledger entry and preserve the original payment.
+- Service charge is reported separately and is not included in transfers because the challenge does not define a recipient.
+- Settlement `transfers` include `from` and `to` participant IDs plus `from_username` and `to_username` handles, so clients can show who pays whom without a separate lookup. Personal bill group summaries also include `participant_username`.
+- In `GET /api/groups/{group_id}/settlement`, a positive `balances[].balance` means the participant is owed money; a negative value means they owe money. Use `you_owe`, `you_are_owed`, and `status` for an explicit interpretation. For example, if Kije pays Rp10,000,000 and has a Rp2,500,000 share, Kije's net balance is `7,500,000`, `you_owe` is `0`, and `you_are_owed` is `7,500,000`; the suggested transfers go from the other participants to Kije.
 
-Good luck!
+## GitHub username and service charge
+
+GitHub username: `KIJESHOES`.
+
+```text
+k + i + j + e + s + h + o + e + s
+107 + 105 + 106 + 101 + 115 + 104 + 111 + 101 + 115 = 965
+service_charge_pct = 965 % 10 = 5%
+```
+
+The application calculates this value at runtime from the lowercase username. `service_charge_amount` is 5% of `total_expenses` after tax.
+
+## Design decision
+
+The main design decision was to separate a user's global identity from their membership in a group. Expenses and payments refer to group membership IDs so that group boundaries are easy to validate; the global `@username` can be reused across groups. This adds a mapping step when building responses, while allowing a user's bills to be aggregated across groups without duplicating identity or changing transaction history.
+
+## Limitations
+
+he API models the main split-bill lifecycle:
+
+1. Create a group with its members and currency.
+2. Record an expense by specifying who paid, which members share it, and how to split it (`EQUAL`, `EXACT`, or `PERCENTAGE`). Optional tax is calculated as part of the expense.
+3. Validate that the payer and everyone receiving a share belong to the group. Calculate each member's final share, reconcile rounding to the cent, and persist the expense and its shares together in one database transaction.
+4. Calculate each member's net balance from the group's expenses, shares, and recorded payments. Return suggested transfers between debtors and creditors; these are settlement instructions, not money moved by the API.
+5. Record a payment when members settle outside the system. The API checks that it goes from a current debtor to a current creditor and does not exceed the outstanding amount. A correction is recorded as a reversal entry so the original payment remains in the ledger.
+
+This is the take-home scope: it implements bill calculation and settlement tracking, but not the surrounding production workflow. Requests identify group members directly, and the API does not authenticate the caller or prove that the caller may act for the named member. A production version should derive the acting identity from a session or token and authorize actions against group membership and roles. It would also need idempotency for retried writes, rate limiting, and an external audit/event system for durable change history and notifications. Payment records here represent reported settlements; integrating a payment provider and reconciling its transaction status is outside this project's scope.
